@@ -8222,7 +8222,9 @@ export default function SignUpForm() {
                           <CommandInput placeholder="Search city..." />
                         </>
                       ) : (
-                        <div className="py-6 text-center text-sm w-48">Please select a wilaya first!</div>
+                        <div className="py-6 text-center text-sm w-48">
+                          Please select a wilaya first!
+                        </div>
                       )}
                     </Command>
                   </PopoverContent>
@@ -8252,6 +8254,16 @@ export default function SignUpForm() {
           <Button type="submit" className="w-full mt-4">
             Sign Up
           </Button>
+          <div className="text-center mt-4">
+            Already have an ccount?
+            <Link
+              to="/login"
+              className="text-primary underline-offset-4 hover:underline ml-1"
+            >
+              {" "}
+              Log in{" "}
+            </Link>
+          </div>
         </form>
       </Form>
     </div>
