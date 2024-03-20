@@ -8006,7 +8006,6 @@ export default function SignUpForm() {
       password: "",
       wilaya: "", // Default wilaya selection
       city: "", // Default wilaya selection
-      role: "", // Default role selection
     },
   });
 
@@ -8249,33 +8248,29 @@ export default function SignUpForm() {
                     className="flex"
                   >
                     <div className="flex">
-                      <label
+                      <div
                         className={cn(
-                          "cursor-pointer flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                          "cursor-pointer space-x-2 flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "client"
                             ? "bg-gray-200 border-black rounded-l-full"
                             : "bg-white border-black rounded-l-full"
                         )}
                       >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="client" id="client" />
-                          <Label htmlFor="client">A Client</Label>
-                        </div>
-                      </label>
-                      <label
+                        <RadioGroupItem value="client" id="client" />
+                        <Label htmlFor="client">A Client</Label>
+                      </div>
+                      <div
                         className={cn(
-                          "cursor-pointer flex items-center justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                          "cursor-pointer flex items-center space-x-2 justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "expert"
                             ? "bg-gray-200 border-black rounded-r-full"
                             : "bg-white border-black rounded-r-full"
                         )}
                       >
-                        <div className="flex items-center space-x-2">
-                          {" "}
-                          <RadioGroupItem value="expert" id="expert" />
-                          <Label htmlFor="expert">An Expert</Label>
-                        </div>
-                      </label>
+                        {" "}
+                        <RadioGroupItem value="expert" id="expert" />
+                        <Label htmlFor="expert">An Expert</Label>
+                      </div>
                     </div>
                   </RadioGroup>
                 </div>
