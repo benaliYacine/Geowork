@@ -7986,9 +7986,10 @@ const formSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters long" }),
-  termsOfService: z.boolean().refine((val) => val, {
-    message: "You must agree to the terms of service",
-  }),
+
+  termsOfService: z
+    .boolean()
+    .refine((val) => val === true, "You must accept the terms of service."),
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
   city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
   role: z.enum(["client", "expert"], {
@@ -8286,7 +8287,12 @@ export default function SignUpForm() {
                 <FormControl>
                   <div className="flex justify-center">
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="terms" {...field} />
+                      <Checkbox
+                        id="terms"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        {...field}
+                      />
                       <Label htmlFor="terms">
                         Yes, I understand and agree to the Terms of Service
                       </Label>
