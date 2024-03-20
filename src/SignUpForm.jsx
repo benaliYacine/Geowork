@@ -1,6 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -10,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Divider from "@mui/material/Divider";
 import { useState, useEffect } from "react";
 import { Check, Eye, EyeOff, ChevronsUpDown } from "lucide-react";
-
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -7992,6 +7991,9 @@ const formSchema = z.object({
   }),
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
   city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+  role: z.enum(["client", "expert"], {
+    required_error: "You must select a role.",
+  }),
 });
 
 export default function SignUpForm() {
@@ -8004,6 +8006,7 @@ export default function SignUpForm() {
       password: "",
       wilaya: "", // Default wilaya selection
       city: "", // Default wilaya selection
+      role: "", // Default role selection
     },
   });
 
@@ -8235,15 +8238,64 @@ export default function SignUpForm() {
           />
           <FormField
             control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-center mt-4">
+                <FormLabel>I am:</FormLabel>
+                <div className="mt-2">
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex"
+                  >
+                    <div className="flex">
+                      <label
+                        className={cn(
+                          "cursor-pointer flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                          field.value === "client"
+                            ? "bg-gray-200 border-black rounded-l-full"
+                            : "bg-white border-black rounded-l-full"
+                        )}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="client" id="client" />
+                          <Label htmlFor="client">A Client</Label>
+                        </div>
+                      </label>
+                      <label
+                        className={cn(
+                          "cursor-pointer flex items-center justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                          field.value === "expert"
+                            ? "bg-gray-200 border-black rounded-r-full"
+                            : "bg-white border-black rounded-r-full"
+                        )}
+                      >
+                        <div className="flex items-center space-x-2">
+                          {" "}
+                          <RadioGroupItem value="expert" id="expert" />
+                          <Label htmlFor="expert">An Expert</Label>
+                        </div>
+                      </label>
+                    </div>
+                  </RadioGroup>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="termsOfService"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" />
-                    <Label htmlFor="terms">
-                      Yes, I understand and agree to the Terms of Service
-                    </Label>
+                  <div className="flex justify-center">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="terms" {...field} />
+                      <Label htmlFor="terms">
+                        Yes, I understand and agree to the Terms of Service
+                      </Label>
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
