@@ -1,0 +1,26 @@
+function Home0() {
+  return <h2>Home Page</h2>;
+}
+
+
+// tari9a li ra7 nekhedmou biha fel pfe
+import { Link } from "react-router-dom";
+
+function Home() {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <p>This is the home page of our example application.</p>
+      {/* Link to the About page */}
+      <br />
+      <Link to="/login">Go to login Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/signup">Go to sign up Page</Link>
+    </div>
+  );
+}
+
+export default Home;
