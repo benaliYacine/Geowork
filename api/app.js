@@ -117,7 +117,7 @@ app.post('/login', async (req, res) => {
             if (req.session) {
                 req.session.user_id = foundUser._id;
                 req.session.user_type = 'Client';
-                req.session.save();
+                await req.session.save();
                 //console.log(req.session.user_id);
                 //res.json('hello');
                 if (foundUser.verified)

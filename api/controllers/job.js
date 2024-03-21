@@ -153,7 +153,7 @@ exports.deleteJob = async (req, res) => {
 
 exports.chercheJob = async (req, res) => {
     try {
-        const { category, wilaya, ville } = req.query;
+        const { category, wilaya, city } = req.query;
         let query = {};
 
         // Construit la requête en fonction des paramètres fournis
@@ -163,8 +163,8 @@ exports.chercheJob = async (req, res) => {
         if (wilaya) {
             query.wilaya = wilaya;
         }
-        if (ville) {
-            query.ville = ville;
+        if (city) {
+            query.city = city;
         }
 
         // Recherche les emplois correspondant à la requête

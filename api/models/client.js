@@ -25,7 +25,7 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ville: {
+    city: {
         type: String,
         required: true
     },

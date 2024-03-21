@@ -40,8 +40,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { wilayas,cities } from "./data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().min(1, { message: "Last name is required" }),
+  name:z.object({first: z.string().min(1, { message: "First name is required" }),
+  last: z.string().min(1, { message: "Last name is required" }),
+}),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
@@ -109,18 +110,24 @@ export default function SignUpForm() {
 
   const onSubmit = async (values) => {
     try {
-      console.log(values);
+      
+      let response;
       if (values.role == 'client') {
-        const response = await axios.post('/apiClient/createClient', values);
+        delete values.role;
+        console.log(values);
+        response = await axios.post('/api/clients/createClient', values);
       }
       else if (values.role == 'expert') {
-        const response = await axios.post('/apiClient/createClient', values);
+        delete values.role;
+        console.log(values);
+        response = await axios.post('/api/professionnels/createProfessionnel', values);
       }
       if (response.data.redirectUrl) {
+        console.log(response.data.redirectUrl);
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
-      console.error('Error logging in:', error.response.data); //error data
+      console.error('Error logging in:', error.response.data); //error data email exist deja
     }
   };
 
@@ -136,7 +143,7 @@ export default function SignUpForm() {
           <div className="flex space-x-4">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name.first"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>First Name</FormLabel>
@@ -149,7 +156,7 @@ export default function SignUpForm() {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="name.last"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Last Name</FormLabel>

@@ -55,11 +55,13 @@ exports.createProfessionnel = async (req, res) => {
     try {
         const professionnel = new Professionnel(req.body);
         const exist = await Professionnel.findOne({ email: professionnel.email });
-        if (exist) return res.send("email exist deja");
+        if (exist) return res.status(409).json({message:"email exist deja"});
         const pro = await professionnel.save();
         console.log(pro);
         if (req.session) {
             req.session.user_id = pro._id;
+            req.session.user_type = 'Professionnel';
+            await req.session.save();
         } else res.send('err');
         const token = await new Token({
             userId: pro._id,
@@ -71,7 +73,7 @@ exports.createProfessionnel = async (req, res) => {
         console.log(pro.email);
         console.log(url);
         await sendEmail(pro.email, "Verify Email", url);
-        return res.status(201).json("An Email sent to verify your account");
+        return res.json({redirectUrl:'/verifyEmail',message:"An Email sent to verify your account"});
     } catch (err) {
         return res.status(400).json(err);
     }
@@ -161,8 +163,8 @@ exports.changeAlocationProfessionnel = async (req, res) => {
     try {
         //id=req.session.user_id;
         const { id } = req.params;
-        const { wilaya, ville } = req.body;
-        const pro = await Professionnel.findByIdAndUpdate(id, { wilaya: wilaya, ville: ville }, { new: true });
+        const { wilaya, city } = req.body;
+        const pro = await Professionnel.findByIdAndUpdate(id, { wilaya: wilaya, city: city }, { new: true });
         return res.status(201).json(pro);
     } catch (err) {
         return res.status(400).json(err);

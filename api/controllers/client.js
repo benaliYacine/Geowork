@@ -47,22 +47,24 @@ exports.changePhotoDeProfile = async (req, res) => {
 exports.createClient = async (req, res) => {
     try {
         const client = new Client(req.body);
-        const exist = await Client.findOne({ email: client.email })
-        if (exist) return res.send("email exist deja")
+        const exist = await Client.findOne({ email: client.email });
+        if (exist) return res.status(409).json({ message: "email exist deja" });
         let savedClient = await client.save();
         if (req.session) {
             req.session.user_id = savedClient._id;
+            req.session.user_type = 'Client';
+            await req.session.save();
         } else res.send('err');
         const token = await new Token({
             userId: savedClient._id,
-            userType:'Client',
+            userType: 'Client',
             token: crypto.randomBytes(32).toString("hex")
         }).save();
         const url = `${process.env.BASE_URL}clients/${savedClient._id}/verify/${token.token}`;
         console.log(savedClient.email);
         console.log(url);
         await sendEmail(savedClient.email, "Verify Email", url);
-        return res.status(201).json("An Email sent to verify your account");
+        return res.json({ redirectUrl: '/verifyEmail', message: "An Email sent to verify your account" });
     } catch (err) {
         return res.status(400).json({ message: err.message });
     }
@@ -120,8 +122,8 @@ exports.changeAlocationClient = async (req, res) => {
     try {
         //id=req.session.user_id;
         const { id } = req.params
-        const { wilaya, ville } = req.body;
-        const updatedClient = await Client.findByIdAndUpdate(id, { wilaya: wilaya, ville: ville }, { new: true });
+        const { wilaya, city } = req.body;
+        const updatedClient = await Client.findByIdAndUpdate(id, { wilaya: wilaya, city: city }, { new: true });
         return res.status(201).json(updatedClient);
     } catch (err) {
         return res.status(400).json({ message: err.message });
