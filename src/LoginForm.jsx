@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from 'axios';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import { Button } from "@/components/ui/button"; // Adjust the import path as needed
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Divider from "@mui/material/Divider";
 import {
   Form,
@@ -11,10 +13,9 @@ import {
   FormMessage,
   FormItem,
   FormLabel,
-} from "@/components/ui/form"; // Adjust the import path as needed
-import { Input } from "@/components/ui/input"; // Adjust the import path as needed
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-// Define the form schema
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -27,12 +28,40 @@ export default function LoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      password: ""
     },
   });
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const onSubmit = (values) => {
-    console.log(values);
-    // Here you can handle the form submission, e.g., make an API call
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const response = await axios.get('/login');
+        if (response.data.redirectUrl) {
+          navigate(response.data.redirectUrl);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    checkLoggedIn();
+
+    return () => {
+      // Cleanup function if needed
+    };
+  }, [navigate]);
+
+  const onSubmit = async (values) => {
+    try {
+      const response = await axios.post('/login', values);
+      if (response.data.redirectUrl) {
+        navigate(response.data.redirectUrl);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error.response.data); //hna ki tkon email or password incorrect mbed nzidoha
+    }
   };
 
   return (

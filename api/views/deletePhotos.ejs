@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>import</title>
+</head>
+
+<body>
+    <% for (image of job.photos) { %>
+    <img src=<%=image.url%>>
+    <br>
+    <form method="post" action="/api/jobs/<%=job._id %>/deletePhotos?_method=patch"> <!-- Utiliser deletePhotos au lieu de deletePhoto -->
+        <input type="hidden" name="filename" value="<%= image.filename %>">
+        <input type="hidden" name="photoIds[]" value="<%= image._id %>"> <!-- Utiliser un tableau pour envoyer plusieurs identifiants de photos -->
+        <button>delete</button>
+    </form>
+    <% } %>
+    <form method="post" action="/api/jobs/<%=job._id%>/addPhoto?_method=patch" enctype="multipart/form-data">
+        <input type="file" name="image" id="image">
+        <button onclick=(hundleUpload)>send</button>
+    </form>
+</body>
+
+</html>
