@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/Geolans')//criation de la base de donne ismha shopApp
+mongoose.connect(`mongodb+srv://Geolans:${process.env.MONGOPASS}@geolans.vyqnek2.mongodb.net/?retryWrites=true&w=majority&appName=Geolans`)//criation de la base de donne ismha shopApp
     //virification de connection de mongodb to mongo server
     .then(() => {
         console.log('CONNECTION OPEN');
