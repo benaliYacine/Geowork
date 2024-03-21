@@ -105,7 +105,7 @@ app.get('/logout', (req, res) => {
 app.post('/logout', (req, res) => {
     // Détruire la session côté serveur
     req.session.destroy();
-    res.json({redirectUrl:'/login'});
+    res.json({ redirectUrl: '/login' });
 });
 
 app.post('/login', async (req, res) => {
@@ -120,13 +120,13 @@ app.post('/login', async (req, res) => {
                 req.session.save();
                 //console.log(req.session.user_id);
                 //res.json('hello');
-                if(foundUser.verified)
-                res.json({ redirectUrl: '/dashboard' });
+                if (foundUser.verified)
+                    res.json({ redirectUrl: '/dashboard' });
                 //res.redirect('/dashboard' );
                 else res.json({ redirectUrl: '/verifyEmail' });
             } else res.send('err');
         } else {
-            res.status(401).json({message:'email or password incorrect'});
+            res.status(401).json({ message: 'email or password incorrect' });
         }
     } else {
         if (req.session) {
@@ -145,8 +145,8 @@ app.get('/', (req, res) => {
     //console.log(req.session.user_id);
     res.send("HELOO WORLD !!!");
 })
-app.get('/signup',middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, (req, res) => {
-    
+app.get('/signup', middlewars.requireLogin, (req, res) => {
+
 });
 app.get('/login', middlewars.requireLogin, (req, res) => {
 
