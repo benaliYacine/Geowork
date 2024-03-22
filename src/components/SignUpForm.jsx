@@ -138,6 +138,9 @@ export default function SignUpForm() {
       );
     }
   };
+  const Auth = async () => {
+    window.open('http://localhost:3000/auth/google/callback');
+  }
 
   return (
     <div>
@@ -152,7 +155,7 @@ export default function SignUpForm() {
         </Alert>
       )}
 
-      <Button variant="outline" className="w-full mb-4">
+      <Button variant="outline" onClick={Auth} className="w-full mb-4">
         Continue with Google
       </Button>
       <Divider className="opacity-60">OR</Divider>
