@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { Check, Eye, EyeOff, ChevronsUpDown } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import {
   Command,
@@ -72,6 +74,8 @@ export default function SignUpForm() {
 
   const [filteredCities, setFilteredCities] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -109,7 +113,6 @@ export default function SignUpForm() {
   const onSubmit = async (values) => {
     console.log(values);
     try {
-      
       let response;
       if (values.role == "client") {
         delete values.role;
@@ -128,13 +131,27 @@ export default function SignUpForm() {
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
-      console.error('Error logging in:', error.response.data); //error data email exist deja
+      console.error("Error signing up:", error.response.data);
+      setShowAlert(true);
+      setAlertMessage(
+        error.response.data.message || "An error occurred during sign-up."
+      );
     }
   };
 
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">Sign Up</h2>
+      {showAlert && (
+        <Alert variant="destructive" className="mb-4">
+          {" "}
+          {/* Adjust styling as needed */}
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{alertMessage}</AlertDescription>
+        </Alert>
+      )}
+
       <Button variant="outline" className="w-full mb-4">
         Continue with Google
       </Button>
