@@ -37,7 +37,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { wilayas, cities } from "./data/wilayasCities";
+import { wilayas, cities } from "../data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
   name: z.object({
