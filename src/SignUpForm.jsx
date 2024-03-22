@@ -109,6 +109,7 @@ export default function SignUpForm() {
   const onSubmit = async (values) => {
     console.log(values);
     try {
+      
       let response;
       if (values.role == "client") {
         delete values.role;
@@ -127,7 +128,7 @@ export default function SignUpForm() {
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
-      console.error("Error logging in:", error.response.data); //error data email exist deja
+      console.error('Error logging in:', error.response.data); //error data email exist deja
     }
   };
 
