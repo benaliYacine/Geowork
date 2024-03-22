@@ -4,9 +4,11 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ChoseUserType from "./pages/ChoseUserType";
 import SignUp from "./pages/SignUp";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
+import InputWilayaCity from "./pages/InputWilayaCity";
 import axios from 'axios'
 
 
@@ -23,6 +25,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/choseUserType" element={<ChoseUserType />} />
+            <Route path="/InputWilayaCity" element={<InputWilayaCity />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NoPage />} />
