@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import axios from 'axios';
+import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
@@ -35,14 +35,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { wilayas,cities } from "./data/wilayasCities";
+import { wilayas, cities } from "./data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
-  name:z.object({first: z.string().min(1, { message: "First name is required" }),
-  last: z.string().min(1, { message: "Last name is required" }),
-}),
+  name: z.object({
+    first: z.string().min(1, { message: "First name is required" }),
+    last: z.string().min(1, { message: "Last name is required" }),
+  }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
@@ -63,12 +62,11 @@ export default function SignUpForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: { first: "", last: "" },
       email: "",
       password: "",
-      wilaya: "", // Default wilaya selection
-      city: "", // Default wilaya selection
+      wilaya: "",
+      city: "",
     },
   });
 
@@ -92,12 +90,12 @@ export default function SignUpForm() {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await axios.get('/signup');
+        const response = await axios.get("/signup");
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -109,25 +107,27 @@ export default function SignUpForm() {
   }, [navigate]);
 
   const onSubmit = async (values) => {
+    console.log(values);
     try {
-      
       let response;
-      if (values.role == 'client') {
+      if (values.role == "client") {
         delete values.role;
         console.log(values);
-        response = await axios.post('/api/clients/createClient', values);
-      }
-      else if (values.role == 'expert') {
+        response = await axios.post("/api/clients/createClient", values);
+      } else if (values.role == "expert") {
         delete values.role;
         console.log(values);
-        response = await axios.post('/api/professionnels/createProfessionnel', values);
+        response = await axios.post(
+          "/api/professionnels/createProfessionnel",
+          values
+        );
       }
       if (response.data.redirectUrl) {
         console.log(response.data.redirectUrl);
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
-      console.error('Error logging in:', error.response.data); //error data email exist deja
+      console.error("Error logging in:", error.response.data); //error data email exist deja
     }
   };
 
@@ -230,8 +230,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? wilayas.find(
-                            (wilaya) => wilaya.value === field.value
-                          )?.label
+                              (wilaya) => wilaya.value === field.value
+                            )?.label
                           : "Select wilaya"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -251,10 +251,11 @@ export default function SignUpForm() {
                               }}
                             >
                               <Check
-                                className={` mr-2 h-4 w-4 ${wilaya.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                                  }`}
+                                className={` mr-2 h-4 w-4 ${
+                                  wilaya.value === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                }`}
                               />
                               {wilaya.label}
                             </CommandItem>
@@ -286,8 +287,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? filteredCities.find(
-                            (city) => city.value === field.value
-                          )?.label
+                              (city) => city.value === field.value
+                            )?.label
                           : "Select a city"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -309,10 +310,11 @@ export default function SignUpForm() {
                                   }
                                 >
                                   <Check
-                                    className={`mr-2 h-4 w-4 ${city.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                      }`}
+                                    className={`mr-2 h-4 w-4 ${
+                                      city.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    }`}
                                   />
                                   {city.label}
                                 </CommandItem>

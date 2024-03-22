@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from 'axios';
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +15,8 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -28,21 +30,23 @@ export default function LoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: ""
+      password: "",
     },
   });
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await axios.get('/login');
+        const response = await axios.get("/login");
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -54,19 +58,34 @@ export default function LoginForm() {
   }, [navigate]);
 
   const onSubmit = async (values) => {
+    setShowAlert(false);
     try {
-      const response = await axios.post('/login', values);
+      const response = await axios.post("/login", values);
       if (response.data.redirectUrl) {
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
-      console.error('Error logging in:', error.response.data); //hna ki tkon email or password incorrect mbed nzidoha
+      // console.error("Error logging in:", error.response.data);
+      setShowAlert(true);
+      setAlertMessage(
+        error.response.data.message || "An error occurred during login."
+      ); // Adjust the message path as per your error object structure
     }
   };
 
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">Log In</h2>
+      {showAlert && (
+        <Alert variant="destructive" className="mb-4">
+          {" "}
+          {/* Add a margin or any necessary styling */}
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{alertMessage}</AlertDescription>
+        </Alert>
+      )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -117,7 +136,13 @@ export default function LoginForm() {
       </Button>
       <div className="text-center mt-4">
         Don't have an account?
-        <Link to="/signup" className="text-primary underline-offset-4 hover:underline ml-1"> Sign up </Link>
+        <Link
+          to="/signup"
+          className="text-primary underline-offset-4 hover:underline ml-1"
+        >
+          {" "}
+          Sign up{" "}
+        </Link>
       </div>
     </div>
   );
