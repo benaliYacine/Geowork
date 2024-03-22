@@ -7,10 +7,11 @@ export default function InputWilayaCity() {
     const formData = new FormData(event.target);
     const wilaya = formData.get('wilaya');
     const city = formData.get('city');
+    const type = formData.get('type');
 
     try {
       // Replace '/continueSignup' with the actual endpoint to post the form data
-      const response = await axios.patch('/continueSignup', { wilaya, city });
+      const response = await axios.post('/continueSignup', { wilaya, city, type });
       if (response.data.redirectUrl) {
         window.location.href = response.data.redirectUrl;
       }
@@ -29,6 +30,14 @@ export default function InputWilayaCity() {
       <div>
         <label htmlFor="city">Ville :</label>
         <input type="text" id="city" name="city" required />
+      </div>
+      <div>
+        <label htmlFor="type">Choisissez un type de compte:</label>
+        <select id="type" name="type" required>
+          <option value="">Choisissez un type de compte</option>
+          <option value="Client">Client</option>
+          <option value="Professionnel">Professionnel</option>
+        </select>
       </div>
       <button type="submit">Continue</button>
     </form>

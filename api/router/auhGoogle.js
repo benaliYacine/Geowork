@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV != "production") {
     require('dotenv').config(); //hadi la methode t3 importation l dotenv ma3naha dir import liha ki tkon fi developpmetn mode 
 }
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
@@ -26,7 +27,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-
+let dataUser;
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -39,53 +40,24 @@ passport.use(new GoogleStrategy({
             if (!user) {
                 user = await Professionnel.findOne({ googleId: profile.id });
                 if (!user) {
-                    if (Session.signup.type == 'Client') {
-                        user = await Client.create({
-                            email: profile.emails[0].value,
-                            googleId: profile.id,
-                            city: 'city',
-                            wilaya: 'Wilaya',
-                            name: {
-                                first: profile.name.familyName,
-                                last: profile.name.givenName
-                            },
-                            verified:true
-                        });
-                        Session.loggedInUserId = user.id;
-                        Session.loggedInUserType = 'Client';
-                        //Session.signup.value=false;
-                    } else if (Session.signup.type == 'Professionnel') {
-                        user = await Professionnel.create({
-                            email: profile.emails[0].value,
-                            googleId: profile.id,
-                            city: 'city',
-                            wilaya: 'Wilaya',
-                            name: {
-                                first: profile.name.familyName,
-                                last: profile.name.givenName
-                            },
-                            verified:true
-                        })
-                        Session.loggedInUserId = user.id;
-                        Session.loggedInUserType = 'Professionnel';
-                        //Session.signup.value=false;
-                    } else
-                        Session.signup.value = true;
-                }
-                else {
-                    if (user.wilaya == 'Wilaya' || user.city == 'city') {
-                        Session.signup.value = true;
+                    dataUser = {
+                        email: profile.emails[0].value,
+                        googleId: profile.id,
+                        city: 'city',
+                        wilaya: 'Wilaya',
+                        name: {
+                            first: profile.name.familyName,
+                            last: profile.name.givenName
+                        },
+                        verified: true
                     }
-                    Session.loggedInUserId = user._id;
-                    Session.loggedInUserType = 'Professionnel';
-                }
-            }
-            else {
-                if (user.wilaya == 'Wilaya' || user.city == 'city') {
                     Session.signup.value = true;
                 }
-                Session.loggedInUserId = user._id;
-                Session.loggedInUserType = 'Client';
+
+
+            }
+            if (!user) {
+                Session.signup.value = true;
             }
             return cb(null, user);
         } catch (error) {
@@ -98,10 +70,12 @@ passport.use(new GoogleStrategy({
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 router.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/choseUserType' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/InputWilayaCity' }),
     function (req, res) {
-        req.session.user_id = Session.loggedInUserId;
-        req.session.user_type = Session.loggedInUserType;
+        if (Session.loggedInUserId !== '') {
+            req.session.user_id = Session.loggedInUserId;
+            req.session.user_type = Session.loggedInUserType;
+        }
         //console.log(req.session);
         if (Session.signup.value == true)
             return res.redirect('http://localhost:5173/InputWilayaCity'); //hna t5ayar type ida client wla professionnel
@@ -114,25 +88,33 @@ router.get('/continueSignup', (req, res) => {
     res.render('addWC');
 });
 
-router.patch('/continueSignup', async (req, res) => {
+router.post('/continueSignup', async (req, res) => {
     let user;
-    if (req.session.user_type == 'Client') {
-        user = await Client.findByIdAndUpdate(req.session.user_id, { wilaya: req.body.wilaya, city: req.body.city });
+    console.log(req.body.type);
+    if (req.body.type == 'Client') {
+        user = new Client({ _id: new mongoose.Types.ObjectId(), ...dataUser, wilaya: req.body.wilaya, city: req.body.city });
+        console.log(user);
         Session.signup.value = false;
         Session.loggedInUserId = '';
         Session.loggedInUserType = '';
         Session.signup.type = '';
-        return res.json({redirectUrl:'/dashboard'});
-    } else if (req.session.user_type == 'Professionnel') {
-        user = await Professionnel.findByIdAndUpdate(req.session.user_id, { wilaya: req.body.wilaya, city: req.body.city });
+        const foundUser = await user.save();
+        req.session.user_id = user._id;
+        req.session.user_type = 'Client';
+        return res.json({ redirectUrl: '/dashboard' });
+    } else if (req.body.type == 'Professionnel') {
+        user = new Professionnel({ _id: new mongoose.Types.ObjectId(), ...dataUser, wilaya: req.body.wilaya, city: req.body.city });
         Session.loggedInUserId = '';
         Session.loggedInUserType = '';
         Session.signup.value = false;
         Session.signup.type = '';
-        res.json({redirectUrl:'/pr/addProfile'});
+        const foundUser = await user.save();
+        req.session.user_id = user._id;
+        req.session.user_type = 'Professionnel';
+        res.json({ redirectUrl: '/pr/addProfile' });
     } else {
-        // Gérer d'autres types d'utilisateur ou une condition non gérée ici
-        res.json({redirectUrl:'/'});
+        // Handle other user types or unhandled condition here
+        res.json({ redirectUrl: '/' });
     }
 });
 
@@ -142,7 +124,7 @@ router.patch('/continueSignup', async (req, res) => {
 router.post('/signup/google/type', (req, res) => {
     const { type } = req.body;
     Session.signup.type = type;
-    res.json({redirectUrl:'http://localhost:3000/auth/google/callback'})
+    res.json({ redirectUrl: 'http://localhost:3000/auth/google/callback' })
 });
 
 module.exports = router;
