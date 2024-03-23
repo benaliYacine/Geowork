@@ -22,12 +22,12 @@ function Home() {
       <br />
       <hr />
       <br />
-      <Link to="/messages">Go to Messages up Page</Link>
+      <Link to="/messages">Go to Messages Page</Link>
       <br />
       <br />
       <hr />
       <br />
-      <Link to="/inputWilayaCity">Go to InputWilayaCity up Page</Link>
+      <Link to="/inputWilayaCity">Go to InputWilayaCity Page</Link>
     </div>
   );
 }
