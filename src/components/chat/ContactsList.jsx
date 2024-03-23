@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ContactItem from "./ContactItem"; // Import the ContactItem component
+import ContactItem from "./ContactItem";
 
 // Sample data - replace with your actual data source
 const contacts = [

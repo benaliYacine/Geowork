@@ -5,7 +5,11 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
   const renderMessageContent = (message) => {
     switch (message.type) {
       case "text":
-        return <p className="text-sm">{message.content}</p>;
+        return (
+          <div className="max-w-full md:max-w-lg lg:max-w-xl">
+            <p className="text-sm">{message.content}</p>
+          </div>
+        );
       case "image":
         return (
           <img
@@ -37,7 +41,9 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
     >
       <div
         className={`px-4 py-2 my-1 mx-2  ${
-          isOwnMessage ? "bg-orange-100 rounded-s-lg rounded-t-lg" : "bg-gray-100 rounded-e-lg rounded-t-lg"
+          isOwnMessage
+            ? "bg-orange-100 rounded-s-lg rounded-t-lg"
+            : "bg-gray-100 rounded-e-lg rounded-t-lg"
         }`}
       >
         {renderMessageContent(message)}

@@ -1,5 +1,5 @@
 import React from "react";
-import ContactsList from "./ContactsList"; // Assuming path is correct
+import ContactsList from "./ContactsList";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -11,7 +11,7 @@ const exampleContact = {
   lastSeen: "2023-03-15T14:48:00.000Z",
 };
 
-const Chat = () => {
+export default function Chat() {
   // Placeholder for data fetching and state management
 
   // Function placeholders for interaction handling
@@ -34,7 +34,6 @@ const Chat = () => {
       <div className=" w-full flex flex-col h-full">
         <div className="flex w-full">
           {" "}
-          {/* ChatHeader should be flex-none to ensure it doesn't grow */}
           <ChatHeader
             contactName={exampleContact.name}
             avatarUrl={exampleContact.avatarUrl}
@@ -47,7 +46,6 @@ const Chat = () => {
         </div>
         <div className="flex-none">
           {" "}
-          {/* MessageInput should be flex-none to ensure it doesn't grow */}
           <MessageInput
             onSendMessage={handleSendMessage}
             onFileAttach={handleFileAttach}
@@ -57,5 +55,3 @@ const Chat = () => {
     </div>
   );
 };
-
-export default Chat;
