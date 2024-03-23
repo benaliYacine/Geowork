@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import Messages from "./pages/Messages";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
+import InputWilayaCity from "./pages/InputWilayaCity";
 import axios from "axios";
 
 
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/InputWilayaCity" element={<InputWilayaCity />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/contact" element={<Contact />} />

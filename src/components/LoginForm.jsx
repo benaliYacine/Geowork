@@ -72,6 +72,9 @@ export default function LoginForm() {
       ); // Adjust the message path as per your error object structure
     }
   };
+  const Auth = async () => {
+    window.open('http://localhost:3000/auth/google/callback');
+  }
 
   return (
     <div>
@@ -131,7 +134,7 @@ export default function LoginForm() {
       <div className="my-4">
         <Divider>OR</Divider>
       </div>
-      <Button variant="outline" className="w-full">
+      <Button variant="outline" onClick={Auth} className="w-full">
         Continue with Google
       </Button>
       <div className="text-center mt-4">
