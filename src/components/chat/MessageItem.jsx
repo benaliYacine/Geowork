@@ -1,5 +1,5 @@
 import React from "react";
-
+import { File } from "lucide-react";
 function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
   // Helper function to render the message content based on its type
   const renderMessageContent = (message) => {
@@ -20,13 +20,16 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
         );
       case "file":
         return (
-          <a
-            href={message.url}
-            download
-            className="text-sm text-blue-500 underline"
-          >
-            {message.content}
-          </a>
+          <div className="flex flex-row">
+            <File className="m-2 h-4 w-4 shrink-0 opacity-50" />
+            <a
+              href={message.url}
+              download
+              className="text-sm text-blue-500 underline"
+            >
+              {message.content}
+            </a>
+          </div>
         );
       default:
         return <p className="text-sm">Unsupported message type</p>;

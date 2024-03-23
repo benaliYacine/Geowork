@@ -8,7 +8,7 @@ import MessageInput from "./MessageInput";
 const exampleContact = {
   name: "John Doe",
   avatarUrl: "https://example.com/avatar.jpg",
-  lastSeen: "2023-03-15T14:48:00.000Z",
+  lastSeen: "2024-03-22T14:48:00.000Z",
 };
 
 export default function Chat() {
