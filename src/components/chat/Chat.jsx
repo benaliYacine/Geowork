@@ -26,7 +26,7 @@ export default function Chat() {
   };
 
   return (
-    <div className=" h-full flex flex-row w-full gap-5">
+    <div className=" py-3 h-full flex flex-row w-full gap-5">
       <div className="h-full w-96 flex flex-col overflow-hidden">
         <ContactsList />
       </div>
@@ -54,4 +54,4 @@ export default function Chat() {
       </div>
     </div>
   );
-};
+}

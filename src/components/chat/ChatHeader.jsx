@@ -24,7 +24,7 @@ function ChatHeader({
 }) {
   return (
     <div className="border-b-2 w-full">
-      <div className="flex items-start p-4 ">
+      <div className="flex items-start p-2 ">
         <Avatar className="mr-4">
           <AvatarImage src={avatarUrl} alt={contactName} />
           <AvatarFallback>{contactName.charAt(0)}</AvatarFallback>

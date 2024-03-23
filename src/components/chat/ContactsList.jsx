@@ -93,7 +93,7 @@ const contacts = [
 
 function ContactsList() {
   return (
-    <ScrollArea className=" my-5 h-full w-full max-w-xs rounded-xl border overflow-y-auto">
+    <ScrollArea className=" h-full w-full max-w-xs rounded-xl border my-3 overflow-y-auto">
       <div className="flex flex-col">
         {contacts.map((contact) => (
           <ContactItem
