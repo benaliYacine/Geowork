@@ -1,45 +1,12 @@
-import React from 'react';
-import axios from 'axios';
-import { Navigate } from 'react-router-dom';
-export default function InputWilayaCity() {
-  const onSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    const formData = new FormData(event.target);
-    const wilaya = formData.get('wilaya');
-    const city = formData.get('city');
-    const type = formData.get('type');
+import React from "react";
+import WilayaCityForm from "../components/WilayaCityForm";
 
-    try {
-      // Replace '/continueSignup' with the actual endpoint to post the form data
-      const response = await axios.post('/continueSignup', { wilaya, city, type });
-      if (response.data.redirectUrl) {
-        window.location.href = response.data.redirectUrl;
-      }
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
+export default function LoginPage() {
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="wilaya">Wilaya :</label>
-        <input type="text" id="wilaya" name="wilaya" required />
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md px-3 py-8">
+        <WilayaCityForm />
       </div>
-      <div>
-        <label htmlFor="city">Ville :</label>
-        <input type="text" id="city" name="city" required />
-      </div>
-      <div>
-        <label htmlFor="type">Choisissez un type de compte:</label>
-        <select id="type" name="type" required>
-          <option value="">Choisissez un type de compte</option>
-          <option value="Client">Client</option>
-          <option value="Professionnel">Professionnel</option>
-        </select>
-      </div>
-      <button type="submit">Continue</button>
-    </form>
+    </div>
   );
 }

@@ -2,7 +2,6 @@ function Home0() {
   return <h2>Home Page</h2>;
 }
 
-
 // tari9a li ra7 nekhedmou biha fel pfe
 import { Link } from "react-router-dom";
 
@@ -24,6 +23,11 @@ function Home() {
       <hr />
       <br />
       <Link to="/messages">Go to Messages up Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/inputWilayaCity">Go to InputWilayaCity up Page</Link>
     </div>
   );
 }
