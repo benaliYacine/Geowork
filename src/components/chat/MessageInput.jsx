@@ -20,12 +20,12 @@ function MessageInput({ onSendMessage, onFileAttach }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-4 px-3 py-1 m-4 bg-white border rounded-lg"
+      className="flex items-center gap-4 px-3 py-1 m-4 bg-white rounded-lg"
     >
       <input
         type="text"
         placeholder="Type a message..."
-        className="flex-1 p-2 rounded-lg focus:outline-none focus:border-gray-300" // Example to remove the focus outline and change the border to a light gray
+        className="flex-1 p-2 rounded-lg focus:outline-none" // Example to remove the focus outline and change the border to a light gray
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />

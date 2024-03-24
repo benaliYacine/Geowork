@@ -33,7 +33,7 @@ function ChatHeader({
   const contactIsActive = isActive(lastSeen);
 
   return (
-    <div className="border-b-2 w-full">
+    <div className="border-b-1 w-full">
       <div className="flex items-start p-2">
         <div className="relative mr-4">
           <Avatar>
