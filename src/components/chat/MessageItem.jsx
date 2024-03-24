@@ -7,7 +7,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       case "text":
         return (
           <div className="max-w-full md:max-w-lg lg:max-w-xl">
-            <p className="text-sm">{message.content}</p>
+            <p className="text-sm font-sans text-black">{message.content}</p>
           </div>
         );
       case "image":
@@ -45,8 +45,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       <div
         className={`px-4 py-2 my-1 mx-2  ${
           isOwnMessage
-            ? "bg-orange-100 rounded-s-lg rounded-t-lg"
-            : "bg-gray-100 rounded-e-lg rounded-t-lg"
+            ? "bg-secondary2 rounded-s-lg rounded-t-lg"
+            : "bg-white rounded-e-lg rounded-t-lg"
         }`}
       >
         {renderMessageContent(message)}

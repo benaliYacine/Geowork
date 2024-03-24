@@ -52,6 +52,102 @@ const contacts = [
     time: "1:15 PM, Feb 20",
     isActive: false, // Bob is not active
   },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
+  {
+    id: 1,
+    name: "Alice",
+    message: "Hey, how are you?",
+    avatarUrl: "https://example.com/alice.jpg",
+    time: "2:49 PM, Feb 21",
+    isActive: true, // Alice is active
+  },
+  {
+    id: 2,
+    name: "Bob",
+    message: "Are you coming to the meeting?",
+    avatarUrl: "https://example.com/bob.jpg",
+    time: "1:15 PM, Feb 20",
+    isActive: false, // Bob is not active
+  },
 ].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sorting based on time
 
 function ContactsList() {

@@ -11,7 +11,6 @@ import { Check, Eye, EyeOff, ChevronsUpDown } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 
-
 import {
   Command,
   CommandEmpty,
@@ -37,7 +36,6 @@ import { Input } from "@/components/ui/input";
 import { wilayas, cities } from "../data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
-  
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
   city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
   role: z.enum(["client", "expert"], {
@@ -67,12 +65,9 @@ export default function InputWilayaCity() {
     form.setValue("city", "");
   }, [form.watch("wilaya")]);
 
-
-
-
   const onSubmit = async (values) => {
     console.log(values);
-    // TODO 
+    // TODO
     // const formData = new FormData(event.target);
     // const wilaya = formData.get('wilaya');
     // const city = formData.get('city');
@@ -92,10 +87,11 @@ export default function InputWilayaCity() {
 
   return (
     <div>
-      <h2 className="text-3xl text-center font-semibold mb-6">7ot title l page hadi hna</h2>
+      <h2 className="text-3xl text-center font-semibold mb-6">
+        7ot title l page hadi hna
+      </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-
           <FormField
             control={form.control}
             name="wilaya"
@@ -106,7 +102,7 @@ export default function InputWilayaCity() {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
+                        variant="white"
                         role="combobox"
                         className="w-full justify-between"
                       >
@@ -163,7 +159,7 @@ export default function InputWilayaCity() {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
+                        variant="white"
                         role="combobox"
                         className="w-full justify-between"
                       >
@@ -206,7 +202,7 @@ export default function InputWilayaCity() {
                           <CommandInput placeholder="Search city..." />
                         </>
                       ) : (
-                        <div className="py-6 text-center text-sm w-48">
+                        <div className="py-4 px-2 text-center text-sm w-48">
                           Please select a wilaya first!
                         </div>
                       )}
@@ -234,24 +230,42 @@ export default function InputWilayaCity() {
                         className={cn(
                           "cursor-pointer space-x-2 flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "client"
-                            ? "bg-gray-200 border-black rounded-l-full"
-                            : "bg-white border-black rounded-l-full"
+                            ? "bg-secondary border-primary rounded-l-full"
+                            : "bg-white border-greyDark rounded-l-full"
                         )}
                       >
                         <RadioGroupItem value="client" id="client" />
-                        <Label htmlFor="client">A Client</Label>
+                        <Label
+                          className={cn(
+                            field.value === "client"
+                              ? "text-primary"
+                              : "text-greyDark "
+                          )}
+                          htmlFor="client"
+                        >
+                          A Client
+                        </Label>
                       </div>
                       <div
                         className={cn(
                           "cursor-pointer flex items-center space-x-2 justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "expert"
-                            ? "bg-gray-200 border-black rounded-r-full"
-                            : "bg-white border-black rounded-r-full"
+                            ? "bg-secondary border-primary rounded-r-full"
+                            : "bg-white border-greyDark rounded-r-full"
                         )}
                       >
                         {" "}
                         <RadioGroupItem value="expert" id="expert" />
-                        <Label htmlFor="expert">An Expert</Label>
+                        <Label
+                          className={cn(
+                            field.value === "expert"
+                              ? "text-primary"
+                              : "text-greyDark "
+                          )}
+                          htmlFor="expert"
+                        >
+                          An Expert
+                        </Label>
                       </div>
                     </div>
                   </RadioGroup>
@@ -260,7 +274,7 @@ export default function InputWilayaCity() {
               </FormItem>
             )}
           />
-          
+
           <Button type="submit" className="w-full mt-4">
             Continue
           </Button>
@@ -269,4 +283,3 @@ export default function InputWilayaCity() {
     </div>
   );
 }
-

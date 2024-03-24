@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
+import { FcGoogle } from "react-icons/fc";
 import {
   Command,
   CommandEmpty,
@@ -152,7 +152,8 @@ export default function SignUpForm() {
         </Alert>
       )}
 
-      <Button variant="outline" className="w-full mb-4">
+      <Button variant="white" className="w-full mb-4">
+        <FcGoogle className="mr-2" />
         Continue with Google
       </Button>
       <Divider className="opacity-60">OR</Divider>
@@ -242,7 +243,7 @@ export default function SignUpForm() {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
+                        variant="white"
                         role="combobox"
                         className="w-full justify-between"
                       >
@@ -299,7 +300,7 @@ export default function SignUpForm() {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant="outline"
+                        variant="white"
                         role="combobox"
                         className="w-full justify-between"
                       >
@@ -342,7 +343,7 @@ export default function SignUpForm() {
                           <CommandInput placeholder="Search city..." />
                         </>
                       ) : (
-                        <div className="py-6 text-center text-sm w-48">
+                        <div className="py-4 px-2 text-center text-sm w-48">
                           Please select a wilaya first!
                         </div>
                       )}
@@ -370,24 +371,42 @@ export default function SignUpForm() {
                         className={cn(
                           "cursor-pointer space-x-2 flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "client"
-                            ? "bg-gray-200 border-black rounded-l-full"
-                            : "bg-white border-black rounded-l-full"
+                            ? "bg-secondary border-primary rounded-l-full"
+                            : "bg-white border-greyDark rounded-l-full"
                         )}
                       >
                         <RadioGroupItem value="client" id="client" />
-                        <Label htmlFor="client">A Client</Label>
+                        <Label
+                          className={cn(
+                            field.value === "client"
+                              ? "text-primary"
+                              : "text-greyDark "
+                          )}
+                          htmlFor="client"
+                        >
+                          A Client
+                        </Label>
                       </div>
                       <div
                         className={cn(
                           "cursor-pointer flex items-center space-x-2 justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
                           field.value === "expert"
-                            ? "bg-gray-200 border-black rounded-r-full"
-                            : "bg-white border-black rounded-r-full"
+                            ? "bg-secondary border-primary rounded-r-full"
+                            : "bg-white border-greyDark rounded-r-full"
                         )}
                       >
                         {" "}
                         <RadioGroupItem value="expert" id="expert" />
-                        <Label htmlFor="expert">An Expert</Label>
+                        <Label
+                          className={cn(
+                            field.value === "expert"
+                              ? "text-primary"
+                              : "text-greyDark "
+                          )}
+                          htmlFor="expert"
+                        >
+                          An Expert
+                        </Label>
                       </div>
                     </div>
                   </RadioGroup>

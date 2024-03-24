@@ -85,7 +85,7 @@ const messages = [
 
 function MessageList() {
   return (
-    <ScrollArea className=" h-full w-full rounded-lg bg-white overflow-y-auto">
+    <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
       <div className=" flex flex-col">
         {messages.map((msg) => (
           <MessageItem
