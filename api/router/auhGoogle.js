@@ -90,8 +90,8 @@ router.get('/continueSignup', (req, res) => {
 
 router.post('/continueSignup', async (req, res) => {
     let user;
-    console.log(req.body.type);
-    if (req.body.type == 'Client') {
+    console.log(req.body);
+    if (req.body.role == 'client') {
         user = new Client({ _id: new mongoose.Types.ObjectId(), ...dataUser, wilaya: req.body.wilaya, city: req.body.city });
         console.log(user);
         Session.signup.value = false;
@@ -102,7 +102,7 @@ router.post('/continueSignup', async (req, res) => {
         req.session.user_id = user._id;
         req.session.user_type = 'Client';
         return res.json({ redirectUrl: '/dashboard' });
-    } else if (req.body.type == 'Professionnel') {
+    } else if (req.body.role == 'expert') {
         user = new Professionnel({ _id: new mongoose.Types.ObjectId(), ...dataUser, wilaya: req.body.wilaya, city: req.body.city });
         Session.loggedInUserId = '';
         Session.loggedInUserType = '';
@@ -111,7 +111,7 @@ router.post('/continueSignup', async (req, res) => {
         const foundUser = await user.save();
         req.session.user_id = user._id;
         req.session.user_type = 'Professionnel';
-        res.json({ redirectUrl: '/pr/addProfile' });
+        res.json({ redirectUrl: '/welcomePro' });
     } else {
         // Handle other user types or unhandled condition here
         res.json({ redirectUrl: '/' });
@@ -122,8 +122,8 @@ router.post('/continueSignup', async (req, res) => {
     res.render('type');
 }); */
 router.post('/signup/google/type', (req, res) => {
-    const { type } = req.body;
-    Session.signup.type = type;
+    const { role } = req.body;
+    Session.signup.type = role === 'client' ? 'Client' : 'Professionnel';
     res.json({ redirectUrl: 'http://localhost:3000/auth/google/callback' })
 });
 

@@ -34,7 +34,7 @@ export default function LoginForm() {
     },
   });
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -44,7 +44,8 @@ export default function LoginForm() {
         const response = await axios.get("/login");
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        }
+        }else
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -75,7 +76,7 @@ export default function LoginForm() {
   const Auth = async () => {
     window.open("http://localhost:3000/auth/google/callback");
   };
-
+  if (loading) return (<div></div>);
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">Log In</h2>

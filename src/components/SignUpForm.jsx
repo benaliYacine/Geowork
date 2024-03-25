@@ -60,6 +60,7 @@ const formSchema = z.object({
 });
 
 export default function SignUpForm() {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -94,10 +95,13 @@ export default function SignUpForm() {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
+        
         const response = await axios.get("/signup");
-        if (response.data.redirectUrl) {
+        if (response.data.redirectUrl) { 
           navigate(response.data.redirectUrl);
-        }
+        } else
+          setLoading(false);
+          
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -141,7 +145,8 @@ export default function SignUpForm() {
   const Auth = async () => {
     window.open('http://localhost:3000/auth/google/callback');
   }
-
+  console.log(loading);
+  if (loading) return (<div></div>);
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">Sign Up</h2>
@@ -155,7 +160,7 @@ export default function SignUpForm() {
         </Alert>
       )}
 
-      <Button variant="white" className="w-full mb-4">
+      <Button variant="white" onClick={Auth} className="w-full mb-4">
         <FcGoogle className="mr-2" />
         Continue with Google
       </Button>
@@ -252,8 +257,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? wilayas.find(
-                              (wilaya) => wilaya.value === field.value
-                            )?.label
+                            (wilaya) => wilaya.value === field.value
+                          )?.label
                           : "Select wilaya"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -273,11 +278,10 @@ export default function SignUpForm() {
                               }}
                             >
                               <Check
-                                className={` mr-2 h-4 w-4 ${
-                                  wilaya.value === field.value
+                                className={` mr-2 h-4 w-4 ${wilaya.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0"
-                                }`}
+                                  }`}
                               />
                               {wilaya.label}
                             </CommandItem>
@@ -309,8 +313,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? filteredCities.find(
-                              (city) => city.value === field.value
-                            )?.label
+                            (city) => city.value === field.value
+                          )?.label
                           : "Select a city"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -332,11 +336,10 @@ export default function SignUpForm() {
                                   }
                                 >
                                   <Check
-                                    className={`mr-2 h-4 w-4 ${
-                                      city.value === field.value
+                                    className={`mr-2 h-4 w-4 ${city.value === field.value
                                         ? "opacity-100"
                                         : "opacity-0"
-                                    }`}
+                                      }`}
                                   />
                                   {city.label}
                                 </CommandItem>

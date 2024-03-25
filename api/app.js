@@ -146,7 +146,7 @@ app.get('/', (req, res) => {
     res.send("HELOO WORLD !!!");
 })
 app.get('/signup', middlewars.requireLogin, (req, res) => {
-
+    res.json("");
 });
 app.get('/login', middlewars.requireLogin, (req, res) => {
 
@@ -178,10 +178,22 @@ app.get('/info', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, asy
     //res.render('professionnel/dashboard');
 });
 
-app.get('/pr/addProfile', middlewars.requireLoginProfessionnel, (req, res) => {
-    res.send('adding professionnel Profile');
-    //res.render('professionnel/dashboard');
+app.get('/InputWilayaCity', middlewars.requireLogin, (req,res)=>{
+    req.json("");
 });
+
+app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) => {
+    try {
+        const pro = await Professionnel.findById(req.session.user_id);
+        if(!pro.profile.title)
+        res.json(pro); // Sending JSON response using `res` object
+        else req.json({redirectUrl:'/dashboard'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' }); // Sending error response if there's an issue
+    }
+});
+
 
 app.get('/job/:id', async (req, res) => {
     const { id } = req.params;
