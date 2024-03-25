@@ -1,4 +1,3 @@
-import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,14 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Divider from "@mui/material/Divider";
 import { useState, useEffect } from "react";
 import { Check, Eye, EyeOff, ChevronsUpDown } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FcGoogle } from "react-icons/fc";
+
 import {
   Command,
   CommandEmpty,
@@ -40,18 +36,6 @@ import { Input } from "@/components/ui/input";
 import { wilayas, cities } from "../data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
-  name: z.object({
-    first: z.string().min(1, { message: "First name is required" }),
-    last: z.string().min(1, { message: "Last name is required" }),
-  }),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
-
-  termsOfService: z
-    .boolean()
-    .refine((val) => val === true, "You must accept the terms of service."),
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
   city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
   role: z.enum(["client", "expert"], {
@@ -59,23 +43,17 @@ const formSchema = z.object({
   }),
 });
 
-export default function SignUpForm() {
+export default function InputWilayaCity() {
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: { first: "", last: "" },
-      email: "",
-      password: "",
       wilaya: "",
       city: "",
     },
   });
 
   const [filteredCities, setFilteredCities] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -87,155 +65,33 @@ export default function SignUpForm() {
     form.setValue("city", "");
   }, [form.watch("wilaya")]);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const response = await axios.get("/signup");
-        if (response.data.redirectUrl) {
-          navigate(response.data.redirectUrl);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    checkLoggedIn();
-
-    return () => {
-      // Cleanup function if needed
-    };
-  }, [navigate]);
-
   const onSubmit = async (values) => {
     console.log(values);
-    try {
-      let response;
-      if (values.role == "client") {
-        delete values.role;
-        console.log(values);
-        response = await axios.post("/api/clients/createClient", values);
-      } else if (values.role == "expert") {
-        delete values.role;
-        console.log(values);
-        response = await axios.post(
-          "/api/professionnels/createProfessionnel",
-          values
-        );
-      }
-      if (response.data.redirectUrl) {
-        console.log(response.data.redirectUrl);
-        navigate(response.data.redirectUrl);
-      }
-    } catch (error) {
-      console.error("Error signing up:", error.response.data);
-      setShowAlert(true);
-      setAlertMessage(
-        error.response.data.message || "An error occurred during sign-up."
-      );
-    }
+    // TODO
+    // const formData = new FormData(event.target);
+    // const wilaya = formData.get('wilaya');
+    // const city = formData.get('city');
+    // const type = formData.get('type');
+
+    // try {
+    //   // Replace '/continueSignup' with the actual endpoint to post the form data
+    //   const response = await axios.post('/continueSignup', { wilaya, city, type });
+    //   if (response.data.redirectUrl) {
+    //     window.location.href = response.data.redirectUrl;
+    //   }
+    //   console.log('Response:', response.data);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
   };
-  const Auth = async () => {
-    window.open('http://localhost:3000/auth/google/callback');
-  }
 
   return (
     <div>
-      <h2 className="text-3xl text-center font-semibold mb-6">Sign Up</h2>
-      {showAlert && (
-        <Alert variant="destructive" className="mb-4">
-          {" "}
-          {/* Adjust styling as needed */}
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{alertMessage}</AlertDescription>
-        </Alert>
-      )}
-
-      <Button variant="white" className="w-full mb-4">
-        <FcGoogle className="mr-2" />
-        Continue with Google
-      </Button>
-      <Divider className="opacity-60">OR</Divider>
+      <h2 className="text-3xl text-center font-semibold mb-6">
+        7ot title l page hadi hna
+      </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-          <div className="flex space-x-4">
-            <FormField
-              control={form.control}
-              name="name.first"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="First name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name.last"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Last name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Your password"
-                      {...field}
-                      className="w-full pr-10"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2">
-                      {showPassword ? (
-                        <Eye
-                          className="m-2 h-4 w-4 shrink-0 opacity-50"
-                          onClick={togglePasswordVisibility}
-                        />
-                      ) : (
-                        <EyeOff
-                          className="m-2 h-4 w-4 shrink-0 opacity-50"
-                          onClick={togglePasswordVisibility}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="wilaya"
@@ -418,44 +274,10 @@ export default function SignUpForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="termsOfService"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex justify-center">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="terms"
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        {...field}
-                      />
-                      <Label htmlFor="terms">
-                        Yes, I understand and agree to the Terms of Service
-                      </Label>
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <Button type="submit" className="w-full mt-4">
-            Sign Up
+            Continue
           </Button>
-          <div className="text-center mt-4">
-            Already have an ccount?
-            <Link
-              to="/login"
-              className="text-primary underline-offset-4 hover:underline ml-1"
-            >
-              {" "}
-              Log in{" "}
-            </Link>
-          </div>
         </form>
       </Form>
     </div>

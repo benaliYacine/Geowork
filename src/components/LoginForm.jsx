@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
+import { FcGoogle } from "react-icons/fc";
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -73,8 +73,8 @@ export default function LoginForm() {
     }
   };
   const Auth = async () => {
-    window.open('http://localhost:3000/auth/google/callback');
-  }
+    window.open("http://localhost:3000/auth/google/callback");
+  };
 
   return (
     <div>
@@ -134,7 +134,8 @@ export default function LoginForm() {
       <div className="my-4">
         <Divider>OR</Divider>
       </div>
-      <Button variant="outline" onClick={Auth} className="w-full">
+      <Button variant="white" onClick={Auth} className="w-full">
+        <FcGoogle className="mr-2" />
         Continue with Google
       </Button>
       <div className="text-center mt-4">
