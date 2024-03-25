@@ -179,7 +179,7 @@ app.get('/info', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, asy
 });
 
 app.get('/InputWilayaCity', middlewars.requireLogin, (req,res)=>{
-    req.json("");
+    res.json("");
 });
 
 app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) => {
