@@ -52,12 +52,13 @@ passport.use(new GoogleStrategy({
                         verified: true
                     }
                     Session.signup.value = true;
+                } else {
+                    Session.loggedInUserId = user._id;
+                    Session.loggedInUserType = 'Professionnel'
                 }
-
-
-            }
-            if (!user) {
-                Session.signup.value = true;
+            } else {
+                Session.loggedInUserId = user._id;
+                Session.loggedInUserType = 'Client'
             }
             return cb(null, user);
         } catch (error) {

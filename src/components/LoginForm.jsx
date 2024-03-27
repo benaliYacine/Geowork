@@ -42,6 +42,7 @@ export default function LoginForm() {
     const checkLoggedIn = async () => {
       try {
         const response = await axios.get("/login");
+        console.log(response.data.redirectUrl);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
         }else

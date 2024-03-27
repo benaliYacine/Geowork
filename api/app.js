@@ -25,6 +25,12 @@ const Token = require("./models/token");
 const sendEmail = require('./utils/sendEmail');
 const crypto = require('crypto');
 const cors = require('cors');
+const WebSocket = require('ws');
+
+let user_id;
+let user_type;
+
+
 
 app.use(methodOverride('_method'));
 
@@ -52,6 +58,16 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000 // Durée de vie du cookie en millisecondes (ici, 24 heures)
     }
 }));
+
+app.use((req, res, next) => {
+
+    user_id = req.session.user_id;
+    user_type = req.session.user_type;
+    console.log(req.session.user_id);
+    next();
+});
+
+
 
 app.set('view engine', 'ejs');
 //app.set('views', 'views');
@@ -149,7 +165,6 @@ app.get('/signup', middlewars.requireLogin, (req, res) => {
     res.json("");
 });
 app.get('/login', middlewars.requireLogin, (req, res) => {
-
     //res.render('login');
     res.json("");
     //res.render('login');
@@ -178,16 +193,19 @@ app.get('/info', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, asy
     //res.render('professionnel/dashboard');
 });
 
-app.get('/InputWilayaCity', middlewars.requireLogin, (req,res)=>{
+app.get('/InputWilayaCity', middlewars.requireLogin, (req, res) => {
+    res.json("");
+});
+app.get('/chat', (req, res) => {
     res.json("");
 });
 
 app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) => {
     try {
         const pro = await Professionnel.findById(req.session.user_id);
-        if(!pro.profile.title)
-        res.json(pro); // Sending JSON response using `res` object
-        else req.json({redirectUrl:'/dashboard'});
+        if (!pro.profile.title)
+            res.json(pro); // Sending JSON response using `res` object
+        else req.json({ redirectUrl: '/dashboard' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' }); // Sending error response if there's an issue
@@ -234,10 +252,100 @@ app.get('/search', (req, res) => {
     }
 }
 )
+const Message = require("./models/message");
+app.post('/contact', async (req, res) => {
+    let user;
+    console.log(req.body.people);
+    if (req.session.user_type == 'Client') {
+        user = await Client.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
+        let array = user.contacts.map((c) => {
+            const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].text : '';
+            c.contactId.message=lastMessage;
+            console.log(lastMessage);
+            return c.contactId;
+        })
+        array = array.map((c) => {
+            const isActive = req.body.people.some(p => p.user_id == c._id);
+            return {name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: c.profile.photoProfile.url, isActive: isActive, time: '' }
+        })
+        console.log(array);
+        res.json(array);
+    } else if (req.session.user_type == 'Professionnel') {
+        user = await Professionnel.findById(req.session.user_id);
+    }
 
+});
+app.post('/addMessage', async (req, res) => {
+    try {
+        const { recipientId } = req.body;
+        // const cli=await Client.findById(req.body.recipientId);
+        // const pro=await Professionnel.findById(req.body.senderId);
+
+        const message = new Message({
+            senderId: req.body.senderId,
+            recipientId: req.body.recipientId,
+            senderType: req.body.senderType,
+            recipientType: req.body.recipientType,
+            text: req.body.text,
+            file: req.body.file
+        });
+
+        const saveMessage = await message.save();
+        const user = await Client.findById(recipientId);
+        console.log(user);
+        let exist = false;
+        user.contacts.map((c) => {
+            if (c.contactId == req.body.senderId || c.contactId == req.body.senderId) {
+                c.messages.push(saveMessage._id);
+                exist = true
+            }
+        });
+        if (!exist) {
+            user.contacts.push({ contactId: req.body.senderId, messages: [saveMessage._id] })
+        }
+        // user.contacts.map((c)=>{
+        //     if(c.contactId==message.senderId||c.contactId==message.recipientId){
+        //         c.messages.push(saveMessage._id);
+        //     }
+        // });
+        await user.save();
+        res.json('hello');
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+const server = app.listen(3000, () => {
+    console.log('Server is running at localhost:3000');
+});
 
 app.use((err, req, res, next) => { //error hundler middlware
     const { status = 500, message = 'Something went wrong' } = err;
     res.status(status).send(message);
 });
+
+const wss = new WebSocket.WebSocketServer({ server });
+
+
+
+wss.on('connection', (connection) => {
+
+
+    if (user_id) {
+        connection.user_id = user_id;
+        connection.user_type = user_type;
+    }
+
+    // Envoyer les informations de tous les clients connectés à tous les clients
+    const clientInfo = { online: [...wss.clients].map(c => ({ user_id: c.user_id, user_type: c.user_type })) };
+    [...wss.clients].forEach(client => {
+        client.send(JSON.stringify(clientInfo));
+    });
+});
+
+
+
+
+
+
 module.exports = app;

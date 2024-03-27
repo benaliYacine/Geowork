@@ -39,6 +39,16 @@ const clientSchema = new mongoose.Schema({
     },
     jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
     ,
+    contacts: [{
+        contactId: {
+            type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel'
+        },
+        messages: [{
+            type: mongoose.Schema.Types.ObjectId,
+            //required: true,
+            ref: 'Message'
+        }]
+    }],
     /* rate: {
         type: Number,
         default: 0,
