@@ -196,7 +196,7 @@ app.get('/info', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, asy
 app.get('/InputWilayaCity', middlewars.requireLogin, (req, res) => {
     res.json("");
 });
-app.get('/chat', (req, res) => {
+app.get('/chat', middlewars.isLoginIn, (req, res) => {
     res.json("");
 });
 
@@ -253,7 +253,7 @@ app.get('/search', (req, res) => {
 }
 )
 const Message = require("./models/message");
-app.post('/contact', async (req, res) => {
+app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     let user;
     console.log(req.body.people);
     if (req.session.user_type == 'Client') {
