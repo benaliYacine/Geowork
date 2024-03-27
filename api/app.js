@@ -258,26 +258,40 @@ app.post('/contact', async (req, res) => {
     console.log(req.body.people);
     if (req.session.user_type == 'Client') {
         user = await Client.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
-        let array = user.contacts.map((c) => {
-            const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].text : '';
-            c.contactId.message=lastMessage;
-            console.log(lastMessage);
-            return c.contactId;
-        })
-        array = array.map((c) => {
-            const isActive = req.body.people.some(p => p.user_id == c._id);
-            return {name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: c.profile.photoProfile.url, isActive: isActive, time: '' }
-        })
-        console.log(array);
-        res.json(array);
+        
+
     } else if (req.session.user_type == 'Professionnel') {
-        user = await Professionnel.findById(req.session.user_id);
+        user = await Professionnel.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
     }
+    console.log(user);
+    let array = user.contacts.map((c) => {
+        
+        const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].text : '';
+        const lastMessageTime = c.messages.length > 0 ? c.messages[c.messages.length - 1].time : '';
+        
+            c.contactId.id=c._id;
+            c.contactId.message = lastMessage;
+            c.contactId.time = lastMessageTime;
+        
+        console.log(lastMessage);
+        return c.contactId;
+    })
+    console.log(array);
+    array = array.map((c) => {
+        const avatarUrl = req.session.user_type == 'Professionnel' ? c.photoProfile.url : c.profile.photoProfile.url;
+        const time = `${c.time.getHours()}:${c.time.getMinutes()} ${c.time.getHours() >= 12 ? 'PM' : 'AM'}`
+        const isActive = req.body.people.some(p => p.user_id == c._id);
+        console.log('fdaskjruigmflksadmfnuif', c._id); //hada id de type objectId w ki na7i _ ywali string
+        return { id:c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
+    })
+    console.log(array);
+    res.json(array);
+    
 
 });
 app.post('/addMessage', async (req, res) => {
     try {
-        const { recipientId } = req.body;
+        const { recipientId, senderId ,senderType } = req.body;
         // const cli=await Client.findById(req.body.recipientId);
         // const pro=await Professionnel.findById(req.body.senderId);
 
@@ -291,24 +305,40 @@ app.post('/addMessage', async (req, res) => {
         });
 
         const saveMessage = await message.save();
-        const user = await Client.findById(recipientId);
-        console.log(user);
+        const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
+        const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
+        console.log(cli);
+        console.log(pro);
         let exist = false;
-        user.contacts.map((c) => {
-            if (c.contactId == req.body.senderId || c.contactId == req.body.senderId) {
+        cli.contacts.map((c) => {
+            if (c.contactId == req.body.senderId || c.contactId == req.body.recipientId) {
                 c.messages.push(saveMessage._id);
                 exist = true
             }
         });
         if (!exist) {
-            user.contacts.push({ contactId: req.body.senderId, messages: [saveMessage._id] })
+            const contactId= senderType == 'Client' ? req.body.recipientId : req.body.senderId;
+            cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
         }
+        exist = false;
+        pro.contacts.map((c) => {
+            if (c.contactId == req.body.senderId || c.contactId == req.body.recipientId) {
+                c.messages.push(saveMessage._id);
+                exist = true
+            }
+        });
+        if (!exist) {
+            const contactId= senderType == 'Professionnel' ? req.body.recipientId : req.body.senderId
+            pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+        }
+        
         // user.contacts.map((c)=>{
         //     if(c.contactId==message.senderId||c.contactId==message.recipientId){
         //         c.messages.push(saveMessage._id);
         //     }
         // });
-        await user.save();
+        await cli.save();
+        await pro.save();
         res.json('hello');
     } catch (e) {
         console.error(e);

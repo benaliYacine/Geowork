@@ -8,7 +8,7 @@ function ContactItem({
   time = "21 Feb",
   isActive = false, // Added isActive prop
 }) {
-  const previewMessage = message.length > 15 ? `${message.split(" ").slice(0, 5).join(" ")}...` : `${message.split(" ").slice(0, 5).join(" ")}`;
+  const previewMessage = message.length > 10 ? `${message.split(" ").slice(0, 5).join(" ")}...` : `${message.split(" ").slice(0, 5).join(" ")}`;
 
   return (
     <div className="flex items-center p-4 hover:bg-gray-100 cursor-pointer">

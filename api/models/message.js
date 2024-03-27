@@ -21,6 +21,10 @@ const messageSchema = new mongoose.Schema({
         enum: ['Client', 'Professionnel']
     },
     text: String,
+    time: {
+        type:Date,
+        default:Date.now
+    },
     file: String,
 });
 

@@ -125,8 +125,14 @@ const professionnelSchema = new mongoose.Schema({
             type: String
         },
         photoProfile: {
-            url: String,
-            filename: String
+            url: {
+                type:String,
+                default:''
+            },
+            filename: {
+                type:String,
+                default:''
+            },
         },
         dateBirthday: {
             jour: Number,
@@ -142,7 +148,17 @@ const professionnelSchema = new mongoose.Schema({
             max: 5
         }
 
-    }
+    },
+    contacts: [{
+        contactId: {
+            type: mongoose.Schema.Types.ObjectId, ref: 'Client'
+        },
+        messages: [{
+            type: mongoose.Schema.Types.ObjectId,
+            //required: true,
+            ref: 'Message'
+        }]
+    }],
 
 })
 professionnelSchema.statics.findAndValidate = async function (email, password) {

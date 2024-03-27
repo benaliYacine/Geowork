@@ -30,8 +30,14 @@ const clientSchema = new mongoose.Schema({
         required: true
     },
     photoProfile: {
-        url: String,
-        filename: String
+        url: {
+            type:String,
+            default:''
+        },
+        filename: {
+            type:String,
+            default:''
+        },
     },
     verified: {
         type: Boolean,

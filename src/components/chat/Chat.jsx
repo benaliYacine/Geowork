@@ -27,7 +27,7 @@ export default function Chat() {
   }, []);
   // Placeholder for data fetching and state management
 
-  const showOnlinePeople = async (people) => {
+  const showPeople = async (people) => {
     const response = await axios.post('/contact',{people});
     console.log('afsdasdffadsdfas',response.data);
     if(response.data)
@@ -39,7 +39,7 @@ export default function Chat() {
   const handleSendMessage = (message) => {
     const messageData = JSON.parse(message.data);
     console.log(message);
-      showOnlinePeople(messageData.online)
+      showPeople(messageData.online)
 
     // message.data.text().then(messageString =>{
     //   console.log(messageString); 
