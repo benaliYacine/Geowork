@@ -253,7 +253,7 @@ export default function SignUpForm() {
                       <Button
                         variant="white"
                         role="combobox"
-                        className="w-full justify-between"
+                        className="w-full justify-between hover:scale-100 rounded-md"
                       >
                         {field.value
                           ? wilayas.find(
@@ -309,7 +309,7 @@ export default function SignUpForm() {
                       <Button
                         variant="white"
                         role="combobox"
-                        className="w-full justify-between"
+                        className="w-full justify-between hover:scale-100 rounded-md"
                       >
                         {field.value
                           ? filteredCities.find(

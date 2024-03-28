@@ -32,7 +32,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { categories } from "../data/categories";
+import { categories } from "../../data/categories";
 
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
@@ -116,7 +116,7 @@ export default function SlideTwo({
                       <Button
                         variant="white"
                         role="combobox"
-                        className="w-full justify-between"
+                        className="w-full justify-between hover:scale-100 rounded-md"
                       >
                         {field.value
                           ? categories.find(
@@ -173,7 +173,7 @@ export default function SlideTwo({
                       <Button
                         variant="white"
                         role="combobox"
-                        className="w-full justify-between"
+                        className="w-full justify-between hover:scale-100 rounded-md"
                       >
                         {field.value
                           ? subCategories.find(

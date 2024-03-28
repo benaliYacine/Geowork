@@ -18,13 +18,14 @@ import { Input } from "@/components/ui/input";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FcGoogle } from "react-icons/fc";
-
+import EmploymentCard from "./EmploymentCard";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   roleTitle: z.string().min(1, "Role title is required"),
 });
 
-export default function SlideOne({
+export default function SlideTree({
   submitFormRef,
   inc,
   profileInfo,
@@ -50,39 +51,24 @@ export default function SlideOne({
   }, [submitFormRef, onSubmit]);
 
   return (
-    <div className="  ">
-      {" "}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="text-md text-primary font-header mb-2">
-            1/7 Profile
-          </div>
-          <h2 className="text-4xl font-bold mb-4">
-            Ok, let's start with a strong title that describes what you do.
-          </h2>
-          <p className="text-md text-greyDark mb-4">
-            It’s the very first thing clients see, so make it count. Stand out
-            by describing your expertise in your own words.
-          </p>
-          <FormField
-            control={form.control}
-            name="roleTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Role Title</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Your professional role"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
+    <div className="space-y-4">
+      <div className="text-md text-primary font-header mb-2">3/7 Profile</div>
+      <h2 className="text-4xl font-bold mb-4">
+        Add Your Company Employment History
+      </h2>
+      <p className="text-md text-greyDark mb-4">
+        Highlight your formal work experience here. Roles in companies or
+        organizations showcase your professional journey and expertise.
+      </p>
+      <ScrollArea className="h-full w-full">
+        <div className="flex w-max space-x-4 p-4">
+          <EmploymentCard />
+          <EmploymentCard />
+          <EmploymentCard />
+          <EmploymentCard />
+        </div>{" "}
+        <ScrollBar className="hidden" orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 }

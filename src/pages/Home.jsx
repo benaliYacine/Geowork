@@ -36,7 +36,6 @@ function Home() {
       <hr />
       <br />
       <Link to="/profileSlides">Go to profileSlides Page</Link>
-      {/* <Progress value={33} /> */}
 
     </div>
   );

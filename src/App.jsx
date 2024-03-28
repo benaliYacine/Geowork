@@ -11,6 +11,7 @@ import NoPage from "./pages/NoPage";
 import WelcomePro from "./pages/WelcomePro";
 import InputWilayaCity from "./pages/InputWilayaCity";
 import ProfileSlides from "./pages/ProfileSlides";
+
 import axios from "axios";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
@@ -34,6 +35,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
+
     </div>
   );
 }

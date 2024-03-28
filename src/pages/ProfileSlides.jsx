@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import React, { useState, useRef } from "react";
 
 // Placeholder for your slide components
-import SlideOne from "../components/SlideOne";
-import SlideTwo from "../components/SlideTwo";
-import SlideThree from "../components/SlideThree";
-import SlideFour from "../components/SlideFour";
-import SlideFive from "../components/SlideFive";
-import SlideSix from "../components/SlideSix";
-import SlideSeven from "../components/SlideSeven";
+import SlideOne from "../components/profile_slides/SlideOne";
+import SlideTwo from "../components/profile_slides/SlideTwo";
+import SlideThree from "../components/profile_slides/SlideThree";
+import SlideFour from "../components/profile_slides/SlideFour";
+import SlideFive from "../components/profile_slides/SlideFive";
+import SlideSix from "../components/profile_slides/SlideSix";
+import SlideSeven from "../components/profile_slides/SlideSeven";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 
