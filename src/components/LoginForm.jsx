@@ -78,7 +78,7 @@ export default function LoginForm() {
 
   return (
     <div>
-      <h2 className="text-3xl text-center font-semibold mb-6">Log In</h2>
+      <h2 className="text-center font-sans font-bold text-4xl mb-6">Log In</h2>
       {showAlert && (
         <Alert variant="destructive" className="mb-4">
           {" "}

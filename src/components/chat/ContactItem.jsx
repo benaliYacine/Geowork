@@ -11,8 +11,8 @@ function ContactItem({
   const previewMessage = `${message.split(" ").slice(0, 5).join(" ")}...`;
 
   return (
-    <div className="flex items-center p-4 hover:bg-gray-100 cursor-pointer">
-      <div className="relative mr-4">
+    <div className="flex items-center p-2 pr-4 hover:bg-gray-100 cursor-pointer">
+      <div className="relative mr-2">
         {" "}
         {/* Make this div relative */}
         <Avatar>

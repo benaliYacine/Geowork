@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import WelcomePro from "./pages/WelcomePro";
 import InputWilayaCity from "./pages/InputWilayaCity";
+import ProfileSlides from "./pages/ProfileSlides";
 import axios from "axios";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
@@ -29,6 +30,7 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/welcomePro" element={<WelcomePro />} />
+          <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

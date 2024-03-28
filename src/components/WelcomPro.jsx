@@ -7,7 +7,7 @@ export default function WelcomPro({ firstName = "Name" }) {
         <h1 className="text-4xl font-bold mb-4">
           Hey {firstName}. Ready for your next big opportunity?
         </h1>
-        <p className="text-lg mb-2">Let's start by building your profile.</p>
+        <p className="text-lg mb-4">Let's start by building your profile.</p>
         <Button variant="default" size="lg">
           Create Profile
         </Button>

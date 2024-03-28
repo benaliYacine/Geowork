@@ -45,7 +45,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       <div
         className={`px-4 py-2 my-1 mx-2  ${
           isOwnMessage
-            ? "bg-secondary2 rounded-s-lg rounded-t-lg"
+            ? "bg-secondaryo rounded-s-lg rounded-t-lg"
             : "bg-white rounded-e-lg rounded-t-lg"
         }`}
       >

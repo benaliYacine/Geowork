@@ -87,7 +87,7 @@ export default function InputWilayaCity() {
 
   return (
     <div>
-      <h2 className="text-3xl text-center font-semibold mb-6">
+      <h2 className="text-center font-sans font-bold text-4xl mb-6">
         7ot title l page hadi hna
       </h2>
       <Form {...form}>
