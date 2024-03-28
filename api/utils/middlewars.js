@@ -45,9 +45,10 @@ exports.requireLoginProfessionnel = (req, res, next) => {
 exports.requireLogin = (req, res, next) => {
     try {
         // Vérifier si un utilisateur est connecté
-        if (req.session && req.session.user_type) {
+        if (req.session && req.session.user_id) {
             // Si un utilisateur est connecté, rediriger vers le tableau de bord
             return res.json({ redirectUrl: '/dashboard' });
+            //return res.redirect('/dashboard');
         }
 
         // Si aucun utilisateur n'est connecté, passer au middleware suivant
@@ -72,7 +73,7 @@ exports.verifyProfessionnelProfil = async (req, res, next) => {
 
             if (!pro.profile.added) {
                 // Si le profil n'a pas été ajouté, rediriger vers la page pour ajouter le profil professionnel
-                return res.json({ redirectUrl: '/pr/addProfile' });
+                return res.json({ redirectUrl: '/welcomePro' });
             }
         }
 

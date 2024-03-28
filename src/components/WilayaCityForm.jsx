@@ -52,8 +52,28 @@ export default function InputWilayaCity() {
       city: "",
     },
   });
-
+  const [loading, setLoading] = useState(true);
   const [filteredCities, setFilteredCities] = useState([]);
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        console.log('je suis la');
+        const response = await axios.get("/InputWilayaCity");
+        if (response.data.redirectUrl) {
+          navigate(response.data.redirectUrl);
+        } else
+          setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    checkLoggedIn();
+
+    return () => {
+      // Cleanup function if needed
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -67,28 +87,30 @@ export default function InputWilayaCity() {
 
   const onSubmit = async (values) => {
     console.log(values);
+
     // TODO
     // const formData = new FormData(event.target);
     // const wilaya = formData.get('wilaya');
     // const city = formData.get('city');
     // const type = formData.get('type');
 
-    // try {
-    //   // Replace '/continueSignup' with the actual endpoint to post the form data
-    //   const response = await axios.post('/continueSignup', { wilaya, city, type });
-    //   if (response.data.redirectUrl) {
-    //     window.location.href = response.data.redirectUrl;
-    //   }
-    //   console.log('Response:', response.data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
+    try {
+      // Replace '/continueSignup' with the actual endpoint to post the form data
+      const response = await axios.post('/continueSignup', values);
+      console.log('Response:', response.data);
+      if (response.data.redirectUrl) {
+        window.location.href = response.data.redirectUrl;
+      } 
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
-
+  if (loading) return (<div></div>);
   return (
     <div>
-      <h2 className="text-center font-sans font-bold text-4xl mb-6">
-        7ot title l page hadi hna
+      <h2 className="text-3xl text-center font-semibold mb-6">
+        Complete Sign Up
       </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
@@ -108,8 +130,8 @@ export default function InputWilayaCity() {
                       >
                         {field.value
                           ? wilayas.find(
-                              (wilaya) => wilaya.value === field.value
-                            )?.label
+                            (wilaya) => wilaya.value === field.value
+                          )?.label
                           : "Select wilaya"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -129,11 +151,10 @@ export default function InputWilayaCity() {
                               }}
                             >
                               <Check
-                                className={` mr-2 h-4 w-4 ${
-                                  wilaya.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                }`}
+                                className={` mr-2 h-4 w-4 ${wilaya.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                                  }`}
                               />
                               {wilaya.label}
                             </CommandItem>
@@ -165,8 +186,8 @@ export default function InputWilayaCity() {
                       >
                         {field.value
                           ? filteredCities.find(
-                              (city) => city.value === field.value
-                            )?.label
+                            (city) => city.value === field.value
+                          )?.label
                           : "Select a city"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -188,11 +209,10 @@ export default function InputWilayaCity() {
                                   }
                                 >
                                   <Check
-                                    className={`mr-2 h-4 w-4 ${
-                                      city.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    }`}
+                                    className={`mr-2 h-4 w-4 ${city.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                      }`}
                                   />
                                   {city.label}
                                 </CommandItem>
