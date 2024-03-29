@@ -49,26 +49,31 @@ export default function SlideTree({
   profileInfo,
   updateProfileInfo,
 }) {
-  const [employments, setEmployments] = useState([]);
+  // const [employments, setEmployments] = useState([]);
 
   const addEmployment = (newEmployment) => {
-    setEmployments((currentEmployments) => [
-      ...currentEmployments,
-      newEmployment,
-    ]);
+    updateProfileInfo({
+      employments: [...profileInfo.employments, newEmployment],
+    });
   };
 
   const deleteEmployment = (indexToDelete) => {
-    setEmployments((currentEmployments) =>
-      currentEmployments.filter((_, index) => index !== indexToDelete)
+    const filteredEmployments = profileInfo.employments.filter(
+      (_, index) => index !== indexToDelete
     );
+    updateProfileInfo({
+      employments: filteredEmployments,
+    });
   };
+
   const editEmployment = (indexToEdit, updatedEmployment) => {
-    setEmployments((currentEmployments) =>
-      currentEmployments.map((employment, index) =>
+    const updatedEmployments = profileInfo.employments.map(
+      (employment, index) =>
         index === indexToEdit ? updatedEmployment : employment
-      )
     );
+    updateProfileInfo({
+      employments: updatedEmployments,
+    });
   };
 
   const form = useForm({
@@ -100,7 +105,7 @@ export default function SlideTree({
         Highlight your formal work experience here. Roles in companies or
         organizations showcase your professional journey and expertise.
       </p>
-      {employments.length === 0 ? (
+      {profileInfo.employments.length === 0 ? (
         <EmploymentCard addEmployment={addEmployment} />
       ) : (
         <div className="flex flex-row items-center justify-center gap-2">
@@ -109,7 +114,7 @@ export default function SlideTree({
           <AddEmploymentButton addEmployment={addEmployment} />
           <ScrollArea className="h-full w-full">
             <div className="flex w-max space-x-4 p-4">
-              {employments.map((employment, index) => (
+              {profileInfo.employments.map((employment, index) => (
                 <EmploymentDetailCard
                   key={index}
                   employment={employment}

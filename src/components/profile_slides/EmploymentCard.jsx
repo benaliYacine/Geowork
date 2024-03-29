@@ -24,7 +24,7 @@ const EmploymentCard = ({
       <img src={emp} alt="employment" className="w-16 h-16 rounded-full" />
       <div className="flex-grow p-1 flex flex-col gap-2 overflow-hidden">
         <div className="flex gap-2 items-start">
-          <h3 className="text-3xl font-medium font-sans text-foreground flex-grow">
+          <h3 className="text-2xl  line-clamp-2 font-medium font-sans text-foreground flex-grow">
             {title}
           </h3>
           <div className="flex gap-2">
@@ -41,7 +41,7 @@ const EmploymentCard = ({
           {company} | {location}
         </div>
         <div className="text-sm text-greyDark">{displayDate}</div>
-        <p className="text-black line-clamp-3 overflow-hidden">{description}</p>
+        <p className="text-black line-clamp-2 overflow-hidden">{description}</p>
       </div>
     </div>
   );

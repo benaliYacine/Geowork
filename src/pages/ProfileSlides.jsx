@@ -21,6 +21,44 @@ const ProfileSlides = () => {
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
     category: "education_and_tutoring",
     subCategory: "math_tutor",
+    employments: [
+      {
+        title: "memba3d na7iha",
+        company: "test",
+        Location: "test",
+        currentlyIn: true,
+        date: {
+          start: {
+            month: "2",
+            year: "2020",
+          },
+          end: {
+            month: "2",
+            year: "2021",
+          },
+        },
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+      {
+        title: "memba3d na7iha",
+        company: "test",
+        Location: "test",
+        currentlyIn: true,
+        date: {
+          start: {
+            month: "1",
+            year: "2020",
+          },
+          end: {
+            month: "1",
+            year: "2021",
+          },
+        },
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+    ],
   });
 
   // Function to update profile information
