@@ -11,25 +11,39 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Trash2 } from "lucide-react";
 import IconButton from "../common/IconButton";
-export default function DeleteEmploymentButton() {
+import React, { useState } from "react";
+
+export default function DeleteEmploymentButton({ onDelete }) {
+  const [isActionTaken, setIsActionTaken] = useState(false);
+
+  const handleAction = () => {
+    setIsActionTaken(true);
+  };
+
+  const handleClose = () => {
+    if (isActionTaken) {
+      onDelete();
+      setIsActionTaken(false); // Reset the state for the next interaction
+    }
+  };
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        
+    <AlertDialog onOpenChange={handleClose}>
+      <AlertDialogTrigger asChild>
+        <IconButton>
           <Trash2 className="h-4 w-4" />
-        
+        </IconButton>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Remove Company Employment</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Are you sure you want to remove this employment from your profile?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogCancel variant="white">Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleAction}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -100,26 +100,26 @@ import {
 } from "@/components/ui/dialog";
 
 import emp from "../../assets/illustrations/emp.svg";
-function AddEmploymentButton({ addEmployment }) {
+function EditEmploymentButton({employment, onEdit}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // title: "",
-      // company: "",
-      // Location: "",
-      // currentlyIn: false,
-      // date: {
-      //   start: {
-      //     month: "",
-      //     year: "2020",
-      //   },
-      //   end: {
-      //     month: "",
-      //     year: "2021",
-      //   },
-      // },
-      // description: "",
+      title: employment.title,
+      company: employment.company,
+      Location: employment.Location,
+      currentlyIn: employment.currentlyIn,
+      date: {
+        start: {
+          month: months[employment.date.start.month-1],
+          year: employment.date.start.year,
+        },
+        end: {
+          month: months[employment.date.end.month-1],
+          year: employment.date.end.year,
+        },
+      },
+      description: employment.description,
     },
   });
   const currentlyIn = form.watch("currentlyIn");
@@ -143,18 +143,16 @@ function AddEmploymentButton({ addEmployment }) {
       description: values.description,
     };
 
-    addEmployment(newEmployment); // Assuming you have destructured props
+    onEdit(newEmployment);
     setDialogOpen(false);
   };
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton variant="primary" className="self-center">
-          {" "}
-          {/* Ensure the icon is vertically centered */}
-          <Plus className="h-5 w-5" />
-        </IconButton>
+      <IconButton>
+          <Pencil className="h-4 w-4" />
+      </IconButton>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
@@ -163,7 +161,7 @@ function AddEmploymentButton({ addEmployment }) {
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Add Company Employment
+                  Edit Company Employment
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
@@ -553,4 +551,4 @@ function AddEmploymentButton({ addEmployment }) {
   );
 }
 
-export default AddEmploymentButton;
+export default EditEmploymentButton;

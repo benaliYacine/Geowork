@@ -84,7 +84,7 @@ const formSchema = z.object({
     }),
 });
 
-import IconButton from "../../components/common/IconButton";
+import IconButton from "../common/IconButton";
 import { Plus } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Trash2 } from "lucide-react";
@@ -98,28 +98,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import emp from "../../assets/illustrations/emp.svg";
-function AddEmploymentButton({ addEmployment }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
+function AddEmploymentCard({ onClick, addEmployment }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // title: "",
-      // company: "",
-      // Location: "",
-      // currentlyIn: false,
-      // date: {
-      //   start: {
-      //     month: "",
-      //     year: "2020",
-      //   },
-      //   end: {
-      //     month: "",
-      //     year: "2021",
-      //   },
-      // },
-      // description: "",
+      title: "",
+      company: "",
+      Location: "",
+      currentlyIn: false,
     },
   });
   const currentlyIn = form.watch("currentlyIn");
@@ -144,17 +131,22 @@ function AddEmploymentButton({ addEmployment }) {
     };
 
     addEmployment(newEmployment); // Assuming you have destructured props
-    setDialogOpen(false);
   };
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <IconButton variant="primary" className="self-center">
-          {" "}
-          {/* Ensure the icon is vertically centered */}
-          <Plus className="h-5 w-5" />
-        </IconButton>
+        <div
+          className="w-96 h-52 p-8 bg-secondaryo rounded-3xl border border-dashed border-primary cursor-pointer flex flex-col justify-center items-start gap-4 transition duration-300 ease-in-out transform active:scale-100 hover:scale-105"
+          onClick={onClick}
+        >
+          <div className="text-foreground text-3xl font-medium font-sans capitalize leading-tight flex flex-col gap-1">
+            <IconButton variant="primary">
+              <Plus className="h-5 w-5" />
+            </IconButton>
+            Add Employment
+          </div>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
@@ -553,4 +545,4 @@ function AddEmploymentButton({ addEmployment }) {
   );
 }
 
-export default AddEmploymentButton;
+export default AddEmploymentCard;
