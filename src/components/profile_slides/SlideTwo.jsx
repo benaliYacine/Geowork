@@ -131,7 +131,7 @@ export default function SlideTwo({
                     <Command>
                       <CommandEmpty>No category found.</CommandEmpty>
                       <CommandGroup>
-                        <ScrollArea className="h-72 w-48 rounded-md">
+                        <ScrollArea className="h-max-72 w-48 rounded-md">
                           {categories.map((category) => (
                             <CommandItem
                               key={category.value}

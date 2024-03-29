@@ -5,6 +5,21 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
+/**
+ * Generates an array of years from startYear to endYear.
+ * @param {number} startYear - The starting year of the range.
+ * @param {number} endYear - The ending year of the range.
+ * @returns {number[]} An array containing every year from startYear to endYear.
+ */
+export const getYearsRange = (startYear, endYear) => {
+  const years = [];
+  for (let year = startYear; year <= endYear; year++) {
+    years.push(year);
+  }
+  return years;
+};
+
+
 
 //----------zod : ex
 

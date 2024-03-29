@@ -30,8 +30,8 @@ const employments = [
     company: "Tech Innovations Inc.",
     Location: "San Francisco, CA",
     date: {
-      start: { mois: 5, anee: 2018 },
-      end: { mois: null, anee: null }, // Present
+      start: { month: 5, year: 2018 },
+      end: { month: null, year: null }, // Present
     },
     description: "Developing and maintaining high-traffic web applications.",
   },
@@ -41,8 +41,8 @@ const employments = [
     company: "Creative Solutions Ltd.",
     Location: "New York, NY",
     date: {
-      start: { mois: 3, anee: 2015 },
-      end: { mois: 4, anee: 2018 },
+      start: { month: 3, year: 2015 },
+      end: { month: 4, year: 2018 },
     },
     description: "Led a team of developers in creating software solutions.",
   },
@@ -52,8 +52,8 @@ const employments = [
     company: "Web and Apps Studio",
     Location: "Los Angeles, CA",
     date: {
-      start: { mois: 8, anee: 2012 },
-      end: { mois: 2, anee: 2015 },
+      start: { month: 8, year: 2012 },
+      end: { month: 2, year: 2015 },
     },
     description: "Focused on front-end development and UX/UI design.",
   },
@@ -63,8 +63,8 @@ const employments = [
     company: "Startup Hub",
     Location: "Austin, TX",
     date: {
-      start: { mois: 6, anee: 2011 },
-      end: { mois: 7, anee: 2012 },
+      start: { month: 6, year: 2011 },
+      end: { month: 7, year: 2012 },
     },
     description:
       "Gained valuable experience in software development and startup culture.",
@@ -113,7 +113,7 @@ export default function SlideTree({
         Highlight your formal work experience here. Roles in companies or
         organizations showcase your professional journey and expertise.
       </p>
-      {employments.length === 0 ? (
+      {employments2.length === 0 ? (
         <EmploymentCard />
       ) : (
         <div className="flex flex-row items-center justify-center gap-2">
@@ -133,11 +133,11 @@ export default function SlideTree({
                   currentlyIn={employment.currentlyIn}
                   company={employment.company}
                   location={employment.Location}
-                  startDate={`${employment.date.start.mois}/${employment.date.start.anee}`}
+                  startDate={`${employment.date.start.month}/${employment.date.start.year}`}
                   endDate={
                     employment.currentlyIn
                       ? "Present"
-                      : `${employment.date.end.mois}/${employment.date.end.anee}`
+                      : `${employment.date.end.month}/${employment.date.end.year}`
                   }
                   description={employment.description}
                   onEdit={() => {
