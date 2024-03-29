@@ -98,8 +98,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import emp from "../../assets/illustrations/emp.svg";
-function EmploymentCard({ onClick, addEmployment }) {
+function AddEmploymentButton({ onClick, addEmployment }) {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -131,22 +133,17 @@ function EmploymentCard({ onClick, addEmployment }) {
     };
 
     addEmployment(newEmployment); // Assuming you have destructured props
+    setDialogOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <div
-          className="w-96 h-52 p-8 bg-secondaryo rounded-3xl border border-dashed border-primary cursor-pointer flex flex-col justify-center items-start gap-4 transition duration-300 ease-in-out transform active:scale-100 hover:scale-105"
-          onClick={onClick}
-        >
-          <div className="text-foreground text-3xl font-medium font-sans capitalize leading-tight flex flex-col gap-1">
-            <IconButton variant="primary">
-              <Plus className="h-5 w-5" />
-            </IconButton>
-            Add Employment
-          </div>
-        </div>
+        <IconButton onClick={onClick} variant="primary" className="self-center">
+          {" "}
+          {/* Ensure the icon is vertically centered */}
+          <Plus className="h-5 w-5" />
+        </IconButton>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
@@ -545,4 +542,4 @@ function EmploymentCard({ onClick, addEmployment }) {
   );
 }
 
-export default EmploymentCard;
+export default AddEmploymentButton;

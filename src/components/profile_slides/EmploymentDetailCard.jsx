@@ -2,7 +2,7 @@ import React from "react";
 import IconButton from "../common/IconButton";
 import { Pencil, Trash2 } from "lucide-react";
 import emp from "../../assets/illustrations/emp.svg";
-
+import DeleteEmploymentButton from "./DeleteEmploymentButton";
 const EmploymentDetailCard = ({
   title = "test",
   currentlyIn = true,
@@ -28,9 +28,7 @@ const EmploymentDetailCard = ({
             <IconButton variant="primary" onClick={onEdit}>
               <Pencil className="h-4 w-4" />
             </IconButton>
-            <IconButton variant="primary" onClick={onDelete}>
-              <Trash2 className="h-4 w-4" />
-            </IconButton>
+            <DeleteEmploymentButton/>
           </div>
         </div>
         <div className="text-sm text-greyDark">
