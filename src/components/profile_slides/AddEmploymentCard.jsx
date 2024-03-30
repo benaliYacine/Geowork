@@ -336,7 +336,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                         onSelect={() => {
                                           form.setValue(
                                             "date.start.year",
-                                            +year
+                                            year
                                           );
                                           form.setValue("startYearSearch", ""); // Clear search after selection
                                         }}
@@ -477,7 +477,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                           onSelect={() => {
                                             form.setValue(
                                               "date.end.year",
-                                              +year
+                                              year
                                             );
                                             form.setValue("endYearSearch", ""); // Clear search after selection
                                           }}

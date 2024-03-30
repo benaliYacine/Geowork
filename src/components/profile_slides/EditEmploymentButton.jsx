@@ -342,7 +342,7 @@ function EditEmploymentButton({employment, onEdit}) {
                                         onSelect={() => {
                                           form.setValue(
                                             "date.start.year",
-                                            +year
+                                            year
                                           );
                                           form.setValue("startYearSearch", ""); // Clear search after selection
                                         }}
@@ -483,7 +483,7 @@ function EditEmploymentButton({employment, onEdit}) {
                                           onSelect={() => {
                                             form.setValue(
                                               "date.end.year",
-                                              +year
+                                              year
                                             );
                                             form.setValue("endYearSearch", ""); // Clear search after selection
                                           }}

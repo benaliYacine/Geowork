@@ -344,7 +344,7 @@ function AddEmploymentButton({ addEmployment }) {
                                         onSelect={() => {
                                           form.setValue(
                                             "date.start.year",
-                                            +year //wlat haka miin rdina el year number kaner bekri year.toString() ki kan string
+                                            year
                                           );
                                           form.setValue("startYearSearch", ""); // Clear search after selection
                                         }}
@@ -485,7 +485,7 @@ function AddEmploymentButton({ addEmployment }) {
                                           onSelect={() => {
                                             form.setValue(
                                               "date.end.year",
-                                              +year
+                                              year
                                             );
                                             form.setValue("endYearSearch", ""); // Clear search after selection
                                           }}
