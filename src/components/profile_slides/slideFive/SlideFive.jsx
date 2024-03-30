@@ -4,9 +4,9 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import AddEmploymentCard from "@/components/profile_slides/slideTree/AddEmploymentCard";
-import AddEmploymentButton from "@/components/profile_slides/slideTree/AddEmploymentButton";
-import EmploymentCard from "@/components/profile_slides/slideTree/EmploymentCard";
+import AddEmploymentCard from "@/components/profile_slides/slideThree/AddEmploymentCard";
+import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmploymentButton";
+import EmploymentCard from "@/components/profile_slides/slideThree/EmploymentCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const months = [
@@ -23,10 +23,7 @@ const months = [
   "November",
   "December",
 ];
-// Define your schema for SlideOne
-const slideOneSchema = z.object({
-  roleTitle: z.string().min(1, "Role title is required"),
-});
+
 
 export default function SlideTree({
   submitFormRef,
@@ -62,14 +59,10 @@ export default function SlideTree({
   };
 
   const form = useForm({
-    resolver: zodResolver(slideOneSchema),
-    defaultValues: {
-      roleTitle: profileInfo.roleTitle,
-    },
+    
   });
 
   const onSubmit = form.handleSubmit((values) => {
-    updateProfileInfo({ roleTitle: values.roleTitle });
     inc(); // gedem el slide id al form valid
     // Proceed with your onSave logic or form values handling here
     console.log(values); // Handle the form values, for example, saving it

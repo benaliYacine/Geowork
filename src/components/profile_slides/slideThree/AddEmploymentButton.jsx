@@ -24,7 +24,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import EmploymentForm from "@/components/profile_slides/slideTree/EmploymentForm";
+import EmploymentForm from "@/components/profile_slides/slideThree/EmploymentForm";
 // Assuming you've imported the getYearsRange function and necessary UI components
 const monthItems = [
   { value: "January", label: "January" },

@@ -1,9 +1,9 @@
 import React from "react";
 
 import emp from "@/assets/illustrations/emp.svg";
-import DeleteEmploymentButton from "@/components/profile_slides/slideTree/DeleteEmploymentButton";
+import DeleteEmploymentButton from "@/components/profile_slides/slideThree/DeleteEmploymentButton";
 
-import EditEmploymentButton from "@/components/profile_slides/slideTree/EditEmploymentButton";
+import EditEmploymentButton from "@/components/profile_slides/slideThree/EditEmploymentButton";
 const EmploymentCard = ({
   title,
   currentlyIn,

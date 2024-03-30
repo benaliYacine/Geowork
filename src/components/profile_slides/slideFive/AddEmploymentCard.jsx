@@ -4,14 +4,14 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import { Form, FormLabel } from "@/components/ui/form";
 
 import { getYearsRange } from "@/lib/utils";
 // Assuming you've imported the getYearsRange function and necessary UI components
 
-import EmploymentForm from "@/components/profile_slides/slideTree/EmploymentForm";
+import EmploymentForm from "@/components/profile_slides/slideThree/EmploymentForm";
 // Assuming you've imported the getYearsRange function and necessary UI components
 const monthItems = [
   { value: "January", label: "January" },
@@ -26,21 +26,6 @@ const monthItems = [
   { value: "October", label: "October" },
   { value: "November", label: "November" },
   { value: "December", label: "December" },
-];
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
 ];
 
 const currentYear = new Date().getFullYear();
@@ -72,10 +57,10 @@ const formSchema = z.object({
     }),
 });
 
-import IconButton from "@/components/common/IconButton";
-
+import IconButton from "../../common/IconButton";
+import { Plus } from "lucide-react";
 import { Pencil } from "lucide-react";
-
+import { Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -87,43 +72,26 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function EditEmploymentButton({ employment, onEdit }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
+function AddEmploymentCard({ onClick, addEmployment }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: employment.title,
-      company: employment.company,
-      Location: employment.Location,
-      currentlyIn: employment.currentlyIn,
-      date: {
-        start: {
-          // month: months[employment.date.start.month - 1],
-          month: monthItems.find(
-            (item) => item.value === months[employment.date.start.month - 1]
-          ).value,
-          year: employment.date.start.year,
-        },
-        end: {
-          // month: months[employment.date.end.month - 1],
-          month: employment.date.end.month
-            ? monthItems.find(
-                (item) => item.value === months[employment.date.end.month - 1]
-              ).value
-            : null,
-          year: employment.date.end.year,
-        },
-      },
-      description: employment.description,
+      title: "",
+      company: "",
+      Location: "",
+      currentlyIn: false,
     },
   });
   const currentlyIn = form.watch("currentlyIn");
+
   const onSubmit = async (values) => {
     console.log(values);
-    // Convert the month strings to numbers for consistency with the initial structure
-    const startMonthNumber = months.indexOf(values.date.start.month) + 1;
+    // Directly use monthItems to find the index of the selected month
+    const startMonthNumber =
+      monthItems.findIndex((item) => item.value === values.date.start.month) +
+      1;
     let endMonthNumber = values.date.end.month
-      ? months.indexOf(values.date.end.month) + 1
+      ? monthItems.findIndex((item) => item.value === values.date.end.month) + 1
       : null;
 
     const newEmployment = {
@@ -138,16 +106,23 @@ function EditEmploymentButton({ employment, onEdit }) {
       description: values.description,
     };
 
-    onEdit(newEmployment);
-    setDialogOpen(false);
+    addEmployment(newEmployment); // Assuming you have destructured props
   };
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <IconButton>
-          <Pencil className="h-4 w-4" />
-        </IconButton>
+        <div
+          className="w-96 h-52 p-8 bg-secondaryo rounded-3xl border border-dashed border-primary cursor-pointer flex flex-col justify-center items-start gap-4 transition duration-300 ease-in-out transform active:scale-100 hover:scale-105"
+          onClick={onClick}
+        >
+          <div className="text-foreground text-3xl font-medium font-sans capitalize leading-tight flex flex-col gap-1">
+            <IconButton variant="primary">
+              <Plus className="h-5 w-5" />
+            </IconButton>
+            Add Employment
+          </div>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
@@ -156,7 +131,7 @@ function EditEmploymentButton({ employment, onEdit }) {
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Company Employment
+                  Add Company Employment
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
@@ -182,4 +157,4 @@ function EditEmploymentButton({ employment, onEdit }) {
   );
 }
 
-export default EditEmploymentButton;
+export default AddEmploymentCard;

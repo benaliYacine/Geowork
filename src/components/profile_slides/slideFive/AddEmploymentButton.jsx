@@ -3,15 +3,28 @@ import axios from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+
 import { Form, FormLabel } from "@/components/ui/form";
 
 import { getYearsRange } from "@/lib/utils";
-// Assuming you've imported the getYearsRange function and necessary UI components
 
-import EmploymentForm from "@/components/profile_slides/slideTree/EmploymentForm";
+import IconButton from "@/components/common/IconButton";
+import { Plus } from "lucide-react";
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import EmploymentForm from "@/components/profile_slides/slideThree/EmploymentForm";
 // Assuming you've imported the getYearsRange function and necessary UI components
 const monthItems = [
   { value: "January", label: "January" },
@@ -57,32 +70,28 @@ const formSchema = z.object({
     }),
 });
 
-import IconButton from "../../common/IconButton";
-import { Plus } from "lucide-react";
-import { Pencil } from "lucide-react";
-import { Trash2 } from "lucide-react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-function AddEmploymentCard({ onClick, addEmployment }) {
+function AddEmploymentButton({ addEmployment }) {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      company: "",
-      Location: "",
-      currentlyIn: false,
+      // title: "",
+      // company: "",
+      // Location: "",
+      // currentlyIn: false,
+      // date: {
+      //   start: {
+      //     month: "",
+      //     year: "2020",
+      //   },
+      //   end: {
+      //     month: "",
+      //     year: "2021",
+      //   },
+      // },
+      // description: "",
     },
   });
-  const currentlyIn = form.watch("currentlyIn");
 
   const onSubmit = async (values) => {
     console.log(values);
@@ -107,22 +116,17 @@ function AddEmploymentCard({ onClick, addEmployment }) {
     };
 
     addEmployment(newEmployment); // Assuming you have destructured props
+    setDialogOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <div
-          className="w-96 h-52 p-8 bg-secondaryo rounded-3xl border border-dashed border-primary cursor-pointer flex flex-col justify-center items-start gap-4 transition duration-300 ease-in-out transform active:scale-100 hover:scale-105"
-          onClick={onClick}
-        >
-          <div className="text-foreground text-3xl font-medium font-sans capitalize leading-tight flex flex-col gap-1">
-            <IconButton variant="primary">
-              <Plus className="h-5 w-5" />
-            </IconButton>
-            Add Employment
-          </div>
-        </div>
+        <IconButton variant="primary" className="self-center">
+          {" "}
+          {/* Ensure the icon is vertically centered */}
+          <Plus className="h-5 w-5" />
+        </IconButton>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
@@ -157,4 +161,4 @@ function AddEmploymentCard({ onClick, addEmployment }) {
   );
 }
 
-export default AddEmploymentCard;
+export default AddEmploymentButton;

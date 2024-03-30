@@ -5,9 +5,9 @@ import React, { useState, useRef } from "react";
 // Placeholder for your slide components
 import SlideOne from "@/components/profile_slides/SlideOne";
 import SlideTwo from "@/components/profile_slides/SlideTwo";
-import SlideThree from "@/components/profile_slides/slideTree/SlideThree";
-import SlideFour from "@/components/profile_slides/SlideFour";
-import SlideFive from "@/components/profile_slides/SlideFive";
+import SlideThree from "@/components/profile_slides/slideThree/SlideThree";
+import SlideFour from "@/components/profile_slides/slideFour/SlideFour";
+import SlideFive from "@/components/profile_slides/slideFive/SlideFive";
 import SlideSix from "@/components/profile_slides/SlideSix";
 import SlideSeven from "@/components/profile_slides/SlideSeven";
 // import SlideTwo from './SlideTwo';
@@ -59,6 +59,58 @@ const ProfileSlides = () => {
           " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
       },
     ],
+    experiences: [
+      {
+        title: "memba3d na7iha",
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+      {
+        title: "memba3d na7iha",
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+      {
+        title: "memba3d na7iha",
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+    ],
+    educations: [
+      {
+        school: "memba3d na7iha",
+        degree: "test",
+        fieldOfStudy: "test",
+        datesAttended: {
+          start: 2021,
+          end: 2025,
+        },
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+      {
+        school: "memba3d na7iha",
+        degree: "test",
+        fieldOfStudy: "test",
+        datesAttended: {
+          start: 2021,
+          end: 2025,
+        },
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+      {
+        school: "memba3d na7iha",
+        degree: "test",
+        fieldOfStudy: "test",
+        datesAttended: {
+          start: 2021,
+          end: 2025,
+        },
+        description:
+          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      },
+    ],
   });
 
   // Function to update profile information
@@ -73,10 +125,7 @@ const ProfileSlides = () => {
     if (submitFormRef.current) {
       submitFormRef.current(); // This will trigger form submission/validation
     } else {
-      // For slides without form submission logic, just move to the next slide
-      if (currentSlide < totalSlides - 1) {
-        setCurrentSlide(currentSlide + 1);
-      }
+      inc()
     }
     // Additional logic to handle form submission on the last slide
   };
