@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-
 import AddEducationCard from "@/components/profile_slides/slideFive/AddEducationCard";
 import AddEducationButton from "@/components/profile_slides/slideFive/AddEducationButton";
 import EducationCard from "@/components/profile_slides/slideFive/EducationCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
 
 export default function SlideTree({
   submitFormRef,
@@ -54,13 +52,14 @@ export default function SlideTree({
 
   return (
     <div className="space-y-4">
-      <div className="text-md text-primary font-header mb-2">3/7 Profile</div>
+      <div className="text-md text-primary font-header mb-2">5/7 Profile</div>
       <h2 className="text-4xl font-bold mb-4">
-        Add Your Education History
+        Detail Your Educational Background
       </h2>
       <p className="text-md text-greyDark mb-4">
-        Highlight your formal work experience here. Roles in companies or
-        organizations showcase your professional journey and expertise.
+        Add your academic achievements and any relevant training or
+        certifications here. Your education helps clients understand your
+        qualifications and expertise.
       </p>
       {profileInfo.educations.length === 0 ? (
         <AddEducationCard addEducation={addEducation} />

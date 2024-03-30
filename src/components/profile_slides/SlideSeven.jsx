@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import Divider from "@mui/material/Divider";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormMessage,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FcGoogle } from "react-icons/fc";
 
+import { Form } from "@/components/ui/form";
+
+import GenericFormField from "@/components/GenericFormField";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   roleTitle: z.string().min(1, "Role title is required"),
@@ -50,7 +38,7 @@ export default function SlideOne({
   }, [submitFormRef, onSubmit]);
 
   return (
-    <div className="  ">
+    <div>
       {" "}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -64,22 +52,11 @@ export default function SlideOne({
             It’s the very first thing clients see, so make it count. Stand out
             by describing your expertise in your own words.
           </p>
-          <FormField
+          <GenericFormField
             control={form.control}
             name="roleTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Role Title</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Your professional role"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Your Professional Role" // You can customize this label as needed
+            placeholder="Your professional role"
           />
         </form>
       </Form>

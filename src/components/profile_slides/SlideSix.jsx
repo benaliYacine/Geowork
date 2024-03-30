@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import Divider from "@mui/material/Divider";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormMessage,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FcGoogle } from "react-icons/fc";
 
+import { Form } from "@/components/ui/form";
+
+import TextareaFormField from "@/components/TextareaFormField";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
-  roleTitle: z.string().min(1, "Role title is required"),
+  Bio: z
+    .string()
+    .min(10, {
+      message: "Your Bio must be at least 10 characters.",
+    })
+    .max(3000, {
+      message: "Your Bio must not be longer than 3000 characters.",
+    }),
 });
 
 export default function SlideOne({
@@ -33,12 +28,12 @@ export default function SlideOne({
   const form = useForm({
     resolver: zodResolver(slideOneSchema),
     defaultValues: {
-      roleTitle: profileInfo.roleTitle,
+      Bio: profileInfo.Bio,
     },
   });
 
   const onSubmit = form.handleSubmit((values) => {
-    updateProfileInfo({ roleTitle: values.roleTitle });
+    updateProfileInfo({ Bio: values.Bio });
     inc(); // gedem el slide id al form valid
     // Proceed with your onSave logic or form values handling here
     console.log(values); // Handle the form values, for example, saving it
@@ -50,36 +45,28 @@ export default function SlideOne({
   }, [submitFormRef, onSubmit]);
 
   return (
-    <div className="  ">
+    <div>
       {" "}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="text-md text-primary font-header mb-2">
-            1/7 Profile
+            6/7 Profile
           </div>
           <h2 className="text-4xl font-bold mb-4">
-            Ok, let's start with a strong title that describes what you do.
+            Great. Now write a bio to tell the world about yourself.
           </h2>
           <p className="text-md text-greyDark mb-4">
-            It’s the very first thing clients see, so make it count. Stand out
-            by describing your expertise in your own words.
+            Your bio is your chance to tell potential clients who you are and
+            what makes you stand out. Share your professional ethos, what drives
+            you, and why clients should choose you.
           </p>
-          <FormField
+
+          <TextareaFormField
             control={form.control}
-            name="roleTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Role Title</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Your professional role"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="Bio"
+            label=""
+            placeholder="Enter your top skills, experiences, and interests. This is one of the first things clients will see on your profile.
+        "
           />
         </form>
       </Form>

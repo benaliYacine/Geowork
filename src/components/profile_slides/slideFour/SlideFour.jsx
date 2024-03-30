@@ -55,7 +55,7 @@ export default function SlideFour({
 
   return (
     <div className="space-y-4">
-      <div className="text-md text-primary font-header mb-2">3/7 Profile</div>
+      <div className="text-md text-primary font-header mb-2">4/7 Profile</div>
       <h2 className="text-4xl font-bold mb-4">
         If you have any other relevant work experience, add it here.
       </h2>

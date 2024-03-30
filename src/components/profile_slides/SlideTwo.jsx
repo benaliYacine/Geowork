@@ -1,39 +1,14 @@
 import axios from "axios";
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Button } from "@/components/ui/button";
-
 import { useState, useEffect } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
 import { categories } from "../../data/categories";
-
+import ComboBoxComponent from "@/components/ComboBoxComponent";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   category: z.string().min(1, "Category is required"),
@@ -104,129 +79,22 @@ export default function SlideTwo({
           <p className="text-md text-greyDark mb-4">
             Choose the category that best describe the services you offer.
           </p>
-          <FormField
+          <ComboBoxComponent
             control={form.control}
             name="category"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Category</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="white"
-                        role="combobox"
-                        className="w-full justify-between hover:scale-100 rounded-md"
-                      >
-                        {field.value
-                          ? categories.find(
-                              (Category) => Category.value === field.value
-                            )?.label
-                          : "Select category"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="flex flex-col w-full p-0">
-                    <Command>
-                      <CommandEmpty>No category found.</CommandEmpty>
-                      <CommandGroup>
-                        <ScrollArea className="h-48 w-48 rounded-md">
-                          {categories.map((category) => (
-                            <CommandItem
-                              key={category.value}
-                              value={category.label}
-                              onSelect={() => {
-                                form.setValue("category", category.value);
-                              }}
-                            >
-                              <Check
-                                className={` mr-2 h-4 w-4 ${
-                                  category.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                }`}
-                              />
-                              {category.label}
-                            </CommandItem>
-                          ))}
-                        </ScrollArea>
-                      </CommandGroup>
-                      <CommandInput placeholder="Search category..." />
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Category"
+            itemList={categories.map(({ value, label }) => ({ value, label }))}
+            placeholder="Select category"
           />
-
-          <FormField
+          <ComboBoxComponent
             control={form.control}
             name="subCategory"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Sub-Category</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="white"
-                        role="combobox"
-                        className="w-full justify-between hover:scale-100 rounded-md"
-                      >
-                        {field.value
-                          ? subCategories.find(
-                              (subCategory) => subCategory.value === field.value
-                            )?.label
-                          : "Select a subCategory"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="flex flex-col w-full p-0">
-                    <Command>
-                      {form.getValues("category") ? ( // Check if a wilaya has been selected
-                        <>
-                          <CommandEmpty>No subCategory found.</CommandEmpty>
-                          <CommandGroup>
-                            <ScrollArea className="h-48 w-48 rounded-md">
-                              {subCategories.map((subCategory) => (
-                                <CommandItem
-                                  key={subCategory.value}
-                                  value={subCategory.label}
-                                  onSelect={() =>
-                                    form.setValue(
-                                      "subCategory",
-                                      subCategory.value
-                                    )
-                                  }
-                                >
-                                  <Check
-                                    className={`mr-2 h-4 w-4 ${
-                                      subCategory.value === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    }`}
-                                  />
-                                  {subCategory.label}
-                                </CommandItem>
-                              ))}
-                            </ScrollArea>
-                          </CommandGroup>
-                          <CommandInput placeholder="Search subCategory..." />
-                        </>
-                      ) : (
-                        <div className="py-4 px-2 text-center text-sm w-48">
-                          Please select a category first!
-                        </div>
-                      )}
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Sub-Category"
+            itemList={subCategories.map(({ value, label }) => ({
+              value,
+              label,
+            }))}
+            placeholder="Select sub-category"
           />
         </form>
       </Form>

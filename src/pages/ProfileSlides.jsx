@@ -111,6 +111,7 @@ const ProfileSlides = () => {
           " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
       },
     ],
+    Bio: "na7i memba3d Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
   });
 
   // Function to update profile information
