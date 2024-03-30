@@ -157,7 +157,7 @@ function EditEmploymentButton({employment, onEdit}) {
       <DialogContent className="sm:max-w-[500px]">
         <div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
@@ -213,7 +213,7 @@ function EditEmploymentButton({employment, onEdit}) {
                   <FormItem>
                     <FormControl>
                       <div className="flex">
-                        <div className="flex mt-2 space-x-2">
+                        <div className="flex m-2 mt-4 space-x-2">
                           <Checkbox
                             id="currentlyIn"
                             checked={field.value}
