@@ -5,13 +5,13 @@ import emp from "../../assets/illustrations/emp.svg";
 import DeleteEmploymentButton from "./DeleteEmploymentButton";
 import EditEmploymentButton from "./EditEmploymentButton";
 const EmploymentCard = ({
-  title = "test",
-  currentlyIn = true,
-  company = "test",
-  location = "test",
-  startDate = "test",
-  endDate = "test",
-  description = "test test test test test test test test test test test test test  test test test test test test test test test  test test test test test test test test test  test test test test test test test test test test test test test test test test test test test test test test test test test test",
+  title ,
+  currentlyIn ,
+  company ,
+  location ,
+  startDate ,
+  endDate,
+  description,
   employment,
   onEdit,
   onDelete,

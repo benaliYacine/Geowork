@@ -29,12 +29,12 @@ const ProfileSlides = () => {
         currentlyIn: true,
         date: {
           start: {
-            month: "2",
-            year: "2020",
+            month: 2,
+            year: 2020,
           },
           end: {
-            month: "2",
-            year: "2021",
+            month: 2,
+            year: 2021,
           },
         },
         description:
@@ -44,15 +44,15 @@ const ProfileSlides = () => {
         title: "memba3d na7iha",
         company: "test",
         Location: "test",
-        currentlyIn: true,
+        currentlyIn: false,
         date: {
           start: {
-            month: "1",
-            year: "2020",
+            month: 1,
+            year: 2020,
           },
           end: {
-            month: "1",
-            year: "2021",
+            month: 1,
+            year: 2021,
           },
         },
         description:

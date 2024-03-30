@@ -67,11 +67,11 @@ const formSchema = z.object({
   date: z.object({
     start: z.object({
       month: z.string({ required_error: "Please select a start Month." }),
-      year: z.string({ required_error: "Please select a start Year." }),
+      year: z.number({ required_error: "Please select a start Year." }),
     }),
     end: z.object({
       month: z.string().optional(),
-      year: z.string().optional(),
+      year: z.number().optional(),
     }),
   }),
   description: z
@@ -252,7 +252,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                               <CommandEmpty>No month found.</CommandEmpty>
 
                               <CommandGroup>
-                                <ScrollArea className="h-max-72 w-48 rounded-md">
+                                <ScrollArea className="h-48 w-48 rounded-md">
                                   {months
                                     .filter((month) =>
                                       month
@@ -320,7 +320,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                               <CommandEmpty>No year found.</CommandEmpty>
 
                               <CommandGroup>
-                                <ScrollArea className="h-max-72 w-48 rounded-md">
+                                <ScrollArea className="h-48 w-48 rounded-md">
                                   {years
                                     .filter((year) =>
                                       year
@@ -336,14 +336,14 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                         onSelect={() => {
                                           form.setValue(
                                             "date.start.year",
-                                            year.toString()
+                                            +year
                                           );
                                           form.setValue("startYearSearch", ""); // Clear search after selection
                                         }}
                                       >
                                         <Check
                                           className={`mr-2 h-4 w-4 ${
-                                            year.toString() === field.value
+                                            year === +field.value
                                               ? "opacity-100"
                                               : "opacity-0"
                                           }`}
@@ -393,7 +393,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                 <CommandEmpty>No month found.</CommandEmpty>
 
                                 <CommandGroup>
-                                  <ScrollArea className="h-max-72 w-48 rounded-md">
+                                  <ScrollArea className="h-48 w-48 rounded-md">
                                     {months
                                       .filter((month) =>
                                         month
@@ -461,7 +461,7 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                 <CommandEmpty>No year found.</CommandEmpty>
 
                                 <CommandGroup>
-                                  <ScrollArea className="h-max-72 w-48 rounded-md">
+                                  <ScrollArea className="h-48 w-48 rounded-md">
                                     {years
                                       .filter((year) =>
                                         year
@@ -477,14 +477,14 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                                           onSelect={() => {
                                             form.setValue(
                                               "date.end.year",
-                                              year.toString()
+                                              +year
                                             );
                                             form.setValue("endYearSearch", ""); // Clear search after selection
                                           }}
                                         >
                                           <Check
                                             className={`mr-2 h-4 w-4 ${
-                                              year.toString() === field.value
+                                              year === +field.value
                                                 ? "opacity-100"
                                                 : "opacity-0"
                                             }`}

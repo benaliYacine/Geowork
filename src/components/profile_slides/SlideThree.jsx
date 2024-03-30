@@ -18,9 +18,9 @@ import { Input } from "@/components/ui/input";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FcGoogle } from "react-icons/fc";
-import EmploymentCard from "./AddEmploymentCard";
+import AddEmploymentCard from "./AddEmploymentCard";
 import AddEmploymentButton from "./AddEmploymentButton";
-import EmploymentDetailCard from "./EmploymentCard";
+import EmploymentCard from "./EmploymentCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Plus } from "lucide-react";
 import IconButton from "../common/IconButton";
@@ -106,7 +106,7 @@ export default function SlideTree({
         organizations showcase your professional journey and expertise.
       </p>
       {profileInfo.employments.length === 0 ? (
-        <EmploymentCard addEmployment={addEmployment} />
+        <AddEmploymentCard addEmployment={addEmployment} />
       ) : (
         <div className="flex flex-row items-center justify-center gap-2">
           {" "}
@@ -115,7 +115,7 @@ export default function SlideTree({
           <ScrollArea className="h-full w-full">
             <div className="flex w-max space-x-4 p-4">
               {profileInfo.employments.map((employment, index) => (
-                <EmploymentDetailCard
+                <EmploymentCard
                   key={index}
                   employment={employment}
                   title={employment.title}
@@ -128,7 +128,7 @@ export default function SlideTree({
                   endDate={
                     employment.currentlyIn
                       ? "Present"
-                      : `${months[employment.date.end.month - 1]}/${
+                      : `${months[employment.date.end.month - 1]} ${
                           employment.date.end.year
                         }`
                   }

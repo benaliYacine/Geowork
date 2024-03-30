@@ -95,13 +95,10 @@ export default function SignUpForm() {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        
         const response = await axios.get("/signup");
-        if (response.data.redirectUrl) { 
+        if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        } else
-          setLoading(false);
-          
+        } else setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -143,10 +140,10 @@ export default function SignUpForm() {
     }
   };
   const Auth = async () => {
-    window.open('http://localhost:3000/auth/google/callback');
-  }
+    window.open("http://localhost:3000/auth/google/callback");
+  };
   console.log(loading);
-  if (loading) return (<div></div>);
+  if (loading) return <div></div>;
   return (
     <div>
       <h2 className="text-center font-sans font-bold text-4xl mb-6">Sign Up</h2>
@@ -257,8 +254,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? wilayas.find(
-                            (wilaya) => wilaya.value === field.value
-                          )?.label
+                              (wilaya) => wilaya.value === field.value
+                            )?.label
                           : "Select wilaya"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -268,7 +265,7 @@ export default function SignUpForm() {
                     <Command>
                       <CommandEmpty>No wilaya found.</CommandEmpty>
                       <CommandGroup>
-                        <ScrollArea className="h-72 w-48 rounded-md">
+                        <ScrollArea className="h-48 w-48 rounded-md">
                           {wilayas.map((wilaya) => (
                             <CommandItem
                               key={wilaya.value}
@@ -278,10 +275,11 @@ export default function SignUpForm() {
                               }}
                             >
                               <Check
-                                className={` mr-2 h-4 w-4 ${wilaya.value === field.value
+                                className={` mr-2 h-4 w-4 ${
+                                  wilaya.value === field.value
                                     ? "opacity-100"
                                     : "opacity-0"
-                                  }`}
+                                }`}
                               />
                               {wilaya.label}
                             </CommandItem>
@@ -313,8 +311,8 @@ export default function SignUpForm() {
                       >
                         {field.value
                           ? filteredCities.find(
-                            (city) => city.value === field.value
-                          )?.label
+                              (city) => city.value === field.value
+                            )?.label
                           : "Select a city"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -326,7 +324,7 @@ export default function SignUpForm() {
                         <>
                           <CommandEmpty>No city found.</CommandEmpty>
                           <CommandGroup>
-                            <ScrollArea className="h-max-72 w-48 rounded-md">
+                            <ScrollArea className="h-48 w-48 rounded-md">
                               {filteredCities.map((city) => (
                                 <CommandItem
                                   key={city.value}
@@ -336,10 +334,11 @@ export default function SignUpForm() {
                                   }
                                 >
                                   <Check
-                                    className={`mr-2 h-4 w-4 ${city.value === field.value
+                                    className={`mr-2 h-4 w-4 ${
+                                      city.value === field.value
                                         ? "opacity-100"
                                         : "opacity-0"
-                                      }`}
+                                    }`}
                                   />
                                   {city.label}
                                 </CommandItem>
