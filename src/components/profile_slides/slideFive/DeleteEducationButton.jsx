@@ -13,7 +13,7 @@ import { Trash2 } from "lucide-react";
 import IconButton from "@/components/common/IconButton";
 import React, { useState } from "react";
 
-export default function DeleteEmploymentButton({ onDelete }) {
+export default function DeleteEducationButton({ onDelete }) {
   const [isActionTaken, setIsActionTaken] = useState(false);
 
   const handleAction = () => {
@@ -36,9 +36,9 @@ export default function DeleteEmploymentButton({ onDelete }) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove Company Employment</AlertDialogTitle>
+          <AlertDialogTitle>Remove education</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to remove this employment from your profile?
+            Are you sure you want to remove this education from your profile?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

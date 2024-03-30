@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 
-import { Form, FormLabel } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 
 import { getYearsRange } from "@/lib/utils";
 
@@ -24,41 +24,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import EmploymentForm from "@/components/profile_slides/slideThree/EmploymentForm";
+import EducationForm from "@/components/profile_slides/slideFive/EducationForm";
 // Assuming you've imported the getYearsRange function and necessary UI components
-const monthItems = [
-  { value: "January", label: "January" },
-  { value: "February", label: "February" },
-  { value: "March", label: "March" },
-  { value: "April", label: "April" },
-  { value: "May", label: "May" },
-  { value: "June", label: "June" },
-  { value: "July", label: "July" },
-  { value: "August", label: "August" },
-  { value: "September", label: "September" },
-  { value: "October", label: "October" },
-  { value: "November", label: "November" },
-  { value: "December", label: "December" },
-];
 
 const currentYear = new Date().getFullYear();
 const yearItems = getYearsRange(1990, currentYear);
 
 // Define your form schema
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  company: z.string().min(1, "Company is required"),
-  Location: z.string().min(1, "Location is required"),
-  currentlyIn: z.boolean().optional(), // This field is not required
-  date: z.object({
-    start: z.object({
-      month: z.string({ required_error: "Please select a start Month." }),
-      year: z.number({ required_error: "Please select a start Year." }),
-    }),
-    end: z.object({
-      month: z.string().optional(),
-      year: z.number().optional(),
-    }),
+  school: z.string().min(1, "school is required"),
+  degree: z.string().min(1, "degree is required"),
+  fieldOfStudy: z.string().min(1, "fieldOfStudy is required"),
+  datesAttended: z.object({
+    start: z.number({ required_error: "Please select a start Year." }),
+    end: z.number({ required_error: "Please select an end Year." }),
   }),
   description: z
     .string()
@@ -70,52 +49,36 @@ const formSchema = z.object({
     }),
 });
 
-function AddEmploymentButton({ addEmployment }) {
+function AddEducationButton({ addEducation }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // title: "",
-      // company: "",
-      // Location: "",
-      // currentlyIn: false,
-      // date: {
-      //   start: {
-      //     month: "",
-      //     year: "2020",
-      //   },
-      //   end: {
-      //     month: "",
-      //     year: "2021",
-      //   },
-      // },
-      // description: "",
+      // school: "",
+      // degree: "",
+      // fieldOfStudy: "",
+      // description:
+      //   "",
     },
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
-    // Directly use monthItems to find the index of the selected month
-    const startMonthNumber =
-      monthItems.findIndex((item) => item.value === values.date.start.month) +
-      1;
-    let endMonthNumber = values.date.end.month
-      ? monthItems.findIndex((item) => item.value === values.date.end.month) + 1
-      : null;
+    console.log("add submit");
 
-    const newEmployment = {
-      title: values.title,
-      company: values.company,
-      Location: values.Location,
-      currentlyIn: values.currentlyIn,
-      date: {
-        start: { month: startMonthNumber, year: values.date.start.year },
-        end: { month: endMonthNumber, year: values.date.end.year },
+    console.log(values);
+
+    const newEducation = {
+      school: values.school,
+      degree: values.degree,
+      fieldOfStudy: values.fieldOfStudy,
+      datesAttended: {
+        start: values.datesAttended.start,
+        end: values.datesAttended.end,
       },
       description: values.description,
     };
 
-    addEmployment(newEmployment); // Assuming you have destructured props
+    addEducation(newEducation); // Assuming you have destructured props
     setDialogOpen(false);
   };
 
@@ -135,13 +98,13 @@ function AddEmploymentButton({ addEmployment }) {
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Add Company Employment
+                  Add Education
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <EmploymentForm />
+              <EducationForm />
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
@@ -161,4 +124,4 @@ function AddEmploymentButton({ addEmployment }) {
   );
 }
 
-export default AddEmploymentButton;
+export default AddEducationButton;
