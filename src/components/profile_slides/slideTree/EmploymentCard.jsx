@@ -1,15 +1,15 @@
 import React from "react";
-import IconButton from "../common/IconButton";
-import { Pencil, Trash2 } from "lucide-react";
-import emp from "../../assets/illustrations/emp.svg";
-import DeleteEmploymentButton from "./DeleteEmploymentButton";
-import EditEmploymentButton from "./EditEmploymentButton";
+
+import emp from "@/assets/illustrations/emp.svg";
+import DeleteEmploymentButton from "@/components/profile_slides/slideTree/DeleteEmploymentButton";
+
+import EditEmploymentButton from "@/components/profile_slides/slideTree/EditEmploymentButton";
 const EmploymentCard = ({
-  title ,
-  currentlyIn ,
-  company ,
-  location ,
-  startDate ,
+  title,
+  currentlyIn,
+  company,
+  location,
+  startDate,
   endDate,
   description,
   employment,

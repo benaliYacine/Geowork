@@ -15,9 +15,13 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AlertCircle } from "lucide-react";
+
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FcGoogle } from "react-icons/fc";
+
+import GenericFormField from "@/components/GenericFormField";
+import AlertMessage from "@/components/AlertMessage";
+
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -45,8 +49,7 @@ export default function LoginForm() {
         console.log(response.data.redirectUrl);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        }else
-        setLoading(false);
+        } else setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -77,56 +80,26 @@ export default function LoginForm() {
   const Auth = async () => {
     window.open("http://localhost:3000/auth/google/callback");
   };
-  if (loading) return (<div></div>);
+  if (loading) return <div></div>;
   return (
     <div>
       <h2 className="text-center font-sans font-bold text-4xl mb-6">Log In</h2>
-      {showAlert && (
-        <Alert variant="destructive" className="mb-4">
-          {" "}
-          {/* Add a margin or any necessary styling */}
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{alertMessage}</AlertDescription>
-        </Alert>
-      )}
+      <AlertMessage showAlert={showAlert} message={alertMessage} />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
+          <GenericFormField
             control={form.control}
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Your email"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Email"
+            placeholder="Your email"
           />
-          <FormField
+          <GenericFormField
             control={form.control}
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Your password"
-                    {...field}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Password"
+            placeholder="Your password"
+            type="password"
           />
           <Button type="submit" className="w-full">
             Continue with Email

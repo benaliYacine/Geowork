@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Trash2 } from "lucide-react";
-import IconButton from "../common/IconButton";
+import IconButton from "@/components/common/IconButton";
 import React, { useState } from "react";
 
 export default function DeleteEmploymentButton({ onDelete }) {

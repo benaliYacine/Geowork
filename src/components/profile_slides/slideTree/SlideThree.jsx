@@ -3,27 +3,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import Divider from "@mui/material/Divider";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormMessage,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FcGoogle } from "react-icons/fc";
-import AddEmploymentCard from "./AddEmploymentCard";
-import AddEmploymentButton from "./AddEmploymentButton";
-import EmploymentCard from "./EmploymentCard";
+
+import AddEmploymentCard from "@/components/profile_slides/slideTree/AddEmploymentCard";
+import AddEmploymentButton from "@/components/profile_slides/slideTree/AddEmploymentButton";
+import EmploymentCard from "@/components/profile_slides/slideTree/EmploymentCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Plus } from "lucide-react";
-import IconButton from "../common/IconButton";
+
 const months = [
   "January",
   "February",
