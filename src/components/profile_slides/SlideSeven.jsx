@@ -25,6 +25,9 @@ export default function SlideSeven({
   inc,
   profileInfo,
   updateProfileInfo,
+  setIsPhotoAdded,
+  setShowPhotoError,
+  showPhotoError,
 }) {
   const form = useForm({
     resolver: zodResolver(slideOneSchema),
@@ -49,9 +52,16 @@ export default function SlideSeven({
     submitFormRef.current = onSubmit; // Allows the parent to trigger form submission
   }, [submitFormRef, onSubmit]);
 
-  const addImage = (newimage) => {
+  const addImage = (newImage) => {
     updateProfileInfo({
-      photoProfile: [...profileInfo.photoProfile, newimage],
+      photoProfile: newImage, // Directly assign the newImage URL
+    });
+    setIsPhotoAdded(true);
+    setShowPhotoError(false);
+  };
+  const addImageUrl = (newImage) => {
+    updateProfileInfo({
+      photoProfileUrl: newImage, // Directly assign the newImage URL
     });
   };
 
@@ -71,7 +81,21 @@ export default function SlideSeven({
             keep things safe and simple, we need your personal information.
           </p>
           <div className="flex gap-10">
-            <AddAvatarCard addImage={addImage} className="flex-2" />
+            <div className="flex gap-2 max-w-32 items-center flex-col">
+              <AddAvatarCard
+                addImage={addImage}
+                addImageUrl={addImageUrl}
+                existingPhoto={profileInfo.photoProfile}
+                existingPhotoUrl={profileInfo.photoProfileUrl}
+                setIsPhotoAdded={setIsPhotoAdded}
+                className="flex-2"
+              />
+              {showPhotoError && (
+                <p className="text-xs font-medium text-destructive text-center w-full">
+                profile photo is required.
+                </p>
+              )}
+            </div>
             <div className="flex-1 max-w-96">
               <DatePickerFormField
                 control={form.control}

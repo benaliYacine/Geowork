@@ -116,9 +116,13 @@ const ProfileSlides = () => {
     dateBirthday: undefined,
     streetAdress: " tiaret tiaret asdf asd f",
     phone: "5562170286",
+    photoProfileUrl: undefined,
     photoProfile: undefined,
   });
-  
+
+  const [isPhotoAdded, setIsPhotoAdded] = useState(false);
+  const [showPhotoError, setShowPhotoError] = useState(false);
+
   // Function to update profile information
   const updateProfileInfo = (newInfo) => {
     setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
@@ -128,6 +132,11 @@ const ProfileSlides = () => {
   const progress = Math.round((currentSlide / (totalSlides - 1)) * 100);
 
   const handleNext = () => {
+    if (!isPhotoAdded && currentSlide === 6) {
+      // Assuming slide 7 (index 6) is where the photo is required
+      setShowPhotoError(true); // Show error message
+      return; // Prevent proceeding to the next step
+    }
     if (submitFormRef.current) {
       submitFormRef.current(); // This will trigger form submission/validation
     } else {
@@ -165,7 +174,14 @@ const ProfileSlides = () => {
       case 5:
         return <SlideSix {...commonProps} />;
       case 6:
-        return <SlideSeven {...commonProps} />;
+        return (
+          <SlideSeven
+            {...commonProps}
+            setShowPhotoError={setShowPhotoError}
+            setIsPhotoAdded={setIsPhotoAdded}
+            showPhotoError={showPhotoError}
+          />
+        );
       default:
         return <div>Slide not implemented</div>;
     }

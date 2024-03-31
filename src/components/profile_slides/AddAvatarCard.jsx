@@ -19,23 +19,36 @@ import {
 import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 import character from "@/assets/illustrations/character.svg";
-function AddAvatarCard({ addImage }) {
+function AddAvatarCard({
+  addImageUrl,
+  addImage,
+  existingPhotoUrl,
+  existingPhoto,
+  setIsPhotoAdded,
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [image, setImage] = useState(existingPhoto);
+  const [preview, setPreview] = useState(existingPhotoUrl);
   const [scale, setScale] = useState(2); // Default scale
   const editorRef = useRef(null);
 
   const onSave = async () => {
     if (image && editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
-      const newImage = canvasScaled.toDataURL();
-      setPreview(newImage); // Update preview state
-      // addImage(newImage); // Assuming you have destructured props or a similar function to handle the image data
-      setDialogOpen(false); // Close dialog after saving
+      
+      const newImageUrl = canvasScaled.toDataURL();
+      setPreview(newImageUrl); // Update local preview state
+      addImageUrl(newImageUrl); // Call the prop function to update parent state
+      console.log(newImageUrl);
+
+      const newImage = image;
+      addImage(newImage); // Call the prop function to update parent state
+      console.log(newImage);
+      
+      setDialogOpen(false); // Close dialog
       setSaveAttemptedWithoutImage(false); // Reset the warning message state
     } else {
-      setSaveAttemptedWithoutImage(true); // No image selected, show warning message
+      setSaveAttemptedWithoutImage(true); // Show warning message
     }
   };
 
@@ -150,6 +163,9 @@ function AddAvatarCard({ addImage }) {
                   size="none"
                   variant="link"
                   onClick={() => {
+                    addImage(null); 
+                    addImageUrl(null);
+                    setIsPhotoAdded(false);
                     setImage(null);
                     setPreview(null);
                     fileInputRef.current.value = ""; // Clear the file input after deleting the image
