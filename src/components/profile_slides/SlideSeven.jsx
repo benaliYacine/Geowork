@@ -52,16 +52,16 @@ export default function SlideSeven({
     submitFormRef.current = onSubmit; // Allows the parent to trigger form submission
   }, [submitFormRef, onSubmit]);
 
-  const addImage = (newImage) => {
+  const addImage= (newImage) => {
     updateProfileInfo({
-      photoProfile: newImage, // Directly assign the newImage URL
+      photoProfile: newImage, // Directly assign the newImage Src
     });
     setIsPhotoAdded(true);
     setShowPhotoError(false);
   };
-  const addImageUrl = (newImage) => {
+  const addImageSrc = (newImage) => {
     updateProfileInfo({
-      photoProfileUrl: newImage, // Directly assign the newImage URL
+      photoProfileSrc: newImage, // Directly assign the newImage Src
     });
   };
 
@@ -84,9 +84,9 @@ export default function SlideSeven({
             <div className="flex gap-2 max-w-32 items-center flex-col">
               <AddAvatarCard
                 addImage={addImage}
-                addImageUrl={addImageUrl}
+                addImageSrc={addImageSrc}
                 existingPhoto={profileInfo.photoProfile}
-                existingPhotoUrl={profileInfo.photoProfileUrl}
+                existingPhotoSrc={profileInfo.photoProfileSrc}
                 setIsPhotoAdded={setIsPhotoAdded}
                 className="flex-2"
               />

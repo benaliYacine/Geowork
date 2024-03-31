@@ -20,15 +20,15 @@ import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 import character from "@/assets/illustrations/character.svg";
 function AddAvatarCard({
-  addImageUrl,
+  addImageSrc,
   addImage,
-  existingPhotoUrl,
+  existingPhotoSrc,
   existingPhoto,
   setIsPhotoAdded,
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [image, setImage] = useState(existingPhoto);
-  const [preview, setPreview] = useState(existingPhotoUrl);
+  const [image, setImage] = useState(existingPhotoSrc);
+  const [preview, setPreview] = useState(existingPhoto);
   const [scale, setScale] = useState(2); // Default scale
   const editorRef = useRef(null);
 
@@ -36,14 +36,15 @@ function AddAvatarCard({
     if (image && editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
       
-      const newImageUrl = canvasScaled.toDataURL();
-      setPreview(newImageUrl); // Update local preview state
-      addImageUrl(newImageUrl); // Call the prop function to update parent state
-      console.log(newImageUrl);
-
-      const newImage = image;
+      const newImage = canvasScaled.toDataURL();
+      setPreview(newImage); // Update local preview state
       addImage(newImage); // Call the prop function to update parent state
       console.log(newImage);
+
+      const newImageSrc = image;
+      addImageSrc(newImageSrc); // Call the prop function to update parent state
+      console.log(newImageSrc);
+      
       
       setDialogOpen(false); // Close dialog
       setSaveAttemptedWithoutImage(false); // Reset the warning message state
@@ -164,7 +165,7 @@ function AddAvatarCard({
                   variant="link"
                   onClick={() => {
                     addImage(null); 
-                    addImageUrl(null);
+                    addImageSrc(null);
                     setIsPhotoAdded(false);
                     setImage(null);
                     setPreview(null);

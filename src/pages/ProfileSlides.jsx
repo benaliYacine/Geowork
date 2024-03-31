@@ -116,8 +116,8 @@ const ProfileSlides = () => {
     dateBirthday: undefined,
     streetAdress: " tiaret tiaret asdf asd f",
     phone: "5562170286",
-    photoProfileUrl: undefined,
     photoProfile: undefined,
+    photoProfileSrc: undefined,
   });
 
   const [isPhotoAdded, setIsPhotoAdded] = useState(false);
@@ -144,10 +144,16 @@ const ProfileSlides = () => {
     }
     // Additional logic to handle form submission on the last slide
   };
+  const handleSubmit = () => {
+    console.log(profileInfo);
+  };
 
   const inc = () => {
     if (currentSlide < totalSlides - 1) {
       setCurrentSlide(currentSlide + 1);
+    }
+    if (currentSlide===totalSlides - 1) {
+      handleSubmit()
     }
   };
 
@@ -198,9 +204,9 @@ const ProfileSlides = () => {
           <Button onClick={handleBack} variant="outline">
             Back
           </Button>
-          <Button onClick={handleNext} variant="default">
-            Next
-          </Button>
+            <Button onClick={handleNext} variant="default">
+            {!(currentSlide === 6) ? ("Next"): ("Submit profile")}
+            </Button>
         </div>
       </div>
     </div>
