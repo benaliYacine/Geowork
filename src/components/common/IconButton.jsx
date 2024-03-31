@@ -7,6 +7,7 @@ const IconButton = React.forwardRef(
     const baseStyles =
       "h-fit w-fit items-center justify-center overflow-hidden rounded-full p-1.5 transition ease-in-out duration-300 active:scale-100 hover:scale-105";
     const variantStyles = {
+      sprimary: "bg-primary text-primary-foreground p-[3px]",
       primary: "bg-primary text-primary-foreground",
       outlined:
         "bg-background text-primary border border-primary hover:bg-secondaryo hover:text-secondary-foreground",

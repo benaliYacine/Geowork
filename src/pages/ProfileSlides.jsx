@@ -38,7 +38,7 @@ const ProfileSlides = () => {
           },
         },
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
@@ -56,24 +56,24 @@ const ProfileSlides = () => {
           },
         },
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
     ],
     experiences: [
       {
         title: "memba3d na7iha",
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
     ],
     educations: [
@@ -86,7 +86,7 @@ const ProfileSlides = () => {
           end: 2025,
         },
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         school: "memba3d na7iha",
@@ -97,7 +97,7 @@ const ProfileSlides = () => {
           end: 2025,
         },
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         school: "memba3d na7iha",
@@ -108,12 +108,17 @@ const ProfileSlides = () => {
           end: 2025,
         },
         description:
-          " Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
       },
     ],
-    Bio: "na7i memba3d Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores doloribus magnam porro voluptatem fugit molestiae perferendis sit iusto totam officiis exercitationem tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+    dateBirthday: undefined,
+    streetAdress: " tiaret tiaret asdf asd f",
+    phone: "5562170286",
+    photoProfile: undefined,
   });
-
+  
   // Function to update profile information
   const updateProfileInfo = (newInfo) => {
     setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
@@ -126,7 +131,7 @@ const ProfileSlides = () => {
     if (submitFormRef.current) {
       submitFormRef.current(); // This will trigger form submission/validation
     } else {
-      inc()
+      inc();
     }
     // Additional logic to handle form submission on the last slide
   };
@@ -174,7 +179,7 @@ const ProfileSlides = () => {
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">
-          <Button onClick={handleBack} variant="white">
+          <Button onClick={handleBack} variant="outline">
             Back
           </Button>
           <Button onClick={handleNext} variant="default">

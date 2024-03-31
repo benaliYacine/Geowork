@@ -141,11 +141,11 @@ function AddEmploymentCard({ onClick, addEmployment }) {
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="white" className="mt-1">
+                  <Button variant="outline" className="mt-3">
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="mt-1" type="submit">
+                <Button className="mt-3" type="submit">
                   Save
                 </Button>
               </DialogFooter>

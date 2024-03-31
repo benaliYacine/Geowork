@@ -8,18 +8,13 @@ import { Button } from "@/components/ui/button";
 import Divider from "@mui/material/Divider";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormMessage,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from "@/components/ui/form";
+
 import { FcGoogle } from "react-icons/fc";
 
 import GenericFormField from "@/components/GenericFormField";
+import PasswordFormField from "@/components/PasswordFormField";
 import AlertMessage from "@/components/AlertMessage";
 
 const formSchema = z.object({
@@ -94,13 +89,7 @@ export default function LoginForm() {
             label="Email"
             placeholder="Your email"
           />
-          <GenericFormField
-            control={form.control}
-            name="password"
-            label="Password"
-            placeholder="Your password"
-            type="password"
-          />
+          <PasswordFormField control={form.control} name="password" />
           <Button type="submit" className="w-full">
             Continue with Email
           </Button>

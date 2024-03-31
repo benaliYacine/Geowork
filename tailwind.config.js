@@ -19,16 +19,16 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
-        header: ['Outfit', 'sans-serif'],
+        header: ['Outfit', 'sans-serif']
       },
       colors: {
-        bg:'#FAFAFA',
-        primary:'#FF5400',
-        secondaryo:'#FFECE3',
-        secondary2:'#FFCBB2',
+        bg: '#FAFAFA',
+        primary: '#FF5400',
+        secondaryo: '#FFECE3',
+        secondary2: '#FFCBB2',
         black: '#333333',
-        greyDark:'#8A8A8A',
-        greyCold:'#E7E7E7',
+        greyDark: '#8A8A8A',
+        greyCold: '#E7E7E7',
         darkPrimary: '#D24500',
         border: '#E7E7E7', // ta3 les border kamel + ta3 scroll kima wilaya w contact list...
         input: '#FF5400', //l border ta3 l input // gla3tha manich nekhdem biha
@@ -44,7 +44,7 @@ module.exports = {
           foreground: '#FF5400'
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
+          DEFAULT: '#C01813',
           foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
@@ -63,7 +63,6 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         }
-        
       },
       borderRadius: {
         lg: '12px',
@@ -86,5 +85,5 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate'),require('@tailwindcss/line-clamp'),]
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/line-clamp')]
 }

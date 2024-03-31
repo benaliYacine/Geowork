@@ -42,7 +42,7 @@ export default function DeleteEducationButton({ onDelete }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel variant="white">Cancel</AlertDialogCancel>
+          <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleAction}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -30,7 +30,7 @@ const ExperienceCard = ({
             <DeleteExperienceButton onDelete={onDelete} />
           </div>
         </div>
-        <p className="text-black line-clamp-2 overflow-hidden">{description}</p>
+        <p className="text-black line-clamp-4 overflow-hidden">{description}</p>
       </div>
     </div>
   );
