@@ -1,8 +1,5 @@
 // tari9a li ra7 nekhedmou biha fel pfe
 import { Link } from "react-router-dom";
-import { Progress } from "@/components/ui/progress";
-import AvatarEditor from "react-avatar-editor";
-import AvatarEditorComponent from "@/components/AvatarEditorComponent";
 
 function Home() {
   return (
@@ -49,7 +46,6 @@ function Home() {
         rotate={0}
       /> */}
 
-      <AvatarEditorComponent />
     </div>
   );
 }
