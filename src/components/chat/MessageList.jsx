@@ -81,7 +81,7 @@ const messages = [
     isOwnMessage: true,
   },
   // Add more messages as needed
-];
+].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 function MessageList() {
   return (

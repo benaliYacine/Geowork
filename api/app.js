@@ -81,8 +81,8 @@ app.use((req, res, next) => {
 });
 
 //app.use(session({ secret: 'goodsecret', resave: false, saveUninitialized: true }));
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ limit: '10 mb', extended: true }));
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests from this origin
     credentials: true, // Allow credentials to be sent with requests
@@ -113,10 +113,18 @@ function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
         fn(req, res, next).catch(e => next(e))
     }
 }
-
+app.get('/userId',(req,res)=>{
+    res.json({user_id:req.session.user_id});
+})
 app.get('/logout', (req, res) => {
     // Détruire la session côté serveur
     res.render('logout');
+});
+app.get('/profileSlides', middlewars.isLoginIn, async (req, res) => {
+    const pro = await Professionnel.findById(req.session.user_id);
+    if (pro.profile.added)
+        return res.json({ redirectUrl: '/dashboard' });
+    res.json("");
 });
 app.post('/logout', (req, res) => {
     // Détruire la session côté serveur
@@ -203,7 +211,7 @@ app.get('/chat', middlewars.isLoginIn, (req, res) => {
 app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) => {
     try {
         const pro = await Professionnel.findById(req.session.user_id);
-        if (!pro.profile.title)
+        if (!pro.profile.added)
             res.json(pro); // Sending JSON response using `res` object
         else req.json({ redirectUrl: '/dashboard' });
     } catch (error) {
@@ -258,21 +266,20 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     console.log(req.body.people);
     if (req.session.user_type == 'Client') {
         user = await Client.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
-        
 
     } else if (req.session.user_type == 'Professionnel') {
         user = await Professionnel.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
     }
     console.log(user);
     let array = user.contacts.map((c) => {
-        
+
         const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].text : '';
         const lastMessageTime = c.messages.length > 0 ? c.messages[c.messages.length - 1].time : '';
-        
-            c.contactId.id=c._id;
-            c.contactId.message = lastMessage;
-            c.contactId.time = lastMessageTime;
-        
+
+        c.contactId.id = c._id;
+        c.contactId.message = lastMessage;
+        c.contactId.time = lastMessageTime;
+
         console.log(lastMessage);
         return c.contactId;
     })
@@ -282,16 +289,16 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         const time = `${c.time.getHours()}:${c.time.getMinutes()} ${c.time.getHours() >= 12 ? 'PM' : 'AM'}`
         const isActive = req.body.people.some(p => p.user_id == c._id);
         console.log('fdaskjruigmflksadmfnuif', c._id); //hada id de type objectId w ki na7i _ ywali string
-        return { id:c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
+        return { id: c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
     })
     console.log(array);
     res.json(array);
-    
+
 
 });
 app.post('/addMessage', async (req, res) => {
     try {
-        const { recipientId, senderId ,senderType } = req.body;
+        const { recipientId, senderId, senderType } = req.body;
         // const cli=await Client.findById(req.body.recipientId);
         // const pro=await Professionnel.findById(req.body.senderId);
 
@@ -317,7 +324,7 @@ app.post('/addMessage', async (req, res) => {
             }
         });
         if (!exist) {
-            const contactId= senderType == 'Client' ? req.body.recipientId : req.body.senderId;
+            const contactId = senderType == 'Client' ? req.body.recipientId : req.body.senderId;
             cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
         }
         exist = false;
@@ -328,10 +335,10 @@ app.post('/addMessage', async (req, res) => {
             }
         });
         if (!exist) {
-            const contactId= senderType == 'Professionnel' ? req.body.recipientId : req.body.senderId
+            const contactId = senderType == 'Professionnel' ? req.body.recipientId : req.body.senderId
             pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
         }
-        
+
         // user.contacts.map((c)=>{
         //     if(c.contactId==message.senderId||c.contactId==message.recipientId){
         //         c.messages.push(saveMessage._id);

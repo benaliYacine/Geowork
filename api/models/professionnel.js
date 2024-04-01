@@ -20,14 +20,6 @@ const professionnelSchema = new mongoose.Schema({
     password: {
         type: String,
     },
-    category: {
-        type: String,
-        //enum:[]//hadi nzidha ki natfahmo 3la les category
-    },
-    speciality: {
-        type: String,
-        //enum:[]//hadi nzidha ki natfahmo 3la les category
-    },
     verified: {
         type: Boolean,
         default: false
@@ -48,8 +40,16 @@ const professionnelSchema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
-        title: {
+        roletitle: {
             type: String,
+        },
+        category: {
+            type: String,
+            //enum:[]//hadi nzidha ki natfahmo 3la les category
+        },
+        subCategory: {
+            type: String,
+            //enum:[]//hadi nzidha ki natfahmo 3la les category
         },
         employments: [{
             title: {
@@ -146,6 +146,9 @@ const professionnelSchema = new mongoose.Schema({
             default: 0,
             min: 0,
             max: 5
+        },
+        phone:{
+            type:Number
         }
 
     },

@@ -81,10 +81,15 @@ exports.createProfessionnel = async (req, res) => {
 
 exports.addProfileProfessionnel = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
+        console.log("req.file: ",req.file);
+        const id=req.session.user_id;
+        req.body.added=true;
+        //const { id } = req.params;
         //const { id } = req.body;
-        const pro = await Professionnel.findByIdAndUpdate(id, req.body, { new: true });
+        const profile={profile:req.body};
+        console.log("req.body: ",profile);
+        const pro = await Professionnel.findByIdAndUpdate(id, profile, { new: true });
+        console.log("afdsfadsfdas");
         if (req.file) {
             const dataImage = { url: req.file.path, filename: req.file.filename };
             pro.profile.photoProfile = dataImage;

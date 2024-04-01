@@ -29,7 +29,7 @@ router.patch('/changeDetailleProfessionnel/:id', middlewars.isAccessible, Profes
 router.post('/createProfessionnel', ProfessionnelCtrl.createProfessionnel);
 /* router.post('/loginProfessionnel', ProfessionnelCtrl.loginProfessionnel); */
 /* router.patch('/changePasswordProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changePasswordProfessionnel);
- */router.patch('/addProfileProfessionnel/:id', middlewars.isAccessible, upload.single('image'), ProfessionnelCtrl.addProfileProfessionnel);
+ */router.patch('/addProfileProfessionnel', upload.single('image'), ProfessionnelCtrl.addProfileProfessionnel);
 /* router.patch('/changeNameProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeNameProfessionnel);
 router.patch('/changeEmailProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeEmailProfessionnel);
 router.patch('/changeDescriptionProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeDescriptionProfessionnel);

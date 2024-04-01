@@ -148,7 +148,7 @@ exports.isAccessible = async (req, res, next) => {
         }
 
         // Récupérer l'ID de l'utilisateur à partir de la requête (par exemple, s'il essaie de modifier un profil)
-        const requestedUserId = req.params.id; // À adapter en fonction de votre route
+        const requestedUserId = req.body.id; // À adapter en fonction de votre route
 
         // Vérifier si l'utilisateur essaye de modifier son propre profil
         if (userId !== requestedUserId) {
