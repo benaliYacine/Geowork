@@ -116,7 +116,7 @@ const ProfileSlides = () => {
     // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
     dateBirthday: undefined,
     streetAdress: " tiaret tiaret asdf asd f",
-    phone: "5562170286",
+    phone: "05 55 55 55 55",
     photoProfile: undefined,
     photoProfileSrc: undefined,
   });
@@ -134,9 +134,7 @@ const ProfileSlides = () => {
           navigate(response.data.redirectUrl);
         } else
           setLoading(false);
-        if (response.data) {
-          setName(response.data.name.first);
-        }
+        
       } catch (error) {
         console.error(error);
         // Handle error here, if needed

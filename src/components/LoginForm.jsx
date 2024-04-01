@@ -6,14 +6,13 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Divider from "@mui/material/Divider";
-import {
-  Form,
-
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 
 import { FcGoogle } from "react-icons/fc";
 
 import GenericFormField from "@/components/GenericFormField";
+import CurrencyFormField from "@/components/CurrencyFormField";
+
 import PasswordFormField from "@/components/PasswordFormField";
 import AlertMessage from "@/components/AlertMessage";
 
@@ -90,6 +89,13 @@ export default function LoginForm() {
             placeholder="Your email"
           />
           <PasswordFormField control={form.control} name="password" />
+          <CurrencyFormField
+            control={form.control}
+            name="amount"
+            label="Amount (DZD)"
+            placeholder="Enter amount in DZD"
+          />
+          
           <Button type="submit" className="w-full">
             Continue with Email
           </Button>

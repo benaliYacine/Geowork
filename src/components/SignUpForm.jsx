@@ -12,7 +12,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { Form } from "@/components/ui/form";
 
-import { wilayas, cities } from "../data/wilayasCities";
+import { wilayas, cities } from "@/data/wilayasCities";
 import GenericFormField from "@/components/GenericFormField";
 import PasswordFormField from "@/components/PasswordFormField";
 import AlertMessage from "@/components/AlertMessage";
@@ -33,9 +33,9 @@ const formSchema = z.object({
   termsOfService: z
     .boolean()
     .refine((val) => val === true, "You must accept the terms of service."),
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
-  role: z.enum(["client", "expert"], {
+    wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
+    city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+    role: z.enum(["client", "expert"], {
     required_error: "You must select a role.",
   }),
 });
@@ -49,7 +49,7 @@ export default function SignUpForm() {
       name: { first: "", last: "" },
       email: "",
       password: "",
-      wilaya: "",
+      wilaya: "Alger",
       city: "",
     },
   });

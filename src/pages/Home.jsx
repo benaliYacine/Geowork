@@ -35,17 +35,15 @@ function Home() {
       <hr />
       <br />
       <Link to="/profileSlides">Go to profileSlides Page</Link>
-      {/* <AvatarEditor
-        image="https://picsum.photos/200/300"
-        width={250}
-        height={250}
-        border={50}
-        color={[255, 255, 255, 0.6]} // RGBA
-        scale={1.2}
-        borderRadius={200}
-        rotate={0}
-      /> */}
-
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/jobSlides">Go to jobSlides Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
     </div>
   );
 }
