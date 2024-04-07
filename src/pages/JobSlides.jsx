@@ -24,6 +24,10 @@ const JobSlides = () => {
     subCategory: "math_tutor",
     wilaya: "alger",
     city: "",
+    budget: "DZD  55",
+    description:
+      " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    images: []
   });
 
   // const [loading, setLoading] = useState(true);

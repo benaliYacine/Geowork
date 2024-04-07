@@ -1,5 +1,8 @@
 // components/CurrencyFormField.jsx
 import React from "react";
+
+import { cn } from "@/lib/utils";
+
 import {
   FormField,
   FormItem,
@@ -16,22 +19,24 @@ const defaultMaskOptions = {
   includeThousandsSeparator: true,
   thousandsSeparatorSymbol: ", ",
   allowDecimal: false,
-  integerLimit: null, // allows any length of integer numbers
+  integerLimit: 10, // allows any length of integer numbers
   allowNegative: false,
   allowLeadingZeroes: false,
 };
 
-const CurrencyInput = React.forwardRef(({ inputRef, ...inputProps }, ref) => {
+const CurrencyInput = React.forwardRef(({className, inputRef, ...inputProps }, ref) => {
   const currencyMask = createNumberMask(defaultMaskOptions);
 
   return (
     <MaskedInput
-      ref={ref}
+      ref={inputRef}
       {...inputProps}
       mask={currencyMask}
       guide={true}
       showMask
-      className="flex h-10 w-full rounded-md bg-background px-3 py-2 text-sm  file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border border-border  disabled:cursor-not-allowed disabled:opacity-50"
+      className={cn("flex h-10 w-full rounded-md bg-background px-3 py-2 text-sm  file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border border-border  disabled:cursor-not-allowed disabled:opacity-50"
+      ,className
+      )}
     />
   );
 });
