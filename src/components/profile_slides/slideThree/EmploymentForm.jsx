@@ -6,10 +6,10 @@ import { FormLabel } from "@/components/ui/form";
 import { getYearsRange } from "@/lib/utils";
 
 import { useFormContext } from "react-hook-form";
-import GenericFormField from "@/components/GenericFormField";
-import ComboBoxComponent from "@/components/ComboBoxComponent";
-import CheckboxFormField from "@/components/CheckboxFormField";
-import TextareaFormField from "@/components/TextareaFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
+import CheckboxFormField from "@/components/formFields/CheckboxFormField";
+import TextareaFormField from "@/components/formFields/TextareaFormField";
 
 const monthItems = [
   { value: "January", label: "January" },

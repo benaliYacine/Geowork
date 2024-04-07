@@ -4,9 +4,9 @@ import React from "react";
 import { getYearsRange } from "@/lib/utils";
 
 import { useFormContext } from "react-hook-form";
-import GenericFormField from "@/components/GenericFormField";
-import ComboBoxComponent from "@/components/ComboBoxComponent";
-import TextareaFormField from "@/components/TextareaFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
+import TextareaFormField from "@/components/formFields/TextareaFormField";
 
 const currentYear = new Date().getFullYear();
 const yearItems = getYearsRange(1990, currentYear + 5);

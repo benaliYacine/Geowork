@@ -13,12 +13,12 @@ import { FcGoogle } from "react-icons/fc";
 import { Form } from "@/components/ui/form";
 
 import { wilayas, cities } from "@/data/wilayasCities";
-import GenericFormField from "@/components/GenericFormField";
-import PasswordFormField from "@/components/PasswordFormField";
-import AlertMessage from "@/components/AlertMessage";
-import RoleFormField from "@/components/RoleFormField";
-import CheckboxFormField from "@/components/CheckboxFormField";
-import ComboBoxComponent from "@/components/ComboBoxComponent";
+import GenericFormField from "@/components/formFields/GenericFormField";
+import PasswordFormField from "@/components/formFields/PasswordFormField";
+import AlertMessage from "@/components/common/AlertMessage";
+import RoleFormField from "@/components/formFields/RoleFormField";
+import CheckboxFormField from "@/components/formFields/CheckboxFormField";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
   name: z.object({
@@ -33,9 +33,9 @@ const formSchema = z.object({
   termsOfService: z
     .boolean()
     .refine((val) => val === true, "You must accept the terms of service."),
-    wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-    city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
-    role: z.enum(["client", "expert"], {
+  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
+  city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+  role: z.enum(["client", "expert"], {
     required_error: "You must select a role.",
   }),
 });

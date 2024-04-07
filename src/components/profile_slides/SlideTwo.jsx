@@ -4,11 +4,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { categories } from "../../data/categories";
-import ComboBoxComponent from "@/components/ComboBoxComponent";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   category: z.string().min(1, "Category is required"),

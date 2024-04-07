@@ -5,7 +5,7 @@ const IconButton = React.forwardRef(
   ({ variant = "primary", className, children, ...props }, ref) => {
     // Define base and variant-specific styles
     const baseStyles =
-      "flex h-fit w-fit items-center justify-center text-center overflow-hidden p-1.5 rounded-full transition ease-in-out duration-300 active:scale-100 hover:scale-105";
+      "flex h-fit w-fit items-center justify-center text-center overflow-hidden p-2 rounded-full transition ease-in-out duration-300 active:scale-100 hover:scale-105";
     const variantStyles = {
       sprimary: "bg-primary text-primary-foreground p-[3px]",
       primary: "bg-primary text-primary-foreground",

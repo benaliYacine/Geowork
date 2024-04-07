@@ -2,9 +2,9 @@
 import React from "react";
 
 import { useFormContext } from "react-hook-form";
-import GenericFormField from "@/components/GenericFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
 
-import TextareaFormField from "@/components/TextareaFormField";
+import TextareaFormField from "@/components/formFields/TextareaFormField";
 
 const ExperienceForm = () => {
   const form = useFormContext(); // Use form context to access form methods and state

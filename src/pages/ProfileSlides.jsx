@@ -10,7 +10,7 @@ import SlideThree from "@/components/profile_slides/slideThree/SlideThree";
 import SlideFour from "@/components/profile_slides/slideFour/SlideFour";
 import SlideFive from "@/components/profile_slides/slideFive/SlideFive";
 import SlideSix from "@/components/profile_slides/SlideSix";
-import SlideSeven from "@/components/profile_slides/SlideSeven";
+import SlideSeven from "@/components/profile_slides/slideSeven/SlideSeven";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Form } from "@/components/ui/form";
-import ComboBoxComponent from "@/components/ComboBoxComponent";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 import { wilayas, cities } from "@/data/wilayasCities";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
@@ -28,7 +28,6 @@ export default function SlideThree({
   });
 
   const [filteredCities, setFilteredCities] = useState([]);
-
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -64,9 +63,7 @@ export default function SlideThree({
             3/7 job post
           </div>
           <h2 className="text-4xl font-bold mb-4">select your job location</h2>
-          <p className="text-md text-greyDark mb-4">
-            
-          </p>
+          <p className="text-md text-greyDark mb-4"></p>
           <ComboBoxComponent
             control={form.control}
             name="wilaya"
@@ -82,7 +79,6 @@ export default function SlideThree({
             itemList={filteredCities}
             placeholder="Select a city"
           />
-          
         </form>
       </Form>
     </div>

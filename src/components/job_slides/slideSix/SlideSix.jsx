@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Form } from "@/components/ui/form";
-import AddImageCard from "@/components/job_slides/AddImageCard";
-import AddCoverImageCard from "@/components/job_slides/AddCoverImageCard";
+import AddImageCard from "@/components/job_slides/slideSix/AddImageCard";
+import AddCoverImageCard from "@/components/job_slides/slideSix/AddCoverImageCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function SlideSix({
@@ -47,7 +47,6 @@ export default function SlideSix({
       setShowPhotoError(true);
     }
     updateJobInfo({ images: jobInfo.images.filter((_, i) => i !== index) });
-    
   };
 
   return (

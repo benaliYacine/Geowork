@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 
-import GenericFormField from "@/components/GenericFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   title: z.string().min(1, "title is required"),

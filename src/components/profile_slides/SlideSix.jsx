@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 
-import TextareaFormField from "@/components/TextareaFormField";
+import TextareaFormField from "@/components/formFields/TextareaFormField";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   Bio: z

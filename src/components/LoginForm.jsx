@@ -10,11 +10,10 @@ import { Form } from "@/components/ui/form";
 
 import { FcGoogle } from "react-icons/fc";
 
-import GenericFormField from "@/components/GenericFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
 
-
-import PasswordFormField from "@/components/PasswordFormField";
-import AlertMessage from "@/components/AlertMessage";
+import PasswordFormField from "@/components/formFields/PasswordFormField";
+import AlertMessage from "@/components/common/AlertMessage";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -89,7 +88,7 @@ export default function LoginForm() {
             placeholder="Your email"
           />
           <PasswordFormField control={form.control} name="password" />
-          
+
           <Button type="submit" className="w-full">
             Continue with Email
           </Button>

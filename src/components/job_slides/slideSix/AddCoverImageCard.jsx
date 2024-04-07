@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Image } from "lucide-react";
-import DeleteImageButton from "@/components/job_slides/DeleteImageButton";
+import DeleteImageButton from "@/components/job_slides/slideSix/DeleteImageButton";
 
 const AddCoverImageCard = ({ imageUrl = null, onAdd, onDelete }) => {
   const fileInputRef = useRef();

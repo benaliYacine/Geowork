@@ -4,18 +4,20 @@ import { Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import DatePickerFormField from "@/components/DatePickerFormField";
-import GenericFormField from "@/components/GenericFormField";
+import DatePickerFormField from "@/components/formFields/DatePickerFormField";
+import GenericFormField from "@/components/formFields/GenericFormField";
 import { Separator } from "@/components/ui/separator";
-import AddAvatarCard from "@/components/profile_slides/AddAvatarCard";
+import AddAvatarCard from "@/components/profile_slides/slideSeven/AddAvatarCard";
+import PhoneFormField from "@/components/formFields/PhoneFormField";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
   streetAdress: z.string().min(1, "Street Adress is required"),
   phone: z
     .string()
+    .min(1, "Phone number is required")
     .regex(
-      /^\d{10}$/,
-      "Phone Number must be exactly 10 (remove the first 0) digits and contain only numbers"
+      /^0[567] \d{2} \d{2} \d{2} \d{2}$/,
+      "Phone number must follow this format 0x xx xx xx xx"
     ),
   dateBirthday: z.date({ required_error: "Date of birth is required" }),
 });
@@ -52,7 +54,7 @@ export default function SlideSeven({
     submitFormRef.current = onSubmit; // Allows the parent to trigger form submission
   }, [submitFormRef, onSubmit]);
 
-  const addImage= (newImage) => {
+  const addImage = (newImage) => {
     updateProfileInfo({
       photoProfile: newImage, // Directly assign the newImage Src
     });
@@ -92,7 +94,7 @@ export default function SlideSeven({
               />
               {showPhotoError && (
                 <p className="text-xs font-medium text-destructive text-center w-full">
-                profile photo is required.
+                  profile photo is required.
                 </p>
               )}
             </div>
@@ -110,10 +112,10 @@ export default function SlideSeven({
                 label="Street Adress *"
                 placeholder="Your Street Adress"
               />
-              <GenericFormField
+              <PhoneFormField
                 control={form.control}
                 name="phone"
-                label="Phone *"
+                label="phone *"
                 placeholder="Your phone number"
               />
             </div>

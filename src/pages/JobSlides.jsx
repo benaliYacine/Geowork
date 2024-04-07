@@ -9,7 +9,7 @@ import SlideTwo from "@/components/job_slides/SlideTwo";
 import SlideThree from "@/components/job_slides/SlideThree";
 import SlideFour from "@/components/job_slides/SlideFour";
 import SlideFive from "@/components/job_slides/SlideFive";
-import SlideSix from "@/components/job_slides/SlideSix";
+import SlideSix from "@/components/job_slides/slideSix/SlideSix";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 
@@ -130,7 +130,7 @@ const JobSlides = () => {
   const handleBack = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
-    }
+    } else setCurrentSlide(5);
   };
 
   // Render the current slide based on `currentSlide`
@@ -162,16 +162,21 @@ const JobSlides = () => {
   };
   // if (loading) return (<div></div>);
   return currentSlide === -1 ? (
-    <div>
-      hna yji l preview
-      <br />
-      <br />
-      {
-        /* hna yji el preview w dir l buton ghi kima li fat ydiir w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/
-        <Button onClick={handleSubmit} variant="default">
-          post the job
-        </Button>
-      }
+    <div className=" flex h-screen flex-col">
+      <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-start">
+        {/* here is gona be the page content */}
+        {/*  hna yji el preview w dir l buton ghi kima li fat ydiir w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/}
+      </div>
+      <div className="w-full py-4">
+        <div className="px-4 flex justify-between mt-4">
+          <Button onClick={handleBack} variant="outline">
+            Back
+          </Button>
+          <Button onClick={handleSubmit} variant="default">
+            post the job
+          </Button>
+        </div>
+      </div>
     </div>
   ) : (
     <div className=" flex h-screen flex-col">

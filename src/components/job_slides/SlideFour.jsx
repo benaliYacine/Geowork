@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 
-import CurrencyFormField from "@/components/CurrencyFormField";
+import CurrencyFormField from "@/components/formFields/CurrencyFormField";
 const toNumericValue = (value) => {
   const numericOnly = value.replace(/[^0-9,]/g, "");
   return parseInt(numericOnly.replace(/,/g, ""), 10);
