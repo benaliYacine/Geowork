@@ -1,14 +1,99 @@
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import IconButton from "@/components/common/IconButton";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 import { DayPicker } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+  const [month, setMonth] = React.useState(new Date());
+
+  const nextYear = () => {
+    console.log(month);
+    setMonth((currentMonth) => {
+      const newYear = currentMonth.getFullYear() + 1;
+      const newMonth = new Date(currentMonth.setFullYear(newYear));
+
+      return newMonth;
+    });
+  };
+  const preYear = () => {
+    console.log(month);
+    setMonth((currentMonth) => {
+      const newYear = currentMonth.getFullYear() - 1;
+      const newMonth = new Date(currentMonth.setFullYear(newYear));
+
+      return newMonth;
+    });
+  };
+  const nextMonth = () => {
+    setMonth((currentMonth) => {
+      let newMonth = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth() + 1,
+        currentMonth.getDate()
+      );
+      return newMonth;
+    });
+  };
+
+  const preMonth = () => {
+    setMonth((currentMonth) => {
+      let newMonth = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth() - 1,
+        currentMonth.getDate()
+      );
+      return newMonth;
+    });
+  };
+
+  const footer = (
+    <div className="relative">
+      <IconButton
+        variant="outlined"
+        onClick={() => preYear()}
+        className="absolute left-1 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+      >
+        <ChevronsLeft className="h-4 w-4" />
+      </IconButton>
+
+      <IconButton
+        variant="outlined"
+        onClick={() => preMonth()}
+        className="absolute left-10 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </IconButton>
+
+      <IconButton
+        variant="outlined"
+        onClick={() => nextYear()}
+        className="absolute right-1 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+      >
+        <ChevronsRight className="h-4 w-4" />
+      </IconButton>
+      <IconButton
+        variant="outlined"
+        onClick={() => nextMonth()}
+        className="absolute right-10 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+      >
+        <ChevronRight className="h-4 w-4" />
+      </IconButton>
+    </div>
+  );
   return (
     <DayPicker
+      fixedWeeks
+      footer={footer}
       showOutsideDays={showOutsideDays}
+      month={month}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
@@ -20,8 +105,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
         ),
-        nav_button_previous: "absolute left-1",
-        nav_button_next: "absolute right-1",
+        nav_button_previous: "absolute left-10 hidden",
+        nav_button_next: "absolute right-10 hidden",
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell:
@@ -45,10 +130,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-      }}
+      components={{}}
       {...props}
     />
   );

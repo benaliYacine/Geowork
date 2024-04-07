@@ -10,7 +10,6 @@ import SlideThree from "@/components/job_slides/SlideThree";
 import SlideFour from "@/components/job_slides/SlideFour";
 import SlideFive from "@/components/job_slides/SlideFive";
 import SlideSix from "@/components/job_slides/SlideSix";
-import SlideSeven from "@/components/job_slides/SlideSeven";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 
@@ -58,7 +57,7 @@ const JobSlides = () => {
     setJobInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
 
-  const totalSlides = 7;
+  const totalSlides = 6;
   const progress = Math.round((currentSlide / (totalSlides - 1)) * 100);
 
   const handleNext = () => {
@@ -143,15 +142,6 @@ const JobSlides = () => {
         return <SlideFive {...commonProps} />;
       case 5:
         return <SlideSix {...commonProps} />;
-      case 6:
-        return (
-          <SlideSeven
-            {...commonProps}
-            setShowPhotoError={setShowPhotoError}
-            setIsPhotoAdded={setIsPhotoAdded}
-            showPhotoError={showPhotoError}
-          />
-        );
       default:
         return <div>Slide not implemented</div>;
     }
@@ -169,7 +159,7 @@ const JobSlides = () => {
             Back
           </Button>
           <Button onClick={handleNext} variant="default">
-            {!(currentSlide === 6) ? "Next" : "Post the Job"}
+            {!(currentSlide === 5) ? "Next" : "review job post"}
           </Button>
         </div>
       </div>

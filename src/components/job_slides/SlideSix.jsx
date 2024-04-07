@@ -1,40 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Image } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import AddImageCard from "@/components/job_slides/AddImageCard";
 import AddCoverImageCard from "@/components/job_slides/AddCoverImageCard";
-import GenericFormField from "@/components/GenericFormField";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// Define your schema for SlideOne
-const slideOneSchema = z.object({
-  title: z.string().min(1, "title is required"),
-});
-
-export default function SlideOne({
+export default function SlideSix({
   submitFormRef,
   inc,
   jobInfo,
   updateJobInfo,
 }) {
-  const images= jobInfo.images;
-
-  const form = useForm({
-    resolver: zodResolver(slideOneSchema),
-    defaultValues: {
-      title: jobInfo.title,
-    },
-  });
+  const form = useForm();
 
   const onSubmit = form.handleSubmit((values) => {
-    updateJobInfo({ title: values.title });
     inc(); // gedem el slide id al form valid
     // Proceed with your onSave logic or form values handling here
-    console.log(values); // Handle the form values, for example, saving it
+    console.log(jobInfo.images); // Handle the form values, for example, saving it
   });
 
   // Use useEffect to update submitFormRef with onSubmit function
@@ -45,15 +28,15 @@ export default function SlideOne({
   const handleAddImage = (imageUrl, isCover = false) => {
     if (isCover) {
       // Add as the first image, making it the cover
-      setImages([imageUrl, ...images]);
+      updateJobInfo({ images: [imageUrl, ...jobInfo.images] });
     } else {
       // Add as a regular image
-      setImages([...images, imageUrl]);
+      updateJobInfo({ images: [...jobInfo.images, imageUrl] });
     }
   };
 
   const handleDeleteImage = (index) => {
-    setImages(images.filter((_, i) => i !== index));
+    updateJobInfo({ images: jobInfo.images.filter((_, i) => i !== index) });
   };
 
   return (
@@ -73,17 +56,17 @@ export default function SlideOne({
           <div className="flex justify-center w-full">
             {/* Render the cover image card if there's no cover image yet or the cover image */}
             <ScrollArea className="h-[400px] w-fit flex flex-col px-2">
-              {images.length === 0 ? (
+              {jobInfo.images.length === 0 ? (
                 <AddCoverImageCard onAdd={(url) => handleAddImage(url, true)} />
               ) : (
                 <div className="flex flex-col ">
                   <AddCoverImageCard
                     onAdd={(url) => handleAddImage(url, true)}
-                    imageUrl={images[0]}
+                    imageUrl={jobInfo.images[0]}
                     onDelete={() => handleDeleteImage(0)}
                   />
                   <div className="flex flex-wrap gap-0 w-[532px]">
-                    {images.slice(1).map((image, index) => (
+                    {jobInfo.images.slice(1).map((image, index) => (
                       <AddImageCard
                         key={index}
                         imageUrl={image}
