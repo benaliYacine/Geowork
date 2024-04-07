@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // Placeholder for your slide components
@@ -128,13 +128,11 @@ const ProfileSlides = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/profileSlides');
+        const response = await axios.get("/profileSlides");
         console.log(response);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        } else
-          setLoading(false);
-        
+        } else setLoading(false);
       } catch (error) {
         console.error(error);
         // Handle error here, if needed
@@ -143,7 +141,6 @@ const ProfileSlides = () => {
 
     fetchData();
   }, []);
- 
 
   // Function to update profile information
   const updateProfileInfo = (newInfo) => {
@@ -179,13 +176,13 @@ const ProfileSlides = () => {
     let experiences = JSON.parse(profileInfo.experiences);
     let educations = JSON.parse(profileInfo.educations);
 
-    formData.append('roleTitle', profileInfo.roleTitle);
-    formData.append('category', profileInfo.category);
-    formData.append('subCategory', profileInfo.subCategory);
-    formData.append('Bio', profileInfo.Bio);
-    formData.append('dateBirthday', profileInfo.dateBirthday);
-    formData.append('streetAdress', profileInfo.streetAdress);
-    formData.append('phone', profileInfo.phone);
+    formData.append("roleTitle", profileInfo.roleTitle);
+    formData.append("category", profileInfo.category);
+    formData.append("subCategory", profileInfo.subCategory);
+    formData.append("Bio", profileInfo.Bio);
+    formData.append("dateBirthday", profileInfo.dateBirthday);
+    formData.append("streetAdress", profileInfo.streetAdress);
+    formData.append("phone", profileInfo.phone);
 
     employments.forEach((employment, index) => {
       Object.keys(employment).forEach((key) => {
@@ -204,25 +201,27 @@ const ProfileSlides = () => {
         formData.append(`educations[${index}][${key}]`, education[key]);
       });
     });
-    formData.append('image', blobData);
+    formData.append("image", blobData);
 
-    const response = await axios.patch("/api/professionnels/addProfileProfessionnel", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axios.patch(
+      "/api/professionnels/addProfileProfessionnel",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log(response);
-
   };
-
 
   const inc = () => {
     if (currentSlide < totalSlides - 1) {
       setCurrentSlide(currentSlide + 1);
     }
     if (currentSlide === totalSlides - 1) {
-      handleSubmit()
+      handleSubmit();
     }
   };
 
@@ -261,7 +260,7 @@ const ProfileSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  if (loading) return (<div></div>);
+  if (loading) return <div></div>;
   return (
     <div className=" flex h-screen flex-col">
       <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
@@ -270,11 +269,21 @@ const ProfileSlides = () => {
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">
-          <Button onClick={handleBack} variant="outline">
-            Back
-          </Button>
+          {currentSlide != 0 ? (
+            <Button onClick={handleBack} variant="outline">
+              Back
+            </Button>
+          ) : (
+            <Button
+              onClick={handleBack}
+              variant="outline"
+              className="opacity-0"
+            >
+              Back
+            </Button>
+          )}
           <Button onClick={handleNext} variant="default">
-            {!(currentSlide === 6) ? ("Next") : ("Submit profile")}
+            {!(currentSlide === 6) ? "Next" : "Submit profile"}
           </Button>
         </div>
       </div>

@@ -9,8 +9,8 @@ import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 import { wilayas, cities } from "@/data/wilayasCities";
 // Define your schema for SlideOne
 const slideOneSchema = z.object({
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+  wilaya: z.string().min(1, "Please select a wilaya."), // Ensure this line is correctly added
+  city: z.string().min(1, "Please select a city."), // Ensure this line is correctly added
 });
 
 export default function SlideThree({
@@ -30,14 +30,28 @@ export default function SlideThree({
   const [filteredCities, setFilteredCities] = useState([]);
 
   useEffect(() => {
+    // Watch the wilaya field for changes
     const selectedWilaya = form.watch("wilaya");
+
+    // Filter cities based on the selected wilaya
     const citiesForWilaya = cities.filter(
       (city) => city.wilaya === selectedWilaya
     );
     setFilteredCities(citiesForWilaya);
-    // Reset city field if wilaya changes
-    form.setValue("city", "");
-  }, [form.watch("wilaya")]);
+
+    // Get the current value of the city field
+    const currentCity = form.getValues("city");
+
+    // Check if the current city exists in the new list of filtered cities
+    const cityExists = citiesForWilaya.some(
+      (city) => city.value === currentCity
+    );
+
+    // If the current city does not exist in the filtered list, reset it
+    if (!cityExists) {
+      form.setValue("city", "");
+    }
+  }, [form.watch("wilaya")]); // Dependency array to re-run the effect when the wilaya changes
 
   const onSubmit = form.handleSubmit((values) => {
     updateJobInfo({

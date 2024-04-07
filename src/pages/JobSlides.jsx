@@ -10,6 +10,7 @@ import SlideThree from "@/components/job_slides/SlideThree";
 import SlideFour from "@/components/job_slides/SlideFour";
 import SlideFive from "@/components/job_slides/SlideFive";
 import SlideSix from "@/components/job_slides/slideSix/SlideSix";
+import { MapPin } from "lucide-react";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 
@@ -24,10 +25,10 @@ const JobSlides = () => {
     category: "education_and_tutoring",
     subCategory: "math_tutor",
     wilaya: "alger",
-    city: "",
+    city: "sidi_moussa",
     budget: "DZD  55",
     description:
-      " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
     images: [],
   });
 
@@ -130,7 +131,10 @@ const JobSlides = () => {
   const handleBack = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
-    } else setCurrentSlide(5);
+    }
+    if (currentSlide === -1) {
+      setCurrentSlide(5);
+    } else;
   };
 
   // Render the current slide based on `currentSlide`
@@ -162,10 +166,49 @@ const JobSlides = () => {
   };
   // if (loading) return (<div></div>);
   return currentSlide === -1 ? (
-    <div className=" flex h-screen flex-col">
-      <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-start">
-        {/* here is gona be the page content */}
-        {/*  hna yji el preview w dir l buton ghi kima li fat ydiir w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/}
+    <>
+      <div className="flex flex-col m-6 md:mx-20 lg:mx-40">
+        <div className="flex items-center justify-between">
+          <h1 className="text-black font-header text-4Zxl font-bold ">
+            Job Details
+          </h1>
+          <Button onClick={handleSubmit} variant="default" size="lg">
+            post the job
+          </Button>
+        </div>
+        <div className="flex flex-col space-y-4 mt-6">
+          <h2 className="text-2xl font-bold">{jobInfo.title}</h2>
+          <p className="text-greyDark">
+            <span>
+              <MapPin className="inline-block" /> {jobInfo.wilaya},{" "}
+              {jobInfo.city}
+            </span>
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              className="bg-cover bg-center rounded-3xl h-[450px]"
+              style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
+            ></div>
+            <div>
+              <h3 className="font-bold">Description:</h3>
+              <p className="max-lines-15 max-h-[360px]">
+                {jobInfo.description}
+              </p>
+              <div className="flex justify-between mt-4 gap-4">
+                <div className="flex-1">
+                  <h4 className="font-bold">Category:</h4>
+                  <p className="text-greyDark">
+                    {jobInfo.category}, {jobInfo.subCategory}
+                  </p>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold">Budget:</h4>
+                  <p className="text-greyDark">{jobInfo.budget}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="w-full py-4">
         <div className="px-4 flex justify-between mt-4">
@@ -173,11 +216,11 @@ const JobSlides = () => {
             Back
           </Button>
           <Button onClick={handleSubmit} variant="default">
-            post the job
+            Post the job
           </Button>
         </div>
       </div>
-    </div>
+    </>
   ) : (
     <div className=" flex h-screen flex-col">
       <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
@@ -186,9 +229,19 @@ const JobSlides = () => {
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">
-          <Button onClick={handleBack} variant="outline">
-            Back
-          </Button>
+          {currentSlide != 0 ? (
+            <Button onClick={handleBack} variant="outline">
+              Back
+            </Button>
+          ) : (
+            <Button
+              onClick={handleBack}
+              variant="outline"
+              className="opacity-0"
+            >
+              Back
+            </Button>
+          )}
           <Button onClick={handleNext} variant="default">
             {!(currentSlide === 5) ? "Next" : "review job post"}
           </Button>
