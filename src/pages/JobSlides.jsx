@@ -125,9 +125,6 @@ const JobSlides = () => {
     if (currentSlide === totalSlides - 1) {
       setCurrentSlide(-1);
     }
-    if (currentSlide === -1) {
-      handleSubmit();
-    }
   };
 
   const handleBack = () => {
@@ -166,10 +163,15 @@ const JobSlides = () => {
   // if (loading) return (<div></div>);
   return currentSlide === -1 ? (
     <div>
-      hna l preview
-      {/* hna yji el preview w dir l buton ghi kima li fat ydiir <Button onClick={handleNext} variant="default">
-           post the job
-          </Button>w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/}
+      hna yji l preview
+      <br />
+      <br />
+      {
+        /* hna yji el preview w dir l buton ghi kima li fat ydiir w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/
+        <Button onClick={handleSubmit} variant="default">
+          post the job
+        </Button>
+      }
     </div>
   ) : (
     <div className=" flex h-screen flex-col">

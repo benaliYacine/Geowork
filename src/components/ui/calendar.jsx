@@ -17,18 +17,22 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
   const nextYear = () => {
     console.log(month);
     setMonth((currentMonth) => {
-      const newYear = currentMonth.getFullYear() + 1;
-      const newMonth = new Date(currentMonth.setFullYear(newYear));
-
+      let newMonth = new Date(
+        currentMonth.getFullYear() + 1,
+        currentMonth.getMonth(),
+        currentMonth.getDate()
+      );
       return newMonth;
     });
   };
   const preYear = () => {
     console.log(month);
     setMonth((currentMonth) => {
-      const newYear = currentMonth.getFullYear() - 1;
-      const newMonth = new Date(currentMonth.setFullYear(newYear));
-
+      let newMonth = new Date(
+        currentMonth.getFullYear() - 1,
+        currentMonth.getMonth(),
+        currentMonth.getDate()
+      );
       return newMonth;
     });
   };
