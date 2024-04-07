@@ -14,6 +14,8 @@ import SlideSix from "@/components/job_slides/SlideSix";
 // ... import other slides
 
 const JobSlides = () => {
+  const [isPhotoAdded, setIsPhotoAdded] = useState(false);
+  const [showPhotoError, setShowPhotoError] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const submitFormRef = useRef(null);
   // New state for job information
@@ -26,7 +28,7 @@ const JobSlides = () => {
     budget: "DZD  55",
     description:
       " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
-    images: []
+    images: [],
   });
 
   // const [loading, setLoading] = useState(true);
@@ -61,6 +63,11 @@ const JobSlides = () => {
   const progress = Math.round((currentSlide / (totalSlides - 1)) * 100);
 
   const handleNext = () => {
+    if (!isPhotoAdded && currentSlide === 5) {
+      // Assuming slide 7 (index 6) is where the photo is required
+      setShowPhotoError(true); // Show error message
+      return; // Prevent proceeding to the next step
+    }
     if (submitFormRef.current) {
       submitFormRef.current(); // This will trigger form submission/validation
     } else {
@@ -112,10 +119,13 @@ const JobSlides = () => {
   };
 
   const inc = () => {
-    if (currentSlide < totalSlides - 1) {
+    if (currentSlide < totalSlides - 1 && currentSlide != -1) {
       setCurrentSlide(currentSlide + 1);
     }
     if (currentSlide === totalSlides - 1) {
+      setCurrentSlide(-1);
+    }
+    if (currentSlide === -1) {
       handleSubmit();
     }
   };
@@ -141,13 +151,27 @@ const JobSlides = () => {
       case 4:
         return <SlideFive {...commonProps} />;
       case 5:
-        return <SlideSix {...commonProps} />;
+        return (
+          <SlideSix
+            {...commonProps}
+            setShowPhotoError={setShowPhotoError}
+            setIsPhotoAdded={setIsPhotoAdded}
+            showPhotoError={showPhotoError}
+          />
+        );
       default:
         return <div>Slide not implemented</div>;
     }
   };
   // if (loading) return (<div></div>);
-  return (
+  return currentSlide === -1 ? (
+    <div>
+      hna l preview
+      {/* hna yji el preview w dir l buton ghi kima li fat ydiir <Button onClick={handleNext} variant="default">
+           post the job
+          </Button>w handle next ani msegemha yeb9a anou ilyes ydiir el ta3ou f handleSubmit*/}
+    </div>
+  ) : (
     <div className=" flex h-screen flex-col">
       <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
         {renderSlide()}

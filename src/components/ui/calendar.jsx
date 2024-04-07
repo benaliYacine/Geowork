@@ -59,7 +59,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
       <IconButton
         variant="outlined"
         onClick={() => preYear()}
-        className="absolute left-1 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+        className="absolute left-0 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
       >
         <ChevronsLeft className="h-4 w-4" />
       </IconButton>
@@ -67,7 +67,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
       <IconButton
         variant="outlined"
         onClick={() => preMonth()}
-        className="absolute left-10 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+        className="absolute left-9 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
       >
         <ChevronLeft className="h-4 w-4" />
       </IconButton>
@@ -75,14 +75,14 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
       <IconButton
         variant="outlined"
         onClick={() => nextYear()}
-        className="absolute right-1 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+        className="absolute right-0 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
       >
         <ChevronsRight className="h-4 w-4" />
       </IconButton>
       <IconButton
         variant="outlined"
         onClick={() => nextMonth()}
-        className="absolute right-10 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
+        className="absolute right-9 top-[-326px] h-7 w-7 p-[6.5px] opacity-50 hover:opacity-100"
       >
         <ChevronRight className="h-4 w-4" />
       </IconButton>

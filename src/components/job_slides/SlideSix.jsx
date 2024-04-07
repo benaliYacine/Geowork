@@ -11,6 +11,9 @@ export default function SlideSix({
   inc,
   jobInfo,
   updateJobInfo,
+  setIsPhotoAdded,
+  setShowPhotoError,
+  showPhotoError,
 }) {
   const form = useForm();
 
@@ -33,10 +36,18 @@ export default function SlideSix({
       // Add as a regular image
       updateJobInfo({ images: [...jobInfo.images, imageUrl] });
     }
+    setIsPhotoAdded(true);
+    setShowPhotoError(false);
   };
 
   const handleDeleteImage = (index) => {
+    if (jobInfo.images.length === 1) {
+      console.log("no img show err");
+      setIsPhotoAdded(false);
+      setShowPhotoError(true);
+    }
     updateJobInfo({ images: jobInfo.images.filter((_, i) => i !== index) });
+    
   };
 
   return (
@@ -53,8 +64,14 @@ export default function SlideSix({
           <p className="text-md text-greyDark mb-4">
             You'll need at least 1 photo to get started. You can add more.
           </p>
+          {showPhotoError && (
+            <p className="text-xs font-medium text-destructive text-center w-full">
+              At least add one photo to continue.
+            </p>
+          )}
           <div className="flex justify-center w-full">
             {/* Render the cover image card if there's no cover image yet or the cover image */}
+
             <ScrollArea className="h-[400px] w-fit flex flex-col px-2">
               {jobInfo.images.length === 0 ? (
                 <AddCoverImageCard onAdd={(url) => handleAddImage(url, true)} />
