@@ -120,7 +120,7 @@ app.get('/logout', (req, res) => {
     // Détruire la session côté serveur
     res.render('logout');
 });
-app.get('/profileSlides', middlewars.isLoginIn, async (req, res) => {
+app.get('/profileSlides', middlewars.requireLoginProfessionnel, async (req, res) => {
     const pro = await Professionnel.findById(req.session.user_id);
     if (pro.profile.added)
         return res.json({ redirectUrl: '/dashboard' });
