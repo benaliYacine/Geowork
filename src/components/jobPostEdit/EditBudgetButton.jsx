@@ -7,35 +7,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-
-import { getYearsRange } from "@/lib/utils";
-// Assuming you've imported the getYearsRange function and necessary UI components
-
-import EducationForm from "@/components/profile_slides/slideFive/EducationForm";
-
-const currentYear = new Date().getFullYear();
-const yearItems = getYearsRange(1990, currentYear);
-
+// import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
+import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  school: z.string().min(1, "school is required"),
-  degree: z.string().min(1, "degree is required"),
-  fieldOfStudy: z.string().min(1, "fieldOfStudy is required"),
-  datesAttended: z.object({
-    start: z.number({ required_error: "Please select a start Year." }),
-    end: z.number({ required_error: "Please select an end Year." }),
-  }),
-  description: z
+  budget: z
     .string()
-    .min(10, {
-      message: "Description must be at least 10 characters.",
-    })
-    .max(3000, {
-      message: "Description must not be longer than 3000 characters.",
-    }),
+    .min(1, "budget is required")
+    // Adjust regex as needed if your input format includes the "DZD" prefix.
+    .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
 });
 
 import IconButton from "@/components/common/IconButton";
+import CurrencyFormField from "@/components/formFields/CurrencyFormField";
 
 import { Pencil } from "lucide-react";
 
@@ -50,46 +34,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function EditEducationButton({ education, onEdit }) {
+function EditBudgetButton({ budget, onEdit }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      school: education.school,
-      degree: education.degree,
-      fieldOfStudy: education.fieldOfStudy,
-
-      datesAttended: {
-        start: education.datesAttended.start,
-
-        end: education.datesAttended.end,
-      },
-      description: education.description,
+      budget: budget,
     },
   });
-
   const onSubmit = async (values) => {
     console.log(values);
-
-    const newEducation = {
-      school: values.school,
-      degree: values.degree,
-      fieldOfStudy: values.fieldOfStudy,
-      datesAttended: {
-        start: values.datesAttended.start,
-        end: values.datesAttended.end,
-      },
-      description: values.description,
-    };
-
-    onEdit(newEducation);
+    onEdit(values.budget);
     setDialogOpen(false);
   };
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton>
+        <IconButton variant="outlined" className="h-6 w-6 p-1">
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>
@@ -97,16 +59,21 @@ function EditEducationButton({ education, onEdit }) {
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-              {/* Title */}
+              {/* budget */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Education
+                  Edit Budget
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <EducationForm />
+              <CurrencyFormField
+                control={form.control}
+                name="budget"
+                label="Budget *"
+                placeholder="Enter your budget"
+              />
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
@@ -126,4 +93,4 @@ function EditEducationButton({ education, onEdit }) {
   );
 }
 
-export default EditEducationButton;
+export default EditBudgetButton;

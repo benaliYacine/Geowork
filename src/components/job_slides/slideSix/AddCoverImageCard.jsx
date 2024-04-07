@@ -24,12 +24,12 @@ const AddCoverImageCard = ({ imageUrl = null, onAdd, onDelete }) => {
     <div
       className={`relative w-[516px] h-60 rounded-3xl cursor-pointer flex flex-col items-center justify-center py-12 gap-4 m-2 ${
         imageUrl
-          ? "border-none"
-          : "transition duration-300 ease-in-out transform hover:scale-[103%] bg-secondaryo border border-dashed border-primary"
+          ? "border-none bg-cover bg-center"
+          : "transition duration-300 ease-in-out transform hover:scale-[103%] bg-secondaryo border border-dashed border-primary "
       }`}
       style={{
         backgroundImage: `url(${imageUrl})`,
-        backgroundSize: "cover",
+        // backgroundSize: "cover",
       }}
       onClick={handleClick}
     >
