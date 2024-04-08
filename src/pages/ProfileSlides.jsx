@@ -201,6 +201,7 @@ const ProfileSlides = () => {
         formData.append(`educations[${index}][${key}]`, education[key]);
       });
     });
+    console.log("blobData",blobData);
     formData.append("image", blobData);
 
     const response = await axios.patch(

@@ -72,24 +72,38 @@ exports.deletePhoto = async (req, res) => {
 
 exports.createJob = async (req, res) => {
     try {
-        // Crée un nouvel emploi en utilisant les données du corps de la requête
+        // Crée un nouvel emploi en utilisant les données du corps de la requête\
+        delete req.body.images;
+        req.body.idClient=req.session.user_id;
+        console.log("body:",req.body);
+        console.log("files:",req.files);
+        const imageDataArray = req.files.map(fileData => ({
+            url: fileData.path,
+            filename: fileData.filename
+          }));
         const job = new Job(req.body);
+        imageDataArray.forEach(element => {
+            job.images.push(element);
+        });
         // Recherche le client associé à l'ID fourni dans le corps de la requête
-        const client = await Client.findById(req.body.idClient);
-
+        console.log("session",req.session.user_id);
+        const client = await Client.findById(req.session.user_id);
         if (!client) {
             return res.status(404).json({ message: "Client not found" });
         }
-
+        //console.log("je suis la");
         // Enregistre l'emploi dans la base de données
+        
         const savedJob = await job.save();
-
+       
+        
+        
         // Ajoute l'emploi à la liste des emplois du client
         client.jobs.push(savedJob._id);
-
+        
         // Enregistre les modifications apportées au client dans la base de données
-        await client.save();
-
+       await client.save();
+        console.log(savedJob);
         // Renvoie la réponse avec l'emploi créé
         return res.status(201).json(savedJob);
     } catch (err) {

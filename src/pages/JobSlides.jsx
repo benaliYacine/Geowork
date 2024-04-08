@@ -39,28 +39,28 @@ const JobSlides = () => {
     images: [],
   });
 
-  // const [loading, setLoading] = useState(true);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('/profileSlides');
-  //       console.log(response);
-  //       if (response.data.redirectUrl) {
-  //         navigate(response.data.redirectUrl);
-  //       } else
-  //         setLoading(false);
-  //       if (response.data) {
-  //         setName(response.data.name.first);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       // Handle error here, if needed
-  //     }
-  //   };
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/jobSlides');
+        console.log(response);
+        if (response.data.redirectUrl) {
+          navigate(response.data.redirectUrl);
+        } else
+          setLoading(false);
+        if (response.data) {
+          setName(response.data.name.first);
+        }
+      } catch (error) {
+        console.error(error);
+        // Handle error here, if needed
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   // Function to update job information
   const updateJobInfo = (newInfo) => {
@@ -84,49 +84,50 @@ const JobSlides = () => {
     // Additional logic to handle form submission on the last slide
   };
   const handleSubmit = async () => {
-    console.log(jobInfo);
-  
-    // const dataUrl = profileInfo.photoProfile;
-    // const blobData = await fetch(dataUrl).then((res) => res.blob());
-    // delete profileInfo.photoProfile;
-    // delete profileInfo.photoProfileSrc;
-    // const formData = new FormData();
-    // profileInfo.employments = JSON.stringify(profileInfo.employments);
-    // profileInfo.experiences = JSON.stringify(profileInfo.experiences);
-    // profileInfo.educations = JSON.stringify(profileInfo.educations);
-    // let employments = JSON.parse(profileInfo.employments);
-    // let experiences = JSON.parse(profileInfo.experiences);
-    // let educations = JSON.parse(profileInfo.educations);
-    // formData.append('roleTitle', profileInfo.roleTitle);
-    // formData.append('category', profileInfo.category);
-    // formData.append('subCategory', profileInfo.subCategory);
-    // formData.append('Bio', profileInfo.Bio);
-    // formData.append('dateBirthday', profileInfo.dateBirthday);
-    // formData.append('streetAdress', profileInfo.streetAdress);
-    // formData.append('phone', profileInfo.phone);
-    // employments.forEach((employment, index) => {
-    //   Object.keys(employment).forEach((key) => {
-    //     formData.append(`employments[${index}][${key}]`, employment[key]);
-    //   });
-    // });
-    // experiences.forEach((experience, index) => {
-    //   Object.keys(experience).forEach((key) => {
-    //     formData.append(`experiences[${index}][${key}]`, experience[key]);
-    //   });
-    // });
-    // educations.forEach((education, index) => {
-    //   Object.keys(education).forEach((key) => {
-    //     formData.append(`educations[${index}][${key}]`, education[key]);
-    //   });
-    // });
-    // formData.append('image', blobData);
-    // const response = await axios.patch("/api/professionnels/addProfileProfessionnel", formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // });
-    // console.log(response);
+    const formData = new FormData();
+    console.log(jobInfo.images);
+    // Ajouter les champs de texte
+    formData.append('title', jobInfo.title);
+    formData.append('category', jobInfo.category);
+    formData.append('subCategory', jobInfo.subCategory);
+    formData.append('wilaya', jobInfo.wilaya);
+    formData.append('city', jobInfo.city);
+    formData.append('budget', jobInfo.budget);
+    formData.append('description', jobInfo.description);
+
+    // Ajouter les images
+
+
+    const files = [];
+    for (let i = 0; i < jobInfo.images.length; i++) {
+      const imageUrl = jobInfo.images[i];
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `image_${i}.jpg`, { type: blob.type });
+      files.push(file);
+    }
+
+    files.forEach((file, index) => {
+      formData.append(`images`, file, file.name);
+    });
+   
+
+    
+    try {
+      const response = await axios.post('/api/jobs/createJob', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      
+      console.log(response.data);
+    } catch (error) {
+     
+      console.error('Error submitting job info:', error);
+    }
   };
+
 
   const inc = () => {
     if (currentSlide < totalSlides - 1 && currentSlide != -1) {
@@ -173,7 +174,7 @@ const JobSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  // if (loading) return (<div></div>);
+   if (loading) return (<div></div>);
   return currentSlide === -1 ? (
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px]">

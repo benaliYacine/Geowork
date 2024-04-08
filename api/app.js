@@ -229,6 +229,9 @@ app.get('/job/:id', async (req, res) => {
     else
         res.json("Job n'exist pas");
 })
+app.get('/jobSlides',middlewars.requireLoginClient, async (req, res) => {
+    res.json();
+})
 app.get('/job/:id/edit', middlewars.isAuthor, async (req, res) => {
     const { id } = req.params
     const job = await Job.findById(id)

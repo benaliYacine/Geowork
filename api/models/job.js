@@ -31,13 +31,13 @@ const jobsSchema = new mongoose.Schema({
         //required: true
     },
     budget: {
-        type: Number
+        type: String,
     },
     description: {
         type: String,
         require: true
     },
-    photos: [
+    images: [
         {
             url: String,
             filename: String
