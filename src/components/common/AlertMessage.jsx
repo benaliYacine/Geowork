@@ -1,15 +1,21 @@
 // components/AlertMessage.jsx
-import React from 'react';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-const AlertMessage = ({ showAlert, message, variant = "destructive" }) => (
-    showAlert ? (
-        <Alert variant={variant} className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{message}</AlertDescription>
-        </Alert>
-    ) : null
-);
+import React from "react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle, CircleCheck, X } from "lucide-react";
+
+const AlertMessage = ({ showAlert, message, variant = "default", onClose }) => {
+  const Icon = variant === "destructive" ? AlertCircle : CircleCheck;
+
+  return showAlert ? (
+    <Alert variant={variant} className="mb-4 relative ">
+      <Icon className="h-5 w-5" />
+      {variant === "destructive" && <AlertTitle>Error</AlertTitle>}
+      <AlertDescription>{message}</AlertDescription>
+      <button onClick={onClose} className="absolute top-3 right-3">
+        <X className="h-5 w-5" />
+      </button>
+    </Alert>
+  ) : null;
+};
 
 export default AlertMessage;

@@ -45,6 +45,7 @@ module.exports = {
         secondaryo: '#FFECE3',
         secondary2: '#FFCBB2',
         black: '#333333',
+        success: '#108A00',
         greyDark: '#8A8A8A',
         greyCold: '#E7E7E7',
         darkPrimary: '#D24500',

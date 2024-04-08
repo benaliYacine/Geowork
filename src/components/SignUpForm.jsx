@@ -57,7 +57,9 @@ export default function SignUpForm() {
   const [filteredCities, setFilteredCities] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState(
+    ""
+  );
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -126,7 +128,12 @@ export default function SignUpForm() {
   return (
     <div>
       <h2 className="text-center font-sans font-bold text-4xl mb-6">Sign Up</h2>
-      <AlertMessage showAlert={showAlert} message={alertMessage} />
+      <AlertMessage
+        showAlert={showAlert}
+        variant="destructive"
+        onClose={() => setShowAlert(false)}
+        message={alertMessage}
+      />
 
       <Button variant="white" onClick={Auth} className="w-full mb-4">
         <FcGoogle className="mr-2" />
