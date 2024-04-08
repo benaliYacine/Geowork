@@ -66,6 +66,7 @@ export default function SlideFive({
             name="description"
             label="Job description"
             placeholder="Already have a description? Paste it here!"
+            minHeight = "180px"
           />
         </form>
       </Form>
