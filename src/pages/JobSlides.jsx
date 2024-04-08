@@ -33,9 +33,9 @@ const JobSlides = () => {
     subCategory: "math_tutor",
     wilaya: "alger",
     city: "sidi_moussa",
-    budget: "DZD  55",
+    budget: "DZD  5, 500",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
     images: [],
   });
 
@@ -206,7 +206,7 @@ const JobSlides = () => {
               <EditLocationButton
                 wilaya={jobInfo.wilaya}
                 city={jobInfo.city}
-                onEdit={(newWilaya,newCity) => {
+                onEdit={(newWilaya, newCity) => {
                   updateJobInfo({
                     wilaya: newWilaya,
                   });
@@ -230,7 +230,6 @@ const JobSlides = () => {
                     updateJobInfo({
                       images: newImages,
                     });
-                    
                   }}
                 />
               </div>
@@ -240,12 +239,14 @@ const JobSlides = () => {
                 <h3 className="font-bold">Description:</h3>
                 <p className="line-clamp-14">{jobInfo.description}</p>
                 <div className="absolute top-0 right-1 ">
-                  <EditDescriptionButton description={jobInfo.description} onEdit={(newDescription) => {
-                  updateJobInfo({
-                    description: newDescription,
-                  });
-                  
-                }}/>
+                  <EditDescriptionButton
+                    description={jobInfo.description}
+                    onEdit={(newDescription) => {
+                      updateJobInfo({
+                        description: newDescription,
+                      });
+                    }}
+                  />
                 </div>
               </div>
 
@@ -259,7 +260,7 @@ const JobSlides = () => {
                     <EditCategoryButton
                       category={jobInfo.category}
                       subCategory={jobInfo.subCategory}
-                      onEdit={(newCategory,newSubCategory) => {
+                      onEdit={(newCategory, newSubCategory) => {
                         updateJobInfo({
                           category: newCategory,
                         });
@@ -274,12 +275,14 @@ const JobSlides = () => {
                   <h4 className="font-bold">Budget:</h4>
                   <p className="text-greyDark">{jobInfo.budget}</p>
                   <div className="absolute top-0 right-1 ">
-                    <EditBudgetButton budget={jobInfo.budget} onEdit={(newBudget) => {
-                  updateJobInfo({
-                    budget: newBudget,
-                  });
-
-                }}/>
+                    <EditBudgetButton
+                      budget={jobInfo.budget}
+                      onEdit={(newBudget) => {
+                        updateJobInfo({
+                          budget: newBudget,
+                        });
+                      }}
+                    />
                   </div>
                 </div>
               </div>
