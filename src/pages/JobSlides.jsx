@@ -77,6 +77,8 @@ const JobSlides = () => {
     // Additional logic to handle form submission on the last slide
   };
   const handleSubmit = async () => {
+    console.log(jobInfo);
+  
     // const dataUrl = profileInfo.photoProfile;
     // const blobData = await fetch(dataUrl).then((res) => res.blob());
     // delete profileInfo.photoProfile;
