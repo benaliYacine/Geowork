@@ -11,7 +11,7 @@ const jobsSchema = new mongoose.Schema({
         type: String
         //enum:
     },
-    speciality: {
+    subCategory: {
         type: String,
         //enum:[]//hadi nzidha ki natfahmo 3la les category
     },
@@ -19,17 +19,25 @@ const jobsSchema = new mongoose.Schema({
         type: String
         //enum:
     }, */
-    duree: {
+    /* duree: {
         type: String
+    }, */
+    wilaya: {
+        type: String,
+        //required: true
     },
-    price: {
-        type: Number
+    city: {
+        type: String,
+        //required: true
+    },
+    budget: {
+        type: String,
     },
     description: {
         type: String,
         require: true
     },
-    photos: [
+    images: [
         {
             url: String,
             filename: String
