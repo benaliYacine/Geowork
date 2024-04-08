@@ -17,10 +17,10 @@ const NoPage = () => {
           <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
             Page not found
           </h1>
-          <p className="mt-4 text-base leading-7 text-greyDark">
+          <p className="mt-6 text-base leading-7 text-greyDark">
             Sorry, we couldn’t find the page you’re looking for.
           </p>
-          <div className="mt-4 flex items-center justify-center gap-x-6">
+          <div className="mt-6 flex items-center justify-center gap-x-6">
             <Link to="/" className="rounded-md shadow-sm">
               <Button variant="default" className="text-sm font-semibold">
                 Go back home

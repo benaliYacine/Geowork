@@ -11,6 +11,7 @@ import WelcomePro from "./pages/WelcomePro";
 import InputWilayaCity from "./pages/InputWilayaCity";
 import ProfileSlides from "./pages/ProfileSlides";
 import JobSlides from "./pages/JobSlides";
+import SendEmailPage from "./pages/SendEmailPage";
 
 import axios from "axios";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/welcomePro" element={<WelcomePro />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
+          <Route path="/sendEmailPage" element={<SendEmailPage />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
