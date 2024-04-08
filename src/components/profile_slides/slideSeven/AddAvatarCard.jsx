@@ -226,7 +226,7 @@ function AddAvatarCard({
         </div>
         <DialogFooter>
           <DialogClose>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" >Cancel</Button>
           </DialogClose>
           <Button onClick={onSave}>Save</Button>
         </DialogFooter>

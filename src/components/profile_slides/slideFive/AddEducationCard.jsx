@@ -113,7 +113,7 @@ function AddEducationCard({ onClick, addEducation }) {
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="outline" className="mt-3">
+                  <Button variant="outline" className="mt-3" type="button">
                     Cancel
                   </Button>
                 </DialogClose>

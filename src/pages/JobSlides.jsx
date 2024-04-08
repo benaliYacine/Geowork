@@ -10,6 +10,13 @@ import SlideThree from "@/components/job_slides/SlideThree";
 import SlideFour from "@/components/job_slides/SlideFour";
 import SlideFive from "@/components/job_slides/SlideFive";
 import SlideSix from "@/components/job_slides/slideSix/SlideSix";
+import EditTitleButton from "@/components/jobPostEdit/EditTitleButton";
+import EditBudgetButton from "@/components/jobPostEdit/EditBudgetButton";
+import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
+import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButton";
+import EditImageButton from "@/components/jobPostEdit/EditImageButton";
+import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
+
 import { MapPin } from "lucide-react";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
@@ -26,9 +33,9 @@ const JobSlides = () => {
     subCategory: "math_tutor",
     wilaya: "alger",
     city: "sidi_moussa",
-    budget: "DZD  55",
+    budget: "DZD  5, 500",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
     images: [],
   });
 
@@ -168,44 +175,117 @@ const JobSlides = () => {
   };
   // if (loading) return (<div></div>);
   return currentSlide === -1 ? (
-    <>
-      <div className="flex flex-col m-6 md:mx-20 lg:mx-40">
+    <div className="w-full flex flex-col items-center">
+      <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px]">
         <div className="flex items-center justify-between">
-          <h1 className="text-black font-header text-4Zxl font-bold ">
+          <h1 className="text-black font-header text-4xl font-bold">
             Job Details
           </h1>
           <Button onClick={handleSubmit} variant="default" size="lg">
             post the job
           </Button>
         </div>
-        <div className="flex flex-col space-y-4 mt-6">
-          <h2 className="text-2xl font-bold">{jobInfo.title}</h2>
-          <p className="text-greyDark">
-            <span>
+        <div className="flex flex-col space-y-4 mt-6 ">
+          <div className="relative">
+            <h2 className="text-2xl font-bold">{jobInfo.title}</h2>
+            <div className="absolute top-0 right-1 ">
+              <EditTitleButton
+                title={jobInfo.title}
+                onEdit={(newTitle) => {
+                  updateJobInfo({
+                    title: newTitle,
+                  });
+                }}
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <p className="text-greyDark">
               <MapPin className="inline-block" /> {jobInfo.wilaya},{" "}
               {jobInfo.city}
-            </span>
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            </p>
+            <div className="absolute top-0 right-1 ">
+              <EditLocationButton
+                wilaya={jobInfo.wilaya}
+                city={jobInfo.city}
+                onEdit={(newWilaya, newCity) => {
+                  updateJobInfo({
+                    wilaya: newWilaya,
+                  });
+                  updateJobInfo({
+                    city: newCity,
+                  });
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
             <div
-              className="bg-cover bg-center rounded-3xl h-[450px]"
+              className="bg-cover bg-center rounded-3xl h-[450px] relative"
               style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
-            ></div>
+            >
+              <div className="absolute top-3 right-3 ">
+                <EditImageButton
+                  images={jobInfo.images}
+                  onEdit={(newImages) => {
+                    updateJobInfo({
+                      images: newImages,
+                    });
+                  }}
+                />
+              </div>
+            </div>
             <div>
-              <h3 className="font-bold">Description:</h3>
-              <p className="max-lines-15 max-h-[360px]">
-                {jobInfo.description}
-              </p>
+              <div className="relative">
+                <h3 className="font-bold">Description:</h3>
+                <p className="line-clamp-14">{jobInfo.description}</p>
+                <div className="absolute top-0 right-1 ">
+                  <EditDescriptionButton
+                    description={jobInfo.description}
+                    onEdit={(newDescription) => {
+                      updateJobInfo({
+                        description: newDescription,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+
               <div className="flex justify-between mt-4 gap-4">
-                <div className="flex-1">
+                <div className="flex-1 relative">
                   <h4 className="font-bold">Category:</h4>
                   <p className="text-greyDark">
                     {jobInfo.category}, {jobInfo.subCategory}
                   </p>
+                  <div className="absolute top-0 right-1 ">
+                    <EditCategoryButton
+                      category={jobInfo.category}
+                      subCategory={jobInfo.subCategory}
+                      onEdit={(newCategory, newSubCategory) => {
+                        updateJobInfo({
+                          category: newCategory,
+                        });
+                        updateJobInfo({
+                          subCategory: newSubCategory,
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 relative">
                   <h4 className="font-bold">Budget:</h4>
                   <p className="text-greyDark">{jobInfo.budget}</p>
+                  <div className="absolute top-0 right-1 ">
+                    <EditBudgetButton
+                      budget={jobInfo.budget}
+                      onEdit={(newBudget) => {
+                        updateJobInfo({
+                          budget: newBudget,
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -222,7 +302,7 @@ const JobSlides = () => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   ) : (
     <div className=" flex h-screen flex-col">
       <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
