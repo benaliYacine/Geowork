@@ -8,6 +8,7 @@ import Messages from "./pages/Messages";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import WelcomePro from "./pages/WelcomePro";
+import WelcomeCli from "./pages/WelcomeCli";
 import InputWilayaCity from "./pages/InputWilayaCity";
 import ProfileSlides from "./pages/ProfileSlides";
 import JobSlides from "./pages/JobSlides";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/welcomePro" element={<WelcomePro />} />
+          <Route path="/welcomeCli" element={<WelcomeCli />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
           <Route path="/sendEmailPage" element={<SendEmailPage />} />

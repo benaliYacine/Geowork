@@ -57,9 +57,7 @@ export default function SignUpForm() {
   const [filteredCities, setFilteredCities] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(
-    ""
-  );
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
