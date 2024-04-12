@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 const HeroSection = () => {
   return (
     <section className="text-black body-font flex justify-center items-center w-full h-[550px]">
-      <div className="container flex flex-col lg:flex-row items-center justify-between mx-6 lg:mx-24 xl:mx-52 w-full max-w-[1440px]">
+      <div className="container flex flex-col lg:flex-row items-center justify-between mx-6 sm:mx-8 md:mx-12 lg:mx-18 xl:mx-24 w-full max-w-[1440px]">
         <div className="flex-grow lg:w-1/2 xl:pr-24 lg:pr-16 flex flex-col lg:items-start lg:text-left mb-16 lg:mb-0 items-center text-center lg:my-0 my-12" >
           <h1 className="font-header sm:text-5xl text-3xl font-bold mb-4 text-black">
             Connect Instantly With Local Experts Around You

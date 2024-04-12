@@ -89,6 +89,14 @@ module.exports = {
         sm: '4px'
       },
       keyframes: {
+        'slide-in-right': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'slide-out-right': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
         'accordion-down': {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' }
@@ -99,6 +107,8 @@ module.exports = {
         }
       },
       animation: {
+        'slide-in-right': 'slide-in-right 0.2s ease-out forwards',
+        'slide-out-right': 'slide-out-right 0.2s ease-in forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
