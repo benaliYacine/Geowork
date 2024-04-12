@@ -98,7 +98,7 @@ export default function LoginForm() {
         <Divider>OR</Divider>
       </div>
       <Button variant="white" onClick={Auth} className="w-full">
-        <FcGoogle className="mr-2" />
+        <FcGoogle className="mr-2 h-5 w-5" />
         Continue with Google
       </Button>
       <div className="text-center mt-4">
