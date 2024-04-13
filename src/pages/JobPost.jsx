@@ -107,7 +107,7 @@ export default function JobPost() {
                   className="bg-cover bg-center rounded-3xl h-[450px] relative"
                   style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
                 >
-                  <div className="absolute top-3 right-3 ">
+                  <div className="absolute top-3 right-3">
                     {edit && (
                       <EditImageButton
                         images={jobInfo.images}

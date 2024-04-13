@@ -39,7 +39,7 @@ export default function ImagesCarousel({ images }) {
         >
           <DrawerClose
             asChild
-            className="absolute top-5 left-5 hover:bg-white hover:shadow-md p-2 h-fit w-fit rounded-full"
+            className="absolute top-5 left-5 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-bg data-[state=open]:text-muted-foreground"
             data-vaul-no-drag
           >
             <ChevronLeft className="h-7 w-7" data-vaul-no-drag />
