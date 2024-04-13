@@ -54,6 +54,11 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/jobPost">Go to JobPost Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
     </div>
   );
 }
