@@ -57,9 +57,7 @@ export default function SignUpForm() {
   const [filteredCities, setFilteredCities] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(
-    ""
-  );
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
@@ -136,20 +134,20 @@ export default function SignUpForm() {
       />
 
       <Button variant="white" onClick={Auth} className="w-full mb-4">
-        <FcGoogle className="mr-2" />
+        <FcGoogle className="mr-2 h-5 w-5" />
         Continue with Google
       </Button>
       <Divider className="opacity-60">OR</Divider>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
           <div className="flex space-x-4">
-            <GenericFormField
+            <GenericFormField className="w-full"
               control={form.control}
               name="name.first"
               label="First Name"
               placeholder="First name"
             />
-            <GenericFormField
+            <GenericFormField className="w-full"
               control={form.control}
               name="name.last"
               label="Last Name"

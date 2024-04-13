@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import WelcomPro from "../components/WelcomPro";
+import WelcomCli from "../components/WelcomCli";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function WelcomePro() {
+export default function WelcomeCli() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -11,7 +11,7 @@ export default function WelcomePro() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/welcomePro");
+        const response = await axios.get("/welcomeCli");
         console.log(response);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
@@ -30,7 +30,7 @@ export default function WelcomePro() {
   if (loading) return <div></div>;
   return (
     <div className="h-screen flex items-center">
-      <WelcomPro firstName={name} />
+      <WelcomCli firstName={name} />
     </div>
   );
 }

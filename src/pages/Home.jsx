@@ -1,9 +1,14 @@
 // tari9a li ra7 nekhedmou biha fel pfe
 import { Link } from "react-router-dom";
-
+import Header from "@/components/common/Header";
+import HeroSection from "@/components/home/HeroSection";
+import Footer from "@/components/common/Footer";
 function Home() {
   return (
     <div className="bg-bg">
+      <Header />
+      <HeroSection />
+      <Footer />
       <h1 className="font-header font-bold text-3xl">Home Page</h1>
 
       <p>This is the home page of our example application.</p>
