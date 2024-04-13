@@ -20,12 +20,25 @@ const messageSchema = new mongoose.Schema({
         //required: true,
         enum: ['Client', 'Professionnel']
     },
-    text: String,
-    time: {
-        type:Date,
-        default:Date.now
+    message: {
+        type: {
+            type: String,
+            enum:['text','image','file']
+        },
+        url: {
+            type: String
+        },
+        filename: {
+            type: String
+        },
+        content:{
+            type: String
+        },
     },
-    file: String,
+    time: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 module.exports = mongoose.model("Message", messageSchema);

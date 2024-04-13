@@ -34,7 +34,7 @@ function App() {
           <Route path="/welcomePro" element={<WelcomePro />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
-          <Route path="/sendEmailPage" element={<SendEmailPage />} />
+          <Route path="/verifyEmail" element={<SendEmailPage />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

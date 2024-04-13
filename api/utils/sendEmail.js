@@ -35,6 +35,6 @@ module.exports = async (email, subject, text) => {
 
     } catch (error) {
         console.log('Email not sent');
-        console.log(error);
+        return error
     }
 }

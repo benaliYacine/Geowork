@@ -2,9 +2,42 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import mail_sent from "@/assets/illustrations/mail_sent.svg"; // Ensure correct path
 import AlertMessage from "@/components/common/AlertMessage";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 const SendEmailPage = ({ emailAddress }) => {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate=useNavigate();
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/verifyEmail');
+        console.log(response);
+        if (response.data.redirectUrl) {
+          navigate(response.data.redirectUrl);
+        }
+          setLoading(false);
+      } catch (error) {
+        console.error(error);
+        // Handle error here, if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+  const handleSendVerifyEmail = async ()=>{
+    const response=await axios.post('/verifyEmail');
+    console.log(response);
+    if(response.data.redirectUrl){
+      navigate(response.data.redirectUrl);
+    }
+    if(!response.data.error){
+      setShowAlert(true);
+    }
+  }
+  if (loading) return (<div></div>);
   return (
     <>
       <main className="flex flex-col min-h-full w-full items-center justify-center bg-bg">
@@ -33,7 +66,7 @@ const SendEmailPage = ({ emailAddress }) => {
               your address.
             </p>
             <div className="mt-6">
-              <Button variant="default" className="text-sm font-semibold">
+              <Button onClick={handleSendVerifyEmail} variant="default" className="text-sm font-semibold">
                 Send Again
               </Button>
             </div>
