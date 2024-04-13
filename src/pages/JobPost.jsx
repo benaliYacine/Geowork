@@ -8,125 +8,14 @@ import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButto
 import EditImageButton from "@/components/jobPostEdit/EditImageButton";
 import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Save, LayoutGrid } from "lucide-react";
+import { Pencil, Save, LayoutGrid } from "lucide-react";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import DeleteJobPost from "@/components/jobPost/DeleteJobPost";
+import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
 
-function DeleteJobPost({ onDelete }) {
-  const [isActionTaken, setIsActionTaken] = useState(false);
-
-  const handleAction = () => {
-    setIsActionTaken(true);
-  };
-
-  const handleClose = () => {
-    if (isActionTaken) {
-      onDelete();
-      setIsActionTaken(false); // Reset the state for the next interaction
-    }
-  };
-
-  return (
-    <AlertDialog onOpenChange={handleClose}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Trash2 className="h-4 w-4 mr-2" />
-          delete job post
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Remove Job Post</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to remove this Job Post?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel variant="white">Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleAction}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
-
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-function ImagesCarousel() {
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline" size="sm" onClick={() => {}}>
-          <LayoutGrid className="h-4 w-4 mr-2" /> show all photos
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm h-screen">
-          {/* <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader> */}
-          <Carousel className="w-full max-w-xs">
-            <CarouselContent>
-              {Array.from({ length: 5 }).map((_, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                        <span className="text-4xl font-semibold">
-                          {index + 1}
-                        </span>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-          {/* <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter> */}
-        </div>
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
-// TODO: rod el edit yemchi
 export default function JobPost() {
   const [edit, setEdit] = useState(false); // State to control the visibility of edit components
+  // TODO: rod jobInfo yjiib l data ta3ha mel server doka ani dayer ghi dummy data
   const [jobInfo, setJobInfo] = useState({
     title: "na7ihom memba3d ",
     category: "education_and_tutoring",
@@ -136,8 +25,30 @@ export default function JobPost() {
     budget: "DZD  5, 500",
     description:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-    images: ["blob:http://localhost:5173/fbddb264-653f-4d34-ba87-cb865e1d5464"],
+    images: [
+      "https://placebear.com/g/200/200",
+      "https://source.unsplash.com/user/c_v_r/1900×800",
+      "https://via.placeholder.com/300.png/09f/fff",
+    ],
   });
+  const [oldJobInfo, setOldJobInfo] = useState(jobInfo);
+
+ 
+  // Function to update job information
+  const updateJobInfo = (newInfo) => {
+    setJobInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
+  };
+
+
+  function SaveJobInfo() {
+    
+    //TODO: hna diir save lel job info fel server
+    console.log(jobInfo);
+   }
+
+
+
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px] space-y-4">
@@ -209,7 +120,7 @@ export default function JobPost() {
                     )}
                   </div>
                   <div className="absolute bottom-3 right-3 ">
-                    <ImagesCarousel />
+                    <ImagesCarousel images={jobInfo.images} />
                   </div>
                 </div>
                 <div>
@@ -284,26 +195,29 @@ export default function JobPost() {
                   >
                     <Pencil className="h-4 w-4 mr-2" /> edit job post
                   </Button>
-                  {/* TODO: on delete hot fiha fct li s supp l job post w tiik lel home (all job posts) */}
+                  {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
                   <DeleteJobPost onDelete={() => {}} />
                 </div>
               ) : (
                 <div className="flex items-center justify-end gap-4">
                   {" "}
-                  {/* TODO: diir save fct fel onclick */}
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => {
                       setEdit(false);
+                      setJobInfo(oldJobInfo);
                     }}
                   >
-                    Cencel
-                  </Button>
+                    Cancel
+                    </Button>
+                    {/* TODO: diir save lel job info fel base de donne fel onclick */}
                   <Button
                     size="sm"
-                    onClick={() => {
+                      onClick={() => {
+                      SaveJobInfo();
                       setEdit(false);
+                      setOldJobInfo(jobInfo);
                     }}
                   >
                     <Save className="h-4 w-4 mr-2" /> Save
@@ -312,10 +226,9 @@ export default function JobPost() {
               )}
             </div>
           </TabsContent>
-
           <TabsContent value="inviteExperts">
-            <div className="w-full flex flex-col items-center ">
-              <p className="text-lg ">
+            <div className="w-full flex flex-col items-center">
+              <p className="text-lg">
                 Content for inviting experts will be implemented here. Content
                 for inviting experts will be implemented here.Content for
                 inviting experts will be implemented here.

@@ -20,7 +20,7 @@ import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import { MapPin } from "lucide-react";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
-
+import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
 const JobSlides = () => {
   const [isPhotoAdded, setIsPhotoAdded] = useState(false);
   const [showPhotoError, setShowPhotoError] = useState(false);
@@ -44,12 +44,11 @@ const JobSlides = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/jobSlides');
+        const response = await axios.get("/jobSlides");
         console.log(response);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        } else
-          setLoading(false);
+        } else setLoading(false);
         if (response.data) {
           setName(response.data.name.first);
         }
@@ -87,16 +86,15 @@ const JobSlides = () => {
     const formData = new FormData();
     console.log(jobInfo.images);
     // Ajouter les champs de texte
-    formData.append('title', jobInfo.title);
-    formData.append('category', jobInfo.category);
-    formData.append('subCategory', jobInfo.subCategory);
-    formData.append('wilaya', jobInfo.wilaya);
-    formData.append('city', jobInfo.city);
-    formData.append('budget', jobInfo.budget);
-    formData.append('description', jobInfo.description);
+    formData.append("title", jobInfo.title);
+    formData.append("category", jobInfo.category);
+    formData.append("subCategory", jobInfo.subCategory);
+    formData.append("wilaya", jobInfo.wilaya);
+    formData.append("city", jobInfo.city);
+    formData.append("budget", jobInfo.budget);
+    formData.append("description", jobInfo.description);
 
     // Ajouter les images
-
 
     const files = [];
     for (let i = 0; i < jobInfo.images.length; i++) {
@@ -110,24 +108,19 @@ const JobSlides = () => {
     files.forEach((file, index) => {
       formData.append(`images`, file, file.name);
     });
-   
 
-    
     try {
-      const response = await axios.post('/api/jobs/createJob', formData, {
+      const response = await axios.post("/api/jobs/createJob", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      
       console.log(response.data);
     } catch (error) {
-     
-      console.error('Error submitting job info:', error);
+      console.error("Error submitting job info:", error);
     }
   };
-
 
   const inc = () => {
     if (currentSlide < totalSlides - 1 && currentSlide != -1) {
@@ -174,7 +167,7 @@ const JobSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-   if (loading) return (<div></div>);
+  if (loading) return <div></div>;
   return currentSlide === -1 ? (
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px]">
@@ -235,6 +228,9 @@ const JobSlides = () => {
                     });
                   }}
                 />
+              </div>
+              <div className="absolute bottom-3 right-3 ">
+                <ImagesCarousel images={jobInfo.images} />
               </div>
             </div>
             <div>

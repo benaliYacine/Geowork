@@ -31,7 +31,7 @@ import {
 
 function EditImageButton({ images, onEdit }) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [isPhotoAdded, setIsPhotoAdded] = useState(false);
+  const [isPhotoAdded, setIsPhotoAdded] = useState(images.length > 0);
   const [showPhotoError, setShowPhotoError] = useState(false);
   const form = useForm();
   const [newImages, setNewImages] = useState(images);
