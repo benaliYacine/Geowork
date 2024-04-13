@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { React, useState } from "react";
-import { MapPin } from "lucide-react";
+
 import EditTitleButton from "@/components/jobPostEdit/EditTitleButton";
 import EditBudgetButton from "@/components/jobPostEdit/EditBudgetButton";
 import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
@@ -12,6 +12,10 @@ import { Pencil, Save, LayoutGrid } from "lucide-react";
 
 import DeleteJobPost from "@/components/jobPost/DeleteJobPost";
 import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
+import RatingDisplay from "@/components/jobPost/RatingDisplay";
+import Location from "@/components/jobPost/Location";
+import ExpertItem from "@/components/jobPost/ExpertItem";
+import ExpertList from "@/components/jobPost/ExpertList";
 
 export default function JobPost() {
   const [edit, setEdit] = useState(false); // State to control the visibility of edit components
@@ -33,107 +37,63 @@ export default function JobPost() {
   });
   const [oldJobInfo, setOldJobInfo] = useState(jobInfo);
 
- 
   // Function to update job information
   const updateJobInfo = (newInfo) => {
     setJobInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
 
-
   function SaveJobInfo() {
-    
     //TODO: hna diir save lel job info fel server
     console.log(jobInfo);
-   }
-
-
-
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px] space-y-4">
-        <div className="flex items-center justify-between relative ">
-          <h1 className="text-black font-header text-4xl font-bold">
-            {jobInfo.title}
-          </h1>
-          <div className="absolute top-0 right-1 ">
-            {edit && (
-              <EditTitleButton
-                title={jobInfo.title}
-                onEdit={(newTitle) => {
-                  updateJobInfo({
-                    title: newTitle,
-                  });
-                }}
-              />
-            )}
-          </div>
-        </div>
-        <Tabs defaultValue="viewJobPost" className="w-full">
-          <TabsList className="mx-auto">
-            <TabsTrigger value="viewJobPost">View Job Post</TabsTrigger>
-            <TabsTrigger value="inviteExperts">Invite Experts</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="viewJobPost">
-            {/* Your existing JSX here, wrap it in a div if needed */}
-
-            <div className="flex flex-col space-y-4 mt-6 ">
-              <div className="relative">
-                <p className="text-greyDark">
-                  <MapPin className="inline-block" /> {jobInfo.wilaya},{" "}
-                  {jobInfo.city}
-                </p>
-                <div className="absolute top-0 right-1 ">
-                  {edit && (
-                    <EditLocationButton
+      <div className="w-full">
+        <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px] ">
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between relative ">
+              <h1 className="text-black font-header text-4xl font-bold ">
+                {jobInfo.title}
+              </h1>
+              <div className="absolute top-0 right-1 ">
+                {edit && (
+                  <EditTitleButton
+                    title={jobInfo.title}
+                    onEdit={(newTitle) => {
+                      updateJobInfo({
+                        title: newTitle,
+                      });
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+            <Tabs defaultValue="viewJobPost" className="">
+              <TabsList className="">
+                <TabsTrigger value="viewJobPost">View Job Post</TabsTrigger>
+                <TabsTrigger value="inviteExperts">Invite Experts</TabsTrigger>
+              </TabsList>
+              <TabsContent value="viewJobPost">
+                {/* Your existing JSX here, wrap it in a div if needed */}
+                <div className="flex flex-col space-y-4 mt-6 ">
+                  <div className="relative">
+                    <Location
                       wilaya={jobInfo.wilaya}
                       city={jobInfo.city}
-                      onEdit={(newWilaya, newCity) => {
-                        updateJobInfo({
-                          wilaya: newWilaya,
-                        });
-                        updateJobInfo({
-                          city: newCity,
-                        });
-                      }}
+                      size="md"
                     />
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-                <div
-                  className="bg-cover bg-center rounded-3xl h-[450px] relative"
-                  style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
-                >
-                  <div className="absolute top-3 right-3">
-                    {edit && (
-                      <EditImageButton
-                        images={jobInfo.images}
-                        onEdit={(newImages) => {
-                          updateJobInfo({
-                            images: newImages,
-                          });
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="absolute bottom-3 right-3 ">
-                    <ImagesCarousel images={jobInfo.images} />
-                  </div>
-                </div>
-                <div>
-                  <div className="relative">
-                    <h3 className="font-bold">Description:</h3>
-                    <p className="line-clamp-14">{jobInfo.description}</p>
                     <div className="absolute top-0 right-1 ">
                       {edit && (
-                        <EditDescriptionButton
-                          description={jobInfo.description}
-                          onEdit={(newDescription) => {
+                        <EditLocationButton
+                          wilaya={jobInfo.wilaya}
+                          city={jobInfo.city}
+                          onEdit={(newWilaya, newCity) => {
                             updateJobInfo({
-                              description: newDescription,
+                              wilaya: newWilaya,
+                            });
+                            updateJobInfo({
+                              city: newCity,
                             });
                           }}
                         />
@@ -141,101 +101,141 @@ export default function JobPost() {
                     </div>
                   </div>
 
-                  <div className="flex justify-between mt-4 gap-4">
-                    <div className="flex-1 relative">
-                      <h4 className="font-bold">Category:</h4>
-                      <p className="text-greyDark">
-                        {jobInfo.category}, {jobInfo.subCategory}
-                      </p>
-                      <div className="absolute top-0 right-1 ">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                    <div
+                      className="bg-cover bg-center rounded-3xl h-[450px] relative"
+                      style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
+                    >
+                      <div className="absolute top-3 right-3">
                         {edit && (
-                          <EditCategoryButton
-                            category={jobInfo.category}
-                            subCategory={jobInfo.subCategory}
-                            onEdit={(newCategory, newSubCategory) => {
+                          <EditImageButton
+                            images={jobInfo.images}
+                            onEdit={(newImages) => {
                               updateJobInfo({
-                                category: newCategory,
-                              });
-                              updateJobInfo({
-                                subCategory: newSubCategory,
+                                images: newImages,
                               });
                             }}
                           />
                         )}
                       </div>
+                      <div className="absolute bottom-3 right-3 ">
+                        <ImagesCarousel images={jobInfo.images} />
+                      </div>
                     </div>
-                    <div className="flex-1 relative">
-                      <h4 className="font-bold">Budget:</h4>
-                      <p className="text-greyDark">{jobInfo.budget}</p>
-                      <div className="absolute top-0 right-1 ">
-                        {edit && (
-                          <EditBudgetButton
-                            budget={jobInfo.budget}
-                            onEdit={(newBudget) => {
-                              updateJobInfo({
-                                budget: newBudget,
-                              });
-                            }}
-                          />
-                        )}
+                    <div>
+                      <div className="relative">
+                        <h3 className="font-bold">Description:</h3>
+                        <p className="line-clamp-14">{jobInfo.description}</p>
+                        <div className="absolute top-0 right-1 ">
+                          {edit && (
+                            <EditDescriptionButton
+                              description={jobInfo.description}
+                              onEdit={(newDescription) => {
+                                updateJobInfo({
+                                  description: newDescription,
+                                });
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between mt-4 gap-4">
+                        <div className="flex-1 relative">
+                          <h4 className="font-bold">Category:</h4>
+                          <p className="text-greyDark">
+                            {jobInfo.category}, {jobInfo.subCategory}
+                          </p>
+                          <div className="absolute top-0 right-1 ">
+                            {edit && (
+                              <EditCategoryButton
+                                category={jobInfo.category}
+                                subCategory={jobInfo.subCategory}
+                                onEdit={(newCategory, newSubCategory) => {
+                                  updateJobInfo({
+                                    category: newCategory,
+                                  });
+                                  updateJobInfo({
+                                    subCategory: newSubCategory,
+                                  });
+                                }}
+                              />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex-1 relative">
+                          <h4 className="font-bold">Budget:</h4>
+                          <p className="text-greyDark">{jobInfo.budget}</p>
+                          <div className="absolute top-0 right-1 ">
+                            {edit && (
+                              <EditBudgetButton
+                                budget={jobInfo.budget}
+                                onEdit={(newBudget) => {
+                                  updateJobInfo({
+                                    budget: newBudget,
+                                  });
+                                }}
+                              />
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {!edit ? (
+                    <div className="flex items-center justify-end gap-4">
+                      {" "}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEdit(true);
+                        }}
+                      >
+                        <Pencil className="h-4 w-4 mr-2" /> edit job post
+                      </Button>
+                      {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
+                      <DeleteJobPost onDelete={() => {}} />
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-end gap-4">
+                      {" "}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEdit(false);
+                          setJobInfo(oldJobInfo);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      {/* TODO: diir save lel job info fel base de donne fel onclick */}
+                      <Button
+                        size="sm"
+                        onClick={() => {
+                          SaveJobInfo();
+                          setEdit(false);
+                          setOldJobInfo(jobInfo);
+                        }}
+                      >
+                        <Save className="h-4 w-4 mr-2" /> Save
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              </div>
-              {!edit ? (
-                <div className="flex items-center justify-end gap-4">
-                  {" "}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setEdit(true);
-                    }}
-                  >
-                    <Pencil className="h-4 w-4 mr-2" /> edit job post
-                  </Button>
-                  {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
-                  <DeleteJobPost onDelete={() => {}} />
+              </TabsContent>
+              <TabsContent
+                value="inviteExperts"
+                
+              >
+                <div className=" flex flex-col items-center">
+                  <ExpertList/>
                 </div>
-              ) : (
-                <div className="flex items-center justify-end gap-4">
-                  {" "}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setEdit(false);
-                      setJobInfo(oldJobInfo);
-                    }}
-                  >
-                    Cancel
-                    </Button>
-                    {/* TODO: diir save lel job info fel base de donne fel onclick */}
-                  <Button
-                    size="sm"
-                      onClick={() => {
-                      SaveJobInfo();
-                      setEdit(false);
-                      setOldJobInfo(jobInfo);
-                    }}
-                  >
-                    <Save className="h-4 w-4 mr-2" /> Save
-                  </Button>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-          <TabsContent value="inviteExperts">
-            <div className="w-full flex flex-col items-center">
-              <p className="text-lg">
-                Content for inviting experts will be implemented here. Content
-                for inviting experts will be implemented here.Content for
-                inviting experts will be implemented here.
-              </p>
-            </div>
-          </TabsContent>
-        </Tabs>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   );
