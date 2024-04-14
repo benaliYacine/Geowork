@@ -295,7 +295,6 @@ export default function InputWilayaCity() {
               </FormItem>
             )}
           />
-
           <Button type="submit" className="w-full mt-4">
             Continue
           </Button>

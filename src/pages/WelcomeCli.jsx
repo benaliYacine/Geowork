@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import WelcomCli from "../components/WelcomCli";
+import WelcomCli from "../components/welcomeSections/WelcomCli";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

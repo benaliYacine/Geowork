@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import WelcomPro from "../components/WelcomPro";
+import WelcomPro from "../components/welcomeSections/WelcomPro";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

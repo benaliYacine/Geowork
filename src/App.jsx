@@ -15,6 +15,7 @@ import JobSlides from "./pages/JobSlides";
 import JobPost from "./pages/JobPost";
 import SendEmailPage from "./pages/SendEmailPage";
 import AllJobPosts from "./pages/AllJobPosts";
+import JobsSearch from "./pages/JobsSearch";
 
 import axios from "axios";
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/jobPost" element={<JobPost />} />
           <Route path="/sendEmailPage" element={<SendEmailPage />} />
           <Route path="/allJobPosts" element={<AllJobPosts />} />
+          <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

@@ -64,6 +64,11 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/jobsSearch">Go to JobsSearch.jsx Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
     </div>
   );
 }
