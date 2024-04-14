@@ -20,12 +20,14 @@ export default function ExpertItem({ expert, setEdit }) {
           <div className="flex-grow mb-2">
             <h3 className="text-lg font-semibold mb-1">{expert.name}</h3>
             <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
-            <RatingDisplay rating={expert.rating} size="sm" />
+            <div className="mb-1">
+              <RatingDisplay rating={expert.rating} />
+            </div>
             <Location wilaya={expert.wilaya} city={expert.city} size="sm" />
           </div>
         </div>
         <div className=" mb-0 ml-auto sm:ml-0 sm:mb-auto">
-          <SendInvitation expert={ expert} />
+          <SendInvitation expert={expert} />
         </div>
       </div>
       <Separator />

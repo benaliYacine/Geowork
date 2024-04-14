@@ -1,29 +1,61 @@
 import React from 'react';
+import { Rating, StickerStar } from '@smastrom/react-rating';
+import '@smastrom/react-rating/style.css'; 
 
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
-
-
-
-
-
-const RatingDisplay = ({ rating,size="medium" }) => {
+const RatingDisplay = ({ rating }) => {
+  // Custom styles for the rating component
+  const customStyles = {
+    itemShapes: StickerStar,
+    activeFillColor: '#FF5400', 
+    inactiveFillColor: 'rgba(255, 84, 0, 0.2)' // same as activeFillColor but with 20% opacity
+  };
 
   return (
-    <Rating
-      size={size}
-    name="text-feedback"
-    value={rating}
-    readOnly
-    precision={0.5}
-    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-  />
+    <div className="max-w-[100px]"> 
+      <Rating
+        value={rating}
+        readOnly
+        itemStyles={customStyles}
+        // highlightOnlySelected={true}
+      />
+    </div>
   );
 };
 
 export default RatingDisplay;
 
 
+
+
+
+
+
+// import React from 'react';
+
+// import Rating from '@mui/material/Rating';
+// import StarIcon from '@mui/icons-material/Star';
+
+
+
+
+
+// const RatingDisplay = ({ rating,size="medium" }) => {
+
+//   return (
+//     <Rating
+//       size={size}
+//     name="text-feedback"
+//     value={rating}
+//     readOnly
+//     precision={0.5}
+//     emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+//   />
+//   );
+// };
+
+// export default RatingDisplay;
+
+//----------------------------------------------------------------
 
 // import React from 'react';
 
