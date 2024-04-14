@@ -17,6 +17,7 @@ import SendEmailPage from "./pages/SendEmailPage";
 import AllJobPosts from "./pages/AllJobPosts";
 import JobsSearch from "./pages/JobsSearch";
 import ExpertsSearch from "./pages/ExpertsSearch";
+import Settings from "./pages/Settings";
 
 import axios from "axios";
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/allJobPosts" element={<AllJobPosts />} />
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
