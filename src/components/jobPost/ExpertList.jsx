@@ -45,7 +45,7 @@ export default function ExpertList() {
           <ExpertItem keys={index} expert={expert} />
         ))}
       </div>
-      <Pagination>
+      <Pagination className=" flex justify-end ">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious onClick={handlePrevious} disabled={currentPage === 1} />

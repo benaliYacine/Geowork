@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import RatingDisplay from "@/components/jobPost/RatingDisplay";
 import Location from "@/components/jobPost/Location";
+import SendInvitation from "@/components/jobPost/SendInvitation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -24,9 +25,7 @@ export default function ExpertItem({ expert, setEdit }) {
           </div>
         </div>
         <div className=" mb-0 ml-auto sm:ml-0 sm:mb-auto">
-          <Button variant="outline" size="sm" onClick={() => setEdit(true)}>
-            Invite to Job
-          </Button>
+          <SendInvitation expert={ expert} />
         </div>
       </div>
       <Separator />
