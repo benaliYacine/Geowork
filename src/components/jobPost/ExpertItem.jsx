@@ -1,12 +1,12 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import RatingDisplay from "@/components/jobPost/RatingDisplay";
-import Location from "@/components/jobPost/Location";
+import Location from "@/components/common/Location";
 import SendInvitation from "@/components/jobPost/SendInvitation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-export default function ExpertItem({ expert, setEdit }) {
+export default function ExpertItem({ expert }) {
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">

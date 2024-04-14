@@ -59,6 +59,11 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/allJobPosts">Go to AllJobPosts Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
     </div>
   );
 }
