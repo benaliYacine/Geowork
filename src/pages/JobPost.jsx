@@ -52,8 +52,8 @@ export default function JobPost() {
       <div className="w-full">
         <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px] ">
           <div className="flex flex-col">
-            <div className="flex items-center justify-between relative ">
-              <h1 className="text-black font-header text-4xl font-bold ">
+            <div className="flex items-center justify-between relative mb-2">
+              <h1 className="text-black font-header text-4xl font-bold">
                 {jobInfo.title}
               </h1>
               <div className="absolute top-0 right-1 ">
