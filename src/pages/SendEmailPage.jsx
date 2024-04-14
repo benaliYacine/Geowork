@@ -4,7 +4,7 @@ import mail_sent from "@/assets/illustrations/mail_sent.svg"; // Ensure correct 
 import AlertMessage from "@/components/common/AlertMessage";
 import { useState } from "react";
 const SendEmailPage = ({ emailAddress }) => {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   return (
     <>
       <main className="flex flex-col min-h-full w-full items-center justify-center bg-bg">
@@ -33,7 +33,11 @@ const SendEmailPage = ({ emailAddress }) => {
               your address.
             </p>
             <div className="mt-6">
-              <Button variant="default" className="text-sm font-semibold">
+              <Button
+                variant="default"
+                className="text-sm font-semibold"
+                onClick={() => {setShowAlert(true)}}
+              >
                 Send Again
               </Button>
             </div>
