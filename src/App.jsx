@@ -16,6 +16,7 @@ import JobPost from "./pages/JobPost";
 import SendEmailPage from "./pages/SendEmailPage";
 import AllJobPosts from "./pages/AllJobPosts";
 import JobsSearch from "./pages/JobsSearch";
+import ExpertsSearch from "./pages/ExpertsSearch";
 
 import axios from "axios";
 
