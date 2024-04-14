@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/loginSignUp/LoginForm";
 export default function Login() {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-bg">

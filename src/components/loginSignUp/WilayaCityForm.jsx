@@ -33,7 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { wilayas, cities } from "../data/wilayasCities";
+import { wilayas, cities } from "@/data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
@@ -57,12 +57,11 @@ export default function InputWilayaCity() {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        console.log('je suis la');
+        console.log("je suis la");
         const response = await axios.get("/InputWilayaCity");
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
-        } else
-          setLoading(false);
+        } else setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -96,17 +95,17 @@ export default function InputWilayaCity() {
 
     try {
       // Replace '/continueSignup' with the actual endpoint to post the form data
-      const response = await axios.post('/continueSignup', values);
-      console.log('Response:', response.data);
+      const response = await axios.post("/continueSignup", values);
+      console.log("Response:", response.data);
       if (response.data.redirectUrl) {
         window.location.href = response.data.redirectUrl;
-      } 
-      console.log('Response:', response.data);
+      }
+      console.log("Response:", response.data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
-  if (loading) return (<div></div>);
+  if (loading) return <div></div>;
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">
@@ -130,8 +129,8 @@ export default function InputWilayaCity() {
                       >
                         {field.value
                           ? wilayas.find(
-                            (wilaya) => wilaya.value === field.value
-                          )?.label
+                              (wilaya) => wilaya.value === field.value
+                            )?.label
                           : "Select wilaya"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -151,10 +150,11 @@ export default function InputWilayaCity() {
                               }}
                             >
                               <Check
-                                className={` mr-2 h-4 w-4 ${wilaya.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                                  }`}
+                                className={` mr-2 h-4 w-4 ${
+                                  wilaya.value === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                }`}
                               />
                               {wilaya.label}
                             </CommandItem>
@@ -186,8 +186,8 @@ export default function InputWilayaCity() {
                       >
                         {field.value
                           ? filteredCities.find(
-                            (city) => city.value === field.value
-                          )?.label
+                              (city) => city.value === field.value
+                            )?.label
                           : "Select a city"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -209,10 +209,11 @@ export default function InputWilayaCity() {
                                   }
                                 >
                                   <Check
-                                    className={`mr-2 h-4 w-4 ${city.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                      }`}
+                                    className={`mr-2 h-4 w-4 ${
+                                      city.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    }`}
                                   />
                                   {city.label}
                                 </CommandItem>

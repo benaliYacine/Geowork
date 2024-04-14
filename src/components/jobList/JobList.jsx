@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ExpertItem from "@/components/jobPost/ExpertItem";
+import JobItem from "@/components/jobList/JobItem";
 import {
   Pagination,
   PaginationEllipsis,
@@ -10,23 +10,23 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-const experts = Array.from({ length: 100 }, (_, i) => ({
-  name: `John Doe ${i + 1}`,
-  role: "Web Developer",
-  rating: Math.random() * 5,
-  avatarUrl: "https://github.com/johndoe.png",
-  initials: "JD",
+const jobs = Array.from({ length: 100 }, (_, i) => ({
+  image: "https://placebear.com/g/200/200",
+  category: "education_and_tutoring",
+  subCategory: "math_tutor",
+  title: `test test ${i + 1}`,
+  budget: "DZD  5, 500",
   wilaya: "Algiers",
   city: "Central",
 }));
 
 const ITEMS_PER_PAGE = 10;
 
-export default function ExpertList() {
+export default function JobList() {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const lastPageIndex = Math.ceil(experts.length / ITEMS_PER_PAGE);
-  const currentData = experts.slice(
+  const lastPageIndex = Math.ceil(jobs.length / ITEMS_PER_PAGE);
+  const currentData = jobs.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -80,8 +80,8 @@ export default function ExpertList() {
   return (
     <div className="w-full">
       <div className="flex flex-col items-center w-full">
-        {currentData.map((expert, index) => (
-          <ExpertItem key={index} expert={expert} />
+        {currentData.map((job, index) => (
+          <JobItem key={index} job={job} />
         ))}
       </div>
       <Pagination className="flex justify-end">

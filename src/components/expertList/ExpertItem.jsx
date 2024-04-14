@@ -1,8 +1,8 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import RatingDisplay from "@/components/jobPost/RatingDisplay";
+import RatingDisplay from "@/components/expertList/RatingDisplay";
 import Location from "@/components/common/Location";
-import SendInvitation from "@/components/jobPost/SendInvitation";
+import SendInvitation from "@/components/expertList/SendInvitation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 

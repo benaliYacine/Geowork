@@ -2,7 +2,7 @@ import React from "react";
 import Location from "@/components/common/Location";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import Category from "@/components/allJobPosts/Category";
+import Category from "@/components/common/Category";
 export default function JobItem({ job }) {
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">

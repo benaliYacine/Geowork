@@ -12,10 +12,10 @@ import { Pencil, Save, LayoutGrid } from "lucide-react";
 
 import DeleteJobPost from "@/components/jobPost/DeleteJobPost";
 import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
-import RatingDisplay from "@/components/jobPost/RatingDisplay";
+import RatingDisplay from "@/components/expertList/RatingDisplay";
 import Location from "@/components/common/Location";
-import ExpertItem from "@/components/jobPost/ExpertItem";
-import ExpertList from "@/components/jobPost/ExpertList";
+import ExpertItem from "@/components/expertList/ExpertItem";
+import ExpertList from "@/components/expertList/ExpertList";
 
 export default function JobPost() {
   const [edit, setEdit] = useState(false); // State to control the visibility of edit components
