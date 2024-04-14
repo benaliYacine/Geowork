@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import ExpertList from "@/components/jobList/ExpertList";
+import ExpertList from "@/components/expertList/ExpertList";
 
 export default function AllJobPosts() {
   return (
@@ -13,7 +13,7 @@ export default function AllJobPosts() {
               </h1>
             </div>
             <div className=" flex flex-col items-center mt-6">
-              <JobList />
+              <ExpertList />
             </div>
           </div>
         </div>

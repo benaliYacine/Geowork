@@ -44,6 +44,7 @@ function App() {
           <Route path="/sendEmailPage" element={<SendEmailPage />} />
           <Route path="/allJobPosts" element={<AllJobPosts />} />
           <Route path="/jobsSearch" element={<JobsSearch />} />
+          <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
