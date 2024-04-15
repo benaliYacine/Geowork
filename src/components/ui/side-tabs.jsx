@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const Tabs = React.forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.Root
     ref={ref}
-    className={cn("flex flex-row mt-4 gap-4 w-full", className)}
+    className={cn("flex flex-row mt-4 gap-2 w-full", className)}
     {...props}
   />
 ));
@@ -17,7 +17,7 @@ const TabsList = React.forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "flex flex-col min-w-72 py-3 h-full bg-white rounded-lg ",
+      "flex flex-col min-w-72 p-2 h-full bg-white rounded-md ",
       className
     )}
     {...props}
@@ -30,8 +30,8 @@ const TabsTrigger = React.forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "relative w-full h-full flex items-center justify-start px-4 py-2 ml-2 text-sm font-medium transition-all",
-
+      "relative w-full h-full flex items-center justify-start px-4 py-2  text-sm font-medium transition-all duration-150 ease-in-out",
+      
       "before:absolute before:top-0 before:bottom-[-2px] before:left-0 before:w-0.5 before:transition-width before:rounded-full",
       "data-[state=active]:text-primary data-[state=active]:text-lg data-[state=active]:before:bg-primary data-[state=active]:before:bottom-0.5 data-[state=active]:before:top-[4px]",
       "data-[state=inactive]:text-black data-[state=inactive]:before:bg-greyCold",
