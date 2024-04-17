@@ -19,7 +19,8 @@ export default function Chat() {
   const [loading, setLoading] = useState(true);
   const [contact, setContact] = useState({});
   const [contacts, setContacts] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const [ws, setWs] = useState(null);
   const { id } = useParams();
@@ -27,7 +28,10 @@ export default function Chat() {
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:3000');
     setWs(ws);
-    ws.addEventListener('message', handleSendMessage)
+
+    ws.addEventListener('message', handleSendMessage);
+
+
   }, []);
   // Placeholder for data fetching and state management
 
@@ -44,10 +48,13 @@ export default function Chat() {
 
   }
   // Function placeholders for interaction handling
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (ev) => {
+
+    const messageData = JSON.parse(ev.data);
+    console.log("messageData",messageData);
+    if ('online' in messageData)
+      showPeople(messageData.online);
     
-    const messageData = JSON.parse(message.data);
-    showPeople(messageData.online)
 
     // message.data.text().then(messageString =>{
     //   console.log(messageString); 
@@ -55,18 +62,44 @@ export default function Chat() {
     //console.log('new message',message);
     // TODO: Implement sending message to server
   };
-  const sendMessage = async (message)=>{
-    //message.preventDefault();
+  const sendMessage = async (message) => {
     console.log(message);
-    setMessage(message);
-    const newMessage={
-    id: id,
-    message: {
-      type: "text",
-      content:message,
-    },
-    isOwnMessage: true,
-  }
+    const time = Date.now()
+    let newMessage = {
+      id: id, // Assurez-vous d'avoir une variable id définie quelque part
+      message: {
+        type: "text",
+        content: message,
+      },
+      isOwnMessage: true,
+
+    };
+
+    // Envoi du message au serveur
+    const response = await axios.post('/addMessage', newMessage);
+    ws.send(JSON.stringify(newMessage))
+    // Mise à jour de l'état local pour inclure le nouveau message
+
+
+    newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+    console.log("newMessage", newMessage);
+    setMessages([...messages, newMessage]);
+    const compareDates = (a, b) => {
+      if (a.time < b.time) {
+        return 1;
+      }
+      if (a.time >= b.time) {
+        return -1;
+      }
+      return 0;
+    };
+    const newContact = contacts.filter((contact) => contact.id == id)[0];
+    newContact.message = newMessage.message.content;
+    newContact.time = newMessage.timestamp;
+
+
+    setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort(compareDates));
+
   }
 
   const handleFileAttach = (files) => {
@@ -84,13 +117,42 @@ export default function Chat() {
           navigate(response.data.redirectUrl);
         } else
           setLoading(false);
+        console.log("response:", response.data);
+
         if (response.data) {
+
           const newContact = {
             name: response.data.name.first + ' ' + response.data.name.last,
             //avatarUrl:response.data.photoProfile.url,
           }
+          console.log(response.data.contacts);
+
+          const contact = response.data.contacts.filter((contact) => contact.contactId == response.data.user_id)[0];
+
+          console.log(contact);
+          let messages = [];
+          contact.messages.forEach((m) => {
+            messages.push({
+              id: m._id,
+              senderName: m.senderId == id ? 'Alice' : 'User',
+              message: m.message,
+              isOwnMessage: m.senderId == id ? false : true,
+              timestamp: `${new Date(m.time).getHours()}:${new Date(m.time).getMinutes()}`
+            });
+          });
+
+          console.log("sdfakjasfd", messages);
+          setMessages(messages);
           setContact(newContact);
-          setName(response.data.name.first);
+          /* if (response.data.contacts) {
+            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
+            console.log("Contactoooo", contact);
+          } else
+            console.log("adsfjmadfsk"); */
+
+
+
+          //setName(response.data.name.first);
         }
 
       } catch (error) {
@@ -119,7 +181,7 @@ export default function Chat() {
         </div>
 
         <div className=" w-full h-full overflow-y-auto">
-          <MessageList />
+          <MessageList messages={messages} />
         </div>
         <div className="flex-none">
           {" "}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
@@ -25,6 +25,34 @@ import axios from "axios";
 //makach nav la 3ndk default page w fiha te9der tro7 l page khdoukhra b link kima hna dert home hiya default (path="/") w fel houme dert link yediik lel about page
 
 function App() {
+  const [ws, setWs] = useState(null);
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:3000');
+    setWs(ws);
+
+    ws.addEventListener('message', handleSendOnlineUser);
+
+
+  }, []);
+  const showPeople = async (people) => {
+    const response = await axios.post('/contact', { people });
+
+    if (response.data) {
+      setContacts(response.data);
+      if (id == 1) {
+        navigate(`/messages/${response.data[0].id}`);
+      }
+    }
+
+
+  }
+  // Function placeholders for interaction handling
+  const handleSendOnlineUser = (message) => {
+
+    const messageData = JSON.parse(message.data);
+    showPeople(messageData.online)
+
+  };
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (
@@ -42,16 +70,12 @@ function App() {
           <Route path="/welcomeCli" element={<WelcomeCli />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
-<<<<<<< HEAD
-          <Route path="/verifyEmail" element={<SendEmailPage />} />
-=======
           <Route path="/jobPost" element={<JobPost />} />
-          <Route path="/sendEmailPage" element={<SendEmailPage />} />
+          <Route path="/verifyEmail" element={<SendEmailPage />} />
           <Route path="/allJobPosts" element={<AllJobPosts />} />
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
->>>>>>> d6ff06dd5db8f312a2ece0c2ce2fcde1e7976bc5
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

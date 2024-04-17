@@ -9,7 +9,7 @@ function ContactItem({
   isActive = false, // Added isActive prop
   onClick,
 }) {
-  const previewMessage = message.length > 10 ? `${message.split(" ").slice(0, 5).join(" ")}...` : `${message.split(" ").slice(0, 5).join(" ")}`;
+  const previewMessage = message.length > 10 ? `${message.slice(0, 10)}...` : `${message}`;
 
   return (
     <div className="flex items-center p-2 pr-4 hover:bg-gray-100 cursor-pointer" onClick={onClick}>

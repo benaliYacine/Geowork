@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 const SendEmailPage = ({ emailAddress }) => {
   const [showAlert, setShowAlert] = useState(false);
-<<<<<<< HEAD
   const navigate=useNavigate();
   const [loading, setLoading] = useState(true);
   
@@ -39,8 +38,6 @@ const SendEmailPage = ({ emailAddress }) => {
     }
   }
   if (loading) return (<div></div>);
-=======
->>>>>>> d6ff06dd5db8f312a2ece0c2ce2fcde1e7976bc5
   return (
     <>
       <main className="flex flex-col min-h-full w-full items-center justify-center bg-bg">
@@ -69,15 +66,7 @@ const SendEmailPage = ({ emailAddress }) => {
               your address.
             </p>
             <div className="mt-6">
-<<<<<<< HEAD
               <Button onClick={handleSendVerifyEmail} variant="default" className="text-sm font-semibold">
-=======
-              <Button
-                variant="default"
-                className="text-sm font-semibold"
-                onClick={() => {setShowAlert(true)}}
-              >
->>>>>>> d6ff06dd5db8f312a2ece0c2ce2fcde1e7976bc5
                 Send Again
               </Button>
             </div>
