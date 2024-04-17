@@ -49,7 +49,7 @@ function Home() {
       <br />
       <hr />
       <br />
-      <Link to="/sendEmailPage">Go to SendEmail Page</Link>
+      <Link to="/verifyEmail">Go to SendEmail Page</Link>
       <br />
       <br />
       <hr />

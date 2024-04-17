@@ -2,22 +2,22 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
-        //required: true,
+        required: true,
         refPath: 'userType'
     },
     recipientId: {
         type: mongoose.Schema.Types.ObjectId,
-        //required: true,
+        required: true,
         refPath: 'userType'
     },
     senderType: {
         type: String,
-        //required: true,
+        required: true,
         enum: ['Client', 'Professionnel']
     },
     recipientType: {
         type: String,
-        //required: true,
+        required: true,
         enum: ['Client', 'Professionnel']
     },
     message: {
@@ -26,13 +26,16 @@ const messageSchema = new mongoose.Schema({
             enum:['text','image','file']
         },
         url: {
-            type: String
+            type: String,
+            default:""
         },
         filename: {
-            type: String
+            type: String,
+            default:""
         },
         content:{
-            type: String
+            type: String,
+            default:""
         },
     },
     time: {
