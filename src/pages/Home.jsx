@@ -54,6 +54,26 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/jobPost">Go to JobPost Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/allJobPosts">Go to AllJobPosts Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/jobsSearch">Go to JobsSearch Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/expertsSearch">Go to ExpertsSearch Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
     </div>
   );
 }

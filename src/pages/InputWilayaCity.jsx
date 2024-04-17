@@ -1,5 +1,5 @@
 import React from "react";
-import WilayaCityForm from "../components/WilayaCityForm";
+import WilayaCityForm from "../components/loginSignUp/WilayaCityForm";
 
 export default function LoginPage() {
   return (

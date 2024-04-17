@@ -23,18 +23,22 @@ export default function ProfileIcon({ pro = true, name = "test test" }) {
         </div>
         {pro && <ListItemWithIcon Icon={CircleUser} text="profile" />}
         <ListItemWithIcon Icon={MessageCircle} text="messages" />
-        <ListItemWithIcon Icon={Settings} text="settings" />
+        <ListItemWithIcon Icon={Settings} text="settings" link="/settings"/>
         <ListItemWithIcon Icon={LogOut} text="log out" />
       </PopoverContent>
     </Popover>
   );
 }
 
-const ListItemWithIcon = ({ Icon, text }) => {
+import { Link } from "react-router-dom";
+
+const ListItemWithIcon = ({ Icon, text, link }) => {
   return (
-    <div className="flex items-center gap-2 p-2 hover:bg-bg w-40 cursor-pointer rounded-md">
-      <Icon className="h-6 w-6 stroke-[1px] text-black" />
-      <span className=" text-sm">{text}</span>
-    </div>
+    <Link to={link} className="text-white">
+      <div className="flex items-center gap-2 p-2 hover:bg-bg w-40 cursor-pointer rounded-md">
+        <Icon className="h-6 w-6 stroke-[1px] text-black" />
+        <span className=" text-sm text-black">{text}</span>
+      </div>
+    </Link>
   );
 };

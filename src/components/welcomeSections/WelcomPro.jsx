@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import Welcome from "../assets/illustrations/welcome-pro.svg";
+import Welcome from "@/assets/illustrations/welcome-pro.svg";
 import { useNavigate } from "react-router-dom";
 export default function WelcomPro({ firstName = "Name" }) {
   const navigate = useNavigate();

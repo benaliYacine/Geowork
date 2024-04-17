@@ -12,7 +12,12 @@ import WelcomeCli from "./pages/WelcomeCli";
 import InputWilayaCity from "./pages/InputWilayaCity";
 import ProfileSlides from "./pages/ProfileSlides";
 import JobSlides from "./pages/JobSlides";
+import JobPost from "./pages/JobPost";
 import SendEmailPage from "./pages/SendEmailPage";
+import AllJobPosts from "./pages/AllJobPosts";
+import JobsSearch from "./pages/JobsSearch";
+import ExpertsSearch from "./pages/ExpertsSearch";
+import Settings from "./pages/Settings";
 
 import axios from "axios";
 
@@ -37,7 +42,16 @@ function App() {
           <Route path="/welcomeCli" element={<WelcomeCli />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
+<<<<<<< HEAD
           <Route path="/verifyEmail" element={<SendEmailPage />} />
+=======
+          <Route path="/jobPost" element={<JobPost />} />
+          <Route path="/sendEmailPage" element={<SendEmailPage />} />
+          <Route path="/allJobPosts" element={<AllJobPosts />} />
+          <Route path="/jobsSearch" element={<JobsSearch />} />
+          <Route path="/expertsSearch" element={<ExpertsSearch />} />
+          <Route path="/settings" element={<Settings />} />
+>>>>>>> d6ff06dd5db8f312a2ece0c2ce2fcde1e7976bc5
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

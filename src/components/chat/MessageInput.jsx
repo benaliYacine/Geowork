@@ -25,7 +25,7 @@ function MessageInput({ onSendMessage, onFileAttach }) {
       <input
         type="text"
         placeholder="Type a message..."
-        className="flex-1 p-2 rounded-lg focus:outline-none" // Example to remove the focus outline and change the border to a light gray
+        className="flex-1 p-2 rounded-lg focus:outline-none bg-white" // Example to remove the focus outline and change the border to a light gray
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
