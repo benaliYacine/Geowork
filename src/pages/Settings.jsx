@@ -11,7 +11,7 @@ import EditBudgetButton from "@/components/jobPostEdit/EditBudgetButton";
 import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
 import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButton";
 import EditImageButton from "@/components/jobPostEdit/EditImageButton";
-import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
+import EditLocationButton from "@/components/settingsEdit/EditLocationButton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Pencil, Save, LayoutGrid } from "lucide-react";
@@ -23,23 +23,29 @@ import Location from "@/components/common/Location";
 import ExpertItem from "@/components/expertList/ExpertItem";
 import ExpertList from "@/components/expertList/ExpertList";
 import CloseAccount from "@/components/settings/CloseAccount";
+import EditAccountButton from "@/components/settingsEdit/EditAccountButton";
+import EditPasswordButton from "@/components/settingsEdit/EditPasswordButton";
+import EditClientLocationButton from "@/components/settingsEdit/EditClientLocationButton";
+import EditClientAccountButton from "@/components/settingsEdit/EditClientAccountButton";
 
 export default function Settings() {
   // TODO: rod userInfo yjiib l data ta3ha mel server doka ani dayer ghi dummy data
   const [userInfo, setUserInfo] = useState({
-    name: "test",
-    email: "test",
-    location: "test",
-    phone: "test",
-    password:"test",
+    name: { first: "John", last: "Smith" },
+    email: "john@example.com",
+    streetAdress: " tiaret tiaret asdf asd f",
+    wilaya: "tiaret",
+    city: "tiaret",
+    phone: "05 55 55 55 55",
+    password: "testtest",
   });
+
+  const IsExpert = false;
 
   // Function to update user information
   const updateUserInfo = (newInfo) => {
     setUserInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
-
-
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -75,53 +81,181 @@ export default function Settings() {
                       <h4 className="text-black font-header text-xl font-semibold">
                         Name
                       </h4>
-                      <p className="text-greyDark font-sans text-lg">{userInfo.name}</p>
+                      <p className="text-greyDark font-sans text-lg">
+                        {userInfo.name.first} {userInfo.name.last}
+                      </p>
                     </div>
                     <div className="flex flex-col space-y-2">
                       <h4 className="text-black font-header text-xl font-semibold">
                         Email
                       </h4>
-                      <p className="text-greyDark font-sans text-lg">{userInfo.email}</p>
+                      <p className="text-greyDark font-sans text-lg">
+                        {userInfo.email}
+                      </p>
                     </div>
-                    <div className="absolute top-1 right-1 ">
-                      <EditTitleButton
-                        title={userInfo.name}
-                        onEdit={(newTitle) => {
-                          updateUserInfo({
-                            name: newTitle,
-                          });
-                        }}
-                      />
-                    </div>
+                    {IsExpert ? (
+                      <>
+                        <div className="flex flex-col space-y-2">
+                          <h4 className="text-black font-header text-xl font-semibold">
+                            Phone
+                          </h4>
+                          <p className="text-greyDark font-sans text-lg">
+                            {userInfo.phone}
+                          </p>
+                        </div>
+                        <div className="absolute top-1 right-1 ">
+                          <EditAccountButton
+                            name={userInfo.name}
+                            email={userInfo.email}
+                            phone={userInfo.phone}
+                            onEdit={(newName, newEmail, newPhone) => {
+                              updateUserInfo({
+                                email: newEmail,
+                              });
+                              updateUserInfo({
+                                name: newName,
+                              });
+                              updateUserInfo({
+                                phone: newPhone,
+                              });
+                            }}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="absolute top-1 right-1 ">
+                          <EditClientAccountButton
+                            name={userInfo.name}
+                            email={userInfo.email}
+                            onEdit={(newName, newEmail) => {
+                              updateUserInfo({
+                                email: newEmail,
+                              });
+                              updateUserInfo({
+                                name: newName,
+                              });
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                   <Separator />
-                  <div className="flex flex-col space-y-6 bg-bg rounded-3xl p-6 border-0 border-greyCold relative">
-                    <h3 className="text-black font-header text-2xl font-bold">
-                      Location
-                    </h3>
-                    <div className="flex flex-col space-y-2">
-                      <h4 className="text-black font-header text-xl font-semibold">
-                        Address
-                      </h4>
-                      <p className="text-greyDark font-sans text-lg">{userInfo.location}</p>
-                    </div>
-                    <div className="flex flex-col space-y-2">
+                  {IsExpert ? (
+                    <div className="flex flex-col space-y-6 bg-bg rounded-3xl p-6 border-0 border-greyCold relative">
+                      <h3 className="text-black font-header text-2xl font-bold">
+                        Location
+                      </h3>
+                      {/* <Location
+                        wilaya={userInfo.wilaya}
+                        city={userInfo.city}
+                        size="md"
+                      /> */}
+
+                      <div className="flex flex-col space-y-2">
+                        <h4 className="text-black font-header text-xl font-semibold">
+                          Wilaya
+                        </h4>
+                        <p className="text-greyDark font-sans text-lg">
+                          {userInfo.wilaya}
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <h4 className="text-black font-header text-xl font-semibold">
+                          City
+                        </h4>
+                        <p className="text-greyDark font-sans text-lg">
+                          {userInfo.city}
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <h4 className="text-black font-header text-xl font-semibold">
+                          Address
+                        </h4>
+                        <p className="text-greyDark font-sans text-lg">
+                          {userInfo.streetAdress}
+                        </p>
+                      </div>
+                      {/* <div className="flex flex-col space-y-2">
                       <h4 className="text-black font-header text-xl font-semibold">
                         Phone
                       </h4>
-                      <p className="text-greyDark font-sans text-lg">{userInfo.phone}</p>
+                      <p className="text-greyDark font-sans text-lg">
+                        {userInfo.phone}
+                      </p>
+                    </div> */}
+                      <div className="absolute top-1 right-1 ">
+                        <EditLocationButton
+                          streetAdress={userInfo.streetAdress}
+                          wilaya={userInfo.wilaya}
+                          city={userInfo.city}
+                          onEdit={(newStreetAdress, newWilaya, newCity) => {
+                            updateUserInfo({
+                              streetAdress: newStreetAdress,
+                            });
+                            updateUserInfo({
+                              wilaya: newWilaya,
+                            });
+                            updateUserInfo({
+                              city: newCity,
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="absolute top-1 right-1 ">
-                      <EditTitleButton
-                        title={userInfo.name}
-                        onEdit={(newTitle) => {
-                          updateUserInfo({
-                            name: newTitle,
-                          });
-                        }}
-                      />
+                  ) : (
+                    <div className="flex flex-col space-y-6 bg-bg rounded-3xl p-6 border-0 border-greyCold relative">
+                      <h3 className="text-black font-header text-2xl font-bold">
+                        Location
+                      </h3>
+                      {/* <Location
+                        wilaya={userInfo.wilaya}
+                        city={userInfo.city}
+                        size="md"
+                      /> */}
+
+                      <div className="flex flex-col space-y-2">
+                        <h4 className="text-black font-header text-xl font-semibold">
+                          Wilaya
+                        </h4>
+                        <p className="text-greyDark font-sans text-lg">
+                          {userInfo.wilaya}
+                        </p>
+                      </div>
+                      <div className="flex flex-col space-y-2">
+                        <h4 className="text-black font-header text-xl font-semibold">
+                          City
+                        </h4>
+                        <p className="text-greyDark font-sans text-lg">
+                          {userInfo.city}
+                        </p>
+                      </div>
+
+                      {/* <div className="flex flex-col space-y-2">
+                      <h4 className="text-black font-header text-xl font-semibold">
+                        Phone
+                      </h4>
+                      <p className="text-greyDark font-sans text-lg">
+                        {userInfo.phone}
+                      </p>
+                    </div> */}
+                      <div className="absolute top-1 right-1 ">
+                        <EditClientLocationButton
+                          wilaya={userInfo.wilaya}
+                          city={userInfo.city}
+                          onEdit={(newWilaya, newCity) => {
+                            updateUserInfo({
+                              wilaya: newWilaya,
+                            });
+                            updateUserInfo({
+                              city: newCity,
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
                   {/* TODO: handle close account fi onDelete  */}
                   <div className="flex items-end justify-end">
                     <CloseAccount onDelete={() => {}} />
@@ -135,17 +269,16 @@ export default function Settings() {
                       Password And Security
                     </h2>
                   </div>
-
                   <div className="flex flex-col space-y-6 bg-bg rounded-3xl p-6 border-0 border-greyCold relative">
                     <h3 className="text-black font-header text-2xl font-bold">
-                      Password
+                      Password {userInfo.password}
                     </h3>
                     <div className="absolute top-1 right-1 ">
-                      <EditTitleButton
-                        title={userInfo.name}
-                        onEdit={(newTitle) => {
+                      <EditPasswordButton
+                        password={userInfo.password}
+                        onEdit={(newPassword) => {
                           updateUserInfo({
-                            name: newTitle,
+                            password: newPassword,
                           });
                         }}
                       />
