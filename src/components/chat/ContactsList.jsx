@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ContactItem from "./ContactItem";
+import { useNavigate } from "react-router-dom";
 
 //Updated sample data with isActive property
 const contacts = [
@@ -151,11 +152,16 @@ const contacts = [
 ].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sorting based on time
 
 function ContactsList({contacts=[]}) {
+  const navigate =useNavigate();
+  const redirectToMessage=(id)=>{
+    console.log(id);
+    navigate(`/messages/${id}`);
+  }
   return (
     <ScrollArea className="h-full w-full max-w-xs rounded-2xl bg-white my-3 overflow-y-auto">
       <div className="flex flex-col">
         {contacts.map((contact) => (
-          <ContactItem
+          <ContactItem onClick={()=>{redirectToMessage(contact.id)}}
             key={contact.id}
             name={contact.name}
             message={contact.message}

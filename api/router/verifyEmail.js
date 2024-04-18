@@ -29,20 +29,18 @@ router.get('/:type/:id/verify/:tokenId', async (req, res) => {
 
     }
 })
-router.get('/verifyEmail', async (req, res) => {
+router.get('/verifyEmail',middlewars.isLoginIn, async (req, res) => {
     let user;
     const id = req.session.user_id;
-    if(req.session.user_id){
     if (req.session.user_type == 'Client') {
         user = await Client.findById(id);
     } else
         if (req.session.user_type == 'Professionnel') {
             user = await Professionnel.findById(id);
         }
-    if (user && user.verified) res.redirect('dashboard');
-    else
-        res.render('verifyEmail', user);
-    }else res.redirect('/login');
+    if (user && user.verified) res.json({redirectUrl:'/dashboard'});
+    else res.json("");
+    
 });
 
 router.post('/verifyEmail', async (req, res) => {
@@ -68,7 +66,10 @@ router.post('/verifyEmail', async (req, res) => {
     }
     console.log(user.email);
     console.log(url);
-    await sendEmail(user.email, "Verify Email", url);
-    return res.status(201).json("An Email sent to verify your account");
+    const error=await sendEmail(user.email, "Verify Email", url);
+    if(error){
+        return res.json({error:error});
+    }
+    return res.status(201).json({message:"An Email sent to verify your account"});
 });
 module.exports = router;

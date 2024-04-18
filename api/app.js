@@ -113,8 +113,8 @@ function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
         fn(req, res, next).catch(e => next(e))
     }
 }
-app.get('/userId',(req,res)=>{
-    res.json({user_id:req.session.user_id});
+app.get('/userId', (req, res) => {
+    res.json({ user_id: req.session.user_id });
 })
 app.get('/logout', (req, res) => {
     // Détruire la session côté serveur
@@ -229,7 +229,7 @@ app.get('/job/:id', async (req, res) => {
     else
         res.json("Job n'exist pas");
 })
-app.get('/jobSlides',middlewars.requireLoginClient, async (req, res) => {
+app.get('/jobSlides', middlewars.requireLoginClient, async (req, res) => {
     res.json();
 })
 app.get('/job/:id/edit', middlewars.isAuthor, async (req, res) => {
@@ -276,9 +276,12 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     console.log(user);
     let array = user.contacts.map((c) => {
 
-        const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].text : '';
+        const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].message.content : '';
         const lastMessageTime = c.messages.length > 0 ? c.messages[c.messages.length - 1].time : '';
-
+        console.log(c._id);
+        if (!c.contactId) {
+            c.contactId = {};
+        }
         c.contactId.id = c._id;
         c.contactId.message = lastMessage;
         c.contactId.time = lastMessageTime;
@@ -287,9 +290,33 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         return c.contactId;
     })
     console.log(array);
+    const compareDates = (a, b) => {
+        if (a.time < b.time) {
+            return 1;
+        }
+        if (a.time >= b.time) {
+            return -1;
+        }
+        return 0;
+    };
+    array.sort(compareDates);
+    console.log(array);
     array = array.map((c) => {
         const avatarUrl = req.session.user_type == 'Professionnel' ? c.photoProfile.url : c.profile.photoProfile.url;
-        const time = `${c.time.getHours()}:${c.time.getMinutes()} ${c.time.getHours() >= 12 ? 'PM' : 'AM'}`
+        let time;
+        const currentTime = new Date(); // Current date and time
+        const messageTime = new Date(c.time); // Time of the message
+
+        // Check if the message is from the current day
+        if (currentTime.toDateString() === messageTime.toDateString()) {
+            // Format time as "HH:mm AM/PM"
+            time = `${messageTime.getHours()}:${messageTime.getMinutes()} `;/* ${messageTime.getHours() >= 12 ? 'PM' : 'AM' }*/
+        } else {
+            // Format time as "Day Month HH:mm AM/PM" if not from current day
+            const dayOfMonth = messageTime.getDate();
+            const month = messageTime.toLocaleString('default', { month: 'long' });
+            time = `${dayOfMonth} ${month}`;
+        }
         const isActive = req.body.people.some(p => p.user_id == c._id);
         console.log('fdaskjruigmflksadmfnuif', c._id); //hada id de type objectId w ki na7i _ ywali string
         return { id: c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
@@ -299,21 +326,54 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
 
 
 });
+app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("Requested ID:", id);
+
+
+        if (id == 1) {
+            return res.json("");
+        }
+
+        let user;
+        console.log('type user', req.session.user_type);
+        // Determine user type from session
+        if (req.session.user_type === 'Client') {
+            user = await Professionnel.findById(id).populate('contacts.messages');
+        } else if (req.session.user_type === 'Professionnel') {
+            user = await Client.findById(id).populate('contacts.messages');
+        }
+        console.log("User:", user);
+        if (!user) {
+            return res.json({ redirectUrl: "/messages/1" });
+        } else {
+            console.log("User:", user);
+            const newUser = { ...user._doc,user_id:req.session.user_id };
+            console.log(newUser);
+            res.json(newUser);
+        }
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 app.post('/addMessage', async (req, res) => {
     try {
-        const { recipientId, senderId, senderType } = req.body;
         // const cli=await Client.findById(req.body.recipientId);
         // const pro=await Professionnel.findById(req.body.senderId);
-
+        recipientId = req.body.id;
+        senderId = req.session.user_id;
+        senderType = req.session.user_type;
         const message = new Message({
-            senderId: req.body.senderId,
-            recipientId: req.body.recipientId,
-            senderType: req.body.senderType,
-            recipientType: req.body.recipientType,
-            text: req.body.text,
-            file: req.body.file
+            senderId: req.session.user_id,
+            recipientId: recipientId,
+            senderType: senderType,
+            recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
+            message: req.body.message,
         });
-
+        console.log("newMessage", message);
         const saveMessage = await message.save();
         const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
         const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
@@ -321,24 +381,24 @@ app.post('/addMessage', async (req, res) => {
         console.log(pro);
         let exist = false;
         cli.contacts.map((c) => {
-            if (c.contactId == req.body.senderId || c.contactId == req.body.recipientId) {
+            if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
                 exist = true
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Client' ? req.body.recipientId : req.body.senderId;
+            const contactId = senderType == 'Client' ? recipientId : senderId;
             cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
         }
         exist = false;
         pro.contacts.map((c) => {
-            if (c.contactId == req.body.senderId || c.contactId == req.body.recipientId) {
+            if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
                 exist = true
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Professionnel' ? req.body.recipientId : req.body.senderId
+            const contactId = senderType == 'Professionnel' ? recipientId : senderId
             pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
         }
 
@@ -349,7 +409,7 @@ app.post('/addMessage', async (req, res) => {
         // });
         await cli.save();
         await pro.save();
-        res.json('hello');
+        res.json('message sended successfuly');
     } catch (e) {
         console.error(e);
     }
@@ -381,6 +441,22 @@ wss.on('connection', (connection) => {
     [...wss.clients].forEach(client => {
         client.send(JSON.stringify(clientInfo));
     });
+    connection.isAlive = true;
+
+    connection.timer = setInterval(() => {
+      connection.ping();
+      connection.deathTimer = setTimeout(() => {
+        connection.isAlive = false;
+        clearInterval(connection.timer);
+        connection.terminate();
+        //notifyAboutOnlinePeople();
+        console.log('dead');
+      }, 1000);
+    }, 5000);
+  
+    connection.on('pong', () => {
+      clearTimeout(connection.deathTimer);
+    })
 });
 
 
