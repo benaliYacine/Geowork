@@ -2,9 +2,9 @@ import React from "react";
 
 import emp from "@/assets/illustrations/emp.svg";
 import DeleteEmploymentButton from "@/components/profile_slides/slideThree/DeleteEmploymentButton";
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 
 import EditEmploymentButton from "@/components/profile_slides/slideThree/EditEmploymentButton";
-
 
 const EmploymentItem = ({
   title,
@@ -35,14 +35,16 @@ const EmploymentItem = ({
               onEdit(newEmp);
             }}
           />
-          <DeleteEmploymentButton onDelete={onDelete} variant="outlined"/>
+          <DeleteEmploymentButton onDelete={onDelete} variant="outlined" />
         </div>
       </div>
       <div className="text-sm text-greyDark">
         {company} | {location}
       </div>
       <div className="text-sm text-greyDark">{displayDate}</div>
-      <p className="text-black line-clamp-2 overflow-hidden">{description}</p>
+      <CollapsibleTextContainer collapsedHeight="25px">
+        <p className="text-black overflow-hidden">{description}</p>
+      </CollapsibleTextContainer>
     </div>
   );
 };

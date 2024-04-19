@@ -1,7 +1,7 @@
 import React from "react";
 
 import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
-
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
 const EducationItem = ({
   school,
@@ -31,14 +31,16 @@ const EducationItem = ({
               onEdit(newEdu);
             }}
           />
-          <DeleteEducationButton onDelete={onDelete} variant="outlined"/>
+          <DeleteEducationButton onDelete={onDelete} variant="outlined" />
         </div>
       </div>
       <div className="text-sm text-greyDark">
         {degree} | {fieldOfStudy}
       </div>
       <div className="text-sm text-greyDark">{displayDate}</div>
-      <p className="text-black line-clamp-2 overflow-hidden">{description}</p>
+      <CollapsibleTextContainer collapsedHeight="25px">
+        <p className="text-black overflow-hidden">{description}</p>
+      </CollapsibleTextContainer>
     </div>
   );
 };

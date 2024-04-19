@@ -21,32 +21,14 @@ import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 import character from "@/assets/illustrations/character.svg";
 function AddAvatarCard({
-  addImageSrc,
   addImage,
 
-  variant="primary",
+  variant = "primary",
 }) {
-
-
-
-
-
-
-
-
-
-
-
-
   const [dialogOpen, setDialogOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [scale, setScale] = useState(2); // Default scale
   const editorRef = useRef(null);
-
-
-
-
-
 
   const onSave = async () => {
     if (image && editorRef.current) {
@@ -56,9 +38,6 @@ function AddAvatarCard({
       addImage(newImage); // Call the prop function to update parent state
       console.log(newImage);
 
-      const newImageSrc = image;
-      addImageSrc(newImageSrc); // Call the prop function to update parent state
-      console.log(newImageSrc);
 
       setDialogOpen(false); // Close dialog
       setSaveAttemptedWithoutImage(false); // Reset the warning message state
@@ -136,7 +115,6 @@ function AddAvatarCard({
                   variant="link"
                   onClick={() => {
                     // addImage(null);
-                    addImageSrc(null);
                     // setIsPhotoAdded(false);
                     setImage(null);
                     // setPreview(null);

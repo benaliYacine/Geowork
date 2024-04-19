@@ -5,6 +5,7 @@ import DateRange from "@/components/common/DateRange";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import RatingDisplay from "@/components/expertList/RatingDisplay";
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 
@@ -49,7 +50,9 @@ const GeoworkItem = ({ job, onEdit, onDelete }) => {
           <h4 className="text-xl text-foreground flex-grow mb-1">
             Job Description
           </h4>
-          <p className="line-clamp-2">{job.description}</p>
+          <CollapsibleTextContainer collapsedHeight="25px">
+            <p className="">{job.description}</p>
+          </CollapsibleTextContainer>
         </div>
         <div>
           <div className="w-full flex items-center justify-between px-3">
@@ -58,7 +61,9 @@ const GeoworkItem = ({ job, onEdit, onDelete }) => {
             </h4>
             <RatingDisplay rating={job.rate} size={120} />
           </div>
-          <p className="line-clamp-1 font-light italic">" {job.feedback}"</p>
+          <CollapsibleTextContainer collapsedHeight="25px">
+            <p className="font-light italic">" {job.feedback}"</p>
+          </CollapsibleTextContainer>
         </div>
       </div>
       {/* <Separator /> */}

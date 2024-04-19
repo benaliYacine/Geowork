@@ -1,6 +1,7 @@
 import React from "react";
 
 import DeleteExperienceButton from "@/components/profile_slides/slideFour/DeleteExperienceButton";
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 
 import EditExperienceButton from "@/components/profile_slides/slideFour/EditExperienceButton";
 const ExperienceItem = ({
@@ -28,8 +29,9 @@ const ExperienceItem = ({
             />
             <DeleteExperienceButton onDelete={onDelete} variant="outlined"/>
           </div>
-        </div>
-        <p className="text-black line-clamp-4 overflow-hidden">{description}</p>
+      </div>
+      <CollapsibleTextContainer collapsedHeight="25px"><p className="text-black overflow-hidden">{description}</p></CollapsibleTextContainer>
+        
       </div>
 
   );

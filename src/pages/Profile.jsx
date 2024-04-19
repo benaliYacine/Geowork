@@ -7,7 +7,7 @@ import EducationHistory from "@/components/profile/EducationHistory";
 import GeoworkHistory from "@/components/profile/GeoworkHistory";
 import EditAvatarCard from "@/components/profile/EditAvatarCard";
 import { Button } from "@/components/ui/button";
-
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 export default function profile({
   name = "benali yacine",
   wilaya = "wilaya",
@@ -34,7 +34,7 @@ export default function profile({
           },
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
@@ -82,7 +82,7 @@ export default function profile({
           end: 2025,
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         school: "memba3d na7iha",
@@ -188,7 +188,7 @@ export default function profile({
     phone: "05 55 55 55 55",
     // photoProfileSrc:
     //   "https://third-party-test.glitch.me/check.svg?cors=anonymous", // ani dayer hada l url lakhatercch .toDataURL(); ma7abetch temchi m3a l url ta3 doub hadak ygoulek makch m7aded l cors w hadi l image url l9itha hna https://stackblitz.com/edit/cors-corp-image-example?file=src%2Findex.html haka l .toDataURL(); yemchi mais mech3aref ida ilyes ki ydir fetch ida temchi wela la
-    // teksar eras fel batel cors w mech3aref w lazem photoProfileSrc yzidha ilyes fel bdd .. khlas na7itha w f edit avatar card radit image tebda null (la bgha l user el src ta3 nafs l image li darha awal mara beh ghi hiya w ymodifi fiha y3awed ytala3ha w khlas)
+    // teksar eras fel batel cors w mech3aref w lazem photoProfileSrc yzidha ilyes fel bdd .. khlas na7itha w f edit avatar card radit image tebda null (la bgha l user el src ta3 nafs l image li darha awal mara beh ghi hiya w ymodifi fiha y3awed ytala3ha w khlas) tema ay haja 3andha 3ala9a bel imagesrc na7itha hna ma3andna mandirou biha / mais fel slide seven khatitha kima rahi bah ida dert back moraha next w tefta7 el edit tel9a l image src fel edit mais hna ma3adnach back w next w fel state goulna ga3 la dernaha ra7 tkoun null tema makan hata fayda ki dirha w koun tebghi tdirha fel bdd lazem yzidha ilyes fel bdd w lazem tkoun cors w mech3aref .. tema makalah
 
     photoProfile: "https://placebear.com/g/200/200",
   });
@@ -204,65 +204,19 @@ export default function profile({
     // setIsPhotoAdded(true);
     // setShowPhotoError(false);
   };
-  const addImageSrc = (newImage) => {
-    updateProfileInfo({
-      photoProfileSrc: newImage, // Directly assign the newImage Src
-    });
-  };
+
   function getInitials(name) {
     // Split the name by spaces into an array
-    const parts = name.split(' ');
-    
+    const parts = name.split(" ");
+
     // Get the first letter of the first part and the first letter of the last part
     const initials = parts[0][0] + parts[1][0];
-  
+
     // Return the initials in uppercase
     return initials.toUpperCase();
   }
   return (
     <>
-      {/* <p class="text-black dark:text-neutral-400">
-        Preline UI is an open-source set of prebuilt UI components based on the
-        utility-first Tailwind CSS framework.
-      </p>
-      <div
-        id="hs-show-hide-collapse-heading"
-        class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300"
-        aria-labelledby="hs-show-hide-collapse"
-      >
-        <p class="text-black dark:text-neutral-400">
-          This is a collapse body. It is hidden by default, until the collapse
-          plugin adds the appropriate classes that we use to style each element.
-          These classes control the overall appearance, as well as the showing
-          and hiding via CSS transitions.
-        </p>
-      </div>
-
-      <Button
-        type="button"
-        variant="link"
-        className="hs-collapse-toggle p-0 m-0 h-fit w-fit"
-        id="hs-show-hide-collapse"
-        data-hs-collapse="#hs-show-hide-collapse-heading"
-      >
-        <span class="hs-collapse-open:hidden">more</span>
-        <span class="hs-collapse-open:block hidden">less</span>
-        <svg
-          class="hs-collapse-open:rotate-180 flex-shrink-0 size-4"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
-      </Button> */}
-
       <div className="w-full flex flex-col items-center">
         <div className="w-full">
           <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px] ">
@@ -272,14 +226,14 @@ export default function profile({
                   <div className=" relative">
                     <Avatar className="mr-4" size={24}>
                       <AvatarImage src={profileInfo.photoProfile} alt={name} />
-                      <AvatarFallback className=" text-4xl">{getInitials(name)}</AvatarFallback>
+                      <AvatarFallback className=" text-4xl">
+                        {getInitials(name)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="absolute bottom-[-6px] right-4 ">
                       <EditAvatarCard
                         addImage={addImage}
-                        addImageSrc={addImageSrc}
                         existingPhoto={profileInfo.photoProfile}
-                        existingPhotoSrc={profileInfo.photoProfileSrc}
                         variant="outlined"
                         className="flex-2"
                       />
@@ -295,11 +249,12 @@ export default function profile({
 
                 <div>
                   <h3 className="text-4xl font-header font-semibold mb-1">
-                    {name}
+                    {profileInfo.roleTitle}
                   </h3>
                   {/* TODO: khdem mecanizme el more w el less */}
-                  <p className=" line-clamp-3">{profileInfo.Bio} </p>
-                  more
+                  <CollapsibleTextContainer collapsedHeight="50px">
+                    <p>{profileInfo.Bio}</p>
+                  </CollapsibleTextContainer>
                 </div>
               </div>
               <GeoworkHistory
