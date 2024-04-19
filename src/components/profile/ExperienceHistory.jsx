@@ -2,11 +2,8 @@ import { useState } from "react";
 import ExperienceItem from "@/components/profile/ExperienceItem";
 import AddExperienceButton from "@/components/profile_slides/slideFour/AddExperienceButton";
 import { Separator } from "@/components/ui/separator";
-
-export default function ExperienceHistory({
-  profileInfo,
-  updateProfileInfo,
-}) {
+import CollapsibleContainer from "@/components/common/CollapsibleContainer";
+export default function ExperienceHistory({ profileInfo, updateProfileInfo }) {
   const addExperience = (newExperience) => {
     updateProfileInfo({
       experiences: [...profileInfo.experiences, newExperience],
@@ -42,20 +39,22 @@ export default function ExperienceHistory({
             </h3>
             <AddExperienceButton addExperience={addExperience} />
           </div>
-          {profileInfo.experiences.map((experience, index) => (
-            <>
-              <ExperienceItem
-                key={index}
-                experience={experience}
-                title={experience.title}
-                description={experience.description}
-                onEdit={(newExp) => editExperience(index, newExp)}
-                onDelete={() => deleteExperience(index)}
-                index={index}
-              />
-              <Separator />
-            </>
-          ))}
+          <CollapsibleContainer>
+            {profileInfo.experiences.map((experience, index) => (
+              <>
+                <ExperienceItem
+                  key={index}
+                  experience={experience}
+                  title={experience.title}
+                  description={experience.description}
+                  onEdit={(newExp) => editExperience(index, newExp)}
+                  onDelete={() => deleteExperience(index)}
+                  index={index}
+                />
+                <Separator />
+              </>
+            ))}
+          </CollapsibleContainer>
         </div>
       </div>
     </>

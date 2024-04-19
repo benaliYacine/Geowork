@@ -2,6 +2,7 @@ import { useState } from "react";
 import EmploymentItem from "@/components/profile/EmploymentItem";
 import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmploymentButton";
 import { Separator } from "@/components/ui/separator";
+import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 const months = [
   "January",
   "February",
@@ -56,6 +57,7 @@ export default function EmploymentHistory({
             </h3>
             <AddEmploymentButton addEmployment={addEmployment} />
           </div>
+          <CollapsibleContainer>
           {profileInfo.employments.map((employment, index) => (
             <>
               <EmploymentItem
@@ -83,6 +85,7 @@ export default function EmploymentHistory({
               <Separator />
             </>
           ))}
+            </CollapsibleContainer>
         </div>
       </div>
     </>

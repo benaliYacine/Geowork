@@ -9,7 +9,7 @@ import EditAvatarCard from "@/components/profile/EditAvatarCard";
 import { Button } from "@/components/ui/button";
 
 export default function profile({
-  name = "test test",
+  name = "benali yacine",
   wilaya = "wilaya",
   city = "city",
 }) {
@@ -209,7 +209,16 @@ export default function profile({
       photoProfileSrc: newImage, // Directly assign the newImage Src
     });
   };
-
+  function getInitials(name) {
+    // Split the name by spaces into an array
+    const parts = name.split(' ');
+    
+    // Get the first letter of the first part and the first letter of the last part
+    const initials = parts[0][0] + parts[1][0];
+  
+    // Return the initials in uppercase
+    return initials.toUpperCase();
+  }
   return (
     <>
       {/* <p class="text-black dark:text-neutral-400">
@@ -263,7 +272,7 @@ export default function profile({
                   <div className=" relative">
                     <Avatar className="mr-4" size={24}>
                       <AvatarImage src={profileInfo.photoProfile} alt={name} />
-                      <AvatarFallback>jl</AvatarFallback>
+                      <AvatarFallback className=" text-4xl">{getInitials(name)}</AvatarFallback>
                     </Avatar>
                     <div className="absolute bottom-[-6px] right-4 ">
                       <EditAvatarCard
