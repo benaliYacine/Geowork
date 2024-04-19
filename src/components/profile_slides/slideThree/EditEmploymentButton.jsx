@@ -83,7 +83,7 @@ const formSchema = z.object({
     }),
 });
 
-function EditEmploymentButton({ employment, onEdit }) {
+function EditEmploymentButton({ employment, onEdit , variant="primary" }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -141,7 +141,7 @@ function EditEmploymentButton({ employment, onEdit }) {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton>
+        <IconButton variant={variant}>
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>

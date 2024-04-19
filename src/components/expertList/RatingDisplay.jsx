@@ -2,7 +2,7 @@ import React from 'react';
 import { Rating, StickerStar } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css'; 
 
-const RatingDisplay = ({ rating }) => {
+const RatingDisplay = ({ rating, size=100 }) => {
   // Custom styles for the rating component
   const customStyles = {
     itemShapes: StickerStar,
@@ -11,7 +11,7 @@ const RatingDisplay = ({ rating }) => {
   };
 
   return (
-    <div className="max-w-[100px]"> 
+    <div style={{ maxWidth: `${size}px` }}>
       <Rating
         value={rating}
         readOnly

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Category from "@/components/common/Category";
 export default function JobItem({ job }) {
   return (
-    <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
+    <div className="flex flex-col items-center w-full mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">
         <div className="flex mr-auto">
           <div className=" mr-4">

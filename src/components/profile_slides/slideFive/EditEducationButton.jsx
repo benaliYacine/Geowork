@@ -50,7 +50,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function EditEducationButton({ education, onEdit }) {
+function EditEducationButton({ education, onEdit,variant="primary" }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -89,7 +89,7 @@ function EditEducationButton({ education, onEdit }) {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton>
+        <IconButton variant={variant}>
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>

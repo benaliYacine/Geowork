@@ -19,6 +19,11 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/profile">Go to profile Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
       <Link to="/signup">Go to sign up Page</Link>
       <br />
       <br />
