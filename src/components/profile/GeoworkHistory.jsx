@@ -7,12 +7,11 @@ export default function GeoworkHistory({ profileInfo, updateProfileInfo }) {
   const [showAll, setShowAll] = useState(false);
   const containerRef = useRef(null); // Reference to the container
 
-  // Adjust height dynamically
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.style.height = `${containerRef.current.scrollHeight}px`;
+      containerRef.current.style.height = `${containerRef.current.firstElementChild.scrollHeight}px`;
     }
-  }, [showAll]);
+  }, []);
 
   const toggleShowAll = () => {
     if (showAll) {
