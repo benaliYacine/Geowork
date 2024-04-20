@@ -18,7 +18,10 @@ export default function ExpertItem({ expert }) {
             </Avatar>
           </div>
           <div className="flex-grow mb-2">
-            <h3 className="text-lg font-semibold mb-1">{expert.name}</h3>
+            <Button variant="title" className="text-lg font-semibold mb-1 " size="none">
+              {expert.name}
+            </Button>
+
             <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
             <div className="mb-1">
               <RatingDisplay rating={expert.rating} />
