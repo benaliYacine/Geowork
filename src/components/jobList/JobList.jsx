@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/pagination";
 
 const jobs = Array.from({ length: 100 }, (_, i) => ({
-  image: "https://placebear.com/g/200/200",
+  images: ["https://placebear.com/g/200/200",],
   category: "education_and_tutoring",
   subCategory: "math_tutor",
   title: `test test ${i + 1}`,
