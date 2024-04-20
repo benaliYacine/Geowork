@@ -40,11 +40,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 const components = [
   {
@@ -161,7 +156,7 @@ export default function Header({logedIn = true}) {
   return (
     <header className="flex justify-center items-center w-full ">
       <nav
-        className="flex items-center justify-between m-6 sm:mx-8 md:mx-12 lg:mx-18 xl:mx-24 w-full max-w-[1440px]"
+        className="flex items-center justify-between m-3 sm:mx-4 md:mx-8 lg:mx-12 xl:mx-18 w-full max-w-[1600px]"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">

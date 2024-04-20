@@ -18,6 +18,7 @@ import AllJobPosts from "./pages/AllJobPosts";
 import JobsSearch from "./pages/JobsSearch";
 import ExpertsSearch from "./pages/ExpertsSearch";
 import Settings from "./pages/Settings";
+import ProfilePage from "./pages/ProfilePage";
 
 import axios from "axios";
 
@@ -76,6 +77,7 @@ function App() {
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

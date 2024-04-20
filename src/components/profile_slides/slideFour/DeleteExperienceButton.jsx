@@ -13,7 +13,7 @@ import { Trash2 } from "lucide-react";
 import IconButton from "@/components/common/IconButton";
 import React, { useState } from "react";
 
-export default function DeleteExperienceButton({ onDelete }) {
+export default function DeleteExperienceButton({ onDelete, variant="primary" }) {
   const [isActionTaken, setIsActionTaken] = useState(false);
 
   const handleAction = () => {
@@ -30,7 +30,7 @@ export default function DeleteExperienceButton({ onDelete }) {
   return (
     <AlertDialog onOpenChange={handleClose}>
       <AlertDialogTrigger asChild>
-        <IconButton>
+        <IconButton variant={variant}>
           <Trash2 className="h-4 w-4" />
         </IconButton>
       </AlertDialogTrigger>

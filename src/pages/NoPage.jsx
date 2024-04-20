@@ -14,7 +14,7 @@ const NoPage = () => {
             alt="Page Not Found"
             className="mx-auto w-1/2 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
           />
-          <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+          <h1 className="mt-8 text-3xl font-bold font-header tracking-tight text-foreground sm:text-5xl">
             Page not found
           </h1>
           <p className="mt-6 text-base leading-7 text-greyDark">

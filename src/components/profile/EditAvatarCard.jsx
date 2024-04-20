@@ -1,6 +1,7 @@
 import axios from "axios";
-import { Button } from "@/components/ui/button";
 
+import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import IconButton from "@/components/common/IconButton";
@@ -20,32 +21,24 @@ import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 import character from "@/assets/illustrations/character.svg";
 function AddAvatarCard({
-  addImageSrc,
   addImage,
-  existingPhotoSrc,
-  existingPhoto,
-  setIsPhotoAdded,
+
+  variant = "primary",
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [image, setImage] = useState(existingPhotoSrc);
-  const [preview, setPreview] = useState(existingPhoto);
+  const [image, setImage] = useState(null);
   const [scale, setScale] = useState(2); // Default scale
   const editorRef = useRef(null);
 
   const onSave = async () => {
     if (image && editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
-      
+
       const newImage = canvasScaled.toDataURL();
-      setPreview(newImage); // Update local preview state
       addImage(newImage); // Call the prop function to update parent state
       console.log(newImage);
 
-      const newImageSrc = image;
-      addImageSrc(newImageSrc); // Call the prop function to update parent state
-      console.log(newImageSrc);
-      
-      
+
       setDialogOpen(false); // Close dialog
       setSaveAttemptedWithoutImage(false); // Reset the warning message state
     } else {
@@ -80,53 +73,10 @@ function AddAvatarCard({
       />
       <div className="flex flex-col items-center gap-4">
         <DialogTrigger asChild>
-          <div className="w-24 h-24 p-0 cursor-pointer flex flex-col justify-center items-start gap-4 transition duration-300 ease-in-out transform active:scale-100 hover:scale-105">
-            {preview ? (
-              <img
-                src={preview}
-                alt="Preview"
-                className="w-24 h-24 rounded-full"
-              />
-            ) : (
-              <div className="flex flex-col items-center w-full gap-4 h-full">
-                <div className="relative">
-                  <img src={character} alt="character" className="w-24 h-24" />
-                  <IconButton
-                    variant="sprimary"
-                    className="absolute bottom-1 right-1"
-                  >
-                    <Plus className="h-3 w-3" />
-                  </IconButton>
-                </div>
-              </div>
-            )}
-          </div>
+          <IconButton variant={variant}>
+            <Pencil className="h-4 w-4" />
+          </IconButton>
         </DialogTrigger>
-        {!preview ? (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-7 px-4 py-2"
-            onClick={() => {
-              setDialogOpen(true);
-              fileInputRef.current.click();
-            }}
-          >
-            <Plus className="h-4 w-4" /> Upload photo
-          </Button>
-        ) : (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-7 px-4 py-2"
-            onClick={() => {
-              setDialogOpen(true);
-              // fileInputRef.current.click();
-            }}
-          >
-            <Pencil className="h-4 w-4" /> Edit photo
-          </Button>
-        )}
       </div>
 
       <DialogContent className="sm:max-w-[500px]">
@@ -164,8 +114,7 @@ function AddAvatarCard({
                   size="none"
                   variant="link"
                   onClick={() => {
-                    // addImage(null); 
-                    addImageSrc(null);
+                    // addImage(null);
                     // setIsPhotoAdded(false);
                     setImage(null);
                     // setPreview(null);
@@ -226,7 +175,7 @@ function AddAvatarCard({
         </div>
         <DialogFooter>
           <DialogClose>
-            <Button variant="outline" >Cancel</Button>
+            <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button onClick={onSave}>Save</Button>
         </DialogFooter>

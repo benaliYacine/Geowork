@@ -41,7 +41,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function EditExperienceButton({ experience, onEdit }) {
+function EditExperienceButton({ experience, onEdit, variant="primary" }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,7 +66,7 @@ function EditExperienceButton({ experience, onEdit }) {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton>
+        <IconButton variant={variant}>
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>

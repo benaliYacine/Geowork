@@ -114,7 +114,8 @@ const ProfileSlides = () => {
     ],
     Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
     // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-    dateBirthday: undefined,
+    dateBirthday:
+      "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
     streetAdress: " tiaret tiaret asdf asd f",
     phone: "05 55 55 55 55",
     photoProfile: undefined,
@@ -201,7 +202,7 @@ const ProfileSlides = () => {
         formData.append(`educations[${index}][${key}]`, education[key]);
       });
     });
-    console.log("blobData",blobData);
+    console.log("blobData", blobData);
     formData.append("image", blobData);
 
     const response = await axios.patch(

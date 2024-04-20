@@ -14,7 +14,7 @@ const Location = ({ wilaya, city, size = "md" }) => {
 
   return (
     <p className={`text-greyDark text-${size}`}>
-      <MapPin size={iconSize} className="inline-block" /> {wilaya}, {city}
+      <MapPin size={iconSize} className="inline-block stroke-current stroke-[1.4px]" /> {wilaya}, {city}
     </p>
   );
 };

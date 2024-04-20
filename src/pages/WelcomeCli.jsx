@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import WelcomCli from "../components/welcomeSections/WelcomCli";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import PageContainer from "@/components/common/PageContainer";
 export default function WelcomeCli() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,8 +31,14 @@ export default function WelcomeCli() {
   }, []);
   if (loading) return <div></div>;
   return (
-    <div className="h-screen flex items-center">
-      <WelcomCli firstName={name} />
-    </div>
+    <>
+      <Header />
+      <PageContainer>
+        <div className="h-screen flex items-center">
+          <WelcomCli firstName={name} />
+        </div>
+      </PageContainer>
+      <Footer />
+    </>
   );
 }

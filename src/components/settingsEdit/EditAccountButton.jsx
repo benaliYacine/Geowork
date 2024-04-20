@@ -7,32 +7,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-
-import { getYearsRange } from "@/lib/utils";
-// Assuming you've imported the getYearsRange function and necessary UI components
-
-import EducationForm from "@/components/profile_slides/slideFive/EducationForm";
-
-const currentYear = new Date().getFullYear();
-const yearItems = getYearsRange(1990, currentYear);
-
+// import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
+import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  school: z.string().min(1, "school is required"),
-  degree: z.string().min(1, "degree is required"),
-  fieldOfStudy: z.string().min(1, "fieldOfStudy is required"),
-  datesAttended: z.object({
-    start: z.number({ required_error: "Please select a start Year." }),
-    end: z.number({ required_error: "Please select an end Year." }),
+  name: z.object({
+    first: z.string().min(1, { message: "First name is required" }),
+    last: z.string().min(1, { message: "Last name is required" }),
   }),
-  description: z
+  email: z.string().email({ message: "Invalid email address" }),
+  phone: z
     .string()
-    .min(10, {
-      message: "Description must be at least 10 characters.",
-    })
-    .max(3000, {
-      message: "Description must not be longer than 3000 characters.",
-    }),
+    .min(1, "Phone number is required")
+    .regex(
+      /^0[567] \d{2} \d{2} \d{2} \d{2}$/,
+      "Phone number must follow this format 0x xx xx xx xx"
+    ),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -49,47 +39,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import PhoneFormField from "@/components/formFields/PhoneFormField";
 
-function EditEducationButton({ education, onEdit,variant="primary" }) {
+function EditAccountButton({ name, email, phone, onEdit }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      school: education.school,
-      degree: education.degree,
-      fieldOfStudy: education.fieldOfStudy,
-
-      datesAttended: {
-        start: education.datesAttended.start,
-
-        end: education.datesAttended.end,
-      },
-      description: education.description,
+      name: { first: name.first, last: name.last },
+      email: email,
+      phone: phone,
     },
   });
-
   const onSubmit = async (values) => {
     console.log(values);
-
-    const newEducation = {
-      school: values.school,
-      degree: values.degree,
-      fieldOfStudy: values.fieldOfStudy,
-      datesAttended: {
-        start: values.datesAttended.start,
-        end: values.datesAttended.end,
-      },
-      description: values.description,
-    };
-
-    onEdit(newEducation);
+    onEdit(values.name, values.email, values.phone);
     setDialogOpen(false);
   };
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton variant={variant}>
+        <IconButton variant="outlined" className="h-6 w-6 p-1">
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>
@@ -100,13 +71,39 @@ function EditEducationButton({ education, onEdit,variant="primary" }) {
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Education
+                  Edit Account
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <EducationForm />
+              <GenericFormField
+                className="w-full"
+                control={form.control}
+                name="name.first"
+                label="First Name"
+                placeholder="First name"
+              />
+              <GenericFormField
+                className="w-full"
+                control={form.control}
+                name="name.last"
+                label="Last Name"
+                placeholder="Last name"
+              />
+
+              <GenericFormField
+                control={form.control}
+                name="email"
+                label="Email"
+                placeholder="Your email"
+              />
+              <PhoneFormField
+                control={form.control}
+                name="phone"
+                label="phone *"
+                placeholder="Your phone number"
+              />
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
@@ -126,4 +123,4 @@ function EditEducationButton({ education, onEdit,variant="primary" }) {
   );
 }
 
-export default EditEducationButton;
+export default EditAccountButton;
