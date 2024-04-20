@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
-    'node_modules/preline/dist/*.js',
+    
   ],
   prefix: '',
   theme: {
@@ -38,7 +38,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
-        header: ['Outfit', 'sans-serif']
+        header: ['Poppins', 'sans-serif']
       },
       colors: {
         bg: '#FAFAFA',

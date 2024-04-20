@@ -41,7 +41,7 @@ export default function Settings() {
       <Header />
       <PageContainer>
         <div className="flex items-center justify-between ">
-          <h1 className="text-black font-header text-5xl font-semibold">
+          <h1 className="text-black font-header text-4xl font-semibold">
             Settings
           </h1>
         </div>

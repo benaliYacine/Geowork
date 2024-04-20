@@ -9,7 +9,7 @@ export default function AllJobPosts() {
       <Header />
       <PageContainer>
         <div className="flex items-center justify-between">
-          <h1 className="text-black font-header text-5xl font-semibold ">
+          <h1 className="text-black font-header text-4xl font-semibold ">
             Search results
           </h1>
         </div>

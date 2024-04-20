@@ -54,7 +54,7 @@ export default function JobPost() {
       <Header />
       <PageContainer>
         <div className="flex items-center justify-between relative ">
-          <h1 className="text-black font-header text-5xl font-semibold">
+          <h1 className="text-black font-header text-4xl font-semibold">
             {jobInfo.title}
           </h1>
           <div className="absolute top-0 right-1 ">
