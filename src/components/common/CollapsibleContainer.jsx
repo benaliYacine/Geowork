@@ -1,15 +1,13 @@
 // CollapsibleContainer.js
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-
+import React from "react";
 const CollapsibleContainer = ({ children }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.height = `${containerRef.current.firstElementChild.scrollHeight}px`;
-    }
+    toggleExpansion();
   }, []);
 
   useEffect(() => {
@@ -62,6 +60,7 @@ const CollapsibleContainer = ({ children }) => {
     }
   };
 
+  const itemCount = React.Children.count(children);
   return (
     <>
       <div
@@ -70,9 +69,11 @@ const CollapsibleContainer = ({ children }) => {
       >
         {children}
       </div>
-      <Button onClick={toggleExpansion} variant="link" size="lg">
-        {isExpanded ? "Show Less" : "Show More"}
-      </Button>
+      {itemCount > 1 && (
+        <Button onClick={toggleExpansion} variant="link" size="lg">
+          {isExpanded ? "Show Less" : "Show More"}
+        </Button>
+      )}
     </>
   );
 };

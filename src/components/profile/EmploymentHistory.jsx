@@ -3,6 +3,8 @@ import EmploymentItem from "@/components/profile/EmploymentItem";
 import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmploymentButton";
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
+import { v4 as uuid } from "uuid";
+
 const months = [
   "January",
   "February",
@@ -18,11 +20,7 @@ const months = [
   "December",
 ];
 
-export default function EmploymentHistory({
-  profileInfo,
-  updateProfileInfo,
-}) {
-
+export default function EmploymentHistory({ profileInfo, updateProfileInfo }) {
   const addEmployment = (newEmployment) => {
     updateProfileInfo({
       employments: [...profileInfo.employments, newEmployment],
@@ -58,34 +56,40 @@ export default function EmploymentHistory({
             <AddEmploymentButton addEmployment={addEmployment} />
           </div>
           <CollapsibleContainer>
-          {profileInfo.employments.map((employment, index) => (
-            <>
-              <EmploymentItem
-                key={index}
-                employment={employment}
-                title={employment.title}
-                currentlyIn={employment.currentlyIn}
-                company={employment.company}
-                location={employment.Location}
-                startDate={`${months[employment.date.start.month - 1]} ${
-                  employment.date.start.year
-                }`}
-                endDate={
-                  employment.currentlyIn
-                    ? "Present"
-                    : `${months[employment.date.end.month - 1]} ${
-                        employment.date.end.year
-                      }`
-                }
-                description={employment.description}
-                onEdit={(newEmp) => editEmployment(index, newEmp)}
-                onDelete={() => deleteEmployment(index)}
-                index={index}
-              />
-              <Separator />
-            </>
-          ))}
-            </CollapsibleContainer>
+            {profileInfo.employments.length == 0 ? (
+              <div className=" text-lg w-full p-3 h-fit text-primary flex justify-center items-center">
+                there is no items here
+              </div>
+            ) : (
+              profileInfo.employments.map((employment, index) => (
+                <div key={uuid()} className="mb-4">
+                  <EmploymentItem
+                    key={uuid()}
+                    employment={employment}
+                    title={employment.title}
+                    currentlyIn={employment.currentlyIn}
+                    company={employment.company}
+                    location={employment.Location}
+                    startDate={`${months[employment.date.start.month - 1]} ${
+                      employment.date.start.year
+                    }`}
+                    endDate={
+                      employment.currentlyIn
+                        ? "Present"
+                        : `${months[employment.date.end.month - 1]} ${
+                            employment.date.end.year
+                          }`
+                    }
+                    description={employment.description}
+                    onEdit={(newEmp) => editEmployment(index, newEmp)}
+                    onDelete={() => deleteEmployment(index)}
+                    index={index}
+                  />
+                  <Separator />
+                </div>
+              ))
+            )}
+          </CollapsibleContainer>
         </div>
       </div>
     </>

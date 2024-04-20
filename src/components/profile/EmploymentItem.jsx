@@ -1,5 +1,4 @@
 import React from "react";
-
 import emp from "@/assets/illustrations/emp.svg";
 import DeleteEmploymentButton from "@/components/profile_slides/slideThree/DeleteEmploymentButton";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";

@@ -3,6 +3,7 @@ import ExperienceItem from "@/components/profile/ExperienceItem";
 import AddExperienceButton from "@/components/profile_slides/slideFour/AddExperienceButton";
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
+import { v4 as uuid } from "uuid";
 export default function ExperienceHistory({ profileInfo, updateProfileInfo }) {
   const addExperience = (newExperience) => {
     updateProfileInfo({
@@ -40,20 +41,26 @@ export default function ExperienceHistory({ profileInfo, updateProfileInfo }) {
             <AddExperienceButton addExperience={addExperience} />
           </div>
           <CollapsibleContainer>
-            {profileInfo.experiences.map((experience, index) => (
-              <>
-                <ExperienceItem
-                  key={index}
-                  experience={experience}
-                  title={experience.title}
-                  description={experience.description}
-                  onEdit={(newExp) => editExperience(index, newExp)}
-                  onDelete={() => deleteExperience(index)}
-                  index={index}
-                />
-                <Separator />
-              </>
-            ))}
+            {profileInfo.experiences.length == 0 ? (
+              <div className=" text-lg w-full p-3 h-fit text-primary flex justify-center items-center">
+                there is no items here
+              </div>
+            ) : (
+              profileInfo.experiences.map((experience, index) => (
+                <div key={uuid()} className="mb-4">
+                  <ExperienceItem
+                    key={uuid()}
+                    experience={experience}
+                    title={experience.title}
+                    description={experience.description}
+                    onEdit={(newExp) => editExperience(index, newExp)}
+                    onDelete={() => deleteExperience(index)}
+                    index={index}
+                  />
+                  <Separator />
+                </div>
+              ))
+            )}
           </CollapsibleContainer>
         </div>
       </div>

@@ -59,7 +59,7 @@ export default function profile({
       {
         title: "memba3d na7iha",
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
@@ -197,6 +197,17 @@ export default function profile({
     setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
 
+
+
+  const deleteEducation = (indexToDelete) => {
+    const filteredEducations = profileInfo.educations.filter(
+      (_, index) => index !== indexToDelete
+    );
+    updateProfileInfo({
+      educations: filteredEducations,
+    });
+  };
+
   const addImage = (newImage) => {
     updateProfileInfo({
       photoProfile: newImage, // Directly assign the newImage Src
@@ -271,6 +282,7 @@ export default function profile({
               />
               <EducationHistory
                 profileInfo={profileInfo}
+                deleteEducation={deleteEducation}
                 updateProfileInfo={updateProfileInfo}
               />
             </div>
