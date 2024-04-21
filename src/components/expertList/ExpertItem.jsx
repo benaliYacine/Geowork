@@ -7,6 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProfileDrawer from "@/components/expertList/ProfileDrawer";
 export default function ExpertItem({ expert }) {
+  
+  function getInitials(name) {
+    // Split the name by spaces into an array
+    const parts = name.split(" ");
+
+    // Get the first letter of the first part and the first letter of the last part
+    const initials = parts[0][0] + parts[1][0];
+
+    // Return the initials in uppercase
+    return initials.toUpperCase();
+  }
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">
@@ -14,7 +25,7 @@ export default function ExpertItem({ expert }) {
           <div className=" mr-4">
             <Avatar>
               <AvatarImage src={expert.avatarUrl} alt={expert.name} />
-              <AvatarFallback>{expert.initials}</AvatarFallback>
+              <AvatarFallback>{getInitials(expert.name)}</AvatarFallback>
             </Avatar>
           </div>
           <div className="flex-grow mb-2">
