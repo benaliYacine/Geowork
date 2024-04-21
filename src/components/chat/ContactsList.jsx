@@ -157,6 +157,26 @@ function ContactsList({contacts=[]}) {
     console.log(id);
     navigate(`/messages/${id}`);
   }
+  contacts=contacts.map((c) => {
+    const currentTime = new Date(); // Current date and time
+    const messageTime = new Date(c.time); // Time of the message
+
+    let time; // Declare time variable
+
+    // Check if the message is from the current day
+    if (currentTime.toDateString() === messageTime.toDateString()) {
+      // Format time as "HH:mm"
+      time = `${messageTime.getHours()}:${messageTime.getMinutes()}`;
+    } else {
+      // Format time as "Day Month HH:mm"
+      const dayOfMonth = messageTime.getDate();
+      const month = messageTime.toLocaleString('default', { month: 'long' });
+      time = `${dayOfMonth} ${month}`;
+    }
+
+    // Return the modified contact object with formatted time
+    return { ...c, time };
+  });
   return (
     <ScrollArea className="h-full w-full max-w-xs rounded-2xl bg-white my-3 overflow-y-auto">
       <div className="flex flex-col">

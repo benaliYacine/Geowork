@@ -86,7 +86,7 @@ import MessageItem from "./MessageItem"; // Import the updated MessageItem compo
 
 
 function MessageList({messages}) {
-  console.log("message",messages);
+  
   return (
     <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
       <div className=" flex flex-col">

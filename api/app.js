@@ -26,6 +26,9 @@ const sendEmail = require('./utils/sendEmail');
 const crypto = require('crypto');
 const cors = require('cors');
 const WebSocket = require('ws');
+const { cloudinary, storage } = require('./cloudinary/index');
+const multer = require('multer');
+const upload = multer({ storage });
 
 let user_id;
 let user_type;
@@ -266,19 +269,19 @@ app.get('/search', (req, res) => {
 const Message = require("./models/message");
 app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     let user;
-    console.log(req.body.people);
+
     if (req.session.user_type == 'Client') {
         user = await Client.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
 
     } else if (req.session.user_type == 'Professionnel') {
         user = await Professionnel.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
     }
-    console.log(user);
+
     let array = user.contacts.map((c) => {
 
         const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].message.content : '';
         const lastMessageTime = c.messages.length > 0 ? c.messages[c.messages.length - 1].time : '';
-        console.log(c._id);
+
         if (!c.contactId) {
             c.contactId = {};
         }
@@ -286,10 +289,10 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         c.contactId.message = lastMessage;
         c.contactId.time = lastMessageTime;
 
-        console.log(lastMessage);
+
         return c.contactId;
     })
-    console.log(array);
+
     const compareDates = (a, b) => {
         if (a.time < b.time) {
             return 1;
@@ -300,28 +303,30 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         return 0;
     };
     array.sort(compareDates);
-    console.log(array);
+
     array = array.map((c) => {
         const avatarUrl = req.session.user_type == 'Professionnel' ? c.photoProfile.url : c.profile.photoProfile.url;
-        let time;
-        const currentTime = new Date(); // Current date and time
+        let time = c.time;
+        /* const currentTime = new Date(); // Current date and time
         const messageTime = new Date(c.time); // Time of the message
 
         // Check if the message is from the current day
         if (currentTime.toDateString() === messageTime.toDateString()) {
             // Format time as "HH:mm AM/PM"
             time = `${messageTime.getHours()}:${messageTime.getMinutes()} `;/* ${messageTime.getHours() >= 12 ? 'PM' : 'AM' }*/
-        } else {
+        /*} else {
             // Format time as "Day Month HH:mm AM/PM" if not from current day
             const dayOfMonth = messageTime.getDate();
             const month = messageTime.toLocaleString('default', { month: 'long' });
             time = `${dayOfMonth} ${month}`;
-        }
-        const isActive = req.body.people.some(p => p.user_id == c._id);
-        console.log('fdaskjruigmflksadmfnuif', c._id); //hada id de type objectId w ki na7i _ ywali string
+        } */
+        let isActive = false;
+        if (req.body.people)
+            isActive = req.body.people.some(p => p.user_id == c._id);
+        //hada id de type objectId w ki na7i _ ywali string
         return { id: c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
     })
-    console.log(array);
+
     res.json(array);
 
 
@@ -329,7 +334,7 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
 app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("Requested ID:", id);
+
 
 
         if (id == 1) {
@@ -337,20 +342,20 @@ app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
         }
 
         let user;
-        console.log('type user', req.session.user_type);
+
         // Determine user type from session
         if (req.session.user_type === 'Client') {
             user = await Professionnel.findById(id).populate('contacts.messages');
         } else if (req.session.user_type === 'Professionnel') {
             user = await Client.findById(id).populate('contacts.messages');
         }
-        console.log("User:", user);
+
         if (!user) {
             return res.json({ redirectUrl: "/messages/1" });
         } else {
-            console.log("User:", user);
-            const newUser = { ...user._doc,user_id:req.session.user_id };
-            console.log(newUser);
+
+            const newUser = { ...user._doc, user_id: req.session.user_id };
+
             res.json(newUser);
         }
     } catch (error) {
@@ -358,6 +363,65 @@ app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+app.post('/addMessageFile', upload.array('files'), async (req, res) => {
+
+    recipientId = req.body.id;
+    senderId = req.session.user_id;
+    senderType = req.session.user_type;
+    const files = req.files;
+    files.map(async (m) => {
+        let message = new Message({
+            senderId: req.session.user_id,
+            recipientId: recipientId,
+            senderType: senderType,
+            recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
+            message: { content: 'Sent an image' },
+        });
+        message.message.type = req.body.type;
+        message.message.url = m.path;
+        message.message.filename = m.filename;
+        const saveMessage = await message.save();
+
+        const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
+        const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
+        let exist = false;
+        cli.contacts.map((c) => {
+            if (c.contactId == senderId || c.contactId == recipientId) {
+                c.messages.push(saveMessage._id);
+                exist = true
+            }
+        });
+        if (!exist) {
+            const contactId = senderType == 'Client' ? recipientId : senderId;
+            cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+        }
+        exist = false;
+        pro.contacts.map((c) => {
+            if (c.contactId == senderId || c.contactId == recipientId) {
+                c.messages.push(saveMessage._id);
+                exist = true
+            }
+        });
+        if (!exist) {
+            const contactId = senderType == 'Professionnel' ? recipientId : senderId
+            pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+        }
+
+        // user.contacts.map((c)=>{
+        //     if(c.contactId==message.senderId||c.contactId==message.recipientId){
+        //         c.messages.push(saveMessage._id);
+        //     }
+        // });
+        const saveCli = await cli.save();
+
+        const savePro = await pro.save();
+
+        res.json(message);
+    }
+    )
+})
+
 
 app.post('/addMessage', async (req, res) => {
     try {
@@ -373,12 +437,11 @@ app.post('/addMessage', async (req, res) => {
             recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
             message: req.body.message,
         });
-        console.log("newMessage", message);
+
         const saveMessage = await message.save();
         const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
         const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
-        console.log(cli);
-        console.log(pro);
+
         let exist = false;
         cli.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
@@ -409,16 +472,13 @@ app.post('/addMessage', async (req, res) => {
         // });
         await cli.save();
         await pro.save();
-        res.json('message sended successfuly');
+        res.json(saveMessage);
     } catch (e) {
         console.error(e);
     }
 });
-
-const server = app.listen(3000, () => {
-    console.log('Server is running at localhost:3000');
-});
-
+const http = require('http');
+const server = http.createServer(app);
 app.use((err, req, res, next) => { //error hundler middlware
     const { status = 500, message = 'Something went wrong' } = err;
     res.status(status).send(message);
@@ -438,27 +498,75 @@ wss.on('connection', (connection) => {
 
     // Envoyer les informations de tous les clients connectés à tous les clients
     const clientInfo = { online: [...wss.clients].map(c => ({ user_id: c.user_id, user_type: c.user_type })) };
-    [...wss.clients].forEach(client => {
-        client.send(JSON.stringify(clientInfo));
-    });
-    connection.isAlive = true;
+    [...wss.clients].forEach(client =>
+        client.send(JSON.stringify(clientInfo))
+    );
+    /* connection.isAlive = true;
 
     connection.timer = setInterval(() => {
-      connection.ping();
-      connection.deathTimer = setTimeout(() => {
-        connection.isAlive = false;
-        clearInterval(connection.timer);
-        connection.terminate();
-        //notifyAboutOnlinePeople();
-        console.log('dead');
-      }, 1000);
+        connection.ping();
+        connection.deathTimer = setTimeout(() => {
+            connection.isAlive = false;
+            clearInterval(connection.timer);
+            connection.terminate();
+            //notifyAboutOnlinePeople();
+            console.log('dead');
+        }, 1000);
     }, 5000);
-  
+
     connection.on('pong', () => {
-      clearTimeout(connection.deathTimer);
+        clearTimeout(connection.deathTimer);
+    }) */
+    connection.on('message', async (message) => {
+        const messageData = JSON.parse(message.toString());
+        console.log(messageData);
+
+        //console.log("wsss", ...wss.clients);
+        const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
+
+        if (recipientClient) {
+            await recipientClient.send(JSON.stringify(messageData));
+        } else {
+            console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
+        }
+        connection.on('error', (error) => {
+            console.error('WebSocket connection error:', error);
+        });
+        //const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
+
+        /* if (recipientClient) {
+            recipientClient.send(JSON.stringify(messageData));
+        } else {
+            console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
+        } */
+
+        //console.log("le resulta",resultat);
+
+        //console.log("clientInfo", clientInfo);
+        /* .forEach(c => c.send(JSON.stringify({
+          _id:messageData._id,
+        }))); */
+        /* const {id,message}=messageData;
+        if(id && message){
+            console.log('created message');
+            [...wss.clients]
+              .filter(c => c.userId === id)
+              .forEach(c => c.send(JSON.stringify({
+                id: id, // Assurez-vous d'avoir une variable id définie quelque part
+                message: message,
+                isOwnMessage: true,
+              }
+            )
+        )
+    );
+      } */
     })
+
 });
 
+server.listen(3000, () => {
+    console.log('Server is running at localhost:3000');
+});
 
 
 
