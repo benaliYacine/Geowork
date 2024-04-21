@@ -1,10 +1,12 @@
-import { useState } from "react";
-
+import { useState , useEffect } from "react";
+import axios from "axios";
 import Profile from "@/components/profile/Profile";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
 export default function ProfilePage() {
+
+
   const [profileInfo, setProfileInfo] = useState({
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
     category: "education_and_tutoring",
@@ -184,6 +186,24 @@ export default function ProfilePage() {
 
     photoProfile: "https://placebear.com/g/200/200",
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('/dashboard');
+            console.log(response.data);
+            if (response.data) {
+                //setProfileInfo(response.data.profile);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchData();
+
+}, []);
+  
 
   const updateProfileInfo = (newInfo) => {
     setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));

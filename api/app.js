@@ -182,11 +182,15 @@ app.get('/login', middlewars.requireLogin, (req, res) => {
 });
 
 
-app.get('/dashboard', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, (req, res) => {
+app.get('/dashboard', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, async (req, res) => {
     //console.log(req.session);
     if (req.session.user_type == 'Client')
         res.json('client dashbord');
-    else res.json('professionnel dashbord');
+    else {
+        const pro = await Professionnel.findById(req.session.user_id).populate("profile.jobs");
+        console.log(pro);
+        res.json(pro);
+    }
     //res.render('clients/dashboard');
 });
 

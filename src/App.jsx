@@ -77,7 +77,7 @@ function App() {
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/dashboard" element={<ProfilePage />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

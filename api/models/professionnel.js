@@ -148,7 +148,7 @@ const professionnelSchema = new mongoose.Schema({
             max: 5
         },
         phone:{
-            type:Number
+            type:String
         }
 
     },

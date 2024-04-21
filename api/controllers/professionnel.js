@@ -86,9 +86,16 @@ exports.addProfileProfessionnel = async (req, res) => {
         req.body.added=true;
         //const { id } = req.params;
         //const { id } = req.body;
-        const profile={profile:req.body};
-        console.log("req.body: ",profile);
-        const pro = await Professionnel.findByIdAndUpdate(id, profile, { new: true });
+        
+        req.body=JSON.parse(JSON.stringify(req.body));
+        
+        console.log("req.body",req.body);
+        console.log(id);
+        try{
+        const pro = await Professionnel.findByIdAndUpdate(id, {profile:req.body});
+        }catch(e){
+            console.log(e);
+        }
         console.log("afdsfadsfdas");
         if (req.file) {
             const dataImage = { url: req.file.path, filename: req.file.filename };

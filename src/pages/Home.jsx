@@ -22,7 +22,7 @@ function Home() {
       <br />
       <hr />
       <br />
-      <Link to="/profile">Go to profile Page</Link>
+      <Link to="/dashboard">Go to profile Page</Link>
       <br />
       <br />
       <hr />
