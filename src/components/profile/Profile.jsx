@@ -8,7 +8,7 @@ import GeoworkHistory from "@/components/profile/GeoworkHistory";
 import EditAvatarCard from "@/components/profile/EditAvatarCard";
 import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
-
+import {getInitials } from "@/lib/utils"
 export default function Profile({
   name = "benali yacine",
   wilaya = "wilaya",
@@ -16,15 +16,6 @@ export default function Profile({
   profileInfo,
   updateProfileInfo,
 }) {
-  const deleteEducation = (indexToDelete) => {
-    const filteredEducations = profileInfo.educations.filter(
-      (_, index) => index !== indexToDelete
-    );
-    updateProfileInfo({
-      educations: filteredEducations,
-    });
-  };
-
   const addImage = (newImage) => {
     updateProfileInfo({
       photoProfile: newImage, // Directly assign the newImage Src
@@ -33,16 +24,6 @@ export default function Profile({
     // setShowPhotoError(false);
   };
 
-  function getInitials(name) {
-    // Split the name by spaces into an array
-    const parts = name.split(" ");
-
-    // Get the first letter of the first part and the first letter of the last part
-    const initials = parts[0][0] + parts[1][0];
-
-    // Return the initials in uppercase
-    return initials.toUpperCase();
-  }
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
@@ -93,7 +74,6 @@ export default function Profile({
       />
       <EducationHistory
         profileInfo={profileInfo}
-        deleteEducation={deleteEducation}
         updateProfileInfo={updateProfileInfo}
       />
     </div>
