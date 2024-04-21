@@ -8,7 +8,7 @@ const HeroSection = () => {
     <section className="text-black body-font flex justify-center items-center w-full h-[550px]">
       <div className="container flex flex-col lg:flex-row items-center justify-between w-full">
         <div className="flex-grow lg:w-1/2 xl:pr-24 lg:pr-16 flex flex-col lg:items-start lg:text-left mb-16 lg:mb-0 items-center text-center lg:my-0 my-12">
-          <h1 className="font-header sm:text-5xl text-3xl font-bold mb-4 text-black">
+          <h1 className="font-header sm:text-6xl text-3xl font-bold mb-4 text-black">
             Connect Instantly With Local Experts Around You
           </h1>
           <div className="flex justify-center">

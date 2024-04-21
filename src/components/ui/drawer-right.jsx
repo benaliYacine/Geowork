@@ -7,7 +7,7 @@ const Drawer = ({
   shouldScaleBackground = true,
   ...props
 }) => (
-  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
+  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} direction="right" {...props} />
 )
 Drawer.displayName = "Drawer"
 
@@ -31,12 +31,11 @@ const DrawerContent = React.forwardRef(({ className, children, ...props }, ref) 
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950",
+        "fixed inset-y-0 right-0 z-50  flex h-auto flex-col rounded-l-[10px] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950",
         className
       )}
       {...props}>
-      <div
-        className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-slate-100 dark:bg-slate-800" />
+      
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -57,7 +56,7 @@ const DrawerFooter = ({
   className,
   ...props
 }) => (
-  <div className={cn("mt-auto flex flex-col gap-2 p-4", className)} {...props} />
+  <div className={cn("mt-auto flex flex-col items-center gap-2 p-4", className)} {...props} />
 )
 DrawerFooter.displayName = "DrawerFooter"
 

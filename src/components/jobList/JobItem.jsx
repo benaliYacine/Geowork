@@ -3,6 +3,7 @@ import Location from "@/components/common/Location";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Category from "@/components/common/Category";
+import JobPostDrawer from "@/components/jobList/JobPostDrawer";
 export default function JobItem({ job }) {
   return (
     <div className="flex flex-col items-center w-full mb-2 rounded-lg">
@@ -23,17 +24,16 @@ export default function JobItem({ job }) {
                 size="sm"
               />
             </div>
-            <p className="text-md text-primary font-semibold ">
-              {job.budget}
-            </p>
+            <p className="text-md text-primary font-semibold ">{job.budget}</p>
             <Location wilaya={job.wilaya} city={job.city} size="sm" />
           </div>
         </div>
         <div className="  ml-auto sm:ml-0 sm:mb-auto">
           {/* TODO: diir l button ydiik lel page ta3 l job */}
-          <Button variant="outline" size="sm">
+          {/* <Button variant="outline" size="sm">
             Open Job Post
-          </Button>
+          </Button> */}
+          <JobPostDrawer />
         </div>
       </div>
       <Separator />
