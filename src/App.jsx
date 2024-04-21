@@ -12,7 +12,7 @@ import WelcomeCli from "./pages/WelcomeCli";
 import InputWilayaCity from "./pages/InputWilayaCity";
 import ProfileSlides from "./pages/ProfileSlides";
 import JobSlides from "./pages/JobSlides";
-import JobPost from "./pages/JobPost";
+import JobPost from "./pages/JobPostPage";
 import SendEmailPage from "./pages/SendEmailPage";
 import AllJobPosts from "./pages/AllJobPosts";
 import JobsSearch from "./pages/JobsSearch";

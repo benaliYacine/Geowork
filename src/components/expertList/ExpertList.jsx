@@ -15,7 +15,6 @@ const experts = Array.from({ length: 100 }, (_, i) => ({
   role: "Web Developer",
   rating: Math.random() * 5,
   avatarUrl: "https://github.com/johndoe.png",
-  initials: "JD",
   wilaya: "Algiers",
   city: "Central",
 }));

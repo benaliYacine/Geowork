@@ -4,11 +4,7 @@ import AddEducationButton from "@/components/profile_slides/slideFive/AddEducati
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
-export default function EducationHistory({
-  profileInfo,
-  updateProfileInfo,
-  deleteEducation,
-}) {
+export default function EducationHistory({ profileInfo, updateProfileInfo }) {
   const addEducation = (newEducation) => {
     updateProfileInfo({
       educations: [...profileInfo.educations, newEducation],
@@ -23,7 +19,14 @@ export default function EducationHistory({
       educations: updatedEducations,
     });
   };
-
+  const deleteEducation = (indexToDelete) => {
+    const filteredEducations = profileInfo.educations.filter(
+      (_, index) => index !== indexToDelete
+    );
+    updateProfileInfo({
+      educations: filteredEducations,
+    });
+  };
   return (
     <>
       <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">

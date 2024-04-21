@@ -38,7 +38,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
-        header: ['Poppins', 'sans-serif']
+        header: ['Poppins', 'sans-serif']//kout nekhdem b outfit fel header w gla3tou poppins 3jebni khir 
       },
       colors: {
         bg: '#FAFAFA',
