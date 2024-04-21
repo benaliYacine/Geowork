@@ -13,7 +13,7 @@ import { ChevronLeft,ExternalLink } from "lucide-react";
 import { React, useState } from "react";
 import Profile from "@/components/profile/Profile";
 import { ScrollArea } from "@/components/ui/scroll-area";
-export default function ProfileDrawer({ onDelete, expert }) {
+export default function ProfileDrawer({ expert }) {
   const [profileInfo, setProfileInfo] = useState({
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
     category: "education_and_tutoring",

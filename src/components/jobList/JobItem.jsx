@@ -16,7 +16,16 @@ export default function JobItem({ job }) {
             ></div>
           </div>
           <div className="flex-grow mb-2">
-            <h3 className="text-lg font-bold ">{job.title}</h3>
+            <JobPostDrawer job={job}>
+              <Button
+                variant="title"
+                className="text-lg font-semibold mb-1 "
+                size="none"
+              >
+                {job.title}
+              </Button>
+            </JobPostDrawer>
+            
             <div className="">
               <Category
                 category={job.category}
@@ -33,7 +42,11 @@ export default function JobItem({ job }) {
           {/* <Button variant="outline" size="sm">
             Open Job Post
           </Button> */}
-          <JobPostDrawer />
+          <JobPostDrawer job={job}>
+            <Button variant="outline" size="sm">
+              Open Job Post
+            </Button>
+          </JobPostDrawer>
         </div>
       </div>
       <Separator />
