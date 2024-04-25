@@ -24,8 +24,8 @@ router.use(session({
 
 const ProfessionnelCtrl = require('../controllers/professionnel')
 
-router.patch('/changePhotoDeProfile/:id', middlewars.isAccessible, upload.single('image'), ProfessionnelCtrl.changePhotoDeProfile);
-router.patch('/changeDetailleProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeDetailleProfessionnel);
+router.patch('/changePhotoDeProfile', upload.single('image'), ProfessionnelCtrl.changePhotoDeProfile);
+router.patch('/changeDetailleProfessionnel', ProfessionnelCtrl.changeDetailleProfessionnel);
 router.post('/createProfessionnel', ProfessionnelCtrl.createProfessionnel);
 /* router.post('/loginProfessionnel', ProfessionnelCtrl.loginProfessionnel); */
 /* router.patch('/changePasswordProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changePasswordProfessionnel);
@@ -34,13 +34,16 @@ router.post('/createProfessionnel', ProfessionnelCtrl.createProfessionnel);
 router.patch('/changeEmailProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeEmailProfessionnel);
 router.patch('/changeDescriptionProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeDescriptionProfessionnel);
 router.patch('/changeAlocationProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeAlocationProfessionnel); */
-router.patch('/addEmployment/:id', middlewars.isAccessible, ProfessionnelCtrl.addEmployment);
-router.patch('/addEducation/:id', middlewars.isAccessible, ProfessionnelCtrl.addEducation);
-router.patch('/addExperience/:id', middlewars.isAccessible, ProfessionnelCtrl.addExperience);
+router.patch('/addEmployment', ProfessionnelCtrl.addEmployment);
+router.patch('/modifyEmployment', ProfessionnelCtrl.modifyEmployment);
+router.patch('/addEducation', ProfessionnelCtrl.addEducation);
+router.patch('/modifyEducation', ProfessionnelCtrl.modifyEducation);
+router.patch('/addExperience', ProfessionnelCtrl.addExperience);
+router.patch('/modifyExperience', ProfessionnelCtrl.modifyExperience);
 router.patch('/changeProfileProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeProfileProfessionnel);
 /* router.put('/changeProfessionnel', ProfessionnelCtrl.changeProfessionnel); */
-router.delete('/deleteProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.deleteProfessionnel);
-router.patch('/suppEducation/:id', middlewars.isAccessible, ProfessionnelCtrl.suppEducation);
-router.patch('/suppExperience/:id', middlewars.isAccessible, ProfessionnelCtrl.suppExperience);
-router.patch('/suppEmployment/:id', middlewars.isAccessible, ProfessionnelCtrl.suppEmployment);
+router.delete('/deleteProfessionnel', ProfessionnelCtrl.deleteProfessionnel);
+router.patch('/suppEducation', ProfessionnelCtrl.suppEducation);
+router.patch('/suppExperience', ProfessionnelCtrl.suppExperience);
+router.patch('/suppEmployment', ProfessionnelCtrl.suppEmployment);
 module.exports = router //dir export lel request

@@ -24,7 +24,8 @@ const jobs = Array.from({ length: 100 }, (_, i) => ({
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList() {
+export default function JobList({jobs}) {
+  
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPageIndex = Math.ceil(jobs.length / ITEMS_PER_PAGE);

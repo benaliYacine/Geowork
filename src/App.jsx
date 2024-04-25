@@ -19,6 +19,8 @@ import JobsSearch from "./pages/JobsSearch";
 import ExpertsSearch from "./pages/ExpertsSearch";
 import Settings from "./pages/Settings";
 import ProfilePage from "./pages/ProfilePage";
+import JobPostPage from "./pages/JobPostPage";
+import Dashboard from "./pages/Dashboard";
 
 import axios from "axios";
 
@@ -31,11 +33,11 @@ function App() {
     const ws = new WebSocket('ws://localhost:3000');
     setWs(ws);
 
-    ws.addEventListener('message', handleSendOnlineUser);
+    //ws.addEventListener('message', handleSendOnlineUser);
 
 
   }, []);
-  const showPeople = async (people) => {
+/*   const showPeople = async (people) => {
     const response = await axios.post('/contact', { people });
 
     if (response.data) {
@@ -53,7 +55,7 @@ function App() {
     const messageData = JSON.parse(message.data);
     showPeople(messageData.online)
 
-  };
+  }; */
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (
@@ -73,11 +75,11 @@ function App() {
           <Route path="/jobSlides" element={<JobSlides />} />
           <Route path="/jobPost" element={<JobPost />} />
           <Route path="/verifyEmail" element={<SendEmailPage />} />
-          <Route path="/allJobPosts" element={<AllJobPosts />} />
+          
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/dashboard" element={<ProfilePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

@@ -4,7 +4,7 @@ import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmplo
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
-
+import axios from 'axios';
 const months = [
   "January",
   "February",
@@ -21,26 +21,32 @@ const months = [
 ];
 
 export default function EmploymentHistory({ profileInfo, updateProfileInfo }) {
-  const addEmployment = (newEmployment) => {
+  const addEmployment = async (newEmployment) => {
+    const response=await axios.patch('/api/professionnels/addEmployment',newEmployment);
+    console.log(response.data);
     updateProfileInfo({
       employments: [...profileInfo.employments, newEmployment],
     });
   };
 
-  const deleteEmployment = (indexToDelete) => {
+  const deleteEmployment = async (indexToDelete) => {
     const filteredEmployments = profileInfo.employments.filter(
       (_, index) => index !== indexToDelete
     );
+    const response=await axios.patch('/api/professionnels/modifyEmployment',filteredEmployments);
+    console.log(response.data);
     updateProfileInfo({
       employments: filteredEmployments,
     });
   };
 
-  const editEmployment = (indexToEdit, updatedEmployment) => {
+  const editEmployment = async(indexToEdit, updatedEmployment) => {
     const updatedEmployments = profileInfo.employments.map(
       (employment, index) =>
         index === indexToEdit ? updatedEmployment : employment
     );
+    const response=await axios.patch('/api/professionnels/modifyEmployment',updatedEmployments);
+    console.log(response.data);
     updateProfileInfo({
       employments: updatedEmployments,
     });

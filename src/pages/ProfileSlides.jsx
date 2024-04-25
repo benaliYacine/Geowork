@@ -176,7 +176,7 @@ const ProfileSlides = () => {
     let employments = JSON.parse(profileInfo.employments);
     let experiences = JSON.parse(profileInfo.experiences);
     let educations = JSON.parse(profileInfo.educations);
-
+    console.log("profileInfo",profileInfo.employments);
     formData.append("roleTitle", profileInfo.roleTitle);
     formData.append("category", profileInfo.category);
     formData.append("subCategory", profileInfo.subCategory);
@@ -186,10 +186,27 @@ const ProfileSlides = () => {
     formData.append("phone", profileInfo.phone);
 
     employments.forEach((employment, index) => {
+      // Convert date start
+      const startDate = new Date(employment.date.start.year, employment.date.start.month - 1);
+      const startMonth = startDate.getMonth() + 1;
+      const startYear = startDate.getFullYear();
+      formData.append(`employments[${index}][date][start][month]`, startMonth);
+      formData.append(`employments[${index}][date][start][year]`, startYear);
+    
+      // Convert date end
+      const endDate = new Date(employment.date.end.year, employment.date.end.month - 1);
+      const endMonth = endDate.getMonth() + 1;
+      const endYear = endDate.getFullYear();
+      formData.append(`employments[${index}][date][end][month]`, endMonth);
+      formData.append(`employments[${index}][date][end][year]`, endYear);
+    
+      // Append other fields
       Object.keys(employment).forEach((key) => {
-        formData.append(`employments[${index}][${key}]`, employment[key]);
+        if (key !== 'date') {
+          formData.append(`employments[${index}][${key}]`, employment[key]);
+        }
       });
-    });
+  });
 
     experiences.forEach((experience, index) => {
       Object.keys(experience).forEach((key) => {
@@ -198,10 +215,16 @@ const ProfileSlides = () => {
     });
 
     educations.forEach((education, index) => {
-      Object.keys(education).forEach((key) => {
-        formData.append(`educations[${index}][${key}]`, education[key]);
-      });
-    });
+      // Append school, degree, fieldOfStudy, and description
+      formData.append(`educations[${index}][school]`, education.school);
+      formData.append(`educations[${index}][degree]`, education.degree);
+      formData.append(`educations[${index}][fieldOfStudy]`, education.fieldOfStudy);
+      formData.append(`educations[${index}][description]`, education.description);
+  
+      // Convert datesAttended to numbers and append
+      formData.append(`educations[${index}][datesAttended][start]`, Number(education.datesAttended.start));
+      formData.append(`educations[${index}][datesAttended][end]`, Number(education.datesAttended.end));
+  });
     console.log("blobData", blobData);
     formData.append("image", blobData);
 
@@ -215,7 +238,7 @@ const ProfileSlides = () => {
       }
     );
 
-    console.log(response);
+    navigate('/dashboard');
   };
 
   const inc = () => {

@@ -4,25 +4,32 @@ import AddEducationButton from "@/components/profile_slides/slideFive/AddEducati
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
+import axios from 'axios';
 export default function EducationHistory({ profileInfo, updateProfileInfo }) {
-  const addEducation = (newEducation) => {
+  const addEducation = async (newEducation) => {
+    const response=await axios.patch('/api/professionnels/addEducation',newEducation);
+    console.log(response.data);
     updateProfileInfo({
       educations: [...profileInfo.educations, newEducation],
     });
   };
 
-  const editEducation = (indexToEdit, updatedEducation) => {
+  const editEducation = async (indexToEdit, updatedEducation) => {
     const updatedEducations = profileInfo.educations.map((education, index) =>
       index === indexToEdit ? updatedEducation : education
     );
+    const response=await axios.patch('/api/professionnels/modifyEducation',updatedEducations);
+    console.log(response.data);
     updateProfileInfo({
       educations: updatedEducations,
     });
   };
-  const deleteEducation = (indexToDelete) => {
+  const deleteEducation = async(indexToDelete) => {
     const filteredEducations = profileInfo.educations.filter(
       (_, index) => index !== indexToDelete
     );
+    const response=await axios.patch('/api/professionnels/modifyEducation',filteredEducations);
+    console.log(response.data);
     updateProfileInfo({
       educations: filteredEducations,
     });

@@ -9,6 +9,7 @@ import EditAvatarCard from "@/components/profile/EditAvatarCard";
 import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import {getInitials } from "@/lib/utils"
+import axios from 'axios';
 export default function Profile({
   name = "benali yacine",
   wilaya = "wilaya",
@@ -16,9 +17,19 @@ export default function Profile({
   profileInfo,
   updateProfileInfo,
 }) {
-  const addImage = (newImage) => {
+  const addImage = async (newImage) => {
+    const dataUrl = newImage;
+    const blobData = await fetch(dataUrl).then((res) => res.blob());
+    const formData = new FormData();
+    formData.append("image", blobData);
+    const response= await axios.patch('/api/professionnels/changePhotoDeProfile',formData,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    console.log(response.data);
     updateProfileInfo({
-      photoProfile: newImage, // Directly assign the newImage Src
+      photoProfile: response.data.profile.photoProfile // Directly assign the newImage Src
     });
     // setIsPhotoAdded(true);
     // setShowPhotoError(false);
@@ -30,7 +41,7 @@ export default function Profile({
         <div className="flex flex-row p-0 w-full mr-auto items-center">
           <div className=" relative">
             <Avatar className="mr-4" size={24}>
-              <AvatarImage src={profileInfo.photoProfile} alt={name} />
+              <AvatarImage src={profileInfo.photoProfile.url} alt={name} />
               <AvatarFallback className=" text-4xl">
                 {getInitials(name)}
               </AvatarFallback>

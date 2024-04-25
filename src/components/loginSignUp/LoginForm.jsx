@@ -71,7 +71,7 @@ export default function LoginForm() {
     }
   };
   const Auth = async () => {
-    window.open("http://localhost:3000/auth/google/callback");
+    window.location.href = "http://localhost:3000/auth/google/callback";
   };
   if (loading) return <div></div>;
   return (

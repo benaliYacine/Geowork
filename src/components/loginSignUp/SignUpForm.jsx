@@ -117,7 +117,7 @@ export default function SignUpForm() {
     }
   };
   const Auth = async () => {
-    window.open("http://localhost:3000/auth/google/callback");
+    window.location.href = "http://localhost:3000/auth/google/callback";
   };
 
   console.log(loading);

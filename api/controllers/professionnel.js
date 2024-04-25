@@ -55,7 +55,7 @@ exports.createProfessionnel = async (req, res) => {
     try {
         const professionnel = new Professionnel(req.body);
         const exist = await Professionnel.findOne({ email: professionnel.email });
-        if (exist) return res.status(409).json({message:"email exist deja"});
+        if (exist) return res.status(409).json({ message: "email exist deja" });
         const pro = await professionnel.save();
         console.log(pro);
         if (req.session) {
@@ -73,7 +73,7 @@ exports.createProfessionnel = async (req, res) => {
         console.log(pro.email);
         console.log(url);
         await sendEmail(pro.email, "Verify Email", url);
-        return res.json({redirectUrl:'/verifyEmail',message:"An Email sent to verify your account"});
+        return res.json({ redirectUrl: '/verifyEmail', message: "An Email sent to verify your account" });
     } catch (err) {
         return res.status(400).json(err);
     }
@@ -81,27 +81,26 @@ exports.createProfessionnel = async (req, res) => {
 
 exports.addProfileProfessionnel = async (req, res) => {
     try {
-        console.log("req.file: ",req.file);
-        const id=req.session.user_id;
-        req.body.added=true;
+        console.log("req.file: ", req.file);
+        const id = req.session.user_id;
+        req.body.added = true;
         //const { id } = req.params;
         //const { id } = req.body;
-        
-        req.body=JSON.parse(JSON.stringify(req.body));
-        
-        console.log("req.body",req.body);
+
+        req.body = JSON.parse(JSON.stringify(req.body));
+
+        console.log("req.body", req.body);
         console.log(id);
-        try{
-        const pro = await Professionnel.findByIdAndUpdate(id, {profile:req.body});
-        }catch(e){
-            console.log(e);
-        }
-        console.log("afdsfadsfdas");
+
+        const pro = await Professionnel.findByIdAndUpdate(id, { profile: req.body });
         if (req.file) {
-            const dataImage = { url: req.file.path, filename: req.file.filename };
-            pro.profile.photoProfile = dataImage;
+            pro.profile.photoProfile.url = req.file.path;
+            pro.profile.photoProfile.filename = req.file.filename;
+            console.log("photoProfile", pro.profile.photoProfile);
         }
-        pro.profile.added = true;
+
+
+
         await pro.save();
         return res.status(201).json(pro);
     } catch (err) {
@@ -147,12 +146,23 @@ exports.changeEmailProfessionnel = async (req, res) => {
 }; */
 exports.changeDetailleProfessionnel = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
+        id = req.session.user_id;
+        //const { id } = req.params;
         if (req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, 12);
         }
-        const pro = await Professionnel.findByIdAndUpdate(id, req.body, { new: true });
+        let pro;
+        if ('phone' in req.body) {
+            pro = await Professionnel.findById(id);
+            pro.profile.phone = req.body.phone;
+            await pro.save();
+        }
+        else if ('streetAdress' in req.body) {
+            pro = await Professionnel.findById(id);
+            pro.profile.streetAdress = req.body.streetAdress;
+            await pro.save();
+        } else
+            pro = await Professionnel.findByIdAndUpdate(id, req.body, { new: true });
         return res.status(201).json(pro);
     } catch (err) {
         return res.status(400).json(err);
@@ -198,12 +208,65 @@ exports.changeAlocationProfessionnel = async (req, res) => {
 //hado 5 li ta7t b3d mavirifithmch
 exports.addEmployment = async (req, res) => {
     try {
-        //id=req.session.user_id;
+        const id = req.session.user_id;
         //const { id } = req.body;
-        const { id } = req.params;
-        const employment = req.body.employment;
+        //const { id } = req.params;
+        const employment = req.body;
+        if(employment.currentlyIn){
+            employment.date.end.month=1;
+            employment.date.end.year=2000;
+        }
+        console.log(employment);
         const pro = await Professionnel.findById(id);
-        pro.profile.employments.push(employment);
+        if (employment)
+            pro.profile.employments.push(employment);
+        console.log(pro);
+        await pro.save();
+        
+        return res.status(201).json(pro);
+    } catch (err) {
+        return res.status(400).json(err);
+    }
+}
+exports.modifyEmployment = async (req, res) => {
+    try {
+        const id = req.session.user_id;
+        //const { id } = req.body;
+        //const { id } = req.params;
+        const employments = req.body;
+        const pro = await Professionnel.findById(id);
+        if (employments)
+            pro.profile.employments = employments;
+        await pro.save();
+        return res.status(201).json(pro);
+    } catch (err) {
+        return res.status(400).json(err);
+    }
+}
+exports.modifyEducation = async (req, res) => {
+    try {
+        const id = req.session.user_id;
+        //const { id } = req.body;
+        //const { id } = req.params;
+        const Educations = req.body;
+        const pro = await Professionnel.findById(id);
+        if (Educations)
+            pro.profile.educations = Educations;
+        await pro.save();
+        return res.status(201).json(pro);
+    } catch (err) {
+        return res.status(400).json(err);
+    }
+}
+exports.modifyExperience = async (req, res) => {
+    try {
+        const id = req.session.user_id;
+        //const { id } = req.body;
+        //const { id } = req.params;
+        const Experiences = req.body;
+        const pro = await Professionnel.findById(id);
+        if (Experiences)
+            pro.profile.experiences = Experiences;
         await pro.save();
         return res.status(201).json(pro);
     } catch (err) {
@@ -226,9 +289,9 @@ exports.suppEmployment = async (req, res) => {
 
 exports.addEducation = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
-        const education = req.body.education;
+        const id = req.session.user_id;
+        //const { id } = req.params;
+        const education = req.body;
         const pro = await Professionnel.findById(id);
         pro.profile.educations.push(education);
         await pro.save();
@@ -253,11 +316,12 @@ exports.suppEducation = async (req, res) => {
 }
 exports.addExperience = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
-        const experience = req.body.experience;
+        const id = req.session.user_id;
+        //const { id } = req.params;
+        const experience = req.body;
         const pro = await Professionnel.findById(id);
-        pro.profile.experiences.push(experience);
+        if (experience)
+            pro.profile.experiences.push(experience);
         await pro.save();
         return res.status(201).json(pro);
     } catch (err) {
@@ -295,10 +359,14 @@ exports.changeProfileProfessionnel = async (req, res) => {
 ////////////////
 exports.deleteProfessionnel = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
+        const id = req.session.user_id;
+        //const { id } = req.params;
         //const { id } = req.body;
         const pro = await Professionnel.findByIdAndDelete(id);
+        if (pro.profile.photoProfile.filename) {
+            const filename = pro.profile.photoProfile.filename;
+            await cloudinary.uploader.destroy(filename);
+        }
         return res.status(201).json(pro);
     } catch (err) {
         return res.status(400).json(err);

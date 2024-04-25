@@ -4,27 +4,34 @@ import AddExperienceButton from "@/components/profile_slides/slideFour/AddExperi
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
+import axios from 'axios';
 export default function ExperienceHistory({ profileInfo, updateProfileInfo }) {
-  const addExperience = (newExperience) => {
+  const addExperience = async (newExperience) => {
+    const response=await axios.patch('/api/professionnels/addExperience',newExperience);
+    console.log(response.data);
     updateProfileInfo({
       experiences: [...profileInfo.experiences, newExperience],
     });
   };
 
-  const deleteExperience = (indexToDelete) => {
+  const deleteExperience = async (indexToDelete) => {
     const filteredExperiences = profileInfo.experiences.filter(
       (_, index) => index !== indexToDelete
     );
+    const response=await axios.patch('/api/professionnels/modifyExperience',filteredExperiences);
+    console.log(response.data);
     updateProfileInfo({
       experiences: filteredExperiences,
     });
   };
 
-  const editExperience = (indexToEdit, updatedExperience) => {
+  const editExperience = async (indexToEdit, updatedExperience) => {
     const updatedExperiences = profileInfo.experiences.map(
       (experience, index) =>
         index === indexToEdit ? updatedExperience : experience
     );
+    const response=await axios.patch('/api/professionnels/modifyExperience',updatedExperiences);
+    console.log(response.data);
     updateProfileInfo({
       experiences: updatedExperiences,
     });
