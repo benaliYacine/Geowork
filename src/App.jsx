@@ -66,7 +66,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/inputWilayaCity" element={<InputWilayaCity />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/messages/0" element={<Messages />} />
+          <Route path="/messages" element={<Messages />} />
           <Route path="/messages/:id" element={<Messages />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/welcomePro" element={<WelcomePro />} />

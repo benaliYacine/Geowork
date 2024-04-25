@@ -119,6 +119,23 @@ function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
 app.get('/userId', (req, res) => {
     res.json({ user_id: req.session.user_id });
 })
+app.get('/header', middlewars.isLoginIn, async (req, res) => {
+    let user;
+    let responseData = {};
+    if (req.session.user_type == 'Client') {
+        user = await Client.findById(req.session.user_id);
+        responseData.name = `${user.name.first} ${user.name.last}`;
+        responseData.pro = false;
+    }
+    else {
+        user = await Professionnel.findById(req.session.user_id);
+        responseData.name = `${user.name.first} ${user.name.last}`;
+        responseData.photoProfile = user.profile.photoProfile.url;
+        responseData.pro = true;
+    }
+    return res.json(responseData);
+
+})
 app.get('/logout', (req, res) => {
     // Détruire la session côté serveur
     res.render('logout');
@@ -132,20 +149,20 @@ app.get('/profileSlides', middlewars.requireLoginProfessionnel, async (req, res)
 app.post('/logout', (req, res) => {
     // Détruire la session côté serveur
     req.session.destroy((err) => {
-      if (err) {
-        console.error("Erreur lors de la destruction de la session :", err);
-        res.status(500).json({ error: "Erreur lors de la déconnexion" });
-      } else {
-        res.json({ redirectUrl: '/login' });
-      }
+        if (err) {
+            console.error("Erreur lors de la destruction de la session :", err);
+            res.status(500).json({ error: "Erreur lors de la déconnexion" });
+        } else {
+            res.json({ redirectUrl: '/login' });
+        }
     });
-  });
+});
 app.get('/settings', middlewars.isLoginIn, async (req, res) => {
-    if (req.session.user_type == 'Client') 
+    if (req.session.user_type == 'Client')
         res.json(await Client.findById(req.session.user_id));
-    if (req.session.user_type == 'Professionnel') 
+    if (req.session.user_type == 'Professionnel')
         res.json(await Professionnel.findById(req.session.user_id));
-    
+
 });
 
 app.post('/login', async (req, res) => {
@@ -197,8 +214,8 @@ app.get('/login', middlewars.requireLogin, (req, res) => {
 
 app.get('/dashboard', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, async (req, res) => {
     //console.log(req.session);
-    if (req.session.user_type == 'Client'){
-        const cli=await Client.findById(req.session.user_id).populate("jobs");
+    if (req.session.user_type == 'Client') {
+        const cli = await Client.findById(req.session.user_id).populate("jobs");
         console.log(cli);
         res.json(cli);
     }

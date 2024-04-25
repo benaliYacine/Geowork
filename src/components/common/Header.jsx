@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import ProfileIcon from "@/components/common/ProfileIcon";
 import NotificationIcon from "@/components/common/NotificationIcon";
+import axios from 'axios';
 import {
   Accordion,
   AccordionContent,
@@ -140,9 +141,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Header({logedIn = true}) {
+export default function Header({ logedIn = true }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [profileIcon, setProfileIcon] = useState({});
   useEffect(() => {
     let timeoutId;
     if (mobileMenuOpen) {
@@ -153,6 +155,17 @@ export default function Header({logedIn = true}) {
     }
     return () => clearTimeout(timeoutId); // Cleanup timeout
   }, [mobileMenuOpen, isMenuVisible]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get('header');
+      let profileIcon = {};
+      if (response.data) {
+        profileIcon = response.data;
+      }
+      setProfileIcon(profileIcon);
+    }
+    fetchData();
+  }, [])
   return (
     <header className="flex justify-center items-center w-full ">
       <nav
@@ -224,7 +237,7 @@ export default function Header({logedIn = true}) {
             {logedIn ? (
               <>
                 <NotificationIcon />
-                <ProfileIcon />
+                <ProfileIcon name={profileIcon.name} photoProfile={profileIcon.photoProfile} pro={profileIcon.pro} />
               </>
             ) : (
               <>
@@ -261,11 +274,10 @@ export default function Header({logedIn = true}) {
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel
             className={`fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
-                ${
-                  mobileMenuOpen
-                    ? "animate-slide-in-right"
-                    : "animate-slide-out-right"
-                }`}
+                ${mobileMenuOpen
+                ? "animate-slide-in-right"
+                : "animate-slide-out-right"
+              }`}
           >
             <div className="flex items-center justify-between">
               <a href="/" className="-m-1.5 p-1.5">

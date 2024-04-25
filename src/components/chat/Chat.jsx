@@ -23,15 +23,17 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const [ws, setWs] = useState(null);
-  const { id } = useParams();
+  let { id } = useParams();
+  if (!id)
+    id = 1;
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:3000');
     setWs(ws);
 
     ws.addEventListener('message', handleSendMessage);
-    
-    
+
+
 
   }, []);
   // Placeholder for data fetching and state management
@@ -50,43 +52,43 @@ export default function Chat() {
   }
   // Function placeholders for interaction handling
   const handleSendMessage = (ev) => {
-    
+
     //console.log("evvvvvvv", ev);
     const messageData = JSON.parse(ev.data);
-    console.log("messageData",messageData);
+    console.log("messageData", messageData);
     if ('online' in messageData)
       showPeople(messageData.online);
-    else 
-      if(messageData.senderId==id){
-      console.log("lmessaaaaaaaaaage", messageData);
-      let newMessage = {
-        id: messageData.senderId,
-        message: messageData.message,
-        isOwnMessage: false,
+    else
+      if (messageData.senderId == id) {
+        console.log("lmessaaaaaaaaaage", messageData);
+        let newMessage = {
+          id: messageData.senderId,
+          message: messageData.message,
+          isOwnMessage: false,
 
-      };
-      console.log("newMessage",newMessage);
-      console.log("messages",messages);
+        };
+        console.log("newMessage", newMessage);
+        console.log("messages", messages);
 
-      const time = Date.now();
-      newMessage.timestamp = time;// `${new Date(time).getHours()}:${new Date(time).getMinutes()}` 
-
-
-
-      const newContact = contacts.filter((contact) => contact.id == id)[0];
-      newContact.message = newMessage.message.content;
-      newContact.time = newMessage.timestamp;
+        const time = Date.now();
+        newMessage.timestamp = time;// `${new Date(time).getHours()}:${new Date(time).getMinutes()}` 
 
 
-      setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
-      newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`
-      //console.log([...messages, newMessage]);
-      setMessages(prev => ([...prev,newMessage]));
 
-      
-    
+        const newContact = contacts.filter((contact) => contact.id == id)[0];
+        newContact.message = newMessage.message.content;
+        newContact.time = newMessage.timestamp;
 
-    }
+
+        setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
+        newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`
+        //console.log([...messages, newMessage]);
+        setMessages(prev => ([...prev, newMessage]));
+
+
+
+
+      }
 
 
 
@@ -165,6 +167,7 @@ export default function Chat() {
   };
 
   useEffect(() => {
+
 
     const fetchData = async () => {
       try {

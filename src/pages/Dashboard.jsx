@@ -19,18 +19,18 @@ export default function Dashboard() {
                 }
                 if (response.data) {
                     setLoading(false);
-                    if('profile' in response.data){
-                    setProfileInfo(response.data.profile);
-                    const info = {
-                        name: `${response.data.name.first} ${response.data.name.last}`,
-                        wilaya: response.data.wilaya,
-                        city: response.data.city
+                    if ('profile' in response.data) {
+                        setProfileInfo(response.data.profile);
+                        const info = {
+                            name: `${response.data.name.first} ${response.data.name.last}`,
+                            wilaya: response.data.wilaya,
+                            city: response.data.city
+                        }
+                        setInfo(info);
+
+                    } else {
+                        setJobs(response.data.jobs);
                     }
-                    setInfo(info);
-                    
-                }else{
-                    setJobs(response.data.jobs);
-                }
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -41,17 +41,17 @@ export default function Dashboard() {
 
     }, []);
     const updateProfileInfo = (newInfo) => {
-        console.log("newInfo:::",newInfo)
+        console.log("newInfo:::", newInfo)
         setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
-      };
+    };
     if (loading) return <div></div>;
     if (profileInfo) {
         return (
-            <ProfilePage info={info} profileInfo={profileInfo} updateProfileInfo={updateProfileInfo}/>
+            <ProfilePage info={info} profileInfo={profileInfo} updateProfileInfo={updateProfileInfo} />
         )
-    }else{
+    } else {
         return (
-            <AllJobPosts jobs={jobs}/>
+            <AllJobPosts jobs={jobs} />
         )
     }
 }
