@@ -8,13 +8,14 @@ import GeoworkHistory from "@/components/profile/GeoworkHistory";
 import EditAvatarCard from "@/components/profile/EditAvatarCard";
 import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
-import {getInitials } from "@/lib/utils"
+import { getInitials } from "@/lib/utils";
 export default function Profile({
   name = "benali yacine",
   wilaya = "wilaya",
   city = "city",
   profileInfo,
   updateProfileInfo,
+  edit = false,
 }) {
   const addImage = (newImage) => {
     updateProfileInfo({
@@ -35,14 +36,16 @@ export default function Profile({
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
-            <div className="absolute bottom-[-6px] right-4 ">
-              <EditAvatarCard
-                addImage={addImage}
-                existingPhoto={profileInfo.photoProfile}
-                variant="outlined"
-                className="flex-2"
-              />
-            </div>
+            {edit && (
+              <div className="absolute bottom-[-6px] right-4 ">
+                <EditAvatarCard
+                  addImage={addImage}
+                  existingPhoto={profileInfo.photoProfile}
+                  variant="outlined"
+                  className="flex-2"
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-col">
             <h2 className="text-6xl font-header font-semibold mb-1">{name}</h2>
@@ -63,18 +66,22 @@ export default function Profile({
       <GeoworkHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <EmploymentHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <ExperienceHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <EducationHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
     </div>
   );

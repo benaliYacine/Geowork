@@ -5,6 +5,7 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
 export default function ProfilePage() {
+
   const [profileInfo, setProfileInfo] = useState({
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
     category: "education_and_tutoring",

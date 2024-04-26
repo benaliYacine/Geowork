@@ -4,7 +4,7 @@ import AddEducationButton from "@/components/profile_slides/slideFive/AddEducati
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
-export default function EducationHistory({ profileInfo, updateProfileInfo }) {
+export default function EducationHistory({ profileInfo, updateProfileInfo, edit }) {
   const addEducation = (newEducation) => {
     updateProfileInfo({
       educations: [...profileInfo.educations, newEducation],

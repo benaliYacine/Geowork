@@ -2,15 +2,16 @@
 import { Link } from "react-router-dom";
 import Header from "@/components/common/Header";
 import HeroSection from "@/components/home/HeroSection";
+import StepsSection from "@/components/home/StepsSection";
 import Footer from "@/components/common/Footer";
-import PageContainer from "@/components/common/PageContainer";
 function Home() {
   return (
     <div className="bg-bg">
       <Header />
-      <PageContainer>
+      
         <HeroSection />
-      </PageContainer>
+        <StepsSection />
+      
       <Footer />
       <h1 className="font-header font-bold text-3xl">Home Page</h1>
 
