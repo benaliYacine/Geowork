@@ -1,15 +1,12 @@
 import React from "react";
-import hero from "@/assets/illustrations/hero.svg";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import post from "@/assets/illustrations/post.svg";
-import discover from "@/assets/illustrations/discover.svg";
-import done from "@/assets/illustrations/done.svg";
+
 import PageContainer from "@/components/common/PageContainer";
 import detailedProfiles from "@/assets/illustrations/detailedProfiles.svg";
 import diverse from "@/assets/illustrations/diverse.svg";
 import geoRequest from "@/assets/illustrations/geoRequest.svg";
-import {cn} from "@/lib/utils"
+import { cn } from "@/lib/utils"
+
 const Feature = ({ img, title, description, reverse = false }) => {
   return (
     <div
