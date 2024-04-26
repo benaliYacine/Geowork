@@ -11,7 +11,7 @@ const HeroSection = () => {
   return (
     <section className="text-greyDark body-font bg-white">
       <PageContainer>
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container py-16">
           <div className="text-center mb-8 p-4">
             <h2 className="sm:text-5xl text-3xl font-semibold text-black">
               Looking for a Professional to Solve Your Needs On-Site?

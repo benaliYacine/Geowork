@@ -4,6 +4,7 @@ import Header from "@/components/common/Header";
 import HeroSection from "@/components/home/HeroSection";
 import StepsSection from "@/components/home/StepsSection";
 import Footer from "@/components/common/Footer";
+import FeaturesSection from "@/components/home/FeaturesSection";
 function Home() {
   return (
     <div className="bg-bg">
@@ -11,6 +12,7 @@ function Home() {
       
         <HeroSection />
         <StepsSection />
+        <FeaturesSection />
       
       <Footer />
       <h1 className="font-header font-bold text-3xl">Home Page</h1>
