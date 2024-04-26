@@ -1,11 +1,22 @@
 import React from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import { CircleUser, MessageCircle, Settings, LogOut } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-export default function ProfileIcon({ pro = true, name = "test test" }) {
+
+export default function ProfileIcon({ pro = true, name = "test test", photoProfile = "" }) {
+  const navigate = useNavigate();
+  const handleLogOut = async () => {
+    console.log('fdsajhdfas');
+    const response = await axios.post('/logout');
+    if (response.data.redirectUrl) {
+      navigate(response.data.redirectUrl);
+    }
+  };
   return (
     <Popover>
       <PopoverTrigger>
@@ -15,16 +26,16 @@ export default function ProfileIcon({ pro = true, name = "test test" }) {
       <PopoverContent className="p-2 flex flex-col gap-2 items-start justify-center w-fit">
         <div className="w-40 flex justify-center flex-col items-center gap-2">
           {pro ? (
-            <img src="" alt="" className="h-16 w-16 rounded-full bg-bg" />
+            <img src={photoProfile} alt="" className="h-16 w-16 rounded-full bg-bg" />
           ) : (
             <CircleUser className="h-16 w-16 stroke-current stroke-[1px] text-black cursor-pointer" />
           )}
           <span className=" text-xl text-black font-bold ">{name}</span>
         </div>
-        {pro && <ListItemWithIcon Icon={CircleUser} text="profile" />}
-        <ListItemWithIcon Icon={MessageCircle} text="messages" />
-        <ListItemWithIcon Icon={Settings} text="settings" link="/settings"/>
-        <ListItemWithIcon Icon={LogOut} text="log out" />
+        {pro && <ListItemWithIcon Icon={CircleUser} text="profile" link="/dashboard" />}
+        <ListItemWithIcon Icon={MessageCircle} text="messages" link="/messages" />
+        <ListItemWithIcon Icon={Settings} text="settings" link="/settings" />
+        <ListItemWithIcon Icon={LogOut} text="log out" onClick={() => handleLogOut()} />
       </PopoverContent>
     </Popover>
   );
@@ -32,10 +43,10 @@ export default function ProfileIcon({ pro = true, name = "test test" }) {
 
 import { Link } from "react-router-dom";
 
-const ListItemWithIcon = ({ Icon, text, link }) => {
+const ListItemWithIcon = ({ Icon, text, link,onClick }) => {
   return (
     <Link to={link} className="text-white">
-      <div className="flex items-center gap-2 p-2 hover:bg-bg w-40 cursor-pointer rounded-md">
+      <div onClick={onClick} className="flex items-center gap-2 p-2 hover:bg-bg w-40 cursor-pointer rounded-md">
         <Icon className="h-6 w-6 stroke-[1px] text-black" />
         <span className=" text-sm text-black">{text}</span>
       </div>

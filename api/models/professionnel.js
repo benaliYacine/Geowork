@@ -12,6 +12,7 @@ const professionnelSchema = new mongoose.Schema({
             required: true
         }
     },
+    
     googleId: String,
     email: {
         type: String,
@@ -34,8 +35,11 @@ const professionnelSchema = new mongoose.Schema({
     city: {
         type: String,
         //required: true
-    },
+},
     profile: {
+        streetAdress: {
+            type: String
+        },
         added: {
             type: Boolean,
             default: false
@@ -62,27 +66,33 @@ const professionnelSchema = new mongoose.Schema({
             Location: {
                 type: String,
             },
+            currentlyIn: {
+                type: Boolean,
+                default: false
+            },
             date: {
                 start: {
-                    mois: {
+                    month: {
                         type: Number,
                         min: 1,
                         max: 12
                     },
-                    anee: {
+                    year: {
                         type: Number,
                         min: 1990,
                     }
                 },
                 end: {
-                    mois: {
+                    month: {
                         type: Number,
                         min: 1,
-                        max: 12
+                        max: 12,
+                        default: 1
                     },
-                    anee: {
+                    year: {
                         type: Number,
                         min: 1990,
+                        default: 2000
                     }
                 }
             },
@@ -126,12 +136,12 @@ const professionnelSchema = new mongoose.Schema({
         },
         photoProfile: {
             url: {
-                type:String,
-                default:''
+                type: String,
+                default: ''
             },
             filename: {
-                type:String,
-                default:''
+                type: String,
+                default: ''
             },
         },
         dateBirthday: {
@@ -147,8 +157,8 @@ const professionnelSchema = new mongoose.Schema({
             min: 0,
             max: 5
         },
-        phone:{
-            type:Number
+        phone: {
+            type: String
         }
 
     },

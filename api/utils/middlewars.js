@@ -66,10 +66,10 @@ exports.verifyProfessionnelProfil = async (req, res, next) => {
             // Vérifier si l'utilisateur est un professionnel
             const pro = await Professionnel.findById(req.session.user_id);
 
-            if (!pro) {
+            /* if (!pro) {
                 // S'il n'y a pas de professionnel correspondant à cet utilisateur, gérer l'erreur
                 return res.status(404).json({ error: "Profil professionnel introuvable." });
-            }
+            } */
 
             if (!pro.profile.added) {
                 // Si le profil n'a pas été ajouté, rediriger vers la page pour ajouter le profil professionnel

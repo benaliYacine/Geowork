@@ -26,12 +26,12 @@ function isActive(lastSeen) {
 }
 
 function ChatHeader({
-  contactName = "test",
-  avatarUrl = "test",
+  contactName = "",
+  avatarUrl = "",
   lastSeen = "",
 }) {
   const contactIsActive = isActive(lastSeen);
-
+  if(contactName=="") return (<div></div>);
   return (
     <div className="border-b-1 w-full">
       <div className="flex items-start p-2">

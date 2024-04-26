@@ -4,11 +4,11 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/side-tabs";
-import { React, useState } from "react";
-
+import { React, useState, useEffect } from "react";
+import axios from 'axios';
 import EditLocationButton from "@/components/settingsEdit/EditLocationButton";
 import { Separator } from "@/components/ui/separator";
-
+import { useNavigate } from "react-router-dom";
 import CloseAccount from "@/components/settings/CloseAccount";
 import EditAccountButton from "@/components/settingsEdit/EditAccountButton";
 import EditPasswordButton from "@/components/settingsEdit/EditPasswordButton";
@@ -28,14 +28,52 @@ export default function Settings() {
     phone: "05 55 55 55 55",
     password: "testtest",
   });
-
-  const IsExpert = false;
-
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [IsExpert, setIsExpert] = useState(false);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get('/settings');
+      console.log(response.data);
+      if (response.data.redirectUrl) {
+        navigate(response.data.redirectUrl);
+      } else setLoading(false);
+      if (response.data) {
+        const info = {
+          name: response.data.name,
+          email: response.data.email,
+          streetAdress: response.data.profile.streetAdress,
+          wilaya: response.data.wilaya,
+          city: response.data.city,
+          phone: response.data.profile.phone,
+          type: 'profile' in response.data ? 'Expert' : 'Client'
+        }
+        if (info.type == 'Expert')
+          setIsExpert(true);
+        else
+          setIsExpert(false);
+        setUserInfo(info);
+      }
+    }
+    fetchData();
+  }, [])
   // Function to update user information
-  const updateUserInfo = (newInfo) => {
+  const updateUserInfo = async (newInfo) => {
+
+    const response = await axios.patch('/api/professionnels/changeDetailleProfessionnel', newInfo);
+    console.log(response.data);
     setUserInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
-
+  const closeAccount = async () => {
+    console.log("delete");
+    let response = await axios.delete('/api/professionnels/deleteProfessionnel');
+    console.log(response.data);
+    response = await axios.post('/logout');
+    if (response.data.redirectUrl)
+      navigate(response.data.redirectUrl);
+  }
+  if (loading) return <div></div>;
   return (
     <>
       <Header />
@@ -246,7 +284,7 @@ export default function Settings() {
               )}
               {/* TODO: handle close account fi onDelete  */}
               <div className="flex items-end justify-end">
-                <CloseAccount onDelete={() => {}} />
+                <CloseAccount onDelete={closeAccount} />
               </div>
             </div>
           </TabsContent>

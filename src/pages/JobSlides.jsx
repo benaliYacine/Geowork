@@ -115,8 +115,11 @@ const JobSlides = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
       console.log(response.data);
+      if(response.data){
+        navigate('/jobPost');
+      }
+      
     } catch (error) {
       console.error("Error submitting job info:", error);
     }
