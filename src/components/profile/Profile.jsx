@@ -16,6 +16,7 @@ export default function Profile({
   city = "city",
   profileInfo,
   updateProfileInfo,
+  edit = false,
 }) {
   const addImage = async (newImage) => {
     const dataUrl = newImage;
@@ -46,14 +47,16 @@ export default function Profile({
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
-            <div className="absolute bottom-[-6px] right-4 ">
-              <EditAvatarCard
-                addImage={addImage}
-                existingPhoto={profileInfo.photoProfile}
-                variant="outlined"
-                className="flex-2"
-              />
-            </div>
+            {edit && (
+              <div className="absolute bottom-[-6px] right-4 ">
+                <EditAvatarCard
+                  addImage={addImage}
+                  existingPhoto={profileInfo.photoProfile}
+                  variant="outlined"
+                  className="flex-2"
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-col">
             <h2 className="text-6xl font-header font-semibold mb-1">{name}</h2>
@@ -74,18 +77,22 @@ export default function Profile({
       <GeoworkHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <EmploymentHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <ExperienceHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
       <EducationHistory
         profileInfo={profileInfo}
         updateProfileInfo={updateProfileInfo}
+        edit={edit}
       />
     </div>
   );

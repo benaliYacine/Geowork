@@ -3,7 +3,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import RatingDisplay from "@/components/expertList/RatingDisplay";
 import Location from "@/components/common/Location";
 import SendInvitation from "@/components/expertList/SendInvitation";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProfileDrawer from "@/components/expertList/ProfileDrawer";
 import { getInitials } from "@/lib/utils";
