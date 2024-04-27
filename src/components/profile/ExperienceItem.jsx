@@ -2,6 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import DeleteExperienceButton from "@/components/profile_slides/slideFour/DeleteExperienceButton";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
+import { EditContext } from "@/components/profile/Profile"; 
 
 import EditExperienceButton from "@/components/profile_slides/slideFour/EditExperienceButton";
 const ExperienceItem = ({

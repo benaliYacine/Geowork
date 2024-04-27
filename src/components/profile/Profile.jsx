@@ -10,13 +10,16 @@ import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import { getInitials } from "@/lib/utils";
 import axios from "axios";
+
+export const EditContext = createContext();
+
 export default function Profile({
   name = "benali yacine",
   wilaya = "wilaya",
   city = "city",
   profileInfo,
   updateProfileInfo,
-  edit=false ,
+  edit = false,
 }) {
   const addImage = async (newImage) => {
     const dataUrl = newImage;
@@ -39,9 +42,6 @@ export default function Profile({
     // setIsPhotoAdded(true);
     // setShowPhotoError(false);
   };
-  const EditContext = createContext();
-  const [edit, setEdit] = useState(edit);
-
   return (
     <EditContext.Provider value={{ edit }}>
       <div className="flex flex-col gap-4">

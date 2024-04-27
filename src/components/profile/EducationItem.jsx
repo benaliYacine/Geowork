@@ -3,6 +3,8 @@ import { useContext } from "react";
 import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
+import { EditContext } from "@/components/profile/Profile"; 
+
 const EducationItem = ({
   school,
   degree,

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import EmploymentItem from "@/components/profile/EmploymentItem";
 import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmploymentButton";
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
-import axios from 'axios';
+import axios from "axios";
+import { EditContext } from "@/components/profile/Profile";
 const months = [
   "January",
   "February",
@@ -22,7 +23,10 @@ const months = [
 
 export default function EmploymentHistory({ profileInfo, updateProfileInfo }) {
   const addEmployment = async (newEmployment) => {
-    const response=await axios.patch('/api/professionnels/addEmployment',newEmployment);
+    const response = await axios.patch(
+      "/api/professionnels/addEmployment",
+      newEmployment
+    );
     console.log(response.data);
     updateProfileInfo({
       employments: [...profileInfo.employments, newEmployment],
@@ -33,24 +37,31 @@ export default function EmploymentHistory({ profileInfo, updateProfileInfo }) {
     const filteredEmployments = profileInfo.employments.filter(
       (_, index) => index !== indexToDelete
     );
-    const response=await axios.patch('/api/professionnels/modifyEmployment',filteredEmployments);
+    const response = await axios.patch(
+      "/api/professionnels/modifyEmployment",
+      filteredEmployments
+    );
     console.log(response.data);
     updateProfileInfo({
       employments: filteredEmployments,
     });
   };
 
-  const editEmployment = async(indexToEdit, updatedEmployment) => {
+  const editEmployment = async (indexToEdit, updatedEmployment) => {
     const updatedEmployments = profileInfo.employments.map(
       (employment, index) =>
         index === indexToEdit ? updatedEmployment : employment
     );
-    const response=await axios.patch('/api/professionnels/modifyEmployment',updatedEmployments);
+    const response = await axios.patch(
+      "/api/professionnels/modifyEmployment",
+      updatedEmployments
+    );
     console.log(response.data);
     updateProfileInfo({
       employments: updatedEmployments,
     });
   };
+  const { edit } = useContext(EditContext);
   return (
     <>
       <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
@@ -59,7 +70,7 @@ export default function EmploymentHistory({ profileInfo, updateProfileInfo }) {
             <h3 className="text-4xl font-header font-semibold mb-1">
               Employment history
             </h3>
-            <AddEmploymentButton addEmployment={addEmployment} />
+            {edit && <AddEmploymentButton addEmployment={addEmployment} />}
           </div>
           <CollapsibleContainer>
             {profileInfo.employments.length == 0 ? (

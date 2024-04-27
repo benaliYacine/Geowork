@@ -4,6 +4,7 @@ import DeleteEmploymentButton from "@/components/profile_slides/slideThree/Delet
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import { useContext } from "react";
 import EditEmploymentButton from "@/components/profile_slides/slideThree/EditEmploymentButton";
+import { EditContext } from "@/components/profile/Profile"; 
 
 const EmploymentItem = ({
   title,
@@ -19,7 +20,7 @@ const EmploymentItem = ({
   index,
 }) => {
   const displayDate = `${startDate} - ${currentlyIn ? "Present" : endDate}`;
-  const { edit } = useContext(EditContext);
+  const  {edit}  = useContext(EditContext);
   return (
     <div className="flex-grow p-1 flex flex-col gap-2 overflow-hidden">
       <div className="flex gap-2 items-start">
