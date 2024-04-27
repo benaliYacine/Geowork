@@ -59,7 +59,7 @@ export default function ImagesCarousel({ images }) {
                           data-vaul-no-drag
                           className="bg-cover bg-center rounded-lg h-full w-full"
                           style={{
-                            backgroundImage: `url(${image.url})`,
+                            backgroundImage: `url(${image})`,
                           }}
                         ></div>
                       </AspectRatio>

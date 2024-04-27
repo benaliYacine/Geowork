@@ -38,7 +38,7 @@ export default function JobPost({ jobInfo, updateJobInfo, edit = false ,title=tr
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
         <div
           className="bg-cover bg-center rounded-3xl h-[450px] relative"
-          style={{ backgroundImage: `url(${jobInfo.images[0].url})` }}
+          style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
         >
           <div className="absolute top-3 right-3">
             {edit && (

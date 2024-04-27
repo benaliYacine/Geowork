@@ -124,7 +124,7 @@ exports.isAuthor = async (req, res, next) => {
         }
 
         // Vérifier si l'utilisateur est l'auteur du job
-        if (req.session.user_id === job.idClient) {
+        if (req.session.user_id == job.idClient) {
             // Si l'utilisateur est l'auteur du job, passer au middleware suivant
             return next();
         } else {

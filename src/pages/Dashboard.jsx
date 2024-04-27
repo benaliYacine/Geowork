@@ -29,7 +29,12 @@ export default function Dashboard() {
                         setInfo(info);
 
                     } else {
-                        setJobs(response.data.jobs);
+                        const jobs=response.data.jobs.map((j)=>{
+                            const images=j.images.map((i)=>(i.url));
+                            return {...j,images}
+                        })
+                        console.log("jobs",jobs);
+                        setJobs(jobs);
                     }
                 }
             } catch (error) {
