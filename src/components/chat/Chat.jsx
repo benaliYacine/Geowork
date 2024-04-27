@@ -6,7 +6,7 @@ import MessageInput from "./MessageInput";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
-
+import io from "socket.io-client"
 
 // Example data (replace with actual data fetching from the backend)
 /* const contact = {
@@ -22,20 +22,51 @@ export default function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
-  const [ws, setWs] = useState(null);
+  //const [ws, setWs] = useState(null);
+  const [socket, setSocket] = useState(null)
   let { id } = useParams();
   if (!id)
     id = 1;
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3000');
-    setWs(ws);
+    const newSocket = io('ws://localhost:3000');
+    setSocket(newSocket);
 
-    ws.addEventListener('message', handleSendMessage);
-
-
-
+    return () => {
+      newSocket.disconnect();
+    }
   }, []);
+  //receive Message
+  useEffect(() => {
+    if (socket === null) return;
+    socket.on("getMessage", (res) => {
+      res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`
+      if (id !== res.senderId) return;
+      setMessages((prev) => [...prev, res]);
+    })
+    return () => {
+      socket.off("getMessage");
+    }
+  }, [socket, id]);
+  // add online users
+  useEffect(() => {
+    if (socket === null) return;
+    socket.emit("addNewUser");
+    socket.on("getOnlineUsers", (res) => {
+      showPeople(res);
+    })
+    return () => {
+      socket.off("getOnlineUsers");
+    }
+  }, [socket])
+  //send Message
+  useEffect(() => {
+    if (socket === null) return;
+    socket.emit('sendMessage', { ...message });
+
+  }, [message])
+
+
   // Placeholder for data fetching and state management
 
   const showPeople = async (people) => {
@@ -51,54 +82,7 @@ export default function Chat() {
 
   }
   // Function placeholders for interaction handling
-  const handleSendMessage = (ev) => {
 
-    //console.log("evvvvvvv", ev);
-    const messageData = JSON.parse(ev.data);
-    console.log("messageData", messageData);
-    if ('online' in messageData)
-      showPeople(messageData.online);
-    else
-      if (messageData.senderId == id) {
-        console.log("lmessaaaaaaaaaage", messageData);
-        let newMessage = {
-          id: messageData.senderId,
-          message: messageData.message,
-          isOwnMessage: false,
-
-        };
-        console.log("newMessage", newMessage);
-        console.log("messages", messages);
-
-        const time = Date.now();
-        newMessage.timestamp = time;// `${new Date(time).getHours()}:${new Date(time).getMinutes()}` 
-
-
-
-        const newContact = contacts.filter((contact) => contact.id == id)[0];
-        newContact.message = newMessage.message.content;
-        newContact.time = newMessage.timestamp;
-
-
-        setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
-        newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`
-        //console.log([...messages, newMessage]);
-        setMessages(prev => ([...prev, newMessage]));
-
-
-
-
-      }
-
-
-
-
-    // message.data.text().then(messageString =>{
-    //   console.log(messageString); 
-    // });
-    //console.log('new message',message);
-    // TODO: Implement sending message to server
-  };
   const sendMessage = async (message) => {
     console.log(message);
     let newMessage = {
@@ -114,8 +98,7 @@ export default function Chat() {
 
     // Envoi du message au serveur
     const response = await axios.post('/addMessage', newMessage);
-    ws.send(JSON.stringify(response.data));
-    //ws.send(JSON.stringify(newMessage))
+
     // Mise à jour de l'état local pour inclure le nouveau message
     const time = Date.now();
     newMessage.timestamp = time;/* `${new Date(time).getHours()}:${new Date(time).getMinutes()}` */
@@ -129,6 +112,7 @@ export default function Chat() {
 
     setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
     newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`
+    setMessage(newMessage);
     setMessages([...messages, newMessage]);
 
   }
@@ -150,17 +134,19 @@ export default function Chat() {
         'Content-Type': 'multipart/form-data'
       }
     })
-    ws.send(JSON.stringify(response.data));
+
     let newMessage = {
       id: id, // Assurez-vous d'avoir une variable id définie quelque part
       message: {
         type: "image",
         content: "Sent an image",
-        url: response.data.url,
+        url: response.data.message.url,
       },
       isOwnMessage: true,
 
     };
+    console.log("newMessage", newMessage);
+    setMessage(newMessage);
     setMessages([...messages, newMessage]);
 
     // TODO: Implement file attachment handling

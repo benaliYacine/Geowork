@@ -28,34 +28,7 @@ import axios from "axios";
 //makach nav la 3ndk default page w fiha te9der tro7 l page khdoukhra b link kima hna dert home hiya default (path="/") w fel houme dert link yediik lel about page
 
 function App() {
-  const [ws, setWs] = useState(null);
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3000');
-    setWs(ws);
-
-    //ws.addEventListener('message', handleSendOnlineUser);
-
-
-  }, []);
-/*   const showPeople = async (people) => {
-    const response = await axios.post('/contact', { people });
-
-    if (response.data) {
-      setContacts(response.data);
-      if (id == 1) {
-        navigate(`/messages/${response.data[0].id}`);
-      }
-    }
-
-
-  }
-  // Function placeholders for interaction handling
-  const handleSendOnlineUser = (message) => {
-
-    const messageData = JSON.parse(message.data);
-    showPeople(messageData.online)
-
-  }; */
+  
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (

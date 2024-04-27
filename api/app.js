@@ -29,7 +29,7 @@ const WebSocket = require('ws');
 const { cloudinary, storage } = require('./cloudinary/index');
 const multer = require('multer');
 const upload = multer({ storage });
-
+const jwt = require('jsonwebtoken');
 let user_id;
 let user_type;
 
@@ -110,7 +110,11 @@ app.use((req, res, next) => { //bah fi kol request fi body yab3at id t3 client w
     }
 }; */
 
-
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    })
+}
 function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
     return function (req, res, next) {
         fn(req, res, next).catch(e => next(e))
@@ -171,6 +175,7 @@ app.post('/login', async (req, res) => {
     if (!foundUser) {
         foundUser = await Client.findAndValidate(email, password);
         if (foundUser) {
+            generateToken(foundUser._id);
             if (req.session) {
                 req.session.user_id = foundUser._id;
                 req.session.user_type = 'Client';
@@ -186,6 +191,7 @@ app.post('/login', async (req, res) => {
             res.status(401).json({ message: 'email or password incorrect' });
         }
     } else {
+        generateToken(foundUser._id);
         if (req.session) {
             req.session.user_id = foundUser._id;
             req.session.user_type = 'Professionnel';
@@ -267,7 +273,7 @@ app.get('/jobPostPage/:id', async (req, res) => {
     if (foundJob)
         res.json(foundJob);
     else
-        res.status(400).json({message:"Invalid Job Id"});
+        res.status(400).json({ message: "Invalid Job Id" });
 })
 app.get('/jobSlides', middlewars.requireLoginClient, async (req, res) => {
     res.json();
@@ -514,92 +520,125 @@ app.post('/addMessage', async (req, res) => {
         console.error(e);
     }
 });
+const socketIo = require('socket.io');
 const http = require('http');
+//const { JsonWebTokenError } = require('jsonwebtoken');
 const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: 'http://localhost:5173', // Allow requests from this origin
+        methods: ['GET', 'POST'], // Allow only specific HTTP methods
+        credentials: true // Allow credentials to be sent with requests
+    }
+});
 app.use((err, req, res, next) => { //error hundler middlware
     const { status = 500, message = 'Something went wrong' } = err;
     res.status(status).send(message);
 });
 
-const wss = new WebSocket.WebSocketServer({ server });
+// wss = new WebSocket.WebSocketServer({ server });
 
-
-
-wss.on('connection', (connection) => {
-
-
-    if (user_id) {
-        connection.user_id = user_id;
-        connection.user_type = user_type;
-    }
-
-    // Envoyer les informations de tous les clients connectés à tous les clients
-    const clientInfo = { online: [...wss.clients].map(c => ({ user_id: c.user_id, user_type: c.user_type })) };
-    [...wss.clients].forEach(client =>
-        client.send(JSON.stringify(clientInfo))
-    );
-    /* connection.isAlive = true;
-
-    connection.timer = setInterval(() => {
-        connection.ping();
-        connection.deathTimer = setTimeout(() => {
-            connection.isAlive = false;
-            clearInterval(connection.timer);
-            connection.terminate();
-            //notifyAboutOnlinePeople();
-            console.log('dead');
-        }, 1000);
-    }, 5000);
-
-    connection.on('pong', () => {
-        clearTimeout(connection.deathTimer);
-    }) */
-    connection.on('message', async (message) => {
-        const messageData = JSON.parse(message.toString());
-        console.log(messageData);
-
-        //console.log("wsss", ...wss.clients);
-        const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
-
-        if (recipientClient) {
-            await recipientClient.send(JSON.stringify(messageData));
-        } else {
-            console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
-        }
-        connection.on('error', (error) => {
-            console.error('WebSocket connection error:', error);
-        });
-        //const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
-
-        /* if (recipientClient) {
-            recipientClient.send(JSON.stringify(messageData));
-        } else {
-            console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
-        } */
-
-        //console.log("le resulta",resultat);
-
-        //console.log("clientInfo", clientInfo);
-        /* .forEach(c => c.send(JSON.stringify({
-          _id:messageData._id,
-        }))); */
-        /* const {id,message}=messageData;
-        if(id && message){
-            console.log('created message');
-            [...wss.clients]
-              .filter(c => c.userId === id)
-              .forEach(c => c.send(JSON.stringify({
-                id: id, // Assurez-vous d'avoir une variable id définie quelque part
-                message: message,
-                isOwnMessage: true,
-              }
-            )
-        )
-    );
-      } */
+let onlineUsers = [];
+io.on("connection", (socket) => {
+    console.log("new connection", socket.id);
+    socket.on('addNewUser', () => {
+        !onlineUsers.some(user => user.userId === user_id) && user_id &&
+            onlineUsers.push({
+                user_id: user_id,
+                user_type: user_type,
+                socketId: socket.id
+            })
+        console.log(onlineUsers);
+        io.emit("getOnlineUsers", onlineUsers);
     })
+    //add message
+    socket.on('sendMessage', (message) => {
+        const user = onlineUsers.find(user => user.user_id === message.id);
+        if(user){
+            message={...message,id:user.user_id,isOwnMessage:false,senderId:user_id,timestamp:Date.now()};
+            io.to(user.socketId).emit("getMessage",message);
+        }
+    })
+    socket.on("disconnect", () => {
+        onlineUsers = onlineUsers.filter(user => user.socketId !== socket.id);
+        io.emit("getOnlineUsers", onlineUsers);
+    })
+})
+// wss.on('connection', (connection) => {
 
-});
+
+//     if (user_id) {
+//         connection.user_id = user_id;
+//         connection.user_type = user_type;
+//     }
+
+//     // Envoyer les informations de tous les clients connectés à tous les clients
+//     const clientInfo = { online: [...wss.clients].map(c => ({ user_id: c.user_id, user_type: c.user_type })) };
+//     [...wss.clients].forEach(client =>
+//         client.send(JSON.stringify(clientInfo))
+//     );
+//     /* connection.isAlive = true;
+
+//     connection.timer = setInterval(() => {
+//         connection.ping();
+//         connection.deathTimer = setTimeout(() => {
+//             connection.isAlive = false;
+//             clearInterval(connection.timer);
+//             connection.terminate();
+//             //notifyAboutOnlinePeople();
+//             console.log('dead');
+//         }, 1000);
+//     }, 5000);
+
+//     connection.on('pong', () => {
+//         clearTimeout(connection.deathTimer);
+//     }) */
+//     connection.on('message', async (message) => {
+//         const messageData = JSON.parse(message.toString());
+//         console.log(messageData);
+
+//         //console.log("wsss", ...wss.clients);
+//         const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
+
+//         if (recipientClient) {
+//             await recipientClient.send(JSON.stringify(messageData));
+//         } else {
+//             console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
+//         }
+//         connection.on('error', (error) => {
+//             console.error('WebSocket connection error:', error);
+//         });
+//         //const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
+
+//         /* if (recipientClient) {
+//             recipientClient.send(JSON.stringify(messageData));
+//         } else {
+//             console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
+//         } */
+
+//         //console.log("le resulta",resultat);
+
+//         //console.log("clientInfo", clientInfo);
+//         /* .forEach(c => c.send(JSON.stringify({
+//           _id:messageData._id,
+//         }))); */
+//         /* const {id,message}=messageData;
+//         if(id && message){
+//             console.log('created message');
+//             [...wss.clients]
+//               .filter(c => c.userId === id)
+//               .forEach(c => c.send(JSON.stringify({
+//                 id: id, // Assurez-vous d'avoir une variable id définie quelque part
+//                 message: message,
+//                 isOwnMessage: true,
+//               }
+//             )
+//         )
+//     );
+//       } */
+//     })
+
+// });
 
 server.listen(3000, () => {
     console.log('Server is running at localhost:3000');
