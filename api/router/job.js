@@ -25,10 +25,10 @@ router.use(session({
 const JobCtrl = require('../controllers/job')
 
 
-router.patch('/addPhoto/:id', middlewars.isAuthor, upload.single('image'), JobCtrl.addPhoto); //single tarja3 array ki n7oto des photo bzf
-router.patch('/deletePhoto/:id', middlewars.isAuthor, JobCtrl.deletePhoto);
+router.post('/addImage', upload.single('image'), JobCtrl.addImage); //single tarja3 array ki n7oto des photo bzf
+router.patch('/deleteImage/:id', middlewars.isAuthor, JobCtrl.deletePhoto);
 router.post('/createJob',upload.array('images'), JobCtrl.createJob);
-router.put('/changeJob/:id', middlewars.isAuthor, JobCtrl.changeJob);
+router.patch('/changeJob/:id', JobCtrl.changeJob);
 router.patch('/addProfessionnelToJob/:id', JobCtrl.addProfessionnelToJob); //mazal ndir middlewar t3 hadi
 router.patch('/addFeedback/:id', middlewars.isAuthor, JobCtrl.addFeedback);
 router.delete('/deleteJob/:id', middlewars.isAuthor, JobCtrl.deleteJob);

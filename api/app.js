@@ -261,13 +261,13 @@ app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) =>
 });
 
 
-app.get('/job/:id', async (req, res) => {
+app.get('/jobPostPage/:id', async (req, res) => {
     const { id } = req.params;
     const foundJob = await Job.findById(id);
     if (foundJob)
         res.json(foundJob);
     else
-        res.json("Job n'exist pas");
+        res.status(400).json({message:"Invalid Job Id"});
 })
 app.get('/jobSlides', middlewars.requireLoginClient, async (req, res) => {
     res.json();

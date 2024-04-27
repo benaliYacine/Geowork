@@ -73,7 +73,7 @@ function App() {
           <Route path="/welcomeCli" element={<WelcomeCli />} />
           <Route path="/profileSlides" element={<ProfileSlides />} />
           <Route path="/jobSlides" element={<JobSlides />} />
-          <Route path="/jobPost" element={<JobPost />} />
+          <Route path="/jobPostPage/:id" element={<JobPostPage />} />
           <Route path="/verifyEmail" element={<SendEmailPage />} />
           
           <Route path="/jobsSearch" element={<JobsSearch />} />

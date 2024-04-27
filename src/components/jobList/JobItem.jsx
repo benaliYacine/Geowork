@@ -12,7 +12,7 @@ export default function JobItem({ job }) {
           <div className=" mr-4">
             <div
               className="bg-cover bg-center rounded-lg h-[100px] w-[120px]"
-              style={{ backgroundImage: `url(${job.images[0].url})` }}
+              style={{ backgroundImage: `url(${job.images[0]})` }}
             ></div>
           </div>
           <div className="flex-grow mb-2">

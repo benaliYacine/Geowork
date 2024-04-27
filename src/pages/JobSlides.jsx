@@ -116,8 +116,8 @@ const JobSlides = () => {
         },
       });
       console.log(response.data);
-      if(response.data){
-        navigate('/jobPost');
+      if(response.data.redirectUrl){
+        navigate(response.data.redirectUrl);
       }
       
     } catch (error) {

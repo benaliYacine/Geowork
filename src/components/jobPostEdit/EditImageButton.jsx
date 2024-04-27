@@ -36,7 +36,24 @@ function EditImageButton({ images, onEdit }) {
   const form = useForm();
   const [newImages, setNewImages] = useState(images);
 
-  const handleAddImage = (imageUrl, isCover = false) => {
+  const handleAddImage = async (imageUrl, isCover = false) => {
+    const formData = new FormData();
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const file = new File([blob], `image.jpg`, { type: blob.type });
+    formData.append(`image`, file, file.name);
+    try {
+      const response = await axios.post("/api/jobs/addImage", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
+      imageUrl=response.data;
+      
+    } catch (error) {
+      console.error("Error add image:", error);
+    }
     if (isCover) {
       // Add as the first image, making it the cover
       setNewImages([imageUrl, ...newImages]);
