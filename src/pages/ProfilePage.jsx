@@ -49,6 +49,7 @@ export default function ProfilePage({info,profileInfo,updateProfileInfo,}) {
             city={info.city}
             profileInfo={profileInfo}
             updateProfileInfo={updateProfileInfo}
+            edit={true}
           />
         </PageContainer>
         <Footer />

@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import EducationItem from "@/components/profile/EducationItem";
 import AddEducationButton from "@/components/profile_slides/slideFive/AddEducationButton";
 import { Separator } from "@/components/ui/separator";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
-import axios from 'axios';
+import axios from "axios";
+import { EditContext } from "@/components/profile/Profile";
 export default function EducationHistory({ profileInfo, updateProfileInfo }) {
   const addEducation = async (newEducation) => {
-    const response=await axios.patch('/api/professionnels/addEducation',newEducation);
+    const response = await axios.patch(
+      "/api/professionnels/addEducation",
+      newEducation
+    );
     console.log(response.data);
     updateProfileInfo({
       educations: [...profileInfo.educations, newEducation],
@@ -18,22 +22,29 @@ export default function EducationHistory({ profileInfo, updateProfileInfo }) {
     const updatedEducations = profileInfo.educations.map((education, index) =>
       index === indexToEdit ? updatedEducation : education
     );
-    const response=await axios.patch('/api/professionnels/modifyEducation',updatedEducations);
+    const response = await axios.patch(
+      "/api/professionnels/modifyEducation",
+      updatedEducations
+    );
     console.log(response.data);
     updateProfileInfo({
       educations: updatedEducations,
     });
   };
-  const deleteEducation = async(indexToDelete) => {
+  const deleteEducation = async (indexToDelete) => {
     const filteredEducations = profileInfo.educations.filter(
       (_, index) => index !== indexToDelete
     );
-    const response=await axios.patch('/api/professionnels/modifyEducation',filteredEducations);
+    const response = await axios.patch(
+      "/api/professionnels/modifyEducation",
+      filteredEducations
+    );
     console.log(response.data);
     updateProfileInfo({
       educations: filteredEducations,
     });
   };
+  const { edit } = useContext(EditContext);
   return (
     <>
       <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
@@ -42,7 +53,7 @@ export default function EducationHistory({ profileInfo, updateProfileInfo }) {
             <h3 className="text-4xl font-header font-semibold mb-1">
               Education history
             </h3>
-            <AddEducationButton addEducation={addEducation} />
+            {edit && <AddEducationButton addEducation={addEducation} />}
           </div>
           <CollapsibleContainer>
             {profileInfo.educations.length == 0 ? (

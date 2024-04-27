@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from 'uuid';
-export default function GeoworkHistory({ profileInfo, updateProfileInfo }) {
+export default function GeoworkHistory({ profileInfo }) {
   return (
     <>
       <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
@@ -22,8 +22,6 @@ export default function GeoworkHistory({ profileInfo, updateProfileInfo }) {
                 <div key={uuid()} className="mb-4">
                   <GeoworkItem
                     job={job}
-                    onEdit={(newJob) => editGeowork(index, newJob)}
-                    onDelete={() => deleteGeowork(index)}
                     index={index}
                   />
                   <Separator />
