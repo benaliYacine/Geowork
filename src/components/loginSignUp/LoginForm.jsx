@@ -14,7 +14,7 @@ import GenericFormField from "@/components/formFields/GenericFormField";
 
 import PasswordFormField from "@/components/formFields/PasswordFormField";
 import AlertMessage from "@/components/common/AlertMessage";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -73,7 +73,11 @@ export default function LoginForm() {
   const Auth = async () => {
     window.location.href = "http://localhost:3000/auth/google/callback";
   };
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <div>
       <h2 className="text-center font-sans font-bold text-4xl mb-6">Log In</h2>

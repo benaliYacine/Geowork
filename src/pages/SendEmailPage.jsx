@@ -4,6 +4,7 @@ import mail_sent from "@/assets/illustrations/mail_sent.svg"; // Ensure correct 
 import AlertMessage from "@/components/common/AlertMessage";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { useNavigate } from "react-router-dom";
 import PageContainer from "@/components/common/PageContainer";
 const SendEmailPage = ({ emailAddress }) => {
@@ -38,7 +39,11 @@ const SendEmailPage = ({ emailAddress }) => {
       setShowAlert(true);
     }
   };
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <PageContainer>
       <AlertMessage

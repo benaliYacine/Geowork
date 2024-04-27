@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 import { Form } from "@/components/ui/form";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { wilayas, cities } from "@/data/wilayasCities";
 import GenericFormField from "@/components/formFields/GenericFormField";
 import PasswordFormField from "@/components/formFields/PasswordFormField";
@@ -121,7 +121,11 @@ export default function SignUpForm() {
   };
 
   console.log(loading);
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
 
   return (
     <div>

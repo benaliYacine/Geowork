@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { Check, Eye, EyeOff, ChevronsUpDown } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 import {
   Command,
   CommandEmpty,
@@ -105,7 +105,11 @@ export default function InputWilayaCity() {
       console.error("Error:", error);
     }
   };
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <div>
       <h2 className="text-3xl text-center font-semibold mb-6">

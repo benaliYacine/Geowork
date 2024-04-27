@@ -3,6 +3,7 @@ import axios from "axios";
 import ProfilePage from './ProfilePage';
 import AllJobPosts from './AllJobPosts';
 import { useNavigate } from "react-router-dom";
+import PropagateLoader from "react-spinners/PropagateLoader";
 export default function Dashboard() {
     const [info, setInfo] = useState({});
     const [jobs, setJobs] = useState(null);
@@ -49,7 +50,11 @@ export default function Dashboard() {
         console.log("newInfo:::", newInfo)
         setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
     };
-    if (loading) return <div></div>;
+    if (loading) return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
+      </div>
+    );
     if (profileInfo) {
         return (
             <ProfilePage info={info} profileInfo={profileInfo} updateProfileInfo={updateProfileInfo} />

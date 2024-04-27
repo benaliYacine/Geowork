@@ -17,6 +17,7 @@ import EditClientAccountButton from "@/components/settingsEdit/EditClientAccount
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import PropagateLoader from "react-spinners/PropagateLoader";
 export default function Settings() {
   // TODO: rod userInfo yjiib l data ta3ha mel server doka ani dayer ghi dummy data
   const [userInfo, setUserInfo] = useState({
@@ -73,7 +74,11 @@ export default function Settings() {
     if (response.data.redirectUrl)
       navigate(response.data.redirectUrl);
   }
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <>
       <Header />

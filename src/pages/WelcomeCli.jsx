@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
+import PropagateLoader from "react-spinners/PropagateLoader";
 export default function WelcomeCli() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,7 +30,11 @@ export default function WelcomeCli() {
 
     fetchData();
   }, []);
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <>
       <Header />

@@ -13,7 +13,7 @@ import SlideSix from "@/components/profile_slides/SlideSix";
 import SlideSeven from "@/components/profile_slides/slideSeven/SlideSeven";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 const ProfileSlides = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const submitFormRef = useRef(null);
@@ -285,7 +285,11 @@ const ProfileSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return (
     <div className=" flex h-screen flex-col">
       <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">

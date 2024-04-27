@@ -16,7 +16,7 @@ import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
 import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButton";
 import EditImageButton from "@/components/jobPostEdit/EditImageButton";
 import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { MapPin } from "lucide-react";
 // import SlideTwo from './SlideTwo';
 // ... import other slides
@@ -170,7 +170,11 @@ const JobSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
   return currentSlide === -1 ? (
     <div className="w-full flex flex-col items-center">
       <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px]">
