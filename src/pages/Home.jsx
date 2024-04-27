@@ -10,17 +10,12 @@ function Home() {
   return (
     <div className="bg-bg">
       <Header />
-
       <HeroSection />
       <StepsSection />
       <FeaturesSection />
       <ReadySection />
 
       <Footer />
-      <h1 className="font-header font-bold text-3xl">Home Page</h1>
-
-      <p>This is the home page of our example application.</p>
-      {/* Link to the About page */}
       <br />
       <Link to="/login">Go to login Page</Link>
       <br />

@@ -10,7 +10,7 @@ import CollapsibleTextContainer from "@/components/common/CollapsibleTextContain
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
-const GeoworkItem = ({ job, onEdit, onDelete }) => {
+const GeoworkItem = ({ job }) => {
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-1 w-full mb-2">

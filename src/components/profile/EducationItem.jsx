@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useContext } from "react";
 import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
@@ -16,23 +16,25 @@ const EducationItem = ({
   index,
 }) => {
   const displayDate = `${startDate} - ${endDate}`;
-
+  const { edit } = useContext(EditContext);
   return (
     <div className="flex-grow p-1 flex flex-col gap-2 overflow-hidden">
       <div className="flex gap-2 items-start">
         <h3 className="text-2xl  line-clamp-2 font-medium font-sans text-foreground flex-grow">
           {school}
         </h3>
-        <div className="flex gap-2">
-          <EditEducationButton
-            variant="outlined"
-            education={education}
-            onEdit={(newEdu) => {
-              onEdit(newEdu);
-            }}
-          />
-          <DeleteEducationButton onDelete={onDelete} variant="outlined" />
-        </div>
+        {edit && (
+          <div className="flex gap-2">
+            <EditEducationButton
+              variant="outlined"
+              education={education}
+              onEdit={(newEdu) => {
+                onEdit(newEdu);
+              }}
+            />
+            <DeleteEducationButton onDelete={onDelete} variant="outlined" />
+          </div>
+        )}
       </div>
       <div className="text-sm text-greyDark">
         {degree} | {fieldOfStudy}
