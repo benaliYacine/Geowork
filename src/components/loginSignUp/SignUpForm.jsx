@@ -120,11 +120,12 @@ export default function SignUpForm() {
   };
 
   console.log(loading);
-  if (loading) return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
-      <PropagateLoader color="#FF5400" />
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
+      </div>
+    );
 
   return (
     <div>
@@ -143,19 +144,23 @@ export default function SignUpForm() {
       <Divider className="opacity-60">OR</Divider>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-          <div className="flex space-x-4">
-            <GenericFormField className="w-full"
-              control={form.control}
-              name="name.first"
-              label="First Name"
-              placeholder="First name"
-            />
-            <GenericFormField className="w-full"
-              control={form.control}
-              name="name.last"
-              label="Last Name"
-              placeholder="Last name"
-            />
+          <div className="flex flex-row gap-2">
+            <div className="flex-1">
+              <GenericFormField
+                control={form.control}
+                name="name.first"
+                label="First Name"
+                placeholder="First name"
+              />
+            </div>
+            <div className="flex-1">
+              <GenericFormField
+                control={form.control}
+                name="name.last"
+                label="Last Name"
+                placeholder="Last name"
+              />
+            </div>
           </div>
           <GenericFormField
             control={form.control}

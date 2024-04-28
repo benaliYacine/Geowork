@@ -44,7 +44,6 @@ const RoleFormField = ({ control }) => {
                   />
                   A Client
                 </Label>
-
                 <Label
                   className={cn(
                     "cursor-pointer flex items-center space-x-2 justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
