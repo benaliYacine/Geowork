@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import JobPost from "@/components/jobPost/JobPost";
 import { React, useState } from "react";
-
+import Job from "@/components/Job/Job";
 export default function JobPostDrawer({ job, children }) {
   return (
     <Drawer>
@@ -39,12 +39,9 @@ export default function JobPostDrawer({ job, children }) {
               <ExternalLink className=" stroke-[1.7px] ml-2" />
             </Button>
           </div>
-          <JobPost
-                jobInfo={job}
-                edit={false}
-              apply={true}
-          />
-          
+          <div className="px-2">
+            <Job jobInfo={job} apply={true} />
+          </div>
         </ScrollArea>
         {/* <DrawerFooter data-vaul-no-drag>
           <div>

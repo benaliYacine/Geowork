@@ -116,8 +116,8 @@ module.exports = {
         }
       },
       animation: {
-         fadeIn: 'fadeIn 0.3s ease-out',
-        fadeOut: 'fadeOut 0.3s ease-in',
+         fadeIn: 'fadeIn 100ms ease-out' ,
+        fadeOut: 'fadeOut 100ms ease-in ',
         'slide-in-right': 'slide-in-right 0.2s ease-out forwards',
         'slide-out-right': 'slide-out-right 0.2s ease-in forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
