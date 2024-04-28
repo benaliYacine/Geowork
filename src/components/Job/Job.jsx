@@ -15,13 +15,21 @@ function Job({ jobInfo, apply = false }) {
     totalSpent: "DZD 1.4K",
     joinDate: "Jan 25, 2010",
   });
+  const [activity, setActivity] = useState({
+    proposalsNumber: "33",
+    lastViewed:
+      "Sun Apr 28 2024 07:48:56 GMT+0100 (Central European Standard Time)", // hadi dirha bel date fct ta3 js 3adi
+    interviewingNumber: "1",
+    invitesNumber: "0",
+    hiredNumber: "0",
+  });
 
   return (
     <div className="flex space-x-4">
       <div className="space-y-4">
         <JobPost jobInfo={jobInfo} edit={false} title={true} />
         <Separator />
-        <JobActivity />
+        <JobActivity activity={activity} />
       </div>
 
       <Separator orientation="vertical" className="h-[800px] w-1" />
