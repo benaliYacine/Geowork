@@ -42,7 +42,8 @@ export default function JobPostDrawer({ job, children }) {
           <JobPost
                 jobInfo={job}
                 edit={false}
-              />
+              apply={true}
+          />
           
         </ScrollArea>
         {/* <DrawerFooter data-vaul-no-drag>

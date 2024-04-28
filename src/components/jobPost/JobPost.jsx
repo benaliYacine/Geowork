@@ -5,16 +5,33 @@ import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
 import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButton";
 import EditImageButton from "@/components/jobPostEdit/EditImageButton";
 import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
-
+import { Button } from "@/components/ui/button";
 import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
 import Location from "@/components/common/Location";
-
-export default function JobPost({ jobInfo, updateJobInfo, edit = false ,title=true }) {
+import { cn } from "@/lib/utils";
+export default function JobPost({
+  className,
+  jobInfo,
+  updateJobInfo,
+  edit = false,
+  title = true,
+  apply = false,
+}) {
   return (
-    <div className="flex flex-col space-y-4 ">
-      {title && <h1 className="text-black font-header text-4xl font-semibold">
-        {jobInfo.title}
-      </h1>}
+    <div className={cn("flex flex-col space-y-4 ", className)}>
+      <div className="flex items-center justify-between">
+        {title && (
+          <h1 className="text-black font-header text-4xl font-semibold">
+            {jobInfo.title}
+          </h1>
+        )}
+        {apply && (
+          <Button size="lg" className="m-4">
+            Apply Now
+          </Button>
+        )}
+      </div>
+
       <div className="relative">
         <Location wilaya={jobInfo.wilaya} city={jobInfo.city} size="md" />
         <div className="absolute top-0 right-1 ">

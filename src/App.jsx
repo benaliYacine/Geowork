@@ -21,6 +21,8 @@ import Settings from "./pages/Settings";
 import ProfilePage from "./pages/ProfilePage";
 import JobPostPage from "./pages/JobPostPage";
 import Dashboard from "./pages/Dashboard";
+import FindWork from "./pages/FindWork";
+import SubmitProposal from "./pages/SubmitProposal";
 
 import axios from "axios";
 
@@ -48,15 +50,16 @@ function App() {
           <Route path="/jobSlides" element={<JobSlides />} />
           <Route path="/jobPostPage/:id" element={<JobPostPage />} />
           <Route path="/verifyEmail" element={<SendEmailPage />} />
-          
+
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/findWork" element={<FindWork />} />
+          <Route path="/submitProposal" element={<SubmitProposal />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
-
     </div>
   );
 }

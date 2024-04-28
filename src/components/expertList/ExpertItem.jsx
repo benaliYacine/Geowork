@@ -15,7 +15,7 @@ export default function ExpertItem({ expert }) {
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">
         <div className="flex mr-auto">
           <div className=" mr-4">
-            <Avatar>
+            <Avatar className="w-12">
               <AvatarImage src={expert.avatarUrl} alt={expert.name} />
               <AvatarFallback>{getInitials(expert.name)}</AvatarFallback>
             </Avatar>

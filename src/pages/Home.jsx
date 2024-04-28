@@ -22,6 +22,16 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/findWork">Go to FindWork Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/submitProposal">Go to SubmitProposal Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
       <Link to="/dashboard">Go to profile Page</Link>
       <br />
       <br />

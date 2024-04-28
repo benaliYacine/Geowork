@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 const TextareaFormField = ({
+  className,
   control,
   name,
   label,
@@ -25,6 +26,7 @@ const TextareaFormField = ({
               placeholder={placeholder}
               minHeight={minHeight}
               // className="resize-none"
+              className={className}
               {...field}
             />
           </FormControl>
