@@ -8,6 +8,8 @@ import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import { Button } from "@/components/ui/button";
 import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
 import Location from "@/components/common/Location";
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
+
 import { cn } from "@/lib/utils";
 export default function JobPost({
   className,
@@ -15,7 +17,7 @@ export default function JobPost({
   updateJobInfo,
   edit = false,
   title = true,
-  apply = false,
+
 }) {
   return (
     <div className={cn("flex flex-col space-y-4 ", className)}>
@@ -24,11 +26,6 @@ export default function JobPost({
           <h1 className="text-black font-header text-4xl font-semibold">
             {jobInfo.title}
           </h1>
-        )}
-        {apply && (
-          <Button size="lg" className="m-4">
-            Apply Now
-          </Button>
         )}
       </div>
 
@@ -76,7 +73,9 @@ export default function JobPost({
         <div>
           <div className="relative">
             <h3 className="font-bold">Description:</h3>
-            <p className="line-clamp-14">{jobInfo.description}</p>
+            <CollapsibleTextContainer collapsedHeight="310px">
+              <p >{jobInfo.description}</p>
+            </CollapsibleTextContainer>
             <div className="absolute top-0 right-1 ">
               {edit && (
                 <EditDescriptionButton

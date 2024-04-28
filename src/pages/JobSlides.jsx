@@ -18,6 +18,8 @@ import EditImageButton from "@/components/jobPostEdit/EditImageButton";
 import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { MapPin } from "lucide-react";
+import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
+
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
@@ -243,7 +245,9 @@ const JobSlides = () => {
             <div>
               <div className="relative">
                 <h3 className="font-bold">Description:</h3>
-                <p className="line-clamp-14">{jobInfo.description}</p>
+                <CollapsibleTextContainer collapsedHeight="310px">
+                  <p>{jobInfo.description}</p>
+                </CollapsibleTextContainer>
                 <div className="absolute top-0 right-1 ">
                   <EditDescriptionButton
                     description={jobInfo.description}
