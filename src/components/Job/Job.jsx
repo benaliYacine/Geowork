@@ -10,15 +10,21 @@ function Job({ jobInfo, apply = false }) {
   const navigate = useNavigate();
 
   const [isSaved, setIsSaved] = useState(false);
+  const [client, setClient] = useState({
+    jobsNumber: "73",
+    totalSpent: "DZD 1.4K",
+    joinDate: "Jan 25, 2010",
+  });
+
   return (
     <div className="flex space-x-4">
       <div className="space-y-4">
         <JobPost jobInfo={jobInfo} edit={false} title={true} />
-        <Separator/>
+        <Separator />
         <JobActivity />
       </div>
 
-      <Separator orientation="vertical" className="h-[800px] w-1"/>
+      <Separator orientation="vertical" className="h-[800px] w-1" />
       <div className="flex-none flex flex-col gap-16 mt-8">
         {apply ? (
           <div className="flex flex-col gap-3">
@@ -47,7 +53,7 @@ function Job({ jobInfo, apply = false }) {
           </div>
         )}
 
-        <AboutClient />
+        <AboutClient client={client} />
       </div>
     </div>
   );
