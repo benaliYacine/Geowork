@@ -3,8 +3,10 @@ import axios from "axios";
 import ProfilePage from './ProfilePage';
 import AllJobPosts from './AllJobPosts';
 import { useNavigate } from "react-router-dom";
+
 import PropagateLoader from "react-spinners/PropagateLoader";
 export default function Dashboard() {
+
     const [info, setInfo] = useState({});
     const [jobs, setJobs] = useState(null);
     const [profileInfo, setProfileInfo] = useState(null);

@@ -63,6 +63,7 @@
     "react-spinners": "^0.13.8",
     "react-text-mask": "^5.5.0",
     "shadcn-ui": "^0.2.3",
+    "socket.io-client": "^4.7.5",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "text-mask-addons": "^3.8.0",
