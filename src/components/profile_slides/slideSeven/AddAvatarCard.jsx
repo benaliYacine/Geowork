@@ -35,7 +35,7 @@ function AddAvatarCard({
   const onSave = async () => {
     if (image && editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
-      
+
       const newImage = canvasScaled.toDataURL();
       setPreview(newImage); // Update local preview state
       addImage(newImage); // Call the prop function to update parent state
@@ -44,8 +44,7 @@ function AddAvatarCard({
       const newImageSrc = image;
       addImageSrc(newImageSrc); // Call the prop function to update parent state
       console.log(newImageSrc);
-      
-      
+
       setDialogOpen(false); // Close dialog
       setSaveAttemptedWithoutImage(false); // Reset the warning message state
     } else {
@@ -119,7 +118,8 @@ function AddAvatarCard({
             variant="outline"
             size="sm"
             className="h-7 px-4 py-2"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               setDialogOpen(true);
               // fileInputRef.current.click();
             }}
@@ -164,7 +164,7 @@ function AddAvatarCard({
                   size="none"
                   variant="link"
                   onClick={() => {
-                    // addImage(null); 
+                    // addImage(null);
                     addImageSrc(null);
                     // setIsPhotoAdded(false);
                     setImage(null);
@@ -226,7 +226,7 @@ function AddAvatarCard({
         </div>
         <DialogFooter>
           <DialogClose>
-            <Button variant="outline" >Cancel</Button>
+            <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button onClick={onSave}>Save</Button>
         </DialogFooter>

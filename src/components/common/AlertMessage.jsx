@@ -2,12 +2,12 @@
 import React from "react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, CircleCheck, X } from "lucide-react";
-
-const AlertMessage = ({ showAlert, message, variant = "default", onClose }) => {
+import { cn } from "@/lib/utils";
+const AlertMessage = ({ showAlert, message, variant = "default", onClose , className }) => {
   const Icon = variant === "destructive" ? AlertCircle : CircleCheck;
 
   return showAlert ? (
-    <Alert variant={variant} className="mb-4 relative ">
+    <Alert variant={variant} className={cn("mb-4 relative ",className)}>
       <Icon className="h-5 w-5" />
       {variant === "destructive" && <AlertTitle>Error</AlertTitle>}
       <AlertDescription>{message}</AlertDescription>
