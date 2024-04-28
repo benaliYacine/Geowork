@@ -19,7 +19,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
     "react-number-format": "^5.3.4",
-    "session-store": "^0.0.6",
+    "session-store": "^0.0.3",
     "socket.io": "^4.7.5",
     "ws": "^8.16.0",
     "wss": "^0.0.2"

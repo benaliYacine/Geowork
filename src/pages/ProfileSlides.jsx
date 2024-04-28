@@ -11,6 +11,10 @@ import SlideFour from "@/components/profile_slides/slideFour/SlideFour";
 import SlideFive from "@/components/profile_slides/slideFive/SlideFive";
 import SlideSix from "@/components/profile_slides/SlideSix";
 import SlideSeven from "@/components/profile_slides/slideSeven/SlideSeven";
+import PageContainer from "@/components/common/PageContainer";
+import Header from "@/components/common/Header";
+import Profile from "@/components/profile/Profile";
+
 // import SlideTwo from './SlideTwo';
 // ... import other slides
 import PropagateLoader from "react-spinners/PropagateLoader";
@@ -39,7 +43,7 @@ const ProfileSlides = () => {
           },
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
@@ -64,7 +68,7 @@ const ProfileSlides = () => {
       {
         title: "memba3d na7iha",
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         title: "memba3d na7iha",
@@ -87,7 +91,7 @@ const ProfileSlides = () => {
           end: 2025,
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
       },
       {
         school: "memba3d na7iha",
@@ -112,16 +116,88 @@ const ProfileSlides = () => {
           " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
       },
     ],
-    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    jobs: [
+      {
+        title: "na7ihom memba3d ",
+        startDate:
+          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+        endDate:
+          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+        category: "education_and_tutoring",
+        subCategory: "math_tutor",
+        wilaya: "alger",
+        city: "sidi_moussa",
+        budget: "DZD  5, 500",
+        description:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+        images: ["https://placebear.com/g/200/200"],
+        rate: 2.5,
+        feedback:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      },
+      {
+        title: "na7ihom memba3d ",
+        startDate:
+          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+        endDate:
+          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+        category: "education_and_tutoring",
+        subCategory: "math_tutor",
+        wilaya: "alger",
+        city: "sidi_moussa",
+        budget: "DZD  5, 500",
+        description:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+        images: ["https://placebear.com/g/200/200"],
+        rate: 2.5,
+        feedback:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      },
+      {
+        title: "na7ihom memba3d ",
+        startDate:
+          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+        endDate:
+          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+        category: "education_and_tutoring",
+        subCategory: "math_tutor",
+        wilaya: "alger",
+        city: "sidi_moussa",
+        budget: "DZD  5, 500",
+        description:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+        images: ["https://placebear.com/g/200/200"],
+        rate: 2.5,
+        feedback:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      },
+      {
+        title: "na7ihom memba3d ",
+        startDate:
+          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+        endDate:
+          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+        category: "education_and_tutoring",
+        subCategory: "math_tutor",
+        wilaya: "alger",
+        city: "sidi_moussa",
+        budget: "DZD  5, 500",
+        description:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+        images: ["https://placebear.com/g/200/200"],
+        rate: 4.5,
+        feedback:
+          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      },
+    ],
+    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
     // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-    dateBirthday:
-      "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+    dateBirthday: undefined,
     streetAdress: " tiaret tiaret asdf asd f",
     phone: "05 55 55 55 55",
     photoProfile: undefined,
-    photoProfileSrc: undefined,
   });
-
+  const [photoProfileSrc, setPhotoProfileSrc] = useState(undefined);
   const [isPhotoAdded, setIsPhotoAdded] = useState(false);
   const [showPhotoError, setShowPhotoError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -168,7 +244,7 @@ const ProfileSlides = () => {
     const dataUrl = profileInfo.photoProfile;
     const blobData = await fetch(dataUrl).then((res) => res.blob());
     delete profileInfo.photoProfile;
-    delete profileInfo.photoProfileSrc;
+    // delete profileInfo.photoProfileSrc;
     const formData = new FormData();
     profileInfo.employments = JSON.stringify(profileInfo.employments);
     profileInfo.experiences = JSON.stringify(profileInfo.experiences);
@@ -176,7 +252,7 @@ const ProfileSlides = () => {
     let employments = JSON.parse(profileInfo.employments);
     let experiences = JSON.parse(profileInfo.experiences);
     let educations = JSON.parse(profileInfo.educations);
-    console.log("profileInfo",profileInfo.employments);
+    console.log("profileInfo", profileInfo.employments);
     formData.append("roleTitle", profileInfo.roleTitle);
     formData.append("category", profileInfo.category);
     formData.append("subCategory", profileInfo.subCategory);
@@ -187,26 +263,32 @@ const ProfileSlides = () => {
 
     employments.forEach((employment, index) => {
       // Convert date start
-      const startDate = new Date(employment.date.start.year, employment.date.start.month - 1);
+      const startDate = new Date(
+        employment.date.start.year,
+        employment.date.start.month - 1
+      );
       const startMonth = startDate.getMonth() + 1;
       const startYear = startDate.getFullYear();
       formData.append(`employments[${index}][date][start][month]`, startMonth);
       formData.append(`employments[${index}][date][start][year]`, startYear);
-    
+
       // Convert date end
-      const endDate = new Date(employment.date.end.year, employment.date.end.month - 1);
+      const endDate = new Date(
+        employment.date.end.year,
+        employment.date.end.month - 1
+      );
       const endMonth = endDate.getMonth() + 1;
       const endYear = endDate.getFullYear();
       formData.append(`employments[${index}][date][end][month]`, endMonth);
       formData.append(`employments[${index}][date][end][year]`, endYear);
-    
+
       // Append other fields
       Object.keys(employment).forEach((key) => {
-        if (key !== 'date') {
+        if (key !== "date") {
           formData.append(`employments[${index}][${key}]`, employment[key]);
         }
       });
-  });
+    });
 
     experiences.forEach((experience, index) => {
       Object.keys(experience).forEach((key) => {
@@ -218,13 +300,25 @@ const ProfileSlides = () => {
       // Append school, degree, fieldOfStudy, and description
       formData.append(`educations[${index}][school]`, education.school);
       formData.append(`educations[${index}][degree]`, education.degree);
-      formData.append(`educations[${index}][fieldOfStudy]`, education.fieldOfStudy);
-      formData.append(`educations[${index}][description]`, education.description);
-  
+      formData.append(
+        `educations[${index}][fieldOfStudy]`,
+        education.fieldOfStudy
+      );
+      formData.append(
+        `educations[${index}][description]`,
+        education.description
+      );
+
       // Convert datesAttended to numbers and append
-      formData.append(`educations[${index}][datesAttended][start]`, Number(education.datesAttended.start));
-      formData.append(`educations[${index}][datesAttended][end]`, Number(education.datesAttended.end));
-  });
+      formData.append(
+        `educations[${index}][datesAttended][start]`,
+        Number(education.datesAttended.start)
+      );
+      formData.append(
+        `educations[${index}][datesAttended][end]`,
+        Number(education.datesAttended.end)
+      );
+    });
     console.log("blobData", blobData);
     formData.append("image", blobData);
 
@@ -238,15 +332,15 @@ const ProfileSlides = () => {
       }
     );
 
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   const inc = () => {
-    if (currentSlide < totalSlides - 1) {
+    if (currentSlide < totalSlides - 1 && currentSlide != -1) {
       setCurrentSlide(currentSlide + 1);
     }
     if (currentSlide === totalSlides - 1) {
-      handleSubmit();
+      setCurrentSlide(-1);
     }
   };
 
@@ -254,8 +348,18 @@ const ProfileSlides = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
     }
+    if (currentSlide === -1) {
+      setCurrentSlide(6);
+    } else;
   };
-
+  const expert = {
+    name: `John Doe`,
+    role: "Web Developer",
+    rating: Math.random() * 5,
+    avatarUrl: "https://github.com/johndoe.png",
+    wilaya: "Algiers",
+    city: "Central",
+  };
   // Render the current slide based on `currentSlide`
   const renderSlide = () => {
     const commonProps = { submitFormRef, inc, profileInfo, updateProfileInfo };
@@ -276,6 +380,8 @@ const ProfileSlides = () => {
         return (
           <SlideSeven
             {...commonProps}
+            photoProfileSrc={photoProfileSrc}
+            setPhotoProfileSrc={setPhotoProfileSrc}
             setShowPhotoError={setShowPhotoError}
             setIsPhotoAdded={setIsPhotoAdded}
             showPhotoError={showPhotoError}
@@ -285,16 +391,53 @@ const ProfileSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  if (loading) return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
-      <PropagateLoader color="#FF5400" />
-    </div>
-  );
-  return (
-    <div className=" flex h-screen flex-col">
-      <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
-        {renderSlide()}
+  if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
       </div>
+    );
+  return currentSlide === -1 ? (
+    <div>
+      <Header />
+      <PageContainer>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-black font-header text-4xl font-semibold ">
+            Profile Preview
+          </h1>
+          <Button onClick={handleSubmit} variant="default" size="lg">
+            Submit profile
+          </Button>
+        </div>
+        <Profile
+          name={expert.name}
+          wilaya={expert.wilaya}
+          city={expert.city}
+          profileInfo={profileInfo}
+          photoProfileSrc={photoProfileSrc}
+          updateProfileInfo={updateProfileInfo}
+          edit={true}
+        />
+      </PageContainer>
+      <div className="w-full py-4">
+        <div className="px-4 flex justify-between mt-4">
+          <Button onClick={handleBack} variant="outline">
+            Back
+          </Button>
+          <Button onClick={handleSubmit} variant="default">
+            Submit profile
+          </Button>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className=" flex h-screen flex-col">
+      <Header />
+      <PageContainer className="flex-1 flex flex-col justify-center">
+        <div className="   h-full flex flex-col justify-center">
+          {renderSlide()}
+        </div>
+      </PageContainer>
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">
@@ -312,7 +455,7 @@ const ProfileSlides = () => {
             </Button>
           )}
           <Button onClick={handleNext} variant="default">
-            {!(currentSlide === 6) ? "Next" : "Submit profile"}
+            {!(currentSlide === 6) ? "Next" : "Review Profile"}
           </Button>
         </div>
       </div>

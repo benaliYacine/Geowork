@@ -4,8 +4,7 @@ import Profile from "@/components/profile/Profile";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
-export default function ProfilePage({info,profileInfo,updateProfileInfo,}) {
-
+export default function ProfilePage({ info, profileInfo, updateProfileInfo }) {
   /* const [info, setInfo] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
 

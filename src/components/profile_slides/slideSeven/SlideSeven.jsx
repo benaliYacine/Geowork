@@ -30,6 +30,8 @@ export default function SlideSeven({
   setIsPhotoAdded,
   setShowPhotoError,
   showPhotoError,
+  photoProfileSrc,
+  setPhotoProfileSrc,
 }) {
   const form = useForm({
     resolver: zodResolver(slideOneSchema),
@@ -62,9 +64,7 @@ export default function SlideSeven({
     setShowPhotoError(false);
   };
   const addImageSrc = (newImage) => {
-    updateProfileInfo({
-      photoProfileSrc: newImage, // Directly assign the newImage Src
-    });
+    setPhotoProfileSrc(newImage);
   };
 
   return (
@@ -88,7 +88,7 @@ export default function SlideSeven({
                 addImage={addImage}
                 addImageSrc={addImageSrc}
                 existingPhoto={profileInfo.photoProfile}
-                existingPhotoSrc={profileInfo.photoProfileSrc}
+                existingPhotoSrc={photoProfileSrc}
                 setIsPhotoAdded={setIsPhotoAdded}
                 className="flex-2"
               />

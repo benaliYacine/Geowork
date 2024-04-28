@@ -10,23 +10,11 @@ import SlideThree from "@/components/job_slides/SlideThree";
 import SlideFour from "@/components/job_slides/SlideFour";
 import SlideFive from "@/components/job_slides/SlideFive";
 import SlideSix from "@/components/job_slides/slideSix/SlideSix";
-import EditTitleButton from "@/components/jobPostEdit/EditTitleButton";
-import EditBudgetButton from "@/components/jobPostEdit/EditBudgetButton";
-import EditCategoryButton from "@/components/jobPostEdit/EditCategoryButton";
-import EditDescriptionButton from "@/components/jobPostEdit/EditDescriptionButton";
-import EditImageButton from "@/components/jobPostEdit/EditImageButton";
-import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { MapPin } from "lucide-react";
-import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
 import JobPost from "@/components/jobPost/JobPost";
 
-// import SlideTwo from './SlideTwo';
-// ... import other slides
-import ImagesCarousel from "@/components/jobPost/ImagesCarousel";
 const JobSlides = () => {
   const [isPhotoAdded, setIsPhotoAdded] = useState(false);
   const [showPhotoError, setShowPhotoError] = useState(false);
@@ -214,8 +202,10 @@ const JobSlides = () => {
   ) : (
     <div className=" flex h-screen flex-col">
       <Header />
-      <PageContainer className="flex-grow ">
-        {renderSlide()}
+      <PageContainer className="flex-1 flex flex-col justify-center">
+        <div className="   h-full flex flex-col justify-center">
+          {renderSlide()}
+        </div>
       </PageContainer>
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
@@ -234,7 +224,7 @@ const JobSlides = () => {
             </Button>
           )}
           <Button onClick={handleNext} variant="default">
-            {!(currentSlide === 5) ? "Next" : "review job post"}
+            {!(currentSlide === 5) ? "Next" : "Review Job Post"}
           </Button>
         </div>
       </div>

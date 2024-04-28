@@ -18,30 +18,38 @@ export default function Profile({
   wilaya = "wilaya",
   city = "city",
   profileInfo,
+  photoProfileSrc=undefined,
   updateProfileInfo,
   edit = false,
 }) {
-  const addImage = async (newImage) => {
-    const dataUrl = newImage;
-    const blobData = await fetch(dataUrl).then((res) => res.blob());
-    const formData = new FormData();
-    formData.append("image", blobData);
-    const response = await axios.patch(
-      "/api/professionnels/changePhotoDeProfile",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log(response.data);
+  const addImage = (newImage) => {
     updateProfileInfo({
-      photoProfile: response.data.profile.photoProfile, // Directly assign the newImage Src
+      photoProfile: newImage, // Directly assign the newImage Src
     });
-    // setIsPhotoAdded(true);
-    // setShowPhotoError(false);
   };
+  // const addImage = async (newImage) => {
+  //   // mawch yemchi ki tbedel el image ma tetbedelch fel preview
+  //   const dataUrl = newImage;
+  //   const blobData = await fetch(dataUrl).then((res) => res.blob());
+  //   const formData = new FormData();
+  //   formData.append("image", blobData);
+  //   const response = await axios.patch(
+  //     "/api/professionnels/changePhotoDeProfile",
+  //     formData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     }
+  //   );
+  //   console.log(response.data);
+  //   updateProfileInfo({
+  //     photoProfile: response.data.profile.photoProfile, // Directly assign the newImage Src
+  //   });
+  //   // setIsPhotoAdded(true);
+  //   // setShowPhotoError(false);
+  // };
+
   return (
     <EditContext.Provider value={{ edit }}>
       <div className="flex flex-col gap-4">
@@ -49,7 +57,7 @@ export default function Profile({
           <div className="flex flex-row p-0 w-full mr-auto items-center">
             <div className=" relative">
               <Avatar className="mr-4" size={24}>
-                <AvatarImage src={profileInfo.photoProfile.url} alt={name} />
+                <AvatarImage src={profileInfo.photoProfile} alt={name} />
                 <AvatarFallback className=" text-4xl">
                   {getInitials(name)}
                 </AvatarFallback>
@@ -59,6 +67,7 @@ export default function Profile({
                   <EditAvatarCard
                     addImage={addImage}
                     existingPhoto={profileInfo.photoProfile}
+                    existingPhotoSrc={photoProfileSrc}
                     variant="outlined"
                     className="flex-2"
                   />

@@ -20,13 +20,13 @@ import {
 import React, { useState, useRef } from "react";
 import AvatarEditor from "react-avatar-editor";
 import character from "@/assets/illustrations/character.svg";
-function AddAvatarCard({
+function EditAvatarCard({
+  existingPhotoSrc = undefined,
   addImage,
-
   variant = "primary",
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(existingPhotoSrc);
   const [scale, setScale] = useState(2); // Default scale
   const editorRef = useRef(null);
 
@@ -184,4 +184,4 @@ function AddAvatarCard({
   );
 }
 
-export default AddAvatarCard;
+export default EditAvatarCard;
