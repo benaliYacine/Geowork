@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import ProfileIcon from "@/components/common/ProfileIcon";
 import NotificationIcon from "@/components/common/NotificationIcon";
-import axios from 'axios';
+import axios from "axios";
 import {
   Accordion,
   AccordionContent,
@@ -37,6 +37,7 @@ import {
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
+  NavigationMenuIndicator,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
@@ -157,15 +158,15 @@ export default function Header({ logedIn = true }) {
   }, [mobileMenuOpen, isMenuVisible]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('header');
+      const response = await axios.get("header");
       let profileIcon = {};
       if (response.data) {
         profileIcon = response.data;
       }
       setProfileIcon(profileIcon);
-    }
+    };
     fetchData();
-  }, [])
+  }, []);
   return (
     <header className="flex justify-center items-center w-full pt-2">
       <nav
@@ -220,6 +221,7 @@ export default function Header({ logedIn = true }) {
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
+            <NavigationMenuIndicator/>
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex lg:hidden">
@@ -237,7 +239,11 @@ export default function Header({ logedIn = true }) {
             {logedIn ? (
               <>
                 <NotificationIcon />
-                <ProfileIcon name={profileIcon.name} photoProfile={profileIcon.photoProfile} pro={profileIcon.pro} />
+                <ProfileIcon
+                  name={profileIcon.name}
+                  photoProfile={profileIcon.photoProfile}
+                  pro={profileIcon.pro}
+                />
               </>
             ) : (
               <>
@@ -274,10 +280,11 @@ export default function Header({ logedIn = true }) {
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel
             className={`fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
-                ${mobileMenuOpen
-                ? "animate-slide-in-right"
-                : "animate-slide-out-right"
-              }`}
+                ${
+                  mobileMenuOpen
+                    ? "animate-slide-in-right"
+                    : "animate-slide-out-right"
+                }`}
           >
             <div className="flex items-center justify-between">
               <a href="/" className="-m-1.5 p-1.5">

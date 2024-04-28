@@ -6,6 +6,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  PopoverArrow,
 } from "@/components/ui/popover";
 
 export default function ProfileIcon({ pro = true, name = "test test", photoProfile = "" }) {
@@ -26,16 +27,35 @@ export default function ProfileIcon({ pro = true, name = "test test", photoProfi
       <PopoverContent className="p-2 flex flex-col gap-2 items-start justify-center w-fit">
         <div className="w-40 flex justify-center flex-col items-center gap-2">
           {pro ? (
-            <img src={photoProfile} alt="" className="h-16 w-16 rounded-full bg-bg" />
+            <img
+              src={photoProfile}
+              alt=""
+              className="h-16 w-16 rounded-full bg-bg"
+            />
           ) : (
             <CircleUser className="h-16 w-16 stroke-current stroke-[1px] text-black cursor-pointer" />
           )}
           <span className=" text-xl text-black font-bold ">{name}</span>
         </div>
-        {pro && <ListItemWithIcon Icon={CircleUser} text="profile" link="/dashboard" />}
-        <ListItemWithIcon Icon={MessageCircle} text="messages" link="/messages" />
+        {pro && (
+          <ListItemWithIcon
+            Icon={CircleUser}
+            text="profile"
+            link="/dashboard"
+          />
+        )}
+        <ListItemWithIcon
+          Icon={MessageCircle}
+          text="messages"
+          link="/messages"
+        />
         <ListItemWithIcon Icon={Settings} text="settings" link="/settings" />
-        <ListItemWithIcon Icon={LogOut} text="log out" onClick={() => handleLogOut()} />
+        <ListItemWithIcon
+          Icon={LogOut}
+          text="log out"
+          onClick={() => handleLogOut()}
+        />
+        <PopoverArrow className="fill-white relative top-[-1px] scale-150" />
       </PopoverContent>
     </Popover>
   );

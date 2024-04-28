@@ -90,6 +90,14 @@ module.exports = {
         sm: '4px'
       },
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'translateY(100%)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        fadeOut: {
+          '0%': { opacity: 1, transform: 'translateY(0)' },
+          '100%': { opacity: 0, transform: 'translateY(100%)' },
+        },
         'slide-in-right': {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0)' },
@@ -108,6 +116,8 @@ module.exports = {
         }
       },
       animation: {
+         fadeIn: 'fadeIn 0.3s ease-out',
+        fadeOut: 'fadeOut 0.3s ease-in',
         'slide-in-right': 'slide-in-right 0.2s ease-out forwards',
         'slide-out-right': 'slide-out-right 0.2s ease-in forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
