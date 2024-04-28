@@ -19,6 +19,10 @@ import EditLocationButton from "@/components/jobPostEdit/EditLocationButton";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { MapPin } from "lucide-react";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
+import PageContainer from "@/components/common/PageContainer";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import JobPost from "@/components/jobPost/JobPost";
 
 // import SlideTwo from './SlideTwo';
 // ... import other slides
@@ -118,10 +122,9 @@ const JobSlides = () => {
         },
       });
       console.log(response.data);
-      if(response.data.redirectUrl){
+      if (response.data.redirectUrl) {
         navigate(response.data.redirectUrl);
       }
-      
     } catch (error) {
       console.error("Error submitting job info:", error);
     }
@@ -172,14 +175,16 @@ const JobSlides = () => {
         return <div>Slide not implemented</div>;
     }
   };
-  if (loading) return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
-      <PropagateLoader color="#FF5400" />
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
+      </div>
+    );
   return currentSlide === -1 ? (
-    <div className="w-full flex flex-col items-center">
-      <div className="flex flex-col m-6 sm:mx-12 md:mx-18 lg:mx-40 xl:mx-52 max-w-[1440px]">
+    <div>
+      <Header />
+      <PageContainer>
         <div className="flex items-center justify-between">
           <h1 className="text-black font-header text-4xl font-semibold ">
             Job Details
@@ -188,118 +193,13 @@ const JobSlides = () => {
             post the job
           </Button>
         </div>
-        <div className="flex flex-col space-y-4 mt-6 ">
-          <div className="relative">
-            <h2 className="text-2xl font-bold">{jobInfo.title}</h2>
-            <div className="absolute top-0 right-1 ">
-              <EditTitleButton
-                title={jobInfo.title}
-                onEdit={(newTitle) => {
-                  updateJobInfo({
-                    title: newTitle,
-                  });
-                }}
-              />
-            </div>
-          </div>
-          <div className="relative">
-            <p className="text-greyDark">
-              <MapPin className="inline-block" /> {jobInfo.wilaya},{" "}
-              {jobInfo.city}
-            </p>
-            <div className="absolute top-0 right-1 ">
-              <EditLocationButton
-                wilaya={jobInfo.wilaya}
-                city={jobInfo.city}
-                onEdit={(newWilaya, newCity) => {
-                  updateJobInfo({
-                    wilaya: newWilaya,
-                  });
-                  updateJobInfo({
-                    city: newCity,
-                  });
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-            <div
-              className="bg-cover bg-center rounded-3xl h-[450px] relative"
-              style={{ backgroundImage: `url(${jobInfo.images[0]})` }}
-            >
-              <div className="absolute top-3 right-3 ">
-                <EditImageButton
-                  images={jobInfo.images}
-                  onEdit={(newImages) => {
-                    updateJobInfo({
-                      images: newImages,
-                    });
-                  }}
-                />
-              </div>
-              <div className="absolute bottom-3 right-3 ">
-                <ImagesCarousel images={jobInfo.images} />
-              </div>
-            </div>
-            <div>
-              <div className="relative">
-                <h3 className="font-bold">Description:</h3>
-                <CollapsibleTextContainer collapsedHeight="310px">
-                  <p>{jobInfo.description}</p>
-                </CollapsibleTextContainer>
-                <div className="absolute top-0 right-1 ">
-                  <EditDescriptionButton
-                    description={jobInfo.description}
-                    onEdit={(newDescription) => {
-                      updateJobInfo({
-                        description: newDescription,
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-between mt-4 gap-4">
-                <div className="flex-1 relative">
-                  <h4 className="font-bold">Category:</h4>
-                  <p className="text-greyDark">
-                    {jobInfo.category}, {jobInfo.subCategory}
-                  </p>
-                  <div className="absolute top-0 right-1 ">
-                    <EditCategoryButton
-                      category={jobInfo.category}
-                      subCategory={jobInfo.subCategory}
-                      onEdit={(newCategory, newSubCategory) => {
-                        updateJobInfo({
-                          category: newCategory,
-                        });
-                        updateJobInfo({
-                          subCategory: newSubCategory,
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex-1 relative">
-                  <h4 className="font-bold">Budget:</h4>
-                  <p className="text-greyDark">{jobInfo.budget}</p>
-                  <div className="absolute top-0 right-1 ">
-                    <EditBudgetButton
-                      budget={jobInfo.budget}
-                      onEdit={(newBudget) => {
-                        updateJobInfo({
-                          budget: newBudget,
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <JobPost
+          jobInfo={jobInfo}
+          updateJobInfo={updateJobInfo}
+          edit={true}
+          title={true}
+        />
+      </PageContainer>
       <div className="w-full py-4">
         <div className="px-4 flex justify-between mt-4">
           <Button onClick={handleBack} variant="outline">
@@ -313,9 +213,10 @@ const JobSlides = () => {
     </div>
   ) : (
     <div className=" flex h-screen flex-col">
-      <div className="flex flex-grow flex-col mx-6 md:mx-20 lg:mx-40 justify-center">
+      <Header />
+      <PageContainer className="flex-grow ">
         {renderSlide()}
-      </div>
+      </PageContainer>
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">

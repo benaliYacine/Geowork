@@ -71,7 +71,7 @@ export default function SlideSix({
           <div className="flex justify-center w-full">
             {/* Render the cover image card if there's no cover image yet or the cover image */}
 
-            <ScrollArea className="h-[400px] w-fit flex flex-col px-2">
+            <ScrollArea className="h-[340px] w-fit flex flex-col px-2">
               {jobInfo.images.length === 0 ? (
                 <AddCoverImageCard onAdd={(url) => handleAddImage(url, true)} />
               ) : (
