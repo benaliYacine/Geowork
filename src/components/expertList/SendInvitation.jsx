@@ -94,7 +94,7 @@ function SendInvitation({ name = "Yacine", expert }) {
                 name="invitationMessage"
                 label="Message *"
                 placeholder="Already have a message? Paste it here!"
-                minHeight="180px"
+                height="180px"
               />
               {/* Submit Button */}
               <DialogFooter>
@@ -104,7 +104,7 @@ function SendInvitation({ name = "Yacine", expert }) {
                   </Button>
                 </DialogClose>
                 <Button className="mt-3" type="submit">
-                Send invitaion
+                  Send invitaion
                 </Button>
               </DialogFooter>
             </form>

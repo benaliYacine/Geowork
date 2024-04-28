@@ -67,7 +67,7 @@ export default function SlideOne({
             label=""
             placeholder="Enter your top skills, experiences, and interests. This is one of the first things clients will see on your profile.
         "
-            minHeight="180px"
+            height="180px"
           />
         </form>
       </Form>

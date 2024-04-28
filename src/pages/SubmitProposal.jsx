@@ -110,7 +110,7 @@ export default function SubmitProposal({}) {
                   name="description"
                   label=""
                   placeholder=""
-                  minHeight="180px"
+                  height="180px"
                 />
               </div>
             </div>

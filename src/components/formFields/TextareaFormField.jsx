@@ -12,7 +12,7 @@ const TextareaFormField = ({
   name,
   label,
   placeholder,
-  minHeight = "80px",
+  height = "80px",
 }) => {
   return (
     <FormField
@@ -24,7 +24,7 @@ const TextareaFormField = ({
           <FormControl>
             <Textarea
               placeholder={placeholder}
-              minHeight={minHeight}
+              height={height}
               // className="resize-none"
               className={className}
               {...field}

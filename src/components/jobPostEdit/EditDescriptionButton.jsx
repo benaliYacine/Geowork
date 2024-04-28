@@ -76,7 +76,7 @@ function EditDescriptionButton({ description, onEdit }) {
                 name="description"
                 label="Job description *"
                 placeholder="Already have a description? Paste it here!"
-                minHeight = "180px"
+                height="180px"
               />
               {/* Submit Button */}
               <DialogFooter>
