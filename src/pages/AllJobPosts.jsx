@@ -6,6 +6,8 @@ import JobList from "@/components/jobList/JobList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import Hi from "@/components/common/Hi";
+
 export default function AllJobPosts({jobs}) {
   /* const [jobs, setJobs] = useState(null);
   useEffect(() => {
@@ -23,6 +25,7 @@ if(jobs) */
       <>
         <Header />
         <PageContainer>
+          <Hi name="Benali"/>
           <div className="flex items-center justify-between">
             <h1 className="text-black font-header text-4xl font-semibold">
               All Job Posts
