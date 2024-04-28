@@ -11,6 +11,7 @@ import { Form, FormLabel } from "@/components/ui/form";
 // Assuming you've imported the getYearsRange function and necessary UI components
 
 import EmploymentForm from "@/components/profile_slides/slideThree/EmploymentForm";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import IconButton from "@/components/common/IconButton";
 
@@ -83,7 +84,7 @@ const formSchema = z.object({
     }),
 });
 
-function EditEmploymentButton({ employment, onEdit , variant="primary" }) {
+function EditEmploymentButton({ employment, onEdit, variant = "primary" }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -154,11 +155,14 @@ function EditEmploymentButton({ employment, onEdit , variant="primary" }) {
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
                   Edit Company Employment
                 </DialogTitle>
-                <DialogDescription>
-                  {/* Make changes to your profile here. Click save when you're done. */}
-                </DialogDescription>
+                {/* <DialogDescription> */}
+                {/* Make changes to your profile here. Click save when you're done. */}
+                {/* </DialogDescription> */}
               </DialogHeader>
-              <EmploymentForm />
+              <ScrollArea className=" h-[460px] w-full p-4 rounded-md">
+                <EmploymentForm />
+              </ScrollArea>
+              {/* <EmploymentForm /> */}
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>

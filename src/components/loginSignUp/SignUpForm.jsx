@@ -49,8 +49,7 @@ export default function SignUpForm() {
       name: { first: "", last: "" },
       email: "",
       password: "",
-      wilaya: "Alger",
-      city: "",
+      wilaya: "alger",
     },
   });
 
@@ -66,7 +65,7 @@ export default function SignUpForm() {
     );
     setFilteredCities(citiesForWilaya);
     // Reset city field if wilaya changes
-    form.setValue("city", "");
+    form.setValue("city", undefined);
   }, [form.watch("wilaya")]);
 
   useEffect(() => {

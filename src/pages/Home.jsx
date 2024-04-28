@@ -14,7 +14,6 @@ function Home() {
       <StepsSection />
       <FeaturesSection />
       <ReadySection />
-
       <Footer />
       <br />
       <Link to="/login">Go to login Page</Link>

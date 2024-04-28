@@ -93,7 +93,7 @@ function EditEducationButton({ education, onEdit,variant="primary" }) {
           <Pencil className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] p-3">
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">

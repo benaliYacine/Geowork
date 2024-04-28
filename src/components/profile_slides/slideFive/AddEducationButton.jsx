@@ -91,7 +91,7 @@ function AddEducationButton({ addEducation }) {
           <Plus className="h-5 w-5" />
         </IconButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] p-3">
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">

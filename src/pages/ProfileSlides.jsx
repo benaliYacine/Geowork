@@ -433,11 +433,14 @@ const ProfileSlides = () => {
   ) : (
     <div className=" flex h-screen flex-col">
       <Header />
-      <PageContainer className="flex-1 flex flex-col justify-center">
-        <div className="   h-full flex flex-col justify-center">
-          {renderSlide()}
-        </div>
-      </PageContainer>
+      <div className="flex-1 flex flex-col justify-center">
+        <PageContainer>
+          <div className="h-full flex flex-col justify-center">
+            {renderSlide()}
+          </div>
+        </PageContainer>
+      </div>
+
       <div className="w-full py-4">
         <Progress value={progress} className="mb-4" />
         <div className="px-4 flex justify-between mt-4">

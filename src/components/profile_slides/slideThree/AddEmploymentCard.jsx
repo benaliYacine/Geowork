@@ -27,6 +27,7 @@ const monthItems = [
   { value: "November", label: "November" },
   { value: "December", label: "December" },
 ];
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const currentYear = new Date().getFullYear();
 const yearItems = getYearsRange(1990, currentYear);
@@ -137,7 +138,9 @@ function AddEmploymentCard({ onClick, addEmployment }) {
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <EmploymentForm />
+              <ScrollArea className=" h-[460px] w-full p-4 rounded-md">
+                <EmploymentForm />
+              </ScrollArea>
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
