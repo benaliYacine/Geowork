@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { useEffect } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +21,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
+  useEffect(() => {
+    console.log(
+      "Rendering ComboBoxComponent, itemList length:",
+      itemList.length
+    );
+  }, [itemList]);
   return (
     <FormField
       control={control}
@@ -49,7 +56,12 @@ const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
               <Command>
                 <CommandEmpty>No item found.</CommandEmpty>
                 <CommandGroup>
-                  <ScrollArea className="h-48 w-full rounded-md">
+                  <ScrollArea
+                    className={cn(
+                      "w-full rounded-md",
+                      itemList.length < 9 ? "h-fit" : "h-48"
+                    )}
+                  >
                     {itemList.map((item) => (
                       <CommandItem
                         key={item.value}
