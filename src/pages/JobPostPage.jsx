@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DeleteJobPost from "@/components/jobPost/DeleteJobPost";
 import JobPost from "@/components/jobPost/JobPost";
 import ExpertList from "@/components/expertList/ExpertList";
+import ProposalList from "@/components/proposalList/ProposalList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
@@ -90,6 +91,9 @@ export default function JobPostPage() {
             <TabsList className="">
               <TabsTrigger value="viewJobPost">View Job Post</TabsTrigger>
               <TabsTrigger value="inviteExperts">Invite Experts</TabsTrigger>
+              <TabsTrigger value="reviewProposals">
+                Review Proposals
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="viewJobPost">
               {/* Your existing JSX here, wrap it in a div if needed */}
@@ -146,6 +150,11 @@ export default function JobPostPage() {
             <TabsContent value="inviteExperts">
               <div className=" flex flex-col items-center mt-6">
                 <ExpertList />
+              </div>
+            </TabsContent>
+            <TabsContent value="reviewProposals">
+              <div className=" flex flex-col items-center mt-6">
+                <ProposalList />
               </div>
             </TabsContent>
           </Tabs>

@@ -19,13 +19,13 @@ const proposalSchema = z.object({
     .min(1, "budget is required")
     // Adjust regex as needed if your input format includes the "DZD" prefix.
     .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
-  description: z
+  coverLetter: z
     .string()
     .min(10, {
-      message: "Your description must be at least 10 characters.",
+      message: "Your coverLetter must be at least 10 characters.",
     })
     .max(3000, {
-      message: "Your description must not be longer than 3000 characters.",
+      message: "Your coverLetter must not be longer than 3000 characters.",
     }),
 });
 
@@ -109,7 +109,7 @@ export default function SubmitProposal({}) {
                 <TextareaFormField
                   className="border border-border focus-visible:border-primary"
                   control={form.control}
-                  name="description"
+                  name="coverLetter"
                   label=""
                   placeholder=""
                   height="180px"
@@ -117,9 +117,9 @@ export default function SubmitProposal({}) {
               </div>
             </div>
             <div className="flex gap-4 p-4">
-              <Button size="lg">Send</Button>
+              <Button type="submit" size="lg">Send</Button>
               <Button
-                onClick={() => {
+                onClick={(e) => {
                   navigate("/dashboard");
                 }}
                 variant="outline"

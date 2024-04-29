@@ -140,7 +140,7 @@ export default function SearchBar({ full = false }) {
             placeholder="Select Role"
           />
           <button type="submit">
-            <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-105">
+            <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
               <Search className="h-10 w-10" />
             </div>
           </button>
