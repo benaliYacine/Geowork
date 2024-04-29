@@ -3,11 +3,13 @@ import ExpertList from "@/components/expertList/ExpertList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import SearchBar from "@/components/common/SearchBar";
 export default function ExpertsSearch() {
   return (
     <>
       <Header />
       <PageContainer>
+        <SearchBar full />
         <div className="flex items-center justify-between">
           <h1 className="text-black font-header text-4xl font-semibold">
             Search results

@@ -39,6 +39,7 @@ export default function WelcomePro() {
     <>
       <Header />
       <PageContainer>
+        <SearchBar />
         <div className="h-screen flex items-center">
           <WelcomPro firstName={name} />
         </div>

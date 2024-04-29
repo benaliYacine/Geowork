@@ -39,6 +39,7 @@ export default function WelcomeCli() {
     <>
       <Header />
       <PageContainer>
+        <SearchBar />
         <div className="h-screen flex items-center">
           <WelcomCli firstName={name} />
         </div>

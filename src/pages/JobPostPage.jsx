@@ -12,6 +12,7 @@ import ExpertList from "@/components/expertList/ExpertList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import SearchBar from "@/components/common/SearchBar";
 export default function JobPostPage() {
   const { id } = useParams();
   const [edit, setEdit] = useState(false); // State to control the visibility of edit components
@@ -67,6 +68,7 @@ export default function JobPostPage() {
       <>
         <Header />
         <PageContainer>
+          <SearchBar />
           <div className="flex items-center justify-between relative ">
             <h1 className="text-black font-header text-4xl font-semibold">
               {jobInfo.title}

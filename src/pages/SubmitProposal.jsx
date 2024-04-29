@@ -12,6 +12,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
+import SearchBar from "@/components/common/SearchBar";
 const proposalSchema = z.object({
   budget: z
     .string()
@@ -59,6 +60,7 @@ export default function SubmitProposal({}) {
     <>
       <Header />
       <PageContainer>
+        <SearchBar />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex items-center justify-between">
