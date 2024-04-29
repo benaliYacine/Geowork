@@ -1,6 +1,7 @@
 // tari9a li ra7 nekhedmou biha fel pfe
 import { Link } from "react-router-dom";
 import Header from "@/components/common/Header";
+import SearchBar from "@/components/common/SearchBar";
 import HeroSection from "@/components/home/HeroSection";
 import StepsSection from "@/components/home/StepsSection";
 import Footer from "@/components/common/Footer";
@@ -10,6 +11,7 @@ function Home() {
   return (
     <div className="bg-bg">
       <Header />
+      <SearchBar />
       <HeroSection />
       <StepsSection />
       <FeaturesSection />
