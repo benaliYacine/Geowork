@@ -20,7 +20,7 @@ const EmploymentCard = ({
   const displayDate = `${startDate} - ${currentlyIn ? "Present" : endDate}`;
 
   return (
-    <div className="w-96 min-w-96 h-52 min-h-52 p-3 bg-background rounded-3xl flex flex-row justify-between">
+    <div className="w-96 h-52 p-3 bg-background rounded-3xl flex flex-row justify-between">
       <img src={emp} alt="employment" className="w-16 h-16 rounded-full" />
       <div className="flex-grow p-1 flex flex-col gap-2 overflow-hidden">
         <div className="flex gap-2 items-start">

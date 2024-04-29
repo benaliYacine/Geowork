@@ -6,7 +6,13 @@ import AddEducationCard from "@/components/profile_slides/slideFive/AddEducation
 import AddEducationButton from "@/components/profile_slides/slideFive/AddEducationButton";
 import EducationCard from "@/components/profile_slides/slideFive/EducationCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 export default function SlideTree({
   submitFormRef,
   inc,
@@ -64,30 +70,48 @@ export default function SlideTree({
       {profileInfo.educations.length === 0 ? (
         <AddEducationCard addEducation={addEducation} />
       ) : (
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           {" "}
           {/* Add gap for spacing and items-center for vertical alignment */}
           <AddEducationButton addEducation={addEducation} />
-          <ScrollArea className="h-full w-full">
-            <div className="flex w-max space-x-4 p-4">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className={
+              profileInfo.employments.length > 3
+                ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-4"
+                : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-4"
+            }
+          >
+            <CarouselContent>
               {profileInfo.educations.map((education, index) => (
-                <EducationCard
-                  key={index}
-                  education={education}
-                  school={education.school}
-                  degree={education.degree}
-                  fieldOfStudy={education.fieldOfStudy}
-                  startDate={`${education.datesAttended.start}`}
-                  endDate={`${education.datesAttended.end}`}
-                  description={education.description}
-                  onEdit={(newEdu) => editEducation(index, newEdu)}
-                  onDelete={() => deleteEducation(index)}
-                  index={index}
-                />
+                <CarouselItem key={index} className="basis-1/">
+                  {/* basis-1/ ghi bah na7i el basis full li fel carousel mane9derch na7iha temak parceque ne7tajha fel job images carousel */}
+
+                  <EducationCard
+                    key={index}
+                    education={education}
+                    school={education.school}
+                    degree={education.degree}
+                    fieldOfStudy={education.fieldOfStudy}
+                    startDate={`${education.datesAttended.start}`}
+                    endDate={`${education.datesAttended.end}`}
+                    description={education.description}
+                    onEdit={(newEdu) => editEducation(index, newEdu)}
+                    onDelete={() => deleteEducation(index)}
+                    index={index}
+                  />
+                </CarouselItem>
               ))}
-            </div>
-            <ScrollBar className="hidden" orientation="horizontal" />
-          </ScrollArea>
+            </CarouselContent>
+            <CarouselPrevious
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+            <CarouselNext
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+          </Carousel>
         </div>
       )}
     </div>

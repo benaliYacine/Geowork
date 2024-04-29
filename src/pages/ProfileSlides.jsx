@@ -49,6 +49,42 @@ const ProfileSlides = () => {
         title: "memba3d na7iha",
         company: "test",
         Location: "test",
+        currentlyIn: true,
+        date: {
+          start: {
+            month: 2,
+            year: 2020,
+          },
+          end: {
+            month: 2,
+            year: 2021,
+          },
+        },
+        description:
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+      },
+      {
+        title: "memba3d na7iha",
+        company: "test",
+        Location: "test",
+        currentlyIn: true,
+        date: {
+          start: {
+            month: 2,
+            year: 2020,
+          },
+          end: {
+            month: 2,
+            year: 2021,
+          },
+        },
+        description:
+          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+      },
+      {
+        title: "memba3d na7iha",
+        company: "test",
+        Location: "test",
         currentlyIn: false,
         date: {
           start: {

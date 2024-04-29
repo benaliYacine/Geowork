@@ -129,7 +129,7 @@ function AddAvatarCard({
         )}
       </div>
 
-      <DialogContent className="sm:max-w-[500px] p-3">
+      <DialogContent className="sm:max-w-[500px]">
         <div className="flex">
           <div className="relative flex-1 flex flex-col items-center justify-start mr-4">
             <h3 className="font-header font-bold text-2xl my-2">Your Photo</h3>

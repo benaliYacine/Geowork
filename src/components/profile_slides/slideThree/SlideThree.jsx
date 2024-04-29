@@ -8,7 +8,13 @@ import AddEmploymentCard from "@/components/profile_slides/slideThree/AddEmploym
 import AddEmploymentButton from "@/components/profile_slides/slideThree/AddEmploymentButton";
 import EmploymentCard from "@/components/profile_slides/slideThree/EmploymentCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 const months = [
   "January",
   "February",
@@ -23,7 +29,6 @@ const months = [
   "November",
   "December",
 ];
-
 
 export default function SlideTree({
   submitFormRef,
@@ -58,9 +63,7 @@ export default function SlideTree({
     });
   };
 
-  const form = useForm({
-    
-  });
+  const form = useForm({});
 
   const onSubmit = form.handleSubmit((values) => {
     inc(); // gedem el slide id al form valid
@@ -86,39 +89,56 @@ export default function SlideTree({
       {profileInfo.employments.length === 0 ? (
         <AddEmploymentCard addEmployment={addEmployment} />
       ) : (
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-start gap-3">
           {" "}
           {/* Add gap for spacing and items-center for vertical alignment */}
           <AddEmploymentButton addEmployment={addEmployment} />
-          <ScrollArea className="h-full w-full">
-            <div className="flex w-max space-x-4 p-4">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className={
+              profileInfo.employments.length > 3
+                ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-4"
+                : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-4"
+            }
+          >
+            <CarouselContent>
               {profileInfo.employments.map((employment, index) => (
-                <EmploymentCard
-                  key={index}
-                  employment={employment}
-                  title={employment.title}
-                  currentlyIn={employment.currentlyIn}
-                  company={employment.company}
-                  location={employment.Location}
-                  startDate={`${months[employment.date.start.month - 1]} ${
-                    employment.date.start.year
-                  }`}
-                  endDate={
-                    employment.currentlyIn
-                      ? "Present"
-                      : `${months[employment.date.end.month - 1]} ${
-                          employment.date.end.year
-                        }`
-                  }
-                  description={employment.description}
-                  onEdit={(newEmp) => editEmployment(index, newEmp)}
-                  onDelete={() => deleteEmployment(index)}
-                  index={index}
-                />
+                <CarouselItem key={index} className="basis-1/">
+                  {/* basis-1/ ghi bah na7i el basis full li fel carousel mane9derch na7iha temak parceque ne7tajha fel job images carousel */}
+                  <EmploymentCard
+                    key={index}
+                    employment={employment}
+                    title={employment.title}
+                    currentlyIn={employment.currentlyIn}
+                    company={employment.company}
+                    location={employment.Location}
+                    startDate={`${months[employment.date.start.month - 1]} ${
+                      employment.date.start.year
+                    }`}
+                    endDate={
+                      employment.currentlyIn
+                        ? "Present"
+                        : `${months[employment.date.end.month - 1]} ${
+                            employment.date.end.year
+                          }`
+                    }
+                    description={employment.description}
+                    onEdit={(newEmp) => editEmployment(index, newEmp)}
+                    onDelete={() => deleteEmployment(index)}
+                    index={index}
+                  />
+                </CarouselItem>
               ))}
-            </div>
-            <ScrollBar className="hidden" orientation="horizontal" />
-          </ScrollArea>
+            </CarouselContent>
+            <CarouselPrevious
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+            <CarouselNext
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+          </Carousel>
         </div>
       )}
     </div>

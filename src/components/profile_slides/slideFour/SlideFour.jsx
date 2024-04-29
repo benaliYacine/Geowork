@@ -6,7 +6,13 @@ import AddExperienceCard from "@/components/profile_slides/slideFour/AddExperien
 import AddExperienceButton from "@/components/profile_slides/slideFour/AddExperienceButton";
 import ExperienceCard from "@/components/profile_slides/slideFour/ExperienceCard";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 export default function SlideFour({
   submitFormRef,
   inc,
@@ -67,26 +73,44 @@ export default function SlideFour({
       {profileInfo.experiences.length === 0 ? (
         <AddExperienceCard addExperience={addExperience} />
       ) : (
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           {" "}
           {/* Add gap for spacing and items-center for vertical alignment */}
           <AddExperienceButton addExperience={addExperience} />
-          <ScrollArea className="h-full w-full">
-            <div className="flex w-max space-x-4 p-4">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className={
+              profileInfo.employments.length > 3
+                ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-4"
+                : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-4"
+            }
+          >
+            <CarouselContent>
               {profileInfo.experiences.map((experience, index) => (
-                <ExperienceCard
-                  key={index}
-                  experience={experience}
-                  title={experience.title}
-                  description={experience.description}
-                  onEdit={(newExp) => editExperience(index, newExp)}
-                  onDelete={() => deleteExperience(index)}
-                  index={index}
-                />
+                <CarouselItem key={index} className="basis-1/">
+                  {/* basis-1/ ghi bah na7i el basis full li fel carousel mane9derch na7iha temak parceque ne7tajha fel job images carousel */}
+
+                  <ExperienceCard
+                    key={index}
+                    experience={experience}
+                    title={experience.title}
+                    description={experience.description}
+                    onEdit={(newExp) => editExperience(index, newExp)}
+                    onDelete={() => deleteExperience(index)}
+                    index={index}
+                  />
+                </CarouselItem>
               ))}
-            </div>
-            <ScrollBar className="hidden" orientation="horizontal" />
-          </ScrollArea>
+            </CarouselContent>
+            <CarouselPrevious
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+            <CarouselNext
+              className={!(profileInfo.employments.length > 3) && " hidden"}
+            />
+          </Carousel>
         </div>
       )}
     </div>

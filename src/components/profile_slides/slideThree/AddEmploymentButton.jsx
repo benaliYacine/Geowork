@@ -142,7 +142,7 @@ function AddEmploymentButton({ addEmployment }) {
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <ScrollArea className=" h-[460px] w-full p-4 rounded-md">
+              <ScrollArea className=" h-[460px] w-full rounded-md">
                 <EmploymentForm />
               </ScrollArea>
               {/* Submit Button */}
