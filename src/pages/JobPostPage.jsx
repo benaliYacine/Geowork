@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { React, useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 import EditTitleButton from "@/components/jobPostEdit/EditTitleButton";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import ExpertList from "@/components/expertList/ExpertList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 export default function JobPostPage() {
   const { id } = useParams();
   const [edit, setEdit] = useState(false); // State to control the visibility of edit components
@@ -24,13 +24,13 @@ export default function JobPostPage() {
     const fetchData = async () => {
       const response = await axios.get(`/jobPostPage/${id}`);
       if (response.data) {
-        const images = response.data.images.map((c) => (c.url));
+        const images = response.data.images.map((c) => c.url);
         console.log(images);
         setJobInfo({ ...response.data, images });
       }
-    }
+    };
     fetchData();
-  }, [])
+  }, []);
 
   // Function to update job information
   const updateJobInfo = async (newInfo) => {
@@ -40,28 +40,28 @@ export default function JobPostPage() {
   const DeleteJob = async () => {
     const response = await axios.delete(`/api/jobs/deleteJob/${id}`);
     if (response.data) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   };
   async function SaveJobInfo() {
     console.log(jobInfo);
     const images = jobInfo.images.map((i) => {
-      const startIndex = i.indexOf('/Geolans/');
-      const endIndex = i.indexOf('.png');
+      const startIndex = i.indexOf("/Geolans/");
+      const endIndex = i.indexOf(".png");
       if (startIndex !== -1 && endIndex !== -1) {
         const extractedString = i.substring(startIndex + 1, endIndex);
         return { filename: extractedString, url: i };
       } else {
-        console.log("La partie de l'URL que vous recherchez n'a pas été trouvée.");
-        return ({})
+        console.log(
+          "La partie de l'URL que vous recherchez n'a pas été trouvée."
+        );
+        return {};
       }
-
-    })
-    console.log('images',images)
+    });
+    console.log("images", images);
     const saveInfo = { ...jobInfo, images };
-    console.log('saveInfo',saveInfo);
-    const response = await axios.patch(`/api/jobs/changeJob/${id}`, saveInfo)
-
+    console.log("saveInfo", saveInfo);
+    const response = await axios.patch(`/api/jobs/changeJob/${id}`, saveInfo);
   }
   if (jobInfo)
     return (

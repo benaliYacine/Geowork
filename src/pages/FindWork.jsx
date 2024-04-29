@@ -7,14 +7,14 @@ import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Hi from "@/components/common/Hi";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 export default function FindWork({}) {
   return (
     <>
       <Header />
       <PageContainer>
         <Hi name="Benali" />
-        <SearchBar full/>
+        <SearchBar full />
         <div className="flex items-center justify-between">
           <h1 className="text-black font-header text-4xl font-semibold">
             Jobs you might like

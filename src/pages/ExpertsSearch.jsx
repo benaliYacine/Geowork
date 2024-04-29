@@ -3,7 +3,7 @@ import ExpertList from "@/components/expertList/ExpertList";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 export default function ExpertsSearch() {
   return (
     <>

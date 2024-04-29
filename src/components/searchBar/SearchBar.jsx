@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Form } from "@/components/ui/form";
 import { categories } from "../../data/categories";
-import SearchComboBox from "@/components/common/SearchComboBox";
-import SearchSelect from "@/components/common/SearchSelect";
+import SearchComboBox from "@/components/searchBar/SearchComboBox";
+import SearchSelect from "@/components/searchBar/SearchSelect";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -69,6 +69,9 @@ export default function SearchBar({ full = false }) {
 
   const onSubmit = form.handleSubmit((values) => {
     console.log(values); // Handle the form values, for example, saving it
+    // TODO: hadnle el search
+
+
   });
 
   return (

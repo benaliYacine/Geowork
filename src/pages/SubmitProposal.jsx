@@ -12,7 +12,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 const proposalSchema = z.object({
   budget: z
     .string()

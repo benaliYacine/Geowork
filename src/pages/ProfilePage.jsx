@@ -4,7 +4,7 @@ import Profile from "@/components/profile/Profile";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 export default function ProfilePage({ info, profileInfo, updateProfileInfo }) {
   /* const [info, setInfo] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);

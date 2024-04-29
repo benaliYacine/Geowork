@@ -3,7 +3,7 @@ import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Job from "@/components/Job/Job";
-import SearchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/searchBar/SearchBar";
 export default function Jobs() {
   const [jobInfo, setJobInfo] = useState({
     title: "na7ihom memba3d ",
