@@ -14,7 +14,7 @@ export default function Hi({ name = "Benali" }) {
   }, []);
 
   return (
-    <div className="h-fit p-8 bg-secondaryo text-start flex flex-col gap-4 rounded-3xl mb-6">
+    <div className="h-fit p-8 bg-secondaryo text-start flex flex-col gap-4 rounded-3xl">
       <p className="font-bold text-2xl text-black">{today}</p>
       <p className="font-bold text-5xl text-black">Welcome back, {name}</p>
     </div>

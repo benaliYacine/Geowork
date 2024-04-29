@@ -8,29 +8,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Form } from "@/components/ui/form";
 import { categories } from "../../data/categories";
-import SearchComponent from "@/components/common/SearchComponent";
+import SearchComboBox from "@/components/common/SearchComboBox";
+import SearchSelect from "@/components/common/SearchSelect";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 // Define your schema for SlideOne
 const SearchBarSchema = z.object({
-  category: z.string().min(1, "Category is required"),
-  subCategory: z.string().min(1, "Sub-category is required"),
+  category: z.string(),
+  subCategory: z.string(),
+  wilaya: z.string(), // Ensure this line is correctly added
+  city: z.string(), // Ensure this line is correctly added
+  role: z.string(),
 });
 
-export default function SearchBar({}) {
+export default function SearchBar({ full = false }) {
   const form = useForm({
     resolver: zodResolver(SearchBarSchema),
     defaultValues: {
       category: "",
       subCategory: "",
       wilaya: "",
+      city: "",
+      role: "Jobs",
     },
   });
 
   const [subCategories, setSubCategories] = useState([]);
 
   const [filteredCities, setFilteredCities] = useState([]);
-  
+
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
     const citiesForWilaya = cities.filter(
@@ -38,9 +45,8 @@ export default function SearchBar({}) {
     );
     setFilteredCities(citiesForWilaya);
     // Reset city field if wilaya changes
-    form.setValue("city", undefined);
+    form.setValue("city", "");
   }, [form.watch("wilaya")]);
-
 
   // Update sub-categories when the category changes
   useEffect(() => {
@@ -71,9 +77,15 @@ export default function SearchBar({}) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex align-middle justify-center"
       >
-        <div className="w-fit h-fit p-2 flex gap-1 shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] rounded-full bg-white m-4 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_30px_0px_rgba(0,0,0,0.25)]">
-          <SearchComponent
+        <div
+          className={cn(
+            "w-fit h-fit p-2 flex gap-1 rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
+            full && "w-full"
+          )}
+        >
+          <SearchComboBox
             control={form.control}
+            full={!full}
             name="category"
             label="Category"
             itemList={categories.map(({ value, label }) => ({
@@ -83,7 +95,8 @@ export default function SearchBar({}) {
             placeholder="Select category"
           />
           <Separator orientation="vertical" className="h-12" />
-          <SearchComponent
+          <SearchComboBox
+            full={!full}
             control={form.control}
             name="subCategory"
             label="Sub-Category"
@@ -94,15 +107,19 @@ export default function SearchBar({}) {
             placeholder="Select sub-category"
           />
           <Separator orientation="vertical" className="h-12" />
-          <SearchComponent
+          <SearchComboBox
+            full={!full}
             control={form.control}
             name="wilaya"
             label="Wilaya"
             itemList={wilayas}
             placeholder="Select wilaya"
           />
+
           <Separator orientation="vertical" className="h-12" />
-          <SearchComponent
+
+          <SearchComboBox
+            full={!full}
             control={form.control}
             name="city"
             label="City"
@@ -110,9 +127,20 @@ export default function SearchBar({}) {
             placeholder="Select city"
           />
 
-          <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-105">
-            <Search className="h-10 w-10" />
-          </div>
+          <Separator orientation="vertical" className="h-12" />
+
+          <SearchSelect
+            control={form.control}
+            name="role"
+            label="Role"
+            // itemList={filteredCities}
+            placeholder="Select Role"
+          />
+          <button type="submit">
+            <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-105">
+              <Search className="h-10 w-10" />
+            </div>
+          </button>
         </div>
       </form>
     </Form>

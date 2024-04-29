@@ -23,13 +23,14 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
-  useEffect(() => {
-    console.log(
-      "Rendering ComboBoxComponent, itemList length:",
-      itemList.length
-    );
-  }, [itemList]);
+const SearchComboBox = ({
+  control,
+  name,
+  label,
+  itemList,
+  placeholder,
+  full=true,
+}) => {
   return (
     <FormField
       control={control}
@@ -39,7 +40,12 @@ const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
-                <div className="flex flex-col gap-1 hover:bg-bg h-fit py-2 px-4 rounded-full w-48 cursor-pointer">
+                <div
+                  className={cn(
+                    "flex flex-col gap-1 hover:bg-bg h-fit py-2 px-8 rounded-full cursor-pointer",
+                    full && "w-max"
+                  )}
+                >
                   <FormLabel className=" text-md font-medium cursor-pointer">
                     {label}
                   </FormLabel>
@@ -95,4 +101,4 @@ const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
   );
 };
 
-export default ComboBoxComponent;
+export default SearchComboBox;
