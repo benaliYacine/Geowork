@@ -10,9 +10,9 @@ import { useState } from "react";
 export default function ProposalItem({ proposal }) {
   const [isClick, setClick] = useState(false);
   return (
-    <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
+    <div className="flex  items-center  mb-2 rounded-lg flex-col w-full">
       <div className="flex flex-col items-start p-2 w-full">
-        <div className="flex flex-col sm:flex-row items-center  w-full">
+        <div className="flex flex-col sm:flex-row items-center w-full">
           <div className="flex mr-auto">
             <div className=" mr-4">
               <Avatar size={16}>
