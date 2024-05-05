@@ -20,13 +20,9 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
         );
       case "file":
         return (
-          <div className="flex flex-row">
-            <File className="m-2 h-4 w-4 shrink-0 opacity-50" />
-            <a
-              href={message.url}
-              download
-              className="text-sm text-blue-500 underline"
-            >
+          <div className="flex flex-row items-center justify-center">
+            <File className="m-2 h-4 w-4 shrink-0" />
+            <a href={message.url} download className="text-sm">
               {message.content}
             </a>
           </div>

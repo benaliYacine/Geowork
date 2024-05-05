@@ -41,7 +41,7 @@ import {
 } from "@/components/ui/dialog";
 import PhoneFormField from "@/components/formFields/PhoneFormField";
 
-function EditAccountButton({ name, email, phone, onEdit }) {
+function EditAccountButton({ name, email, phone, onEdit, edit }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -77,27 +77,31 @@ function EditAccountButton({ name, email, phone, onEdit }) {
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              <GenericFormField
-                className="w-full"
-                control={form.control}
-                name="name.first"
-                label="First Name"
-                placeholder="First name"
-              />
-              <GenericFormField
-                className="w-full"
-                control={form.control}
-                name="name.last"
-                label="Last Name"
-                placeholder="Last name"
-              />
+              {edit && (
+                <>
+                  <GenericFormField
+                    className="w-full"
+                    control={form.control}
+                    name="name.first"
+                    label="First Name"
+                    placeholder="First name"
+                  />
+                  <GenericFormField
+                    className="w-full"
+                    control={form.control}
+                    name="name.last"
+                    label="Last Name"
+                    placeholder="Last name"
+                  />
 
-              <GenericFormField
-                control={form.control}
-                name="email"
-                label="Email"
-                placeholder="Your email"
-              />
+                  <GenericFormField
+                    control={form.control}
+                    name="email"
+                    label="Email"
+                    placeholder="Your email"
+                  />
+                </>
+              )}
               <PhoneFormField
                 control={form.control}
                 name="phone"

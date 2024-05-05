@@ -5,7 +5,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/side-tabs";
 import { React, useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import EditLocationButton from "@/components/settingsEdit/EditLocationButton";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
@@ -33,9 +33,12 @@ export default function Settings() {
   const [loading, setLoading] = useState(true);
   const [IsExpert, setIsExpert] = useState(false);
   
+  // TODO: khdem b satate hada : rodo false ida kan l user dayer sign up b google w true sinon
+  const [edit, setEdit] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('/settings');
+      const response = await axios.get("/settings");
       console.log(response.data);
       if (response.data.redirectUrl) {
         navigate(response.data.redirectUrl);
@@ -48,37 +51,39 @@ export default function Settings() {
           wilaya: response.data.wilaya,
           city: response.data.city,
           phone: response.data.profile.phone,
-          type: 'profile' in response.data ? 'Expert' : 'Client'
-        }
-        if (info.type == 'Expert')
-          setIsExpert(true);
-        else
-          setIsExpert(false);
+          type: "profile" in response.data ? "Expert" : "Client",
+        };
+        if (info.type == "Expert") setIsExpert(true);
+        else setIsExpert(false);
         setUserInfo(info);
       }
-    }
+    };
     fetchData();
-  }, [])
+  }, []);
   // Function to update user information
   const updateUserInfo = async (newInfo) => {
-
-    const response = await axios.patch('/api/professionnels/changeDetailleProfessionnel', newInfo);
+    const response = await axios.patch(
+      "/api/professionnels/changeDetailleProfessionnel",
+      newInfo
+    );
     console.log(response.data);
     setUserInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
   const closeAccount = async () => {
     console.log("delete");
-    let response = await axios.delete('/api/professionnels/deleteProfessionnel');
+    let response = await axios.delete(
+      "/api/professionnels/deleteProfessionnel"
+    );
     console.log(response.data);
-    response = await axios.post('/logout');
-    if (response.data.redirectUrl)
-      navigate(response.data.redirectUrl);
-  }
-  if (loading) return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
-      <PropagateLoader color="#FF5400" />
-    </div>
-  );
+    response = await axios.post("/logout");
+    if (response.data.redirectUrl) navigate(response.data.redirectUrl);
+  };
+  if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
+      </div>
+    );
   return (
     <>
       <Header />
@@ -88,7 +93,7 @@ export default function Settings() {
             Settings
           </h1>
         </div>
-        <Tabs defaultValue="MyInfo" className="mt-4">
+        <Tabs defaultValue="MyInfo" className="my-6">
           <TabsList className="">
             <TabsTrigger value="MyInfo">My Info</TabsTrigger>
             <TabsTrigger value="PasswordAndSecurity">
@@ -139,6 +144,7 @@ export default function Settings() {
                         name={userInfo.name}
                         email={userInfo.email}
                         phone={userInfo.phone}
+                        edit={edit}
                         onEdit={(newName, newEmail, newPhone) => {
                           updateUserInfo({
                             email: newEmail,
@@ -156,18 +162,20 @@ export default function Settings() {
                 ) : (
                   <>
                     <div className="absolute top-1 right-1 ">
-                      <EditClientAccountButton
-                        name={userInfo.name}
-                        email={userInfo.email}
-                        onEdit={(newName, newEmail) => {
-                          updateUserInfo({
-                            email: newEmail,
-                          });
-                          updateUserInfo({
-                            name: newName,
-                          });
-                        }}
-                      />
+                      {edit && (
+                        <EditClientAccountButton
+                          name={userInfo.name}
+                          email={userInfo.email}
+                          onEdit={(newName, newEmail) => {
+                            updateUserInfo({
+                              email: newEmail,
+                            });
+                            updateUserInfo({
+                              name: newName,
+                            });
+                          }}
+                        />
+                      )}
                     </div>
                   </>
                 )}
@@ -305,14 +313,16 @@ export default function Settings() {
                   Password {userInfo.password}
                 </h3>
                 <div className="absolute top-1 right-1 ">
-                  <EditPasswordButton
-                    password={userInfo.password}
-                    onEdit={(newPassword) => {
-                      updateUserInfo({
-                        password: newPassword,
-                      });
-                    }}
-                  />
+                  {edit && (
+                    <EditPasswordButton
+                      password={userInfo.password}
+                      onEdit={(newPassword) => {
+                        updateUserInfo({
+                          password: newPassword,
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

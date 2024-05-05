@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import MessageItem from "./MessageItem"; // Import the updated MessageItem component
 
 // Updated sample data with message types
-/* const messages = [
+ const messages = [
   {
     id: 1,
     senderName: "Alice",
@@ -81,11 +81,11 @@ import MessageItem from "./MessageItem"; // Import the updated MessageItem compo
     isOwnMessage: true,
   },
   // Add more messages as needed
-].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); */
+].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); 
 
 
 
-function MessageList({messages}) {
+function MessageList({}) {
   
   return (
     <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
