@@ -23,6 +23,16 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/savedJobs">Go to SavedJobs Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <Link to="/savedExperts">Go to SavedExperts Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
       <Link to="/job">Go to Job Page</Link>
       <br />
       <br />

@@ -25,6 +25,8 @@ import FindWork from "./pages/FindWork";
 import ProposalPage from "./pages/ProposalPage";
 import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
+import SavedJobs from "./pages/SavedJobs";
+import SavedExperts from "./pages/SavedExperts";
 
 import axios from "axios";
 
@@ -52,6 +54,8 @@ function App() {
           <Route path="/jobSlides" element={<JobSlides />} />
           <Route path="/jobPostPage/:id" element={<JobPostPage />} />
           <Route path="/verifyEmail" element={<SendEmailPage />} />
+          <Route path="/savedJobs" element={<SavedJobs />} />
+          <Route path="/savedExperts" element={<SavedExperts />} />
 
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/proposal" element={<ProposalPage />} />
