@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import Location from "@/components/common/Location";
-import RatingDisplay from "@/components/expertList/RatingDisplay";
+import RatingDisplay from "@/components/common/RatingDisplay";
 
-const AboutClient = ({ client}) => {
+const AboutClient = ({ client }) => {
   return (
     <div className="w-fit flex flex-col gap-1">
       <h4 className=" text-xl font-medium text-black ">About the client</h4>

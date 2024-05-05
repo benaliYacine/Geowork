@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import RatingDisplay from "@/components/expertList/RatingDisplay";
+import RatingDisplay from "@/components/common/RatingDisplay";
 import Location from "@/components/common/Location";
 import SendInvitation from "@/components/expertList/SendInvitation";
 import { Separator } from "@/components/ui/separator";

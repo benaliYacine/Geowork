@@ -6,6 +6,7 @@ import Category from "@/components/common/Category";
 import Heart from "react-heart";
 import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
+import CloseJobDialog from "@/components/chat/CloseJobDialog";
 function budgetRenderFootereRecieved(budgetEditState, isClient) {
   switch (budgetEditState) {
     case "waiting":
@@ -158,9 +159,8 @@ function renderFooterSent(invitationState) {
             the expert has accepted your job invitation
           </p>
           <div className="flex justify-end w-full gap-2">
-            <Button variant="outline" size="sm">
-              Close Job
-            </Button>
+            <CloseJobDialog/>
+           
             <Button size="sm">Send Job Location</Button>
           </div>
         </div>
