@@ -9,11 +9,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer-right";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft,ExternalLink } from "lucide-react";
+import { ChevronLeft, ExternalLink } from "lucide-react";
 import { React, useState } from "react";
 import Proposal from "@/components/proposalList/Proposal";
 import { ScrollArea } from "@/components/ui/scroll-area";
-export default function ProposalDrawer({ expert }) {
+export default function ProposalDrawer({ proposal }) {
   const [profileInfo, setProfileInfo] = useState({
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
     category: "education_and_tutoring",
@@ -206,7 +206,7 @@ export default function ProposalDrawer({ expert }) {
           className="text-lg font-semibold mb-1 "
           size="none"
         >
-          {expert.name}
+          {proposal.name}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full lg:w-4/5 w-full " data-vaul-no-drag>
@@ -216,7 +216,7 @@ export default function ProposalDrawer({ expert }) {
             This action cannot be undone.
           </DrawerDescription>
         </DrawerHeader> */}
-        <ScrollArea className="px-2 mx-1">
+        <ScrollArea className="px-2 mx-1 bg-bg">
           <div className="flex items-center justify-between mt-2">
             <DrawerClose
               asChild
@@ -231,10 +231,12 @@ export default function ProposalDrawer({ expert }) {
             </Button>
           </div>
           <Proposal
-            name={expert.name}
-            wilaya={expert.wilaya}
-            city={expert.city}
+            name={proposal.name}
+            wilaya={proposal.wilaya}
+            city={proposal.city}
             profileInfo={profileInfo}
+            coverLetter={proposal.coverLetter}
+            budget={proposal.budget}
           />
         </ScrollArea>
         {/* <DrawerFooter data-vaul-no-drag>

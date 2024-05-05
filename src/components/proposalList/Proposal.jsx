@@ -19,10 +19,12 @@ export default function Proposal({
   photoProfileSrc = undefined,
   updateProfileInfo,
   edit = false,
+  coverLetter,
+  budget,
 }) {
   return (
     <EditContext.Provider value={{ edit }}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 bg-bg p-2">
         <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
           <div className="flex flex-row p-0 w-full mr-auto items-center">
             <div className=" relative">
@@ -47,12 +49,28 @@ export default function Proposal({
               <Location wilaya={wilaya} city={city} size="lg" />
             </div>
           </div>
+        </div>
 
-          <div>
+        <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <h3 className="text-4xl font-header font-semibold mb-1">
+                Proposal Details
+              </h3>
+              <p className="text-2xl text-primary font-semibold ">
+                {budget}
+              </p>
+            </div>
+            <p className="">{coverLetter}</p>
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
+          <div className="flex flex-col gap-4">
             <h3 className="text-4xl font-header font-semibold mb-1">
               {profileInfo.roleTitle}
             </h3>
-            {/* TODO: khdem mecanizme el more w el less */}
+
             <CollapsibleTextContainer collapsedHeight="50px">
               <p>{profileInfo.Bio}</p>
             </CollapsibleTextContainer>

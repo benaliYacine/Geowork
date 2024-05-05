@@ -209,7 +209,7 @@ export default function ProfileDrawer({ expert }) {
           {expert.name}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full lg:w-4/5 w-full " data-vaul-no-drag>
+      <DrawerContent className="h-full lg:w-4/5 w-full bg-bg" data-vaul-no-drag>
         {/* <DrawerHeader data-vaul-no-drag>
           <DrawerTitle data-vaul-no-drag>Are you absolutely sure?</DrawerTitle>
           <DrawerDescription data-vaul-no-drag>

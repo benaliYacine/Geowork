@@ -21,7 +21,7 @@ export default function ProposalItem({ proposal }) {
               </Avatar>
             </div>
             <div className="flex-grow mb-2">
-              <ProposalDrawer expert={proposal} />
+              <ProposalDrawer proposal={proposal} />
               <p className="text-sm text-gray-600 mb-1">{proposal.role}</p>
               <div className="mb-1">
                 <RatingDisplay rating={proposal.rating} />

@@ -51,7 +51,7 @@ const GeoworkItem = ({ job }) => {
             Job Description
           </h4>
           <CollapsibleTextContainer collapsedHeight="25px">
-            <p className="">{job.description}</p>
+            <p className="">{job.coverLetter}</p>
           </CollapsibleTextContainer>
         </div>
         <div>
