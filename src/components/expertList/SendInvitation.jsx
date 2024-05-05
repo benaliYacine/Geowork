@@ -49,27 +49,27 @@ function SendInvitation({ name = "Yacine", expert }) {
   const [jobNotSpecified, setJobNotSpecified] = useState(true);
   const [clientJobs, setClientJobs] = useState([
     {
-      label: "job",
-      value: "job",
+      label: "job1",
+      value: "job1",
     },
     {
-      label: "job",
-      value: "job",
+      label: "job2",
+      value: "job2",
     },
     {
-      label: "job",
-      value: "job",
+      label: "job3",
+      value: "job3",
     },
     {
-      label: "job",
-      value: "job",
+      label: "job4",
+      value: "job4",
     },
   ]);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
-      job: "job",
+      job: clientJobs[0].label,
     },
   });
   const onSubmit = async (values) => {
