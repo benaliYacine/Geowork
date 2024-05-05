@@ -10,17 +10,17 @@ import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import { getInitials } from "@/lib/utils";
 import axios from "axios";
+import SendInvitation from "@/components/expertList/SendInvitation";
 
 export const EditContext = createContext();
 
 export default function Profile({
-  name = "benali yacine",
-  wilaya = "wilaya",
-  city = "city",
+  expert,
   profileInfo,
   photoProfileSrc = undefined,
   updateProfileInfo,
   edit = false,
+  action = false,
 }) {
   // const addImage = (newImage) => {
   //   updateProfileInfo({
@@ -63,10 +63,10 @@ export default function Profile({
                       ? profileInfo.photoProfile.url
                       : profileInfo.photoProfile
                   }
-                  alt={name}
+                  alt={expert.name}
                 />
                 <AvatarFallback className=" text-4xl">
-                  {getInitials(name)}
+                  {getInitials(expert.name)}
                 </AvatarFallback>
               </Avatar>
               {edit && (
@@ -81,11 +81,19 @@ export default function Profile({
                 </div>
               )}
             </div>
-            <div className="flex flex-col">
-              <h2 className="text-6xl font-header font-semibold mb-1">
-                {name}
-              </h2>
-              <Location wilaya={wilaya} city={city} size="lg" />
+            <div className="flex flex-col w-full">
+              <div className="flex w-full justify-between">
+                <h2 className="text-6xl font-header font-semibold mb-1">
+                  {expert.name}
+                </h2>
+                {action && (
+                  <div className="flex gap-4 items-center">
+                    <SendInvitation expert={expert} />
+                    {/* <Button>Hire</Button> */}
+                  </div>
+                )}
+              </div>
+              <Location wilaya={expert.wilaya} city={expert.city} size="lg" />
             </div>
           </div>
 

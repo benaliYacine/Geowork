@@ -22,6 +22,7 @@ import ProfilePage from "./pages/ProfilePage";
 import JobPostPage from "./pages/JobPostPage";
 import Dashboard from "./pages/Dashboard";
 import FindWork from "./pages/FindWork";
+import ProposalPage from "./pages/ProposalPage";
 import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="/verifyEmail" element={<SendEmailPage />} />
 
           <Route path="/jobsSearch" element={<JobsSearch />} />
+          <Route path="/proposal" element={<ProposalPage />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/dashboard" element={<Dashboard />} />

@@ -12,15 +12,14 @@ import axios from "axios";
 import { EditContext } from "@/components/profile/Profile";
 
 export default function Proposal({
-  name = "benali yacine",
-  wilaya = "wilaya",
-  city = "city",
+  proposal,
   profileInfo,
   photoProfileSrc = undefined,
   updateProfileInfo,
   edit = false,
   coverLetter,
   budget,
+  action = false,
 }) {
   return (
     <EditContext.Provider value={{ edit }}>
@@ -35,18 +34,30 @@ export default function Proposal({
                       ? profileInfo.photoProfile.url
                       : profileInfo.photoProfile
                   }
-                  alt={name}
+                  alt={proposal.name}
                 />
                 <AvatarFallback className=" text-4xl">
-                  {getInitials(name)}
+                  {getInitials(proposal.name)}
                 </AvatarFallback>
               </Avatar>
             </div>
-            <div className="flex flex-col">
-              <h2 className="text-6xl font-header font-semibold mb-1">
-                {name}
-              </h2>
-              <Location wilaya={wilaya} city={city} size="lg" />
+            <div className="flex flex-col w-full">
+              <div className="flex w-full justify-between">
+                <h2 className="text-6xl font-header font-semibold mb-1">
+                  {proposal.name}
+                </h2>
+                {action && (
+                  <div className="flex gap-4 items-center">
+                    <Button variant="outline">Message</Button>
+                    <Button>Hire</Button>
+                  </div>
+                )}
+              </div>
+              <Location
+                wilaya={proposal.wilaya}
+                city={proposal.city}
+                size="lg"
+              />
             </div>
           </div>
         </div>
@@ -57,9 +68,7 @@ export default function Proposal({
               <h3 className="text-4xl font-header font-semibold mb-1">
                 Proposal Details
               </h3>
-              <p className="text-2xl text-primary font-semibold ">
-                {budget}
-              </p>
+              <p className="text-2xl text-primary font-semibold ">{budget}</p>
             </div>
             <p className="">{coverLetter}</p>
           </div>

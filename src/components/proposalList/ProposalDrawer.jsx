@@ -231,12 +231,11 @@ export default function ProposalDrawer({ proposal }) {
             </Button>
           </div>
           <Proposal
-            name={proposal.name}
-            wilaya={proposal.wilaya}
-            city={proposal.city}
+            proposal={proposal}
             profileInfo={profileInfo}
             coverLetter={proposal.coverLetter}
             budget={proposal.budget}
+            action={true}
           />
         </ScrollArea>
         {/* <DrawerFooter data-vaul-no-drag>

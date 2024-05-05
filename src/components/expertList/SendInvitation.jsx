@@ -78,15 +78,27 @@ function SendInvitation({ name = "Yacine", expert }) {
               </DialogHeader>
               {/* the expert info  jebtha men expert item w na7iit l separator l rating l location ..div w styles manehtajhoumch ...*/}
               <div className="flex flex-row p-2 w-full mr-auto">
-                <Avatar className="mr-2">
-                  <AvatarImage src={expert.avatarUrl} alt={expert.name} />
-                  <AvatarFallback>{expert.initials}</AvatarFallback>
-                </Avatar>
+                {expert ? (
+                  <>
+                    <Avatar className="mr-2">
+                      <AvatarImage src={expert.avatarUrl} alt={expert.name} />
+                      <AvatarFallback>{expert.initials}</AvatarFallback>
+                    </Avatar>
 
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-semibold mb-1">{expert.name}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
-                </div>
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-semibold mb-1">
+                        {expert.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-1">
+                        {expert.role}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                    <>
+                      
+                    </>
+                )}
               </div>
 
               <TextareaFormField

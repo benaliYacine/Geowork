@@ -28,6 +28,11 @@ function Home() {
       <br />
       <hr />
       <br />
+      <Link to="/proposal">Go to Proposal Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
       <Link to="/findWork">Go to FindWork Page</Link>
       <br />
       <br />
