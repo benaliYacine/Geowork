@@ -47,6 +47,8 @@ module.exports = {
         secondary2: '#FFCBB2',
         black: '#333333',
         success: '#108A00',
+        warningDark: '#DFAB0D',
+        warning: '#FFC107',
         greyDark: '#8A8A8A',
         greyCold: '#E7E7E7',
         darkPrimary: '#D24500',

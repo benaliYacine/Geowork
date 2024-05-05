@@ -52,7 +52,7 @@ export default function Profile({
 
   return (
     <EditContext.Provider value={{ edit }}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mb-4">
         <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
           <div className="flex flex-row p-0 w-full mr-auto items-center">
             <div className=" relative">

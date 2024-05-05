@@ -84,7 +84,7 @@ export default function JobList({}) {
       <div className="flex flex-col items-center w-full">
         {jobs.length == 0 ? (
           <div className="p-4 h-32 w-full flex items-center justify-center text-xl text-slate-300 font-semibold">
-            there is no item here !
+            there is no items here !
           </div>
         ) : (
           currentData.map((job, index) => <JobItem key={index} job={job} />)

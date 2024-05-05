@@ -1,5 +1,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // Assuming these are correctly imported from your project structure
+import { Button } from "@/components/ui/button";
+import EditBudgetButton from "@/components/chat/EditBudgetButton";
 
 // Helper function to format the "last seen" message
 function formatLastSeen(lastSeen) {
@@ -26,17 +28,17 @@ function isActive(lastSeen) {
 }
 
 function ChatHeader({
-  contactName = "",
-  avatarUrl = "",
-  lastSeen = "",
+  contactName = "test",
+  avatarUrl = "test",
+  lastSeen = "test",
 }) {
   const contactIsActive = isActive(lastSeen);
   if(contactName=="") return (<div></div>);
   return (
-    <div className="border-b-1 w-full">
+    <div className="border-b-1 w-full flex justify-between items-center">
       <div className="flex items-start p-2">
         <div className="relative mr-4">
-          <Avatar>
+          <Avatar className="w-12">
             <AvatarImage src={avatarUrl} alt={contactName} />
             <AvatarFallback>{contactName.charAt(0)}</AvatarFallback>
           </Avatar>
@@ -50,6 +52,10 @@ function ChatHeader({
           <p className="text-sm text-gray-600">{formatLastSeen(lastSeen)}</p>
         </div>
       </div>
+      <EditBudgetButton
+        budget=""
+      />
+     
     </div>
   );
 }
