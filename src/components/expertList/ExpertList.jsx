@@ -79,17 +79,25 @@ export default function ExpertList() {
   return (
     <div className="w-full">
       <div className="flex flex-col items-center w-full">
-        {currentData.map((expert, index) => (
-          <ExpertItem key={index} expert={expert} />
-        ))}
+        {experts.length == 0 ? (
+          <div className="p-4 h-32 w-full flex items-center justify-center text-xl text-slate-300 font-semibold">
+            there is no item here !
+          </div>
+        ) : (
+          currentData.map((expert, index) => (
+            <ExpertItem key={index} expert={expert} />
+          ))
+        )}
       </div>
       <Pagination className="flex justify-end">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious
-              onClick={handlePrevious}
-              disabled={currentPage === 1}
-            />
+            {experts.length != 0 && (
+              <PaginationPrevious
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+              />
+            )}
           </PaginationItem>
           {calculatePageRange(currentPage, lastPageIndex).map((page, index) =>
             typeof page === "number" ? (
@@ -108,10 +116,12 @@ export default function ExpertList() {
             )
           )}
           <PaginationItem>
-            <PaginationNext
-              onClick={handleNext}
-              disabled={currentPage === lastPageIndex}
-            />
+            {experts.length != 0 && (
+              <PaginationNext
+                onClick={handleNext}
+                disabled={currentPage === lastPageIndex}
+              />
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>

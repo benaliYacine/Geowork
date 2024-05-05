@@ -27,6 +27,7 @@ import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
 import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
+import Maps from "./pages/Maps";
 
 import axios from "axios";
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="/findWork" element={<FindWork />} />
           <Route path="/submitProposal" element={<SubmitProposal />} />
           <Route path="/job" element={<Job />} />
+          <Route path="/maps" element={<Maps />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

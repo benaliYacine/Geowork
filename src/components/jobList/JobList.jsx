@@ -82,17 +82,23 @@ export default function JobList({}) {
   return (
     <div className="w-full">
       <div className="flex flex-col items-center w-full">
-        {currentData.map((job, index) => (
-          <JobItem key={index} job={job} />
-        ))}
+        {jobs.length == 0 ? (
+          <div className="p-4 h-32 w-full flex items-center justify-center text-xl text-slate-300 font-semibold">
+            there is no item here !
+          </div>
+        ) : (
+          currentData.map((job, index) => <JobItem key={index} job={job} />)
+        )}
       </div>
       <Pagination className="flex justify-end">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious
-              onClick={handlePrevious}
-              disabled={currentPage === 1}
-            />
+            {jobs.length != 0 && (
+              <PaginationPrevious
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+              />
+            )}
           </PaginationItem>
           {calculatePageRange(currentPage, lastPageIndex).map((page, index) =>
             typeof page === "number" ? (
@@ -111,10 +117,12 @@ export default function JobList({}) {
             )
           )}
           <PaginationItem>
-            <PaginationNext
-              onClick={handleNext}
-              disabled={currentPage === lastPageIndex}
-            />
+            {jobs.length != 0 && (
+              <PaginationNext
+                onClick={handleNext}
+                disabled={currentPage === lastPageIndex}
+              />
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
