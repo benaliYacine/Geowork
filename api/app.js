@@ -292,23 +292,85 @@ app.get('/job/:id/edit', middlewars.isAuthor, async (req, res) => {
     res.send("creation job");
 }) */
 
-app.get('/search', (req, res) => {
-    const { category, wilaya, ville } = req.query;
-    if (category !== "ALL") {
-        if (wilaya != "") {
-            if (ville != "") {
-                const foundProfessionnel = Professionnel.find({ category: category, wilaya: wilaya, ville: ville });
-                return;
-            }
-            const foundprofessionnel = Professionnel.find({ category: category, wilaya: wilaya });
-            return;
+app.get('/jobsSearch', async (req, res) => {
+    try {
+        // Extraire les valeurs des paramètres de la requête
+        const { category, subCategory, wilaya, city } = req.query;
+        console.log("wilaya", wilaya);
+        // Vérifier si au moins un paramètre est fourni
+        if (!category && !subCategory && !wilaya && !city) {
+            return res.status(400).json({ error: 'Au moins un paramètre de recherche est requis.' });
         }
-        const foundProfessionnel = Professionnel.find({ category: category });
-    } else {
-        const foundProfessionnel = Professionnel.find({});
+
+        // Construire la recherche en fonction des paramètres fournis
+        const searchCriteria = {};
+        if (category) searchCriteria.category = category;
+        if (subCategory) searchCriteria.subCategory = subCategory;
+        if (wilaya) searchCriteria.wilaya = wilaya;
+        if (city) searchCriteria.city = city;
+        console.log("searchCriteria", searchCriteria)
+        // Effectuer la recherche dans la base de données
+        const jobs = await Job.find(searchCriteria);
+        console.log(jobs)
+        if (req.session.user_type == 'Professionnel') {
+            const pro = await Professionnel.findById(req.session.user_id);
+            const savedJobIds = pro.profile.savedjobs.map(j => j.toString()); // Assuming _id is an ObjectId
+            jobs = await Promise.all(jobs.map(async (j) => {
+                const heart = savedJobIds.includes(j._id.toString());
+                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+            }));
+        }
+        console.log("job+heart",jobs);
+        // Retourner les résultats de la recherche
+        res.json(jobs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Une erreur est survenue lors de la recherche d\'emplois.' });
     }
-}
-)
+});
+app.get('/expertInfo/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log("iddddddd", id);
+    const pro = await Professionnel.findById(id);
+    console.log("professionnel", pro)
+    res.json(pro);
+})
+app.get('/expertsSearch', async (req, res) => {
+    try {
+        // Extraire les valeurs des paramètres de la requête
+        const { category, subCategory, wilaya, city } = req.query;
+        console.log("wilaya", wilaya);
+        // Vérifier si au moins un paramètre est fourni
+        if (!category && !subCategory && !wilaya && !city) {
+            return res.status(400).json({ error: 'Au moins un paramètre de recherche est requis.' });
+        }
+
+        // Construire la recherche en fonction des paramètres fournis
+        const searchCriteria = {};
+        if (category) searchCriteria.category = category;
+        if (subCategory) searchCriteria.subCategory = subCategory;
+        if (wilaya) searchCriteria.wilaya = wilaya;
+        if (city) searchCriteria.city = city;
+        console.log("searchCriteria", searchCriteria)
+        // Effectuer la recherche dans la base de données
+        const professionnels = await Professionnel.find(searchCriteria);
+        console.log(professionnels)
+        // Retourner les résultats de la recherche
+        if (req.session.user_type == 'Client') {
+            const cli = await Client.findById(req.session.user_id);
+            const savedProfessionalIds = cli.savedProfessionnel.map(p => p.toString()); // Assuming _id is an ObjectId
+            professionnels = await Promise.all(professionnels.map(async (p) => {
+                const heart = savedProfessionalIds.includes(p._id.toString());
+                return { ...p.toObject(), heart }; // Convert toObject() if p is a mongoose document
+            }));
+        }
+        console.log("expert+heart",professionnels);
+        res.json(professionnels);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Une erreur est survenue lors de la recherche d\'emplois.' });
+    }
+});
 const Message = require("./models/message");
 app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     let user;
@@ -474,7 +536,7 @@ app.post('/addMessage', async (req, res) => {
         senderId = req.session.user_id;
         senderType = req.session.user_type;
         const message = new Message({
-            senderId: req.session.user_id,
+            senderId: senderId,
             recipientId: recipientId,
             senderType: senderType,
             recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
@@ -553,10 +615,10 @@ io.on("connection", (socket) => {
     })
     //add message
     socket.on('sendMessage', (message) => {
-        const user = onlineUsers.find(user => user.user_id === message.id);
-        if(user){
-            message={...message,id:user.user_id,isOwnMessage:false,senderId:user_id,timestamp:Date.now()};
-            io.to(user.socketId).emit("getMessage",message);
+        const user = onlineUsers.find(user => user.user_id == message.id);
+        if (user) {
+            message = { ...message, id: user.user_id, isOwnMessage: false, senderId: user_id, timestamp: Date.now() };
+            io.to(user.socketId).emit("getMessage", message);
         }
     })
     socket.on("disconnect", () => {

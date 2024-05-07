@@ -39,6 +39,8 @@ router.patch('/modifyEmployment', ProfessionnelCtrl.modifyEmployment);
 router.patch('/addEducation', ProfessionnelCtrl.addEducation);
 router.patch('/modifyEducation', ProfessionnelCtrl.modifyEducation);
 router.patch('/addExperience', ProfessionnelCtrl.addExperience);
+router.patch('/addSavedProfessionnel', ProfessionnelCtrl.addSavedProfessionnel);
+router.patch('/suppSavedProfessionnel', ProfessionnelCtrl.suppSavedProfessionnel);
 router.patch('/modifyExperience', ProfessionnelCtrl.modifyExperience);
 router.patch('/changeProfileProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeProfileProfessionnel);
 /* router.put('/changeProfessionnel', ProfessionnelCtrl.changeProfessionnel); */

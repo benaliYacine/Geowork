@@ -157,26 +157,29 @@ function ContactsList({contacts=[]}) {
     console.log(id);
     navigate(`/messages/${id}`);
   }
-  contacts=contacts.map((c) => {
-    const currentTime = new Date(); // Current date and time
-    const messageTime = new Date(c.time); // Time of the message
+  contacts = contacts.map((c) => {
+    const currentTime = new Date(); // Date et heure actuelles
+    const messageTime = new Date(c.time); // Heure du message
 
-    let time; // Declare time variable
+    let time; // Déclarer la variable de temps
 
-    // Check if the message is from the current day
+    // Vérifier si le message est de la journée actuelle
     if (currentTime.toDateString() === messageTime.toDateString()) {
-      // Format time as "HH:mm"
-      time = `${messageTime.getHours()}:${messageTime.getMinutes()}`;
+        // Si le message a été envoyé aujourd'hui, afficher l'heure et les minutes
+        time = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } else {
-      // Format time as "Day Month HH:mm"
-      const dayOfMonth = messageTime.getDate();
-      const month = messageTime.toLocaleString('default', { month: 'long' });
-      time = `${dayOfMonth} ${month}`;
+        // Si le message n'a pas été envoyé aujourd'hui, afficher la date
+        time = messageTime.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
     }
 
-    // Return the modified contact object with formatted time
+    // Retourner l'objet de contact modifié avec le temps formaté
     return { ...c, time };
-  });
+});
+
   return (
     <ScrollArea className="h-full w-full max-w-xs rounded-2xl bg-white my-3 overflow-y-auto">
       <div className="flex flex-col">

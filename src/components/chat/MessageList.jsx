@@ -1,4 +1,4 @@
-import React  from "react";
+import { React, useRef,useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import MessageItem from "./MessageItem"; // Import the updated MessageItem component
 
@@ -85,10 +85,16 @@ import MessageItem from "./MessageItem"; // Import the updated MessageItem compo
 
 
 
-function MessageList({messages}) {
-  
+function MessageList({ messages }) {
+
+  const scroll = useRef();
+
+/*   useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]); */
+
   return (
-    <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
+    <ScrollArea ref={scroll} className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
       <div className=" flex flex-col">
         {messages.map((msg) => (
           <MessageItem

@@ -51,7 +51,7 @@ const SearchSelect = ({ control, name, label, itemList, placeholder }) => {
               </FormControl>
             </SelectTrigger>
             <SelectContent className="flex flex-col w-full p-0 shadow-[0_0px_20px_0px_rgba(0,0,0,0.2)]">
-              <SelectItem value="Jobs">Jobs</SelectItem>
+              <SelectItem value="Jobs" >Jobs</SelectItem>
               <SelectItem value="Geoworkers">Geoworkers</SelectItem>
             </SelectContent>
           </Select>
