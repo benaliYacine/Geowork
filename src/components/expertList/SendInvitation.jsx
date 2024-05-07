@@ -10,6 +10,7 @@ import { Form } from "@/components/ui/form";
 
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 
 // import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
 import GenericFormField from "@/components/formFields/GenericFormField";
@@ -24,6 +25,7 @@ const formSchema = z.object({
       message:
         "Your invitation message must not be longer than 3000 characters.",
     }),
+  job: z.string({ required_error: "Please select a job." }),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -44,10 +46,30 @@ import {
 
 function SendInvitation({ name = "Yacine", expert }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [jobNotSpecified, setJobNotSpecified] = useState(true);
+  const [clientJobs, setClientJobs] = useState([
+    {
+      label: "job1",
+      value: "job1",
+    },
+    {
+      label: "job2",
+      value: "job2",
+    },
+    {
+      label: "job3",
+      value: "job3",
+    },
+    {
+      label: "job4",
+      value: "job4",
+    },
+  ]);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
+      job: clientJobs[0].label,
     },
   });
   const onSubmit = async (values) => {
@@ -66,7 +88,7 @@ function SendInvitation({ name = "Yacine", expert }) {
       <DialogContent className="sm:max-w-[500px]">
         <div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               {/* invitationMessage */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
@@ -96,6 +118,16 @@ function SendInvitation({ name = "Yacine", expert }) {
                 placeholder="Already have a message? Paste it here!"
                 height="180px"
               />
+
+              {jobNotSpecified && (
+                <ComboBoxComponent
+                  control={form.control}
+                  name="job"
+                  label="Choose one of your job posts"
+                  itemList={clientJobs}
+                  placeholder="Select a job"
+                />
+              )}
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>

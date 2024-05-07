@@ -6,6 +6,8 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import SearchBar from "@/components/searchBar/SearchBar";
+
 export default function WelcomeCli() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

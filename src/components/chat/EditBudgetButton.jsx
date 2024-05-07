@@ -3,6 +3,7 @@ import axios from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleDollarSign } from "lucide-react";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -11,21 +12,15 @@ import { Form } from "@/components/ui/form";
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  name: z.object({
-    first: z.string().min(1, { message: "First name is required" }),
-    last: z.string().min(1, { message: "Last name is required" }),
-  }),
-  email: z.string().email({ message: "Invalid email address" }),
-  phone: z
+  budget: z
     .string()
-    .min(1, "Phone number is required")
-    .regex(
-      /^0[567] \d{2} \d{2} \d{2} \d{2}$/,
-      "Phone number must follow this format 0x xx xx xx xx"
-    ),
+    .min(1, "budget is required")
+    // Adjust regex as needed if your input format includes the "DZD" prefix.
+    .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
 });
 
 import IconButton from "@/components/common/IconButton";
+import CurrencyFormField from "@/components/formFields/CurrencyFormField";
 
 import { Pencil } from "lucide-react";
 
@@ -39,74 +34,47 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import PhoneFormField from "@/components/formFields/PhoneFormField";
 
-function EditAccountButton({ name, email, phone, onEdit, edit }) {
+function EditBudgetButton({ budget }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: { first: name.first, last: name.last },
-      email: email,
-      phone: phone,
+      // budget: budget,
     },
   });
   const onSubmit = async (values) => {
     console.log(values);
-    onEdit(values.name, values.email, values.phone);
+    onEdit(values.budget);
     setDialogOpen(false);
   };
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <IconButton variant="outlined" className="h-6 w-6 p-1">
-          <Pencil className="h-4 w-4" />
-        </IconButton>
+        <Button variant="outline" size="sm">
+          <CircleDollarSign className="mr-2 stroke-[1.5px]" />
+          Send budget edit sugestion
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-              {/* Title */}
+              {/* budget */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Account
+                  Budget edit sugestion
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              {edit && (
-                <>
-                  <GenericFormField
-                    className="w-full"
-                    control={form.control}
-                    name="name.first"
-                    label="First Name"
-                    placeholder="First name"
-                  />
-                  <GenericFormField
-                    className="w-full"
-                    control={form.control}
-                    name="name.last"
-                    label="Last Name"
-                    placeholder="Last name"
-                  />
-
-                  <GenericFormField
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="Your email"
-                  />
-                </>
-              )}
-              <PhoneFormField
+              <CurrencyFormField
                 control={form.control}
-                name="phone"
-                label="phone *"
-                placeholder="Your phone number"
+                name="budget"
+                label="Budget *"
+                placeholder="Enter your budget"
               />
               {/* Submit Button */}
               <DialogFooter>
@@ -116,7 +84,7 @@ function EditAccountButton({ name, email, phone, onEdit, edit }) {
                   </Button>
                 </DialogClose>
                 <Button className="mt-3" type="submit">
-                  Save
+                  Send
                 </Button>
               </DialogFooter>
             </form>
@@ -127,4 +95,4 @@ function EditAccountButton({ name, email, phone, onEdit, edit }) {
   );
 }
 
-export default EditAccountButton;
+export default EditBudgetButton;

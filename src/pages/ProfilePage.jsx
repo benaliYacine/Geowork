@@ -45,9 +45,7 @@ export default function ProfilePage({ info, profileInfo, updateProfileInfo }) {
         <PageContainer>
           <SearchBar />
           <Profile
-            name={info.name}
-            wilaya={info.wilaya}
-            city={info.city}
+            expert={info}
             profileInfo={profileInfo}
             updateProfileInfo={updateProfileInfo}
             edit={true}

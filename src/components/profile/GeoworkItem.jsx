@@ -4,7 +4,7 @@ import Location from "@/components/common/Location";
 import DateRange from "@/components/common/DateRange";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import RatingDisplay from "@/components/expertList/RatingDisplay";
+import RatingDisplay from "@/components/common/RatingDisplay";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
@@ -51,7 +51,7 @@ const GeoworkItem = ({ job }) => {
             Job Description
           </h4>
           <CollapsibleTextContainer collapsedHeight="25px">
-            <p className="">{job.description}</p>
+            <p className="">{job.coverLetter}</p>
           </CollapsibleTextContainer>
         </div>
         <div>

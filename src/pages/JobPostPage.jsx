@@ -97,7 +97,7 @@ export default function JobPostPage() {
             </TabsList>
             <TabsContent value="viewJobPost">
               {/* Your existing JSX here, wrap it in a div if needed */}
-              <div className="flex flex-col space-y-4 mt-6 ">
+              <div className="flex flex-col space-y-4 mt-6 mb-6">
                 <JobPost
                   jobInfo={jobInfo}
                   updateJobInfo={updateJobInfo}
