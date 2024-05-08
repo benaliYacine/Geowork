@@ -7,6 +7,7 @@ import Heart from "react-heart";
 import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
+import EditBudgetButton from "@/components/chat/EditBudgetButton";
 function budgetRenderFootereRecieved(budgetEditState, isClient) {
   switch (budgetEditState) {
     case "waiting":
@@ -86,22 +87,119 @@ function budgetRenderFootereSent(budgetEditState, isClient) {
       return null;
   }
 }
-function renderFootereRecieved(invitationState) {
+function proposalRenderFootereRecieved(invitationState) {
   switch (invitationState) {
     case "waiting":
       return (
         <div className="flex justify-end w-full gap-2">
-          <AlertDialog
+          {/* <AlertDialog
             title="deny invitation"
             description="Are you sure you want to deny this job invitation"
             action={() => {}}
             actionButtonText="deny"
           >
             <Button variant="outline" size="sm">
+              send budget edit
+            </Button>
+          </AlertDialog> */}
+
+          <EditBudgetButton budget="" />
+
+          <AlertDialog
+            title="Hire expert"
+            description="Are you sure you want to Hire this expert"
+            action={() => {}}
+            actionButtonText="Hire"
+          >
+            <Button size="sm">Hire</Button>
+          </AlertDialog>
+        </div>
+      );
+    case "accepted":
+      return (
+        <div className="flex flex-col gap-2 w-full">
+          <p className=" text-md text-success w-full">
+            you have hired this expert.
+          </p>
+          <div className="flex justify-end w-full gap-2">
+            <CloseJobDialog />
+
+            <Button size="sm">Send Job Location</Button>
+          </div>
+        </div>
+      );
+
+    //makach diny el client maye9derch y deny proposal
+    // case "denied":
+    //   return (
+    //     <p className=" text-md text-destructive w-full">
+    //       you have denied this job invitation
+    //     </p>
+    //   );
+
+    default:
+      return null;
+  }
+}
+function proposalRenderFooterSent(invitationState) {
+  switch (invitationState) {
+    case "waiting":
+      return (
+        <div className="flex flex-col gap-2 w-full">
+          {/* hadi makech parceque makach deny */}
+          {/* <p className=" text-md text-warningDark w-full">no reply yet</p> */}
+          <div className="flex justify-end w-full gap-2">
+            <AlertDialog
+              title="Withraw Proposal"
+              description="Are you sure you want to Withraw your Proposal"
+              action={() => {}}
+              actionButtonText="Withraw"
+            >
+              <Button variant="outline" size="sm">
+                {/* Cancel  */}
+                Withraw Proposal
+              </Button>
+            </AlertDialog>
+
+            <Button size="sm">Edit</Button>
+          </div>
+        </div>
+      );
+    case "accepted":
+      return (
+        <p className=" text-md text-success w-full">
+          the client has hired you
+          {/* ask him to share the exact job location with you so you can... */}
+        </p>
+      );
+    // makach deny fel proposal
+    // case "denied":
+    //   return (
+    //     <p className=" text-md text-destructive w-full">
+    //       The expert has denied your job invitation
+    //     </p>
+    //   );
+
+    default:
+      return null;
+  }
+}
+function renderFootereRecieved(invitationState) {
+  switch (invitationState) {
+    case "waiting":
+      return (
+        <div className="flex justify-end w-full gap-2">
+          <EditBudgetButton budget="" />
+          <AlertDialog
+            title="deny invitation"
+            description="Are you sure you want to deny this job invitation"
+            action={() => {}}
+            actionButtonText="deny"
+          >
+            <Button variant="primary2" size="sm">
               Deny
             </Button>
           </AlertDialog>
-
           <AlertDialog
             title="accept invitation"
             description="Are you sure you want to accept this job invitation"
@@ -159,8 +257,8 @@ function renderFooterSent(invitationState) {
             the expert has accepted your job invitation
           </p>
           <div className="flex justify-end w-full gap-2">
-            <CloseJobDialog/>
-           
+            <CloseJobDialog />
+
             <Button size="sm">Send Job Location</Button>
           </div>
         </div>
@@ -205,6 +303,43 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             {isOwnMessage
               ? budgetRenderFootereSent(message.budgetEditState, isClient)
               : budgetRenderFootereRecieved(message.budgetEditState, isClient)}
+          </div>
+        );
+      case "proposal":
+        return (
+          <div className="flex flex-col justify-center items-start gap-2 p-2 w-[450px]">
+            <div className="flex justify-between items-center w-full">
+              <h3 className=" text-3xl text-black font-semibold">Proposal</h3>
+              {isOwnMessage ? (
+                <Button variant="primary2" size="sm">
+                  Open Proposal
+                </Button>
+              ) : (
+                <Button variant="primary2" size="sm">
+                  View Details
+                </Button>
+              )}
+            </div>
+            {isOwnMessage ? (
+              <p className=" text-md text-black ">
+                You have sent a proposal to this client
+              </p>
+            ) : (
+              <p className=" text-md text-black ">
+                You have recieved a proposal from this expert
+              </p>
+            )}
+            <p className="w-full p-4 bg-bg rounded-3xl">
+              {message.coverLetter}
+            </p>
+            <div className="flex-grow mb-2">
+              <p className="text-md text-primary font-semibold ">
+                {message.budget}
+              </p>
+            </div>
+            {isOwnMessage
+              ? proposalRenderFooterSent(message.state)
+              : proposalRenderFootereRecieved(message.state)}
           </div>
         );
       case "invitation":
@@ -293,7 +428,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
           isOwnMessage
             ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
             : "bg-white rounded-e-3xl rounded-t-3xl"
-        }  ${(message.type == "invitation" || message.type == "budgetEdit") && "bg-white"} `}
+        }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit") && "bg-white"} `}
       >
         {renderMessageContent(message)}
       </div>
