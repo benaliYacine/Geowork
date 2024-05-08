@@ -32,8 +32,8 @@ import { Input } from "@/components/ui/input";
 import { wilayas, cities } from "@/data/wilayasCities";
 // Update your form schema to include the wilaya selection
 const formSchema = z.object({
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+  wilaya: z.string().min(1, "Please select a wilaya."),
+  city: z.string().min(1, "Please select a city."),
   role: z.enum(["client", "expert"], {
     required_error: "You must select a role.",
   }),
@@ -45,6 +45,7 @@ export default function InputWilayaCity() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       wilaya: "alger",
+      city: "",
     },
   });
   const [loading, setLoading] = useState(true);
@@ -76,7 +77,7 @@ export default function InputWilayaCity() {
     );
     setFilteredCities(citiesForWilaya);
     // Reset city field if wilaya changes
-    form.setValue("city", undefined);
+    form.setValue("city", "");
   }, [form.watch("wilaya")]);
 
   const onSubmit = async (values) => {
@@ -113,26 +114,26 @@ export default function InputWilayaCity() {
       </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-            <ComboBoxComponent
-              control={form.control}
-              name="wilaya"
-              label="Wilaya"
-              itemList={wilayas}
-              placeholder="Select wilaya"
-            />
+          <ComboBoxComponent
+            control={form.control}
+            name="wilaya"
+            label="Wilaya"
+            itemList={wilayas}
+            placeholder="Select wilaya"
+          />
 
-            <ComboBoxComponent
-              control={form.control}
-              name="city"
-              label="City"
-              itemList={filteredCities}
-              placeholder="Select a city"
-            />
+          <ComboBoxComponent
+            control={form.control}
+            name="city"
+            label="City"
+            itemList={filteredCities}
+            placeholder="Select a city"
+          />
 
-            <RoleFormField control={form.control} />
-            <Button type="submit" className="w-full mt-4">
-              Continue
-            </Button>
+          <RoleFormField control={form.control} />
+          <Button type="submit" className="w-full mt-4">
+            Continue
+          </Button>
         </form>
       </Form>
     </div>

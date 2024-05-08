@@ -13,8 +13,8 @@ import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 // Define your form schema
 const formSchema = z.object({
   streetAdress: z.string().min(1, "Street Adress is required"),
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }),
+  wilaya: z.string().min(1, "Please select a wilaya."),
+  city: z.string().min(1, "Please select a city."),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -45,7 +45,6 @@ function EditAccountButton({ streetAdress, wilaya, city, onEdit }) {
     },
   });
 
-  
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
     const citiesForWilaya = cities.filter(
@@ -58,7 +57,7 @@ function EditAccountButton({ streetAdress, wilaya, city, onEdit }) {
 
   const onSubmit = async (values) => {
     console.log(values);
-    onEdit(values.streetAdress,values.wilaya,values.city);
+    onEdit(values.streetAdress, values.wilaya, values.city);
     setDialogOpen(false);
   };
 
@@ -82,7 +81,7 @@ function EditAccountButton({ streetAdress, wilaya, city, onEdit }) {
                   {/* Make changes to your profile here. Click save when you're done. */}
                 </DialogDescription>
               </DialogHeader>
-              
+
               <ComboBoxComponent
                 control={form.control}
                 name="wilaya"
