@@ -36,6 +36,6 @@ router.patch('/changeNameClient/:id', middlewars.isAccessible, ClientCtrl.change
 router.patch('/changeEmailClient/:id', middlewars.isAccessible, ClientCtrl.changeEmailClient);
 router.patch('/changeDescriptionClient/:id', middlewars.isAccessible, ClientCtrl.changeDescriptionClient);
 router.patch('/changeAlocationClient/:id', middlewars.isAccessible, ClientCtrl.changeAlocationClient); */
-router.patch('/changeDetailleClient/:id', middlewars.isAccessible, ClientCtrl.changeDetailleClient);
-router.delete('/deleteClient/:id', middlewars.isAccessible, ClientCtrl.deleteClient);
+router.patch('/changeDetailleClient', ClientCtrl.changeDetailleClient);
+router.delete('/deleteClient', ClientCtrl.deleteClient);
 module.exports = router //dir export lel request

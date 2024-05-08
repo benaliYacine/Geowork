@@ -268,10 +268,21 @@ app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) =>
 
 app.get('/savedJobs', async (req, res) => {
     if (req.session.user_type == "Professionnel") {
-        let pro = (await Professionnel.findById(req.session.user_id)).populated('profile.savedJobs');
+        let pro = await Professionnel.findById(req.session.user_id).populate('profile.savedJobs').lean();
+        console.log("pro", pro);
         let jobs = pro.profile.savedJobs;
-        jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => (i.url)) }))
-        console.log("jobs", jobs);
+        jobs = jobs.map((j) => ({ ...j, id: j._id,heart:true, images: j.images.map((i) => (i.url)) }))
+        console.log(jobs);
+        res.json(jobs);
+    }
+})
+app.get('/savedExperts', async (req, res) => {
+    if (req.session.user_type == "Client") {
+        let cli = await Client.findById(req.session.user_id).populate('savedProfessionnel').lean();
+        console.log("cli", cli);
+        let pro = cli.savedProfessionnel;
+        console.log(pro);
+        res.json(pro);
     }
 })
 app.get('/jobPostPage/:id', async (req, res) => {

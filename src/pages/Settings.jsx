@@ -71,18 +71,33 @@ export default function Settings() {
   }, []);
   // Function to update user information
   const updateUserInfo = async (newInfo) => {
+    if(IsExpert){
     const response = await axios.patch(
       "/api/professionnels/changeDetailleProfessionnel",
       newInfo
     );
     console.log(response.data);
+  }else{
+    const response = await axios.patch(
+      "/api/clients/changeDetailleClient",
+      newInfo
+    );
+    console.log(response.data);
+  }
     setUserInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
   };
   const closeAccount = async () => {
     console.log("delete");
-    let response = await axios.delete(
+    let response
+    if(IsExpert){
+    response = await axios.delete(
       "/api/professionnels/deleteProfessionnel"
     );
+  }else{
+    response = await axios.delete(
+      "/api/clients/deleteClient"
+    );
+  }
     console.log(response.data);
     response = await axios.post("/logout");
     if (response.data.redirectUrl) navigate(response.data.redirectUrl);

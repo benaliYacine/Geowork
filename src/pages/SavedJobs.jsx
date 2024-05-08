@@ -15,6 +15,7 @@ export default function SavedJobs() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get('/savedJobs');
+      console.log(response.data);
       if (response.data) {
         setjobs(response.data);
       }

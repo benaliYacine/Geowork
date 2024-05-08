@@ -11,7 +11,7 @@ export default function JobItem({ job }) {
   const [isClick, setClick] = useState(false);
   useEffect(()=>{
     setClick(job.heart);
-  },[job.heart])
+  },[job.heart]);
     const heartClick = async () => {
       let response;
       console.log(job);
