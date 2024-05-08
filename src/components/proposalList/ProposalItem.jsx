@@ -40,7 +40,7 @@ export default function ProposalItem({ proposal }) {
             </div>
           </div>
 
-          <div className=" mb-0 ml-auto sm:ml-0 sm:mb-auto justify-center items-center space-x-2">
+          <div className="ml-auto sm:ml-0 sm:mb-auto flex gap-4 justify-center items-center">
             <Button variant="outline" size="sm">
               Message
             </Button>
