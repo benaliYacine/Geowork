@@ -189,17 +189,17 @@ function renderFootereRecieved(invitationState) {
     case "waiting":
       return (
         <div className="flex justify-end w-full gap-2">
+          <EditBudgetButton budget="" />
           <AlertDialog
             title="deny invitation"
             description="Are you sure you want to deny this job invitation"
             action={() => {}}
             actionButtonText="deny"
           >
-            <Button variant="outline" size="sm">
+            <Button variant="primary2" size="sm">
               Deny
             </Button>
           </AlertDialog>
-
           <AlertDialog
             title="accept invitation"
             description="Are you sure you want to accept this job invitation"

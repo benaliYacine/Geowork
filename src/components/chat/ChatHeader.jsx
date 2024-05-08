@@ -52,9 +52,9 @@ function ChatHeader({
           <p className="text-sm text-gray-600">{formatLastSeen(lastSeen)}</p>
         </div>
       </div>
-      <EditBudgetButton
+      {/* <EditBudgetButton
         budget=""
-      />
+      /> */}
      
     </div>
   );
