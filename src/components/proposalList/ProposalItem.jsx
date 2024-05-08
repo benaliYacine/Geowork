@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import ProposalDrawer from "@/components/proposalList/ProposalDrawer";
 import { getInitials } from "@/lib/utils";
+import AlertDialog from "@/components/common/AlertDialog";
 
 import { useState } from "react";
 export default function ProposalItem({ proposal }) {
@@ -43,7 +44,14 @@ export default function ProposalItem({ proposal }) {
             <Button variant="outline" size="sm">
               Message
             </Button>
-            <Button size="sm">Hire</Button>
+            <AlertDialog
+              title="Hire expert"
+              description="Are you sure you want to Hire this expert"
+              action={() => {}}
+              actionButtonText="Hire"
+            >
+              <Button size="sm">Hire</Button>
+            </AlertDialog>
           </div>
         </div>
         <p className="text-md text-primary font-semibold ">{proposal.budget}</p>

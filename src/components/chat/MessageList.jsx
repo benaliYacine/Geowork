@@ -8,6 +8,58 @@ const messages = [
     id: 0,
     senderName: "Alice",
     message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "waiting",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
+    id: 0,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "waiting",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 0,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "accepted",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
+    id: 0,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "accepted",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 0,
+    senderName: "Alice",
+    message: {
       type: "budgetEdit",
       from: "DZD  5, 500",
       to: "DZD  6, 500",
