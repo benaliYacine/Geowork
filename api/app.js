@@ -175,11 +175,11 @@ app.post('/login', async (req, res) => {
     if (!foundUser) {
         foundUser = await Client.findAndValidate(email, password);
         if (foundUser) {
-            generateToken(foundUser._id);
+            //generateToken(foundUser._id);
             if (req.session) {
                 req.session.user_id = foundUser._id;
                 req.session.user_type = 'Client';
-                await req.session.save();
+                req.session.save();
                 //console.log(req.session.user_id);
                 //res.json('hello');
                 if (foundUser.verified)
@@ -191,12 +191,12 @@ app.post('/login', async (req, res) => {
             res.status(401).json({ message: 'email or password incorrect' });
         }
     } else {
-        generateToken(foundUser._id);
+        //generateToken(foundUser._id);
         if (req.session) {
             req.session.user_id = foundUser._id;
             req.session.user_type = 'Professionnel';
             req.session.save();
-            res.redirect('/dashboard');
+            res.json({ redirectUrl: '/dashboard' });
         } else res.send('err');
     }
 });
@@ -269,12 +269,36 @@ app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) =>
 
 app.get('/jobPostPage/:id', async (req, res) => {
     const { id } = req.params;
-    const foundJob = await Job.findById(id);
-    if (foundJob)
-        res.json(foundJob);
-    else
+    let foundJob = await Job.findById(id);
+    if (foundJob) {
+        if (req.session.user_type == 'Professionnel') {
+            const pro = await Professionnel.findById(req.session.user_id);
+            if (pro) {
+                const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+                if (savedJobIds.length > 0) {
+                    console.log(savedJobIds);
+                    foundJob.heart = savedJobIds.includes(foundJob.id.toString());
+                    console.log(foundJob.heart);
+                } else {
+                    foundJob.heart = false;
+                }
+            } else {
+                foundJob.heart = false; // User not found
+            }
+        } else {
+            foundJob.heart = false; // User is not a professional
+        }
+        console.log("foundJob.heart", foundJob.heart);
+        console.log(foundJob)
+        const job = { ...foundJob };
+        job._doc.heart=foundJob.heart;
+        console.log(job);
+        res.json(job._doc);
+    } else {
         res.status(400).json({ message: "Invalid Job Id" });
-})
+    }
+});
+
 app.get('/jobSlides', middlewars.requireLoginClient, async (req, res) => {
     res.json();
 })
@@ -310,17 +334,24 @@ app.get('/jobsSearch', async (req, res) => {
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria)
         // Effectuer la recherche dans la base de données
-        const jobs = await Job.find(searchCriteria);
+        let jobs = await Job.find(searchCriteria);
         console.log(jobs)
         if (req.session.user_type == 'Professionnel') {
             const pro = await Professionnel.findById(req.session.user_id);
-            const savedJobIds = pro.profile.savedjobs.map(j => j.toString()); // Assuming _id is an ObjectId
-            jobs = await Promise.all(jobs.map(async (j) => {
-                const heart = savedJobIds.includes(j._id.toString());
-                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
-            }));
+            const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+            if (savedJobIds)
+                jobs = await Promise.all(jobs.map(async (j) => {
+                    const heart = savedJobIds.includes(j._id.toString());
+                    return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                }));
+            else
+                jobs = await Promise.all(jobs.map(async (j) => {
+                    const heart = savedJobIds.includes(j._id.toString());
+                    return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                }));
+
         }
-        console.log("job+heart",jobs);
+        console.log("job+heart", jobs);
         // Retourner les résultats de la recherche
         res.json(jobs);
     } catch (error) {
@@ -353,7 +384,7 @@ app.get('/expertsSearch', async (req, res) => {
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria)
         // Effectuer la recherche dans la base de données
-        const professionnels = await Professionnel.find(searchCriteria);
+        let professionnels = await Professionnel.find(searchCriteria);
         console.log(professionnels)
         // Retourner les résultats de la recherche
         if (req.session.user_type == 'Client') {
@@ -364,7 +395,7 @@ app.get('/expertsSearch', async (req, res) => {
                 return { ...p.toObject(), heart }; // Convert toObject() if p is a mongoose document
             }));
         }
-        console.log("expert+heart",professionnels);
+        console.log("expert+heart", professionnels);
         res.json(professionnels);
     } catch (error) {
         console.error(error);

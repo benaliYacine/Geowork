@@ -32,7 +32,7 @@ export default function Settings() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [IsExpert, setIsExpert] = useState(false);
-  
+
   // TODO: khdem b satate hada : rodo false ida kan l user dayer sign up b google w true sinon
   const [edit, setEdit] = useState(true);
 
@@ -44,16 +44,25 @@ export default function Settings() {
         navigate(response.data.redirectUrl);
       } else setLoading(false);
       if (response.data) {
-        const info = {
+        let info = {
           name: response.data.name,
           email: response.data.email,
-          streetAdress: response.data.profile.streetAdress,
           wilaya: response.data.wilaya,
           city: response.data.city,
-          phone: response.data.profile.phone,
           type: "profile" in response.data ? "Expert" : "Client",
         };
-        if (info.type == "Expert") setIsExpert(true);
+        console.log("ani hnaaaaaaaaa", response.data.googleId);
+        if (response.data.googleId) {
+          console.log("ani hnaaaaaaaaa");
+          setEdit(false);
+        }
+        if (info.type == "Expert") {
+          setIsExpert(true);
+          info.streetAdress = response.data.profile.streetAdress;
+          info.phone = response.data.profile.phone;
+          setUserInfo(info);
+        }
+
         else setIsExpert(false);
         setUserInfo(info);
       }

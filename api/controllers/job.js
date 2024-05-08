@@ -239,7 +239,7 @@ exports.addSavedJob = async (req, res) => {
     try {
         const { id } = req.body;
         const job = await Job.findById(id);
-        const pro = await Professionnel.findById(req.session.user_id);
+        let pro = await Professionnel.findById(req.session.user_id);
         pro.profile.savedJobs.push(job._id);
         const savedPro = await pro.save();
         return res.status(201).json(savedPro);
@@ -249,10 +249,12 @@ exports.addSavedJob = async (req, res) => {
 }
 exports.suppSavedJob = async (req, res) => {
     try {
+
         const { id } = req.body;
-        const Job = await Job.findById(id);
-        const pro = await Professionnel.findById(req.session.user_id);
-        pro.profile.savedJobs = pro.profile.savedJobs.filter((j) => (j != job._id_));
+        const job = await Job.findById(id);
+        console.log("fsdkakjkkkkk")
+        let pro = await Professionnel.findById(req.session.user_id);
+        pro.profile.savedJobs = pro.profile.savedJobs.filter((j) => (j.toString() != job._id.toString()));
         const savedPro = await pro.save();
         return res.status(201).json(savedPro);
     } catch (error) {

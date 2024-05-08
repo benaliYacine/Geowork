@@ -14,13 +14,13 @@ import { React, useState, useEffect } from "react";
 import Profile from "@/components/profile/Profile";
 import axios from 'axios';
 import { ScrollArea } from "@/components/ui/scroll-area";
-export default function ProfileDrawer({ id }) {
+export default function ProfileDrawer({ expert }) {
   const [info, setInfo] = useState({})
   const [profileInfo, setProfileInfo] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      console.log("iddddddddddd", id);
-      const response = await axios.get(`/expertInfo/${id}`);
+      console.log("iddddddddddd", expert.id);
+      const response = await axios.get(`/expertInfo/${expert.id}`);
       console.log("profileDrawer", response.data);
       if (response.data) {
         setInfo(response.data)

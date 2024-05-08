@@ -16,7 +16,7 @@ export default function ExpertItem({ expert }) {
     const heartClick = async () => {
       let response;
       setClick(!isClick);
-      if (isClick) {
+      if (!isClick) {
         response = await axios.patch('/api/professionnels/addSavedProfessionnel', { id: expert.id });
         console.log(response.data);
       } else {
@@ -36,7 +36,7 @@ export default function ExpertItem({ expert }) {
             </Avatar>
           </div>
           <div className="flex-grow mb-2">
-          <ProfileDrawer id={expert.id} />
+          <ProfileDrawer expert={expert} />
 
             <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
             <div className="mb-1">

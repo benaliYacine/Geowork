@@ -80,7 +80,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/findWork" element={<FindWork />} />
           <Route path="/submitProposal" element={<SubmitProposal />} />
-          <Route path="/job" element={<Job />} />
+          <Route path="/job/:id" element={<Job />} />
           <Route path="/maps" element={<Maps />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
