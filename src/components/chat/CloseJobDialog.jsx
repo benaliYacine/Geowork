@@ -11,6 +11,7 @@ import { Form } from "@/components/ui/form";
 import RatingInput from "@/components/common/RatingInput";
 // import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
 import TextareaFormField from "@/components/formFields/TextareaFormField";
+import CloseRadioFormField from "@/components/chat/CloseRadioFormField";
 // Define your form schema
 const formSchema = z.object({
   description: z
@@ -21,6 +22,9 @@ const formSchema = z.object({
     .max(3000, {
       message: "Description must not be longer than 3000 characters.",
     }),
+  type: z.enum(["cancel", "close"], {
+    required_error: "You must select a type.",
+  }),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -45,15 +49,18 @@ function CloseJobDialog({}) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      type: "close",
       // budget: budget,
     },
   });
   const onSubmit = async (values) => {
     console.log(values);
     console.log("rating:", rating);
-    onEdit(values.budget);
     setDialogOpen(false);
   };
+
+  // Watch the 'type' field from the form
+  const type = form.watch("type");
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -67,25 +74,37 @@ function CloseJobDialog({}) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               {/* budget */}
-              <DialogHeader>
+              <DialogHeader className="flex flex-col gap-2">
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
                   Close Job
                 </DialogTitle>
-                <DialogDescription>
-                  if the job is complete, you can close it to notify us. Please
-                  take a moment to rate and review the expert, this can help
-                  future clients.
-                </DialogDescription>
+                <CloseRadioFormField control={form.control} />
+                {type == "close" ? (
+                  <DialogDescription>
+                    if the job is complete, you can close it to notify us.
+                    Please take a moment to rate and review the expert, this can
+                    help future clients.
+                  </DialogDescription>
+                ) : (
+                  <DialogDescription>
+                    if you want to close the job even if it was not done by the
+                    expert. Please take a moment to share the reason of that,
+                    this can help future clients.
+                  </DialogDescription>
+                )}
               </DialogHeader>
-              <div className=" w-full flex justify-center items-center">
-                <RatingInput rating={rating} setRating={setRating} />
-              </div>
 
+              {type == "close" && (
+                <div className=" w-full flex justify-center items-center">
+                  <RatingInput rating={rating} setRating={setRating} />
+                </div>
+              )}
               <TextareaFormField
                 control={form.control}
                 name="description"
                 label=""
                 placeholder=""
+                height="200px"
               />
               {/* Submit Button */}
               <DialogFooter>
