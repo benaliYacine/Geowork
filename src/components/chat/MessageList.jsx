@@ -18,7 +18,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 1,
     senderName: "Alice",
     message: {
       type: "proposal",
@@ -31,7 +31,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 2,
     senderName: "Alice",
     message: {
       type: "proposal",
@@ -44,7 +44,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 3,
     senderName: "Alice",
     message: {
       type: "proposal",
@@ -57,7 +57,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 4,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -69,7 +69,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 5,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -81,7 +81,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 6,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -93,7 +93,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 7,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -105,7 +105,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 8,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -117,7 +117,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 9,
     senderName: "Alice",
     message: {
       type: "budgetEdit",
@@ -129,7 +129,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 10,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -148,7 +148,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 12,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -167,7 +167,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 13,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -186,7 +186,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 14,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -205,7 +205,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 0,
+    id: 15,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -224,7 +224,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 0,
+    id: 16,
     senderName: "Alice",
     message: {
       type: "invitation",
@@ -243,7 +243,7 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 1,
+    id: 17,
     senderName: "Alice",
     message: {
       type: "text",
@@ -254,14 +254,14 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 2,
+    id: 19,
     senderName: "User",
     message: { type: "text", content: "I'm good, thanks! And you?" },
     timestamp: "10:01 AM",
     isOwnMessage: true,
   },
   {
-    id: 3,
+    id: 20,
     senderName: "Alice",
     message: {
       type: "image",
@@ -272,7 +272,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 4,
+    id: 21,
     senderName: "User",
     message: {
       type: "file",
@@ -283,21 +283,21 @@ const messages = [
     isOwnMessage: true,
   },
   {
-    id: 1,
+    id: 22,
     senderName: "Alice",
     message: { type: "text", content: "Hey, how are you?" },
     timestamp: "10:00 AM",
     isOwnMessage: false,
   },
   {
-    id: 2,
+    id: 23,
     senderName: "User",
     message: { type: "text", content: "I'm good, thanks! And you?" },
     timestamp: "10:01 AM",
     isOwnMessage: true,
   },
   {
-    id: 3,
+    id: 24,
     senderName: "Alice",
     message: {
       type: "image",
@@ -308,7 +308,7 @@ const messages = [
     isOwnMessage: false,
   },
   {
-    id: 4,
+    id: 25,
     senderName: "User",
     message: {
       type: "file",
