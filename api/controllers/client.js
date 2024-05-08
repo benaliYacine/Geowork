@@ -133,7 +133,7 @@ exports.changeAlocationClient = async (req, res) => {
 exports.changeDetailleClient = async (req, res) => {
     try {
         //id=req.session.user_id;
-        const { id } = req.params;
+        const  id  = req.session.user_id;
         if (req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, 12);
         }
@@ -147,7 +147,7 @@ exports.changeDetailleClient = async (req, res) => {
 exports.deleteClient = async (req, res) => {
     try {
         //id=req.session.user_id;
-        const { id } = req.params;
+        const  id  = req.session.user_id;
         const deletedClient = await Client.findByIdAndDelete(id);
         return res.status(201).json(deletedClient);
     } catch (err) {
