@@ -7,14 +7,17 @@ import Category from "@/components/common/Category";
 import JobPostDrawer from "@/components/jobList/JobPostDrawer";
 import Heart from "react-heart";
 export default function JobItem({ job }) {
-  const [isClick, setClick] = useState(job.heart);
-  
+  console.log("job.heart",job.heart);
+  const [isClick, setClick] = useState(false);
+  useEffect(()=>{
+    setClick(job.heart);
+  },[job.heart])
     const heartClick = async () => {
       let response;
       console.log(job);
       console.log(isClick);
       setClick(!isClick);
-      if (isClick) {
+      if (!isClick) {
         response = await axios.patch('/api/jobs/addSavedJob', { id: job.id });
         console.log(response.data);
       } else {

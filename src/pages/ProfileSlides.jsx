@@ -446,9 +446,7 @@ const ProfileSlides = () => {
           </Button>
         </div>
         <Profile
-          name={expert.name}
-          wilaya={expert.wilaya}
-          city={expert.city}
+          expert={expert}
           profileInfo={profileInfo}
           photoProfileSrc={photoProfileSrc}
           updateProfileInfo={updateProfileInfo}

@@ -1,4 +1,5 @@
 const Professionnel = require('../models/professionnel');
+const Client = require('../models/client');
 const { cloudinary } = require('../cloudinary/index');
 const bcrypt = require('bcrypt');
 const Token = require('../models/token');
@@ -208,7 +209,7 @@ exports.changeAlocationProfessionnel = async (req, res) => {
 //hado 5 li ta7t b3d mavirifithmch
 exports.addSavedProfessionnel = async (req, res) => {
     const {id} = req.body;
-    const cli=await Client.findById(req.session.user_id);
+    let cli=await Client.findById(req.session.user_id);
     cli.savedProfessionnel.push(id);
     const saveCli=await cli.save();
     res.json(saveCli);
@@ -216,7 +217,7 @@ exports.addSavedProfessionnel = async (req, res) => {
 
 exports.suppSavedProfessionnel = async (req, res) => {
     const {id} = req.body;
-    const cli=await Client.findById(req.session.user_id);
+    let cli=await Client.findById(req.session.user_id);
     cli.savedProfessionnel=cli.savedProfessionnel.filter((p)=>(p!=id));
     const saveCli=await cli.save();
     res.json(saveCli);

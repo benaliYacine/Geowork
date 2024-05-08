@@ -1,10 +1,13 @@
 import { React, useState, useEffect, useRef } from "react";
+import axios from 'axios';
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Job from "@/components/Job/Job";
 import SearchBar from "@/components/searchBar/SearchBar";
+import { useParams } from 'react-router-dom';
 export default function Jobs() {
+  
   const [jobInfo, setJobInfo] = useState({
     title: "na7ihom memba3d ",
     category: "education_and_tutoring",
@@ -20,6 +23,17 @@ export default function Jobs() {
       "https://via.placeholder.com/300.png/09f/fff",
     ],
   });
+  const { id } = useParams()
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await axios.get(`/jobPostPage/${id}`);
+      response.data.id=response.data._id;
+      response.data.images=response.data.images.map((i)=>(i.url));
+      console.log('response.data',response.data);
+      setJobInfo(response.data)
+    }
+    fetchData();
+  },[])
 
   return (
     <>

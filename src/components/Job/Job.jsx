@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import axios from 'axios';
 import { React, useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import JobPost from "@/components/jobPost/JobPost";
@@ -9,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AlertMessage from "@/components/common/AlertMessage";
 
 function Job({ jobInfo, apply = false }) {
+  console.log("heart",jobInfo.heart)
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
@@ -25,6 +27,22 @@ function Job({ jobInfo, apply = false }) {
     invitesNumber: "0",
     hiredNumber: "0",
   });
+  useEffect(()=>{
+    setIsSaved(jobInfo.heart);
+  },[jobInfo.heart])
+  const heartClick = async () => {
+    let response;
+    console.log(jobInfo);
+    console.log(isSaved);
+    setIsSaved(!isSaved);
+    if (!isSaved) {
+      response = await axios.patch('/api/jobs/addSavedJob', { id: jobInfo.id });
+      console.log(response.data);
+    } else {
+      response = await axios.patch('/api/jobs/suppSavedJob', { id: jobInfo.id });
+      console.log(response.data);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -46,12 +64,13 @@ function Job({ jobInfo, apply = false }) {
           {apply ? (
             <div className="flex flex-col gap-3">
               {/* TODO: khdem el apply */}
-              <Button onClick={() => {}}>Apply Now</Button>
+              <Button onClick={() => { }}>Apply Now</Button>
               {/* TODO: khdem el save */}
               <Button
-                onClick={() => {
-                  setIsSaved(!isSaved);
-                }}
+                onClick={
+
+                  heartClick
+                }
                 variant="outline"
               >
                 <Heart className={isSaved ? "fill-primary mr-2" : "mr-2"} />

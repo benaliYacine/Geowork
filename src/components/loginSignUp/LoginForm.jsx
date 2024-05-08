@@ -39,7 +39,7 @@ export default function LoginForm() {
     const checkLoggedIn = async () => {
       try {
         const response = await axios.get("/login");
-        console.log(response.data.redirectUrl);
+        
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
         } else setLoading(false);
@@ -60,6 +60,7 @@ export default function LoginForm() {
     try {
       const response = await axios.post("/login", values);
       if (response.data.redirectUrl) {
+        console.log("prob Login",response.data.redirectUrl)
         navigate(response.data.redirectUrl);
       }
     } catch (error) {
