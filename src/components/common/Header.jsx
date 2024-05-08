@@ -162,6 +162,7 @@ export default function Header({ logedIn = true }) {
       let profileIcon = {};
       if (response.data) {
         profileIcon = response.data;
+        console.log("profileIcon",profileIcon);
       }
       setProfileIcon(profileIcon);
     };

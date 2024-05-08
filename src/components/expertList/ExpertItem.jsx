@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import RatingDisplay from "@/components/common/RatingDisplay";
 import Location from "@/components/common/Location";
@@ -7,9 +8,23 @@ import { Separator } from "@/components/ui/separator";
 import ProfileDrawer from "@/components/expertList/ProfileDrawer";
 import { getInitials } from "@/lib/utils";
 import Heart from "react-heart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 export default function ExpertItem({ expert }) {
-  const [isClick, setClick] = useState(false);
+  const [isClick, setClick] = useState(expert.heart);
+  
+    const heartClick = async () => {
+      let response;
+      setClick(!isClick);
+      if (isClick) {
+        response = await axios.patch('/api/professionnels/addSavedProfessionnel', { id: expert.id });
+        console.log(response.data);
+      } else {
+        response = await axios.patch('/api/professionnels/suppSavedProfessionnel', { id: expert.id });
+        console.log(response.data);
+      }
+    };
+
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">
@@ -21,7 +36,7 @@ export default function ExpertItem({ expert }) {
             </Avatar>
           </div>
           <div className="flex-grow mb-2">
-            <ProfileDrawer expert={expert} />
+          <ProfileDrawer id={expert.id} />
 
             <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
             <div className="mb-1">
@@ -34,7 +49,7 @@ export default function ExpertItem({ expert }) {
           <SendInvitation expert={expert} />
           <div className="w-7 h-7">
             <Heart
-              onClick={() => setClick(!isClick)}
+              onClick={heartClick}
               className="w-full h-full"
               isActive={isClick}
               animationScale={1.25}

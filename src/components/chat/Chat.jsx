@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client"
+import { v4 as uuidv4 } from 'uuid';
 
 // Example data (replace with actual data fetching from the backend)
 /* const contact = {
@@ -17,16 +18,20 @@ import io from "socket.io-client"
 
 export default function Chat() {
   const [loading, setLoading] = useState(true);
-  const [contact, setContact] = useState({});
+  const [contact, setContact] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [message, setMessage] = useState('');
+  const [refrechContacts, setRefrechContacts] = useState(false);
+  const [message, setMessage] = useState(null);
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
+  let peoples=[];
   //const [ws, setWs] = useState(null);
   const [socket, setSocket] = useState(null)
   let { id } = useParams();
   if (!id)
     id = 1;
+
+
 
   useEffect(() => {
     const newSocket = io('ws://localhost:3000');
@@ -36,12 +41,32 @@ export default function Chat() {
       newSocket.disconnect();
     }
   }, []);
+  //send Message
+  useEffect(() => {
+    console.log("message", message);
+    if (socket === null) return;
+    socket.emit('sendMessage', { ...message });
+
+  }, [message])
   //receive Message
   useEffect(() => {
     if (socket === null) return;
     socket.on("getMessage", (res) => {
-      res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`
+      //setRefrechContacts(!refrechContacts);
+      //setContacts([...contacts]);
+      console.log("contacts", contacts);
+      /*
+      let newContact = contacts.filter((contact) => contact.id == res.id)[0];
+      console.log(newContact);
+      console.log(res.message.content);
+      newContact.message = res.message.content;
+      newContact.time = res.timestamp;
+      console.log([...contacts.filter((contact) => contact.id !== res.senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
+      setContacts([...contacts.filter((contact) => contact.id !== res.senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time))); */
       if (id !== res.senderId) return;
+      res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`
+      res.id = uuidv4();
+      console.log("res", res);
       setMessages((prev) => [...prev, res]);
     })
     return () => {
@@ -49,30 +74,99 @@ export default function Chat() {
     }
   }, [socket, id]);
   // add online users
+
+
+  /*     useEffect(() => {
+        console.log("refrechContacts", contacts);
+        console.log(messages[messages.length - 1]);
+        let newContact = contacts.filter((contact) => contact.id == messages[messages.length - 1].senderId)[0];
+        if(newContact){
+        newContact.message = messages[messages.length - 1].message.content;
+        //newContact.time = date.now();
+        console.log("newContact",newContact)
+        console.log("contactssss",[...contacts.filter((contact) => contact.id != messages[messages.length - 1].senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)))
+        setContacts([...contacts.filter((contact) => contact.id !== messages[messages.length - 1].senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
+        }
+      }, [refrechContacts])
+   */
+
+  // Placeholder for data fetching and state management
+
+  useEffect(() => {
+
+
+    const fetchData = async () => {
+      try {
+
+        const response = await axios.get(`/messages/${id}`);
+        if (response.data.redirectUrl) {
+          navigate(response.data.redirectUrl);
+        } else
+          setLoading(false);
+
+
+        if (response.data) {
+
+          const newContact = {
+            name: response.data.name.first + ' ' + response.data.name.last,
+            //avatarUrl:response.data.photoProfile.url,
+          }
+
+
+          let contact = response.data.contacts.filter((contact) => contact.contactId == response.data.user_id)[0];
+
+
+          let messages = [];
+          contact.messages.forEach((m) => {
+            messages.push({
+              id: m._id,
+              senderName: m.senderId == id ? 'Alice' : 'User',
+              message: m.message,
+              isOwnMessage: m.senderId == id ? false : true,
+              timestamp: `${new Date(m.time).getHours()}:${new Date(m.time).getMinutes()}`
+            });
+          });
+
+          setMessages(messages);
+          setContact(newContact);
+          /* if (response.data.contacts) {
+            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
+            console.log("Contactoooo", contact);
+          } else
+            console.log("adsfjmadfsk"); */
+
+
+
+          //setName(response.data.name.first);
+        }
+
+      } catch (error) {
+        console.error(error);
+        // Handle error here, if needed
+      }
+    };
+
+    fetchData();
+  }, [id,navigate]);
+
   useEffect(() => {
     if (socket === null) return;
     socket.emit("addNewUser");
     socket.on("getOnlineUsers", (res) => {
+      
       showPeople(res);
     })
     return () => {
       socket.off("getOnlineUsers");
     }
-  }, [socket])
-  //send Message
-  useEffect(() => {
-    if (socket === null) return;
-    socket.emit('sendMessage', { ...message });
-
-  }, [message])
-
-
-  // Placeholder for data fetching and state management
+  }, [socket]);
 
   const showPeople = async (people) => {
     const response = await axios.post('/contact', { people });
-
+    console.log("rani hna");
+    console.log(response.data);
     if (response.data) {
+      peoples=response.data;
       setContacts(response.data);
       if (id == 1) {
         navigate(`/messages/${response.data[0].id}`);
@@ -108,12 +202,16 @@ export default function Chat() {
     const newContact = contacts.filter((contact) => contact.id == id)[0];
     newContact.message = newMessage.message.content;
     newContact.time = newMessage.timestamp;
-
+    console.log("yawContact", contacts);
 
     setContacts([...contacts.filter((contact) => contact.id !== id), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
     newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`
     setMessage(newMessage);
-    setMessages([...messages, newMessage]);
+    let Nmessage = { ...newMessage };
+    Nmessage.id = uuidv4();
+    console.log()
+    setMessages([...messages, Nmessage]);
+    console.log("yawContact", contacts);
 
   }
 
@@ -152,63 +250,7 @@ export default function Chat() {
     // TODO: Implement file attachment handling
   };
 
-  useEffect(() => {
 
-
-    const fetchData = async () => {
-      try {
-
-        const response = await axios.get(`/messages/${id}`);
-        if (response.data.redirectUrl) {
-          navigate(response.data.redirectUrl);
-        } else
-          setLoading(false);
-
-
-        if (response.data) {
-
-          const newContact = {
-            name: response.data.name.first + ' ' + response.data.name.last,
-            //avatarUrl:response.data.photoProfile.url,
-          }
-
-
-          const contact = response.data.contacts.filter((contact) => contact.contactId == response.data.user_id)[0];
-
-
-          let messages = [];
-          contact.messages.forEach((m) => {
-            messages.push({
-              id: m._id,
-              senderName: m.senderId == id ? 'Alice' : 'User',
-              message: m.message,
-              isOwnMessage: m.senderId == id ? false : true,
-              timestamp: `${new Date(m.time).getHours()}:${new Date(m.time).getMinutes()}`
-            });
-          });
-
-
-          setMessages(messages);
-          setContact(newContact);
-          /* if (response.data.contacts) {
-            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
-            console.log("Contactoooo", contact);
-          } else
-            console.log("adsfjmadfsk"); */
-
-
-
-          //setName(response.data.name.first);
-        }
-
-      } catch (error) {
-        console.error(error);
-        // Handle error here, if needed
-      }
-    };
-
-    fetchData();
-  }, [id, navigate]);
   if (loading) return (<div></div>);
   return (
     <div className=" py-3 h-full flex flex-row w-full gap-5">

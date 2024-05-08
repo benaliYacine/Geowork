@@ -6,6 +6,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form } from "@/components/ui/form";
 import { categories } from "../../data/categories";
 import SearchComboBox from "@/components/searchBar/SearchComboBox";
@@ -37,7 +38,8 @@ export default function SearchBar({ full = false }) {
   const [subCategories, setSubCategories] = useState([]);
 
   const [filteredCities, setFilteredCities] = useState([]);
-
+  const navigate=useNavigate();
+  let queryString = '';
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
     const citiesForWilaya = cities.filter(
@@ -67,10 +69,36 @@ export default function SearchBar({ full = false }) {
     }
   }, [form.watch("category")]);
 
-  const onSubmit = form.handleSubmit((values) => {
+  function navigateSearch(values) {
+
+
+    if (values.category) {
+      queryString += `category=${values.category}&`;
+    }
+    if (values.subCategory) {
+      queryString += `subCategory=${values.subCategory}&`;
+    }
+    if (values.wilaya) {
+      queryString += `wilaya=${values.wilaya}&`;
+    }
+    if (values.city) {
+      queryString += `city=${values.city}&`;
+    }
+    queryString = queryString.slice(0, -1);
+    console.log("queryString",queryString)
+    navigate(queryString);
+    
+  }
+  const onSubmit = form.handleSubmit(async (values) => {
     console.log(values); // Handle the form values, for example, saving it
     // TODO: hadnle el search
-
+    if (values.role == 'Jobs') {
+      queryString='/jobsSearch?'
+      navigateSearch(values);
+    } else if (values.role == 'Geoworkers') {
+      queryString='/expertsSearch?'
+      navigateSearch(values);
+    }
 
   });
 

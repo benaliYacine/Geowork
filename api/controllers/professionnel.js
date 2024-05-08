@@ -206,15 +206,30 @@ exports.changeAlocationProfessionnel = async (req, res) => {
 }; */
 
 //hado 5 li ta7t b3d mavirifithmch
+exports.addSavedProfessionnel = async (req, res) => {
+    const {id} = req.body;
+    const cli=await Client.findById(req.session.user_id);
+    cli.savedProfessionnel.push(id);
+    const saveCli=await cli.save();
+    res.json(saveCli);
+}
+
+exports.suppSavedProfessionnel = async (req, res) => {
+    const {id} = req.body;
+    const cli=await Client.findById(req.session.user_id);
+    cli.savedProfessionnel=cli.savedProfessionnel.filter((p)=>(p!=id));
+    const saveCli=await cli.save();
+    res.json(saveCli);
+}
 exports.addEmployment = async (req, res) => {
     try {
         const id = req.session.user_id;
         //const { id } = req.body;
         //const { id } = req.params;
         const employment = req.body;
-        if(employment.currentlyIn){
-            employment.date.end.month=1;
-            employment.date.end.year=2000;
+        if (employment.currentlyIn) {
+            employment.date.end.month = 1;
+            employment.date.end.year = 2000;
         }
         console.log(employment);
         const pro = await Professionnel.findById(id);
@@ -222,7 +237,7 @@ exports.addEmployment = async (req, res) => {
             pro.profile.employments.push(employment);
         console.log(pro);
         await pro.save();
-        
+
         return res.status(201).json(pro);
     } catch (err) {
         return res.status(400).json(err);

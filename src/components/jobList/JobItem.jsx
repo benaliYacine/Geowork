@@ -1,12 +1,28 @@
-import { React, useState } from "react";
+import { React, useState,useEffect } from "react";
 import Location from "@/components/common/Location";
+import axios from 'axios'
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Category from "@/components/common/Category";
 import JobPostDrawer from "@/components/jobList/JobPostDrawer";
 import Heart from "react-heart";
 export default function JobItem({ job }) {
-  const [isClick, setClick] = useState(false);
+  const [isClick, setClick] = useState(job.heart);
+  
+    const heartClick = async () => {
+      let response;
+      console.log(job);
+      console.log(isClick);
+      setClick(!isClick);
+      if (isClick) {
+        response = await axios.patch('/api/jobs/addSavedJob', { id: job.id });
+        console.log(response.data);
+      } else {
+        response = await axios.patch('/api/jobs/suppSavedJob', { id: job.id });
+        console.log(response.data);
+      }
+    };
+    
   return (
     <div className="flex flex-col items-center w-full mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-2 w-full">
@@ -51,7 +67,7 @@ export default function JobItem({ job }) {
           </JobPostDrawer>
           <div className="w-7 h-7">
             <Heart
-              onClick={() => setClick(!isClick)}
+              onClick={heartClick}
               className="w-full h-full"
               isActive={isClick}
               animationScale={1.25}

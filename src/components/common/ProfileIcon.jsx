@@ -9,7 +9,7 @@ import {
   PopoverArrow,
 } from "@/components/ui/popover";
 
-export default function ProfileIcon({ pro = true, name = "test test", photoProfile = "" }) {
+export default function ProfileIcon({ pro = true, name = "test test", photoProfile = null }) {
   const navigate = useNavigate();
   const handleLogOut = async () => {
     console.log('fdsajhdfas');
@@ -26,7 +26,7 @@ export default function ProfileIcon({ pro = true, name = "test test", photoProfi
       </PopoverTrigger>
       <PopoverContent className="p-2 flex flex-col gap-2 items-start justify-center w-fit">
         <div className="w-40 flex justify-center flex-col items-center gap-2">
-          {pro ? (
+          {(pro && photoProfile!="") ? (
             <img
               src={photoProfile}
               alt=""

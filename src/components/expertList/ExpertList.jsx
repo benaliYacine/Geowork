@@ -10,7 +10,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-const experts = Array.from({ length: 100 }, (_, i) => ({
+/* const experts = Array.from({ length: 100 }, (_, i) => ({
   name: `John Doe ${i + 1}`,
   role: "Web Developer",
   rating: Math.random() * 5,
@@ -18,10 +18,10 @@ const experts = Array.from({ length: 100 }, (_, i) => ({
   wilaya: "Algiers",
   city: "Central",
 }));
+*/
+const ITEMS_PER_PAGE = 10; 
 
-const ITEMS_PER_PAGE = 10;
-
-export default function ExpertList() {
+export default function ExpertList({experts}) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPageIndex = Math.ceil(experts.length / ITEMS_PER_PAGE);

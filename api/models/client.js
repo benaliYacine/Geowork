@@ -45,6 +45,8 @@ const clientSchema = new mongoose.Schema({
     },
     jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
     ,
+    savedProfessionnel:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel' }]
+    ,
     contacts: [{
         contactId: {
             type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel'

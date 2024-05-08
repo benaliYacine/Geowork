@@ -235,4 +235,28 @@ exports.addFeedback = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 }
+exports.addSavedJob = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const job = await Job.findById(id);
+        const pro = await Professionnel.findById(req.session.user_id);
+        pro.profile.savedJobs.push(job._id);
+        const savedPro = await pro.save();
+        return res.status(201).json(savedPro);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+exports.suppSavedJob = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const Job = await Job.findById(id);
+        const pro = await Professionnel.findById(req.session.user_id);
+        pro.profile.savedJobs = pro.profile.savedJobs.filter((j) => (j != job._id_));
+        const savedPro = await pro.save();
+        return res.status(201).json(savedPro);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
 

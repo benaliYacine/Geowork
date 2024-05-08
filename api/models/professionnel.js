@@ -151,6 +151,8 @@ const professionnelSchema = new mongoose.Schema({
         },
         jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
         ,
+        savedJobs:[{type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
+        ,
         rate: {
             type: Number,
             default: 0,

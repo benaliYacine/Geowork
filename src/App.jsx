@@ -1,4 +1,4 @@
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
@@ -28,14 +28,29 @@ import Job from "./pages/Job";
 import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
 import Maps from "./pages/Maps";
-
+import io from "socket.io-client"
 import axios from "axios";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
 //makach nav la 3ndk default page w fiha te9der tro7 l page khdoukhra b link kima hna dert home hiya default (path="/") w fel houme dert link yediik lel about page
 
 function App() {
-  
+  const [socket, setSocket] = useState(null);
+  useEffect(() => {
+    const newSocket = io('ws://localhost:3000');
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    }
+  }, []);
+  useEffect(() => {
+    if (socket === null) return;
+    socket.emit("addNewUser");
+    return () => {
+      socket.off("getOnlineUsers");
+    }
+  }, [socket])
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (
