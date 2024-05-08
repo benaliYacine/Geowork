@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { React, useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import MessageItem from "./MessageItem"; // Import the updated MessageItem component
 
@@ -269,7 +269,8 @@ const messages = [
   // Add more messages as needed
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-function MessageList({}) {
+// function MessageList({messages}) {
+function MessageList() {
   const messagesEndRef = useRef(null);
   // Scroll to the bottom of the messages list every time the messages change
   useEffect(() => {
@@ -277,6 +278,7 @@ function MessageList({}) {
       messagesEndRef.current.scrollIntoView({});
     }
   }, [messages]);
+
   return (
     <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
       <div className=" flex flex-col">
