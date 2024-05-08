@@ -266,7 +266,14 @@ app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) =>
     }
 });
 
-
+app.get('/savedJobs', async (req, res) => {
+    if (req.session.user_type == "Professionnel") {
+        let pro = (await Professionnel.findById(req.session.user_id)).populated('profile.savedJobs');
+        let jobs = pro.profile.savedJobs;
+        jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => (i.url)) }))
+        console.log("jobs", jobs);
+    }
+})
 app.get('/jobPostPage/:id', async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
@@ -291,7 +298,7 @@ app.get('/jobPostPage/:id', async (req, res) => {
         console.log("foundJob.heart", foundJob.heart);
         console.log(foundJob)
         const job = { ...foundJob };
-        job._doc.heart=foundJob.heart;
+        job._doc.heart = foundJob.heart;
         console.log(job);
         res.json(job._doc);
     } else {
