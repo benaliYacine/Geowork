@@ -1,8 +1,9 @@
-import { React } from "react";
+import React, { useState, useCallback } from "react"; // Ensure useState is imported like this
+
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
-
+import brightColorsStyles from "./style";
 import {
   Drawer,
   DrawerClose,
@@ -21,10 +22,14 @@ import { MapPin } from "lucide-react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { Padding } from "@mui/icons-material";
 
+const options = {
+  styles: brightColorsStyles,
+};
+
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: "max-content",
-  height: "max-content",
+  width: " 100%",
+  height: " 100%",
 };
 const center = {
   lat: 36.7538, // latitude for Algiers, Algeria
@@ -36,6 +41,15 @@ const Map = () => {
     googleMapsApiKey: "AIzaSyAfuO7mnXJNvNVIYYMQVeChPu8KXIU49b8",
     libraries,
   });
+
+  const [marker, setMarker] = useState(null);
+
+  const onMapClick = (e) => {
+    setMarker({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
+  };
 
   if (loadError) {
     return <div>Error loading maps</div>;
@@ -53,13 +67,20 @@ const Map = () => {
   }
 
   return (
-    <div className="p-" data-vaul-no-drag>
+    <div
+      className="m-2 rounded-3xl overflow-hidden"
+      data-vaul-no-drag
+      style={{ height: "100%", width: "100%" }}
+    >
       <GoogleMap
         data-vaul-no-drag
+        mapContainerStyle={mapContainerStyle}
         zoom={12}
+        options={options}
         center={center}
+        onClick={onMapClick}
       >
-        <Marker position={center} data-vaul-no-drag />
+        {marker && <Marker position={{ lat: marker.lat, lng: marker.lng }} />}
       </GoogleMap>
     </div>
   );
@@ -86,9 +107,9 @@ export default function SendLocation() {
           >
             <ChevronLeft className="h-7 w-7" data-vaul-no-drag />
           </DrawerClose>
-          <div className="w-96 h-96">
-            <Map data-vaul-no-drag />
-          </div>
+
+          <Map data-vaul-no-drag />
+
           {/* <DrawerHeader>
             <DrawerTitle>Move Goal</DrawerTitle>
             <DrawerDescription>Set your daily activity goal.</DrawerDescription>
