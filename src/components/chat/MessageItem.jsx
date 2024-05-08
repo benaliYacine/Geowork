@@ -330,7 +330,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               </p>
             )}
             <p className="w-full p-4 bg-bg rounded-3xl">
-              {message.coverLetter}
+              Cover Letter - {message.coverLetter}
             </p>
             <div className="flex-grow mb-2">
               <p className="text-md text-primary font-semibold ">
