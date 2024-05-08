@@ -12,7 +12,6 @@ import GenericFormField from "@/components/formFields/GenericFormField";
 import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 // Define your form schema
 const formSchema = z.object({
-  streetAdress: z.string().min(1, "Street Adress is required"),
   wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
   city: z.string({ required_error: "Please select a city." }),
 });
