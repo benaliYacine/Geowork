@@ -32,7 +32,7 @@ export default function FindWork({}) {
             <TabsList className="">
               <TabsTrigger value="BestMatches">Best Matches</TabsTrigger>
               <TabsTrigger value="savedJobs">Saved Jobs</TabsTrigger>
-              <div className="flex-grow h-full flex items-center justify-start px-4 py-2 text-sm font-medium relative before:absolute before:left-0 before:bottom-0 before:right-0 before:h-0.5  before:rounded-full before:bg-greyCold">
+              <div className="flex-grow h-full flex items-center justify-start px-4 py-2 text-sm font-medium relative before:absolute before:left-[-1px] before:bottom-0 before:right-0 before:h-0.5  before:rounded-full before:bg-greyCold">
                 <p className=" opacity-0">f</p>
               </div>
             </TabsList>

@@ -8,6 +8,8 @@ import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
+import SendLocation from "@/components/chat/SendLocation";
+
 function budgetRenderFootereRecieved(budgetEditState, isClient) {
   switch (budgetEditState) {
     case "waiting":
@@ -123,8 +125,7 @@ function proposalRenderFootereRecieved(invitationState) {
           </p>
           <div className="flex justify-end w-full gap-2">
             <CloseJobDialog />
-
-            <Button size="sm">Send Job Location</Button>
+            <SendLocation />
           </div>
         </div>
       );
@@ -246,7 +247,7 @@ function renderFooterSent(invitationState) {
               </Button>
             </AlertDialog>
 
-            <Button size="sm">Send Job Location</Button>
+            <SendLocation />
           </div>
         </div>
       );
@@ -259,7 +260,7 @@ function renderFooterSent(invitationState) {
           <div className="flex justify-end w-full gap-2">
             <CloseJobDialog />
 
-            <Button size="sm">Send Job Location</Button>
+            <SendLocation />
           </div>
         </div>
       );

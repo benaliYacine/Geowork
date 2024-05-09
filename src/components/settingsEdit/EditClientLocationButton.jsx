@@ -11,10 +11,14 @@ import { Form } from "@/components/ui/form";
 import GenericFormField from "@/components/formFields/GenericFormField";
 import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 // Define your form schema
+const formSchema2 = z.object({
+  wilaya: z.string().min(1, "Please select a wilaya."),
+  city: z.string().min(1, "Please select a city."),
+});
+
 const formSchema = z.object({
-  streetAdress: z.string().min(1, "Street Adress is required"),
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }),
+  wilaya: z.string().min(1, "Please select a wilaya."),
+  city: z.string().min(1, "Please select a city."),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -44,7 +48,6 @@ function EditClientLocationButton({ wilaya, city, onEdit }) {
     },
   });
 
-  
   useEffect(() => {
     const selectedWilaya = form.watch("wilaya");
     const citiesForWilaya = cities.filter(
@@ -57,7 +60,7 @@ function EditClientLocationButton({ wilaya, city, onEdit }) {
 
   const onSubmit = async (values) => {
     console.log(values);
-    onEdit(values.wilaya,values.city);
+    onEdit(values.wilaya, values.city);
     setDialogOpen(false);
   };
 

@@ -10,7 +10,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-/* const jobs = Array.from({ length: 100 }, (_, i) => ({
+ const jobs = Array.from({ length: 100 }, (_, i) => ({
   images: ["https://placebear.com/g/200/200"],
   category: "education_and_tutoring",
   subCategory: "math_tutor",
@@ -20,11 +20,11 @@ import {
     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
   wilaya: "Algiers",
   city: "Central",
-})); */
+})); 
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({jobs}) {
+export default function JobList() {
   console.log("jobs",jobs);
   const [currentPage, setCurrentPage] = useState(1);
 

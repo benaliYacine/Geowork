@@ -33,8 +33,8 @@ const formSchema = z.object({
   termsOfService: z
     .boolean()
     .refine((val) => val === true, "You must accept the terms of service."),
-  wilaya: z.string({ required_error: "Please select a wilaya." }), // Ensure this line is correctly added
-  city: z.string({ required_error: "Please select a city." }), // Ensure this line is correctly added
+  wilaya: z.string().min(1, "Please select a wilaya."),
+  city: z.string().min(1, "Please select a city."),
   role: z.enum(["client", "expert"], {
     required_error: "You must select a role.",
   }),
@@ -50,6 +50,7 @@ export default function SignUpForm() {
       email: "",
       password: "",
       wilaya: "alger",
+      city:"",
     },
   });
 
@@ -65,7 +66,7 @@ export default function SignUpForm() {
     );
     setFilteredCities(citiesForWilaya);
     // Reset city field if wilaya changes
-    form.setValue("city", undefined);
+    form.setValue("city", "");
   }, [form.watch("wilaya")]);
 
   useEffect(() => {
