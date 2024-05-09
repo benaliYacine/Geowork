@@ -4,7 +4,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
 import brightColorsStyles from "./style";
-import { ZoomIn, ZoomOut } from "lucide-react";
+import { ZoomIn, ZoomOut, Locate } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
@@ -43,6 +43,7 @@ const MapCompo = () => {
   const GOOGLE_MAPS_API_KEY = "AIzaSyBQ2HGpfDC2KuongVMDAZUlb1Hn_-Osbk8";
 
   const [showMarker, setShowMarker] = useState(null);
+  const [userLocationMarker, setUserLocationMarker] = useState(null);
   const [zoom, setZoom] = useState(12);
   const [lastMapEventCenter, setLastMapEventCenter] = useState(center);
   const [mapCenter, setCenter] = useState(center);
@@ -223,6 +224,32 @@ const MapCompo = () => {
   // }
   const [infowindowOpen, setInfowindowOpen] = useState(true);
   const [markerRef, marker] = useAdvancedMarkerRef();
+  const [clickMarkerRef, clickMarker] = useAdvancedMarkerRef();
+
+  function getUserLocation() {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    const handleSuccess = (position) => {
+      console.log(position.coords);
+      const userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+      console.log("userLocation", userLocation);
+      setUserLocationMarker(userLocation);
+      // return userLocation;
+    };
+
+    const handleError = (error) => {
+      alert(`Geolocation error: ${error.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+  }
+
   return (
     <div
       className=" rounded-xl overflow-hidden relative cursor-pointer"
@@ -256,64 +283,89 @@ const MapCompo = () => {
           <Directions />
 
           {showMarker && (
-            <AdvancedMarker
-              position={{ lat: showMarker.lat, lng: showMarker.lng }}
+            <>
+              <AdvancedMarker
+                ref={clickMarkerRef}
+                position={{ lat: showMarker.lat, lng: showMarker.lng }}
 
-              // clickable={true}
-              // onClick={() => alert("marker was clicked!")}
-              // title={"clickable google.maps.Marker"}
-            >
-              <Pin
-                background={"#ff5400"}
-                borderColor={"#ff5400"}
-                glyphColor={"#fff"}
-                scale={1.2}
-              ></Pin>
-            </AdvancedMarker>
+                // clickable={true}
+                // onClick={() => alert("marker was clicked!")}
+                // title={"clickable google.maps.Marker"}
+              >
+                <Pin
+                  background={"#ff5400"}
+                  borderColor={"#ff5400"}
+                  glyphColor={"#fff"}
+                  scale={1.2}
+                ></Pin>
+              </AdvancedMarker>
+
+              <InfoWindow
+                anchor={clickMarker}
+                maxWidth={200}
+                onCloseClick={() => setInfowindowOpen(false)}
+              >
+                <p className=" text-lg font-sans font-normal">your job location</p>
+              </InfoWindow>
+            </>
           )}
-
-          <AdvancedMarker
-            ref={markerRef}
-            onClick={() => setInfowindowOpen(true)}
-            position={{
-              lat: 36.7248,
-              lng: 3.0288,
-            }}
-            title={"AdvancedMarker with custom html content."}
-          >
-            <div className="p-1 border-4 border-primary rounded-full h-fit w-fit">
-              <div className="bg-primary h-4 w-4 rounded-full"></div>
-            </div>
-          </AdvancedMarker>
-          {infowindowOpen && (
-            <InfoWindow
-              anchor={marker}
-              maxWidth={200}
-              onCloseClick={() => setInfowindowOpen(false)}
-            >
-              This is an example for the bla bla combined with an Infowindow.
-            </InfoWindow>
+          {userLocationMarker && (
+            <>
+              <AdvancedMarker
+                ref={markerRef}
+                onClick={() => setInfowindowOpen(true)}
+                position={userLocationMarker}
+                title={"AdvancedMarker with custom html content."}
+              >
+                <div className="p-1 border-4 border-primary rounded-full h-fit w-fit">
+                  <div className="bg-primary h-4 w-4 rounded-full"></div>
+                </div>
+              </AdvancedMarker>
+              {infowindowOpen && (
+                <InfoWindow
+                  anchor={marker}
+                  maxWidth={200}
+                  onCloseClick={() => setInfowindowOpen(false)}
+                >
+                  <p className=" text-lg font-sans font-normal">
+                    the job location
+                  </p>
+                </InfoWindow>
+              )}
+            </>
           )}
         </Map>
       </APIProvider>
-      <Button
-        className="absolute right-5 bottom-5 hover:opacity-[100%] p-3 h-fit"
-        onClick={handleZoomOut}
-      >
-        <ZoomOut />
-      </Button>
-      <Button
-        className="absolute right-5 bottom-20 hover:opacity-[100%] p-3 h-fit"
-        onClick={handleZoomIn}
-      >
-        <ZoomIn />
-      </Button>
-      <Button
-        className="absolute right-5 bottom-36 hover:opacity-[100%] p-3 h-fit"
-        onClick={handleZoomChange}
-      >
-        Back to Algiers
-      </Button>
+      <div className="flex flex-col gap-3 absolute right-5 bottom-5 items-end">
+        <Button
+          className=" hover:opacity-[100%] p-3 h-fit w-fit"
+          onClick={handleZoomOut}
+        >
+          <ZoomOut />
+        </Button>
+        <Button
+          className="hover:opacity-[100%] p-3 h-fit w-fit"
+          onClick={handleZoomIn}
+        >
+          <ZoomIn />
+        </Button>
+        <Button
+          className="hover:opacity-[100%] p-3 h-fit w-fit"
+          onClick={handleZoomChange}
+        >
+          Back to Algiers
+        </Button>
+        <Button
+          className="hover:opacity-[99%] p-3 h-fit w-fit"
+          onClick={() => {
+            getUserLocation();
+            console.log("geting your location", userLocationMarker);
+          }}
+        >
+          <Locate />
+        </Button>
+        <Button className="">send as job location</Button>
+      </div>
       {/* {marker && <Marker position={{ lat: marker.lat, lng: marker.lng }} />} */}
     </div>
   );
@@ -399,7 +451,7 @@ export default function SendLocation() {
       </DrawerTrigger>
       <DrawerContent>
         <div
-          className=" w-full h-screen  flex flex-col items-center justify-center p-4 bg-bg relative"
+          className=" w-full h-screen gap-2 flex flex-col items-center justify-center p-4 px-12 bg-bg relative"
           data-vaul-no-drag
         >
           <div className=" flex items-center justify-start w-full px-4 pb-4 gap-2">
@@ -414,7 +466,9 @@ export default function SendLocation() {
           </div>
 
           <MapCompo data-vaul-no-drag />
-
+          {/* <div className="w-full flex items-center justify-end">
+            <Button className="">send as job location</Button>
+          </div> */}
           {/* <DrawerHeader>
             <DrawerTitle>Move Goal</DrawerTitle>
             <DrawerDescription>Set your daily activity goal.</DrawerDescription>
