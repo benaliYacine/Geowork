@@ -59,9 +59,6 @@ const MapCompo = () => {
     return -(Math.cos(Math.PI * x) - 1) / 2;
   }
 
-  function easeInOutQuint(x) {
-    return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
-  }
   function easeInCubic(x) {
     return x * x * x;
   }
@@ -86,7 +83,7 @@ const MapCompo = () => {
   const maxDistance = Math.max(latDistance, lngDistance);
   let delay = 0;
   // Map maxDistance to control parameters
-  let intermediaryZoom = mapRange(maxDistance, 0, 5, 12, 7); // Assuming 1 is the max possible distance change for simplicity
+  let intermediaryZoom = mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
   // const intermediaryZoom = 8; // Assuming 1 is the max possible distance change for simplicity
 
   if (initialZoom < intermediaryZoom) {
@@ -101,7 +98,7 @@ const MapCompo = () => {
   const durationGoing =
     Math.abs(intermediaryZoom - initialZoom) * 500 > 600
       ? Math.abs(intermediaryZoom - initialZoom) * 500
-      :600;
+      : 600;
   const durationBack =
     Math.abs(targetZoom - intermediaryZoom) * 500 > 600
       ? Math.abs(intermediaryZoom - initialZoom) * 500
@@ -113,7 +110,9 @@ const MapCompo = () => {
   // const delay = 0;
 
   function mapRange(value, low1, high1, low2, high2) {
-    return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+    return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1) < high2
+      ? high2
+      : low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
   }
   useEffect(() => {
     if (animating) {
@@ -122,7 +121,7 @@ const MapCompo = () => {
       const animate = () => {
         const elapsedTime = Date.now() - startTime;
         const progress = Math.min(elapsedTime / totalDuration, 1);
-        const easedProgress = easeInOutQuint(progress);
+        const easedProgress = easeInOutSine(progress);
 
         // Center Animation - continuous over total duration
         const newLat =
