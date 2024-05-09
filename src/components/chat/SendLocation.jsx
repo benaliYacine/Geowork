@@ -72,20 +72,52 @@ const MapCompo = () => {
   const smoothZoomStep = 0.01;
 
   const smoothZoomTime = 1;
-  const [phase, setPhase] = useState(1);
-  const targetZoom = 12; // Final zoom level
-  const intermediaryZoom = 8; // Intermediate zoom level
-  const duration = 2000; // Duration of the animation in milliseconds
-  const delay = 0;
-  const targetCenter = center;
-  const [animating, setAnimating] = useState(false);
-  const totalDuration = duration * 2 + delay;
 
+  const [animating, setAnimating] = useState(false);
+
+  const targetZoom = 12; // Final zoom level
+  const initialZoom = zoom;
+  const targetCenter = center;
+  const initialCenter = lastMapEventCenter;
+
+  // Dynamic settings based on distance
+  const latDistance = Math.abs(targetCenter.lat - initialCenter.lat);
+  const lngDistance = Math.abs(targetCenter.lng - initialCenter.lng);
+  const maxDistance = Math.max(latDistance, lngDistance);
+  let delay = 0;
+  // Map maxDistance to control parameters
+  let intermediaryZoom = mapRange(maxDistance, 0, 5, 12, 7); // Assuming 1 is the max possible distance change for simplicity
+  // const intermediaryZoom = 8; // Assuming 1 is the max possible distance change for simplicity
+
+  if (initialZoom < intermediaryZoom) {
+    intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
+    delay = 0;
+  }
+  if (12 - intermediaryZoom < 1) {
+    intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
+    delay = 0;
+  }
+
+  const durationGoing =
+    Math.abs(intermediaryZoom - initialZoom) * 500 > 600
+      ? Math.abs(intermediaryZoom - initialZoom) * 500
+      :600;
+  const durationBack =
+    Math.abs(targetZoom - intermediaryZoom) * 500 > 600
+      ? Math.abs(intermediaryZoom - initialZoom) * 500
+      : 600;
+
+  // const duration = 2000;
+
+  const totalDuration = durationGoing + delay + durationBack;
+  // const delay = 0;
+
+  function mapRange(value, low1, high1, low2, high2) {
+    return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
+  }
   useEffect(() => {
     if (animating) {
       const startTime = Date.now();
-      const initialZoom = zoom;
-      const initialCenter = lastMapEventCenter;
 
       const animate = () => {
         const elapsedTime = Date.now() - startTime;
@@ -101,30 +133,29 @@ const MapCompo = () => {
           (targetCenter.lng - initialCenter.lng) * easedProgress;
         setCenter({ lat: newLat, lng: newLng });
 
-        if (elapsedTime < duration) {
+        if (elapsedTime < durationGoing) {
           // First phase of zoom animation
-          const zoomProgress = elapsedTime / duration;
+          const zoomProgress = elapsedTime / durationGoing;
           const zoomEased = easeOutCubic(zoomProgress);
           const zoom =
             initialZoom + (intermediaryZoom - initialZoom) * zoomEased;
           setZoom(zoom);
-        } else if (elapsedTime < duration + delay) {
+        } else if (elapsedTime < durationGoing + delay) {
           // Delay period, maintain intermediary zoom
           // setZoom(intermediaryZoom);
         } else if (elapsedTime < totalDuration) {
           // Second phase of zoom animation
-          const phaseProgress = (elapsedTime - duration - delay) / duration;
+          const phaseProgress =
+            (elapsedTime - durationGoing - delay) / durationBack;
           const zoomEased = easeInCubic(phaseProgress);
           const zoom =
             intermediaryZoom + (targetZoom - intermediaryZoom) * zoomEased;
           setZoom(zoom);
         }
-
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
           setAnimating(false);
-          setPhase(1); // Reset to phase 1 for next animation cycle
         }
       };
 
