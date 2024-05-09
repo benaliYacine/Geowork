@@ -55,88 +55,74 @@ const MapCompo = () => {
     });
   };
 
-  function easeInOutSine(x) {
-    return -(Math.cos(Math.PI * x) - 1) / 2;
-  }
-
-  function easeInOutQuint(x) {
-    return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
-  }
-  function easeInCubic(x) {
-    return x * x * x;
-  }
-  function easeOutCubic(x) {
-    return 1 - Math.pow(1 - x, 3);
-  }
-
   const smoothZoomStep = 0.01;
 
   const smoothZoomTime = 1;
-  const [phase, setPhase] = useState(1);
-  const targetZoom = 12; // Final zoom level
-  const intermediaryZoom = 8; // Intermediate zoom level
-  const duration = 2000; // Duration of the animation in milliseconds
-  const delay = 0;
-  const targetCenter = center;
-  const [animating, setAnimating] = useState(false);
-  const totalDuration = duration * 2 + delay;
 
-  useEffect(() => {
-    if (animating) {
-      const startTime = Date.now();
-      const initialZoom = zoom;
-      const initialCenter = lastMapEventCenter;
+  function easeInOut(x) {
+    return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
+  }
 
-      const animate = () => {
-        const elapsedTime = Date.now() - startTime;
-        const progress = Math.min(elapsedTime / totalDuration, 1);
-        const easedProgress = easeInOutQuint(progress);
-
-        // Center Animation - continuous over total duration
+  const handleChangeCenter = () => {
+    console.log("lastMapEventCenter", lastMapEventCenter);
+    const targetCenter = { lat: 36.7538, lng: 3.0588 };
+    let currentStep = 0;
+    function stepChangeCenter() {
+      if (currentStep <= 1) {
+        const easedStep = easeInOut(currentStep);
         const newLat =
-          initialCenter.lat +
-          (targetCenter.lat - initialCenter.lat) * easedProgress;
+          lastMapEventCenter.lat +
+          (targetCenter.lat - lastMapEventCenter.lat) * easedStep;
         const newLng =
-          initialCenter.lng +
-          (targetCenter.lng - initialCenter.lng) * easedProgress;
+          lastMapEventCenter.lng +
+          (targetCenter.lng - lastMapEventCenter.lng) * easedStep;
         setCenter({ lat: newLat, lng: newLng });
-
-        if (elapsedTime < duration) {
-          // First phase of zoom animation
-          const zoomProgress = elapsedTime / duration;
-          const zoomEased = easeOutCubic(zoomProgress);
-          const zoom =
-            initialZoom + (intermediaryZoom - initialZoom) * zoomEased;
-          setZoom(zoom);
-        } else if (elapsedTime < duration + delay) {
-          // Delay period, maintain intermediary zoom
-          // setZoom(intermediaryZoom);
-        } else if (elapsedTime < totalDuration) {
-          // Second phase of zoom animation
-          const phaseProgress = (elapsedTime - duration - delay) / duration;
-          const zoomEased = easeInCubic(phaseProgress);
-          const zoom =
-            intermediaryZoom + (targetZoom - intermediaryZoom) * zoomEased;
-          setZoom(zoom);
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          setAnimating(false);
-          setPhase(1); // Reset to phase 1 for next animation cycle
-        }
-      };
-
-      requestAnimationFrame(animate);
+        currentStep += moveStep;
+        setTimeout(stepChangeCenter, smoothZoomTime);
+      }
     }
-  }, [animating]);
-
-  const handleZoomChange = () => {
-    if (!animating) {
-      setAnimating(true);
-    }
+    stepChangeCenter();
   };
+
+  const resetToAlgiers = () => {
+    // handleChangeCenter();
+    const targetZoom = 12; // Default zoom for Algiers
+    let intermediaryZoom = 8;
+    let currentStep = 0;
+    const moveStep = 0.005;
+    const moveTime = 1;
+    function stepMove2() {
+      if (currentStep <= 1) {
+        const easedStep = easeInOut(currentStep);
+        console.log(
+          "zoom is ",
+          zoom,
+          "setep2 the new zoom must become",
+          zoom + (targetZoom - zoom) * easedStep
+        );
+        setZoom((z) => {
+          return z + (targetZoom - z) * easedStep;
+        });
+        currentStep += moveStep;
+        setTimeout(stepMove2, moveTime);
+      }
+    }
+    function stepMove() {
+      if (currentStep <= 0.5) {
+        const easedStep = easeInOut(currentStep);
+        setZoom((z) => {
+          return z + (intermediaryZoom - z) * easedStep * 2;
+        });
+        currentStep += moveStep;
+        setTimeout(stepMove, moveTime);
+      } else {
+        stepMove2();
+      }
+    }
+
+    stepMove();
+  };
+
   function easeInOutBack(x) {
     const c1 = 1.70158;
     const c2 = c1 * 1.525;
@@ -150,7 +136,7 @@ const MapCompo = () => {
     let currentStep = 0;
     function stepZoomIn() {
       if (currentStep <= 1) {
-        const easedStep = easeInOutSine(currentStep);
+        const easedStep = easeInOut(currentStep);
         setZoom((z) => {
           return z + (targetZoom - z) * easedStep;
         });
@@ -166,7 +152,7 @@ const MapCompo = () => {
     let currentStep = 0;
     function stepZoomOut() {
       if (currentStep <= 1) {
-        const easedStep = easeInOutSine(currentStep);
+        const easedStep = easeInOut(currentStep);
         setZoom((z) => {
           return z + (targetZoom - z) * easedStep;
         });
@@ -280,7 +266,7 @@ const MapCompo = () => {
       </Button>
       <Button
         className="absolute right-5 bottom-36 hover:opacity-[100%] p-3 h-fit"
-        onClick={handleZoomChange}
+        onClick={resetToAlgiers}
       >
         Back to Algiers
       </Button>
