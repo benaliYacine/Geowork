@@ -21,6 +21,8 @@ export default function JobPostPage() {
   const [jobInfo, setJobInfo] = useState(null);
   const [oldJobInfo, setOldJobInfo] = useState(jobInfo);
   const navigate = useNavigate();
+  const [experts, setExperts] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`/jobPostPage/${id}`);
@@ -32,6 +34,43 @@ export default function JobPostPage() {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    console.log("hiiii");
+    const fetchData = async () => {
+      const category = jobInfo.category;
+      const subCategory = jobInfo.subCategory;
+      const wilaya = jobInfo.wilaya;
+      const city = job.city;
+
+      console.log('Category:', category);
+      console.log('Subcategory:', subCategory);
+      console.log('Wilaya:', wilaya);
+      console.log('City:', city);
+      const response = await axios.get('/expertsSearch', {
+        params: {
+          category,
+          subCategory,
+          wilaya,
+          city,
+        }
+      });
+      if (response.data) {
+        console.log("response", response.data);
+        let expert = response.data;
+        expert = expert.map((e) => ({ id: e._id, name: `${e.name.first} ${e.name.last}`, role: e.profile.subCategory, rating: e.profile.rate, avatarUrl: e.profile.photoProfile.url, wilaya: e.wilaya, city: e.city, heart: e.heart }));
+        console.log(expert);
+        setExperts(expert);
+        /*         let experts=response.data;
+                experts=jobs.map((j)=>{
+                  return {...j,images:j.images.map((j)=>(j.url))}
+                });
+                jobs=jobs.map((j)=>({title:j.title,description:j.description,images:j.images,budget:j.budget,category:j.category,subCategory:j.subCategory,wilaya:j.wilaya,city:j.city}));
+                setJobs(jobs);
+                console.log("kkkkkk",jobs); */
+      }
+    }
+    fetchData();
+  }, [jobInfo])
 
   // Function to update job information
   const updateJobInfo = async (newInfo) => {
@@ -149,7 +188,7 @@ export default function JobPostPage() {
             </TabsContent>
             <TabsContent value="inviteExperts">
               <div className=" flex flex-col items-center mt-6">
-                <ExpertList />
+                <ExpertList experts={experts} />
               </div>
             </TabsContent>
             <TabsContent value="reviewProposals">
