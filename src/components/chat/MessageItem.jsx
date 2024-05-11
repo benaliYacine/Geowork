@@ -8,7 +8,9 @@ import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
-import SendLocation from "@/components/chat/SendLocation";
+import SendLocation from "@/components/chat/Map/SendLocation";
+import GetLocation from "@/components/chat/Map/GetLocation";
+import EditLocation from "@/components/chat/Map/EditLocation";
 
 function budgetRenderFootereRecieved(budgetEditState, isClient) {
   switch (budgetEditState) {
@@ -281,6 +283,31 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
   const [isClient, setIsClient] = useState(true);
   const renderMessageContent = (message) => {
     switch (message.type) {
+      case "jobLocation":
+        return (
+          <div className="flex flex-col w-96 gap-3 ">
+            {isOwnMessage ? (
+              <>
+                {" "}
+                <p className=" text-md text-black ">
+                  You have shared the exact job location with the expert
+                </p>
+                <div className="flex justify-end w-full gap-2">
+                  <EditLocation location={message.location} />
+                </div>
+              </>
+            ) : (
+              <>
+                <p className=" text-md text-black ">
+                  The client has shared the exact work location with you
+                </p>
+                <div className="flex justify-end w-full gap-2">
+                  <GetLocation location={message.location} />
+                </div>
+              </>
+            )}
+          </div>
+        );
       case "budgetEdit":
         return (
           <div className="flex flex-col w-96 gap-3 ">
@@ -429,7 +456,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
           isOwnMessage
             ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
             : "bg-white rounded-e-3xl rounded-t-3xl"
-        }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit") && "bg-white"} `}
+        }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit" || message.type == "jobLocation") && "bg-white"} `}
       >
         {renderMessageContent(message)}
       </div>

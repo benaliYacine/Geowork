@@ -82,13 +82,13 @@ function CloseJobDialog({}) {
                 {type == "close" ? (
                   <DialogDescription>
                     if the job is complete, you can close it to notify us.
-                    Please take a moment to rate and review the expert, this can
+                    And please take a moment to rate and review the expert, this can
                     help future clients.
                   </DialogDescription>
                 ) : (
                   <DialogDescription>
-                    if you want to close the job even if it was not done by the
-                    expert. Please take a moment to share the reason of that,
+                    if you want to close the job even if it wasn't done by the
+                    expert. Please take a moment to share the reason for that,
                     this can help future clients.
                   </DialogDescription>
                 )}
