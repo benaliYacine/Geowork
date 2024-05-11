@@ -10,32 +10,59 @@ export default function moveTo(
   targetCenter,
   setCenter
 ) {
-
-  const latDistance = Math.abs(targetCenter.lat - initialCenter.lat);
-  const lngDistance = Math.abs(targetCenter.lng - initialCenter.lng);
-  const maxDistance = Math.max(latDistance, lngDistance);
+  const maxDistance = calculateDistance(
+    targetCenter.lat,
+    targetCenter.lng,
+    initialCenter.lat,
+    initialCenter.lng
+  );
   let delay = 0;
+  function calculateDistance(x1, y1, x2, y2) {
+    const deltaX = x2 - x1;
+    const deltaY = y2 - y1;
+    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  }
   // Map maxDistance to control parameters
-  let intermediaryZoom = mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
+  let intermediaryZoom =
+    maxDistance < 0.05
+      ? mapRange(maxDistance, 0, 5, 16, 6)
+      : maxDistance < 0.1
+        ? mapRange(maxDistance, 0, 5, 14, 6)
+        : mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
+  // Assuming 1 is the max possible distance change for simplicity
   // const intermediaryZoom = 8; // Assuming 1 is the max possible distance change for simplicity
 
-  if (initialZoom < intermediaryZoom) {
+  console.log(
+    "distance",
+    maxDistance,
+    "initialZoom",
+    initialZoom,
+    "intermediaryZoom",
+    intermediaryZoom,
+    "targetZoom",
+    targetZoom
+  );
+
+  if (
+    (initialZoom < intermediaryZoom && intermediaryZoom < targetZoom) ||
+    (initialZoom > intermediaryZoom && intermediaryZoom > targetZoom)
+  ) {
     intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
   }
-  if (12 - intermediaryZoom < 1) {
-    intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
-  }
+  // if (12 - intermediaryZoom < 1) {
+  //   intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
+  // }
 
   const durationGoing =
-    Math.abs(intermediaryZoom - initialZoom) * 500 > 500 ||
-    Math.abs(intermediaryZoom - initialZoom) * 500 == 0
-      ? Math.abs(intermediaryZoom - initialZoom) * 500
+    Math.abs(intermediaryZoom - initialZoom) * 400 > 500
+      ? //  || Math.abs(intermediaryZoom - initialZoom) * 500 == 0
+        Math.abs(intermediaryZoom - initialZoom) * 500
       : 500;
 
   const durationBack =
-    Math.abs(targetZoom - intermediaryZoom) * 500 > 500 ||
-    Math.abs(targetZoom - intermediaryZoom) * 500 == 0
-      ? Math.abs(targetZoom - intermediaryZoom) * 500
+    Math.abs(targetZoom - intermediaryZoom) * 400 > 500
+      ? //  || Math.abs(targetZoom - intermediaryZoom) * 500 == 0
+        Math.abs(targetZoom - intermediaryZoom) * 500
       : 500;
 
   // const duration = 2000;
