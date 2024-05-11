@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from "react"; // Ensure useSt
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
-import brightColorsStyles from "./style";
+import brightColorsStyles from "./Map/style";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import {
   Drawer,

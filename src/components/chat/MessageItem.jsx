@@ -8,7 +8,7 @@ import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
-import SendLocation from "@/components/chat/SendLocation";
+import SendLocation from "@/components/chat/Map/SendLocation";
 
 function budgetRenderFootereRecieved(budgetEditState, isClient) {
   switch (budgetEditState) {

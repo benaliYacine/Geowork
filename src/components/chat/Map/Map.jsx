@@ -15,6 +15,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { easeInOutSine, easeInCubic, easeOutCubic } from "./easingFunctions";
+import moveTo from "./moveTo";
 
 import { ChevronLeft } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -34,19 +36,37 @@ import {
 console.log(Map);
 import { MapPin } from "lucide-react";
 
-const center = {
-  lat: 36.7538, // latitude for Algiers, Algeria
-  lng: 3.0588, // longitude for Algiers, Algeria
+const MyComponent = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+    map.setOptions({
+      draggableCursor: "default",
+      draggingCursor: "move",
+    });
+    // here you can interact with the imperative maps API
+  }, [map]);
+
+  return <></>;
 };
 
-const MapCompo = () => {
+export default function MapCompo({ center }) {
   const GOOGLE_MAPS_API_KEY = "AIzaSyBQ2HGpfDC2KuongVMDAZUlb1Hn_-Osbk8";
 
   const [showMarker, setShowMarker] = useState(null);
   const [userLocationMarker, setUserLocationMarker] = useState(null);
-  const [zoom, setZoom] = useState(12);
-  const [lastMapEventCenter, setLastMapEventCenter] = useState(center);
-  const [mapCenter, setCenter] = useState(center);
+  const [zoom, setZoom] = useState(7);
+
+  const [mapCenter, setCenter] = useState({
+    lat: 34.7538,
+    lng: 3.0588,
+  });
+  const [lastMapEventCenter, setLastMapEventCenter] = useState(mapCenter);
+  useEffect(() => {
+    setTimeout(backToYourWilaya, 0);
+  }, []);
+
   const onMapClick = (event) => {
     console.log(event);
     console.log(event.detail);
@@ -54,131 +74,19 @@ const MapCompo = () => {
       lat: event.detail.latLng.lat,
       lng: event.detail.latLng.lng,
     });
+    setUserLocationMarker(null);
+    setInfowindowOpen(true);
+    setJobLocation({
+      lat: event.detail.latLng.lat,
+      lng: event.detail.latLng.lng,
+    });
   };
-
-  function easeInOutSine(x) {
-    return -(Math.cos(Math.PI * x) - 1) / 2;
-  }
-
-  function easeInCubic(x) {
-    return x * x * x;
-  }
-  function easeOutCubic(x) {
-    return 1 - Math.pow(1 - x, 3);
-  }
-
-  const smoothZoomStep = 0.01;
-
-  const smoothZoomTime = 1;
-
-  const [animating, setAnimating] = useState(false);
-
-  const targetZoom = 12; // Final zoom level
-  const initialZoom = zoom;
-  const targetCenter = center;
-  const initialCenter = lastMapEventCenter;
-
-  // Dynamic settings based on distance
-  const latDistance = Math.abs(targetCenter.lat - initialCenter.lat);
-  const lngDistance = Math.abs(targetCenter.lng - initialCenter.lng);
-  const maxDistance = Math.max(latDistance, lngDistance);
-  let delay = 0;
-  // Map maxDistance to control parameters
-  let intermediaryZoom = mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
-  // const intermediaryZoom = 8; // Assuming 1 is the max possible distance change for simplicity
-
-  if (initialZoom < intermediaryZoom) {
-    intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
-    delay = 0;
-  }
-  if (12 - intermediaryZoom < 1) {
-    intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary
-    delay = 0;
-  }
-
-  const durationGoing =
-    Math.abs(intermediaryZoom - initialZoom) * 500 > 600
-      ? Math.abs(intermediaryZoom - initialZoom) * 500
-      : 600;
-  const durationBack =
-    Math.abs(targetZoom - intermediaryZoom) * 500 > 600
-      ? Math.abs(intermediaryZoom - initialZoom) * 500
-      : 600;
-
-  // const duration = 2000;
-
-  const totalDuration = durationGoing + delay + durationBack;
-  // const delay = 0;
-
-  function mapRange(value, low1, high1, low2, high2) {
-    return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1) < high2
-      ? high2
-      : low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
-  }
-  useEffect(() => {
-    if (animating) {
-      const startTime = Date.now();
-
-      const animate = () => {
-        const elapsedTime = Date.now() - startTime;
-        const progress = Math.min(elapsedTime / totalDuration, 1);
-        const easedProgress = easeInOutSine(progress);
-
-        // Center Animation - continuous over total duration
-        const newLat =
-          initialCenter.lat +
-          (targetCenter.lat - initialCenter.lat) * easedProgress;
-        const newLng =
-          initialCenter.lng +
-          (targetCenter.lng - initialCenter.lng) * easedProgress;
-        setCenter({ lat: newLat, lng: newLng });
-
-        if (elapsedTime < durationGoing) {
-          // First phase of zoom animation
-          const zoomProgress = elapsedTime / durationGoing;
-          const zoomEased = easeOutCubic(zoomProgress);
-          const zoom =
-            initialZoom + (intermediaryZoom - initialZoom) * zoomEased;
-          setZoom(zoom);
-        } else if (elapsedTime < durationGoing + delay) {
-          // Delay period, maintain intermediary zoom
-          // setZoom(intermediaryZoom);
-        } else if (elapsedTime < totalDuration) {
-          // Second phase of zoom animation
-          const phaseProgress =
-            (elapsedTime - durationGoing - delay) / durationBack;
-          const zoomEased = easeInCubic(phaseProgress);
-          const zoom =
-            intermediaryZoom + (targetZoom - intermediaryZoom) * zoomEased;
-          setZoom(zoom);
-        }
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          setAnimating(false);
-        }
-      };
-
-      requestAnimationFrame(animate);
-    }
-  }, [animating]);
-
-  const handleZoomChange = () => {
-    if (!animating) {
-      setAnimating(true);
-    }
-  };
-  function easeInOutBack(x) {
-    const c1 = 1.70158;
-    const c2 = c1 * 1.525;
-    return x < 0.5
-      ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
-      : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
-  }
 
   const handleZoomIn = () => {
     let targetZoom = zoom + 1;
     let currentStep = 0;
+    const smoothZoomStep = 0.01;
+    const smoothZoomTime = 1;
     function stepZoomIn() {
       if (currentStep <= 1) {
         const easedStep = easeInOutSine(currentStep);
@@ -195,6 +103,8 @@ const MapCompo = () => {
   const handleZoomOut = () => {
     let targetZoom = zoom - 1;
     let currentStep = 0;
+    const smoothZoomStep = 0.01;
+    const smoothZoomTime = 1;
     function stepZoomOut() {
       if (currentStep <= 1) {
         const easedStep = easeInOutSine(currentStep);
@@ -216,16 +126,18 @@ const MapCompo = () => {
   //   return (
   //     <div
   //       className="flex items-center justify-center w-full h-full min-h-screen min-w-screen"
-  //       data-vaul-no-drag
+  //
   //     >
   //       <PropagateLoader color="#FF5400" />
   //     </div>
   //   );
   // }
   const [infowindowOpen, setInfowindowOpen] = useState(true);
+  const [UserLocationInfowindowOpen, setUserLocationInfowindowOpen] =
+    useState(true);
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [clickMarkerRef, clickMarker] = useAdvancedMarkerRef();
-
+  const [jobLocation, setJobLocation] = useState(null);
   function getUserLocation() {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
@@ -239,8 +151,12 @@ const MapCompo = () => {
         lng: position.coords.longitude,
       };
       console.log("userLocation", userLocation);
-      setUserLocationMarker(userLocation);
       // return userLocation;
+      moveTo(zoom, 17, setZoom, lastMapEventCenter, userLocation, setCenter);
+      setUserLocationMarker(userLocation);
+      setJobLocation(userLocation);
+      setShowMarker(null);
+      setUserLocationInfowindowOpen(true);
     };
 
     const handleError = (error) => {
@@ -250,22 +166,25 @@ const MapCompo = () => {
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
   }
 
+  const backToYourWilaya = () => {
+    moveTo(zoom, 13, setZoom, lastMapEventCenter, center, setCenter);
+  };
+
   return (
     <div
-      className=" rounded-xl overflow-hidden relative cursor-pointer"
-      data-vaul-no-drag
+      className=" rounded-xl overflow-hidden relative "
       style={{ height: "100%", width: "100%" }}
     >
-      <APIProvider apiKey={GOOGLE_MAPS_API_KEY} data-vaul-no-drag>
+      <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
         <Map
           style={{ width: "100%", height: "100%", cursor: "pointer" }}
           defaultCenter={mapCenter}
           center={mapCenter}
           // defaultCenter={{ lat: 43.65, lng: -79.38 }}
-          defaultZoom={zoom}
+          // defaultZoom={zoom}
           zoom={zoom}
           mapId={"49ae42fed52588c3"}
-          mapTypeId={"roadmap"}
+          // mapTypeId={"roadmap"}
           onZoomChanged={(ev) => {
             setZoom(ev.detail.zoom);
           }}
@@ -276,18 +195,18 @@ const MapCompo = () => {
           // styles={google.maps.MapTypeStyle}
           onClick={onMapClick}
           // gestureHandling={"greedy"}
-          data-vaul-no-drag
+
           disableDefaultUI={true}
           // fullscreenControl={false}
         >
-          <Directions />
+          {/* <Directions /> */}
 
           {showMarker && (
             <>
               <AdvancedMarker
                 ref={clickMarkerRef}
                 position={{ lat: showMarker.lat, lng: showMarker.lng }}
-
+                onClick={() => setInfowindowOpen(true)}
                 // clickable={true}
                 // onClick={() => alert("marker was clicked!")}
                 // title={"clickable google.maps.Marker"}
@@ -299,62 +218,55 @@ const MapCompo = () => {
                   scale={1.2}
                 ></Pin>
               </AdvancedMarker>
-
-              <InfoWindow
-                anchor={clickMarker}
-                maxWidth={200}
-                onCloseClick={() => setInfowindowOpen(false)}
-              >
-                <p className=" text-lg font-sans font-normal">your job location</p>
-              </InfoWindow>
+              {infowindowOpen && (
+                <InfoWindow
+                  anchor={clickMarker}
+                  maxWidth={200}
+                  onCloseClick={() => setInfowindowOpen(false)}
+                >
+                  <p className=" text-lg font-sans font-normal">
+                    your job location
+                  </p>
+                </InfoWindow>
+              )}
             </>
           )}
           {userLocationMarker && (
             <>
               <AdvancedMarker
                 ref={markerRef}
-                onClick={() => setInfowindowOpen(true)}
+                onClick={() => setUserLocationInfowindowOpen(true)}
                 position={userLocationMarker}
                 title={"AdvancedMarker with custom html content."}
               >
-                <div className="p-1 border-4 border-primary rounded-full h-fit w-fit">
-                  <div className="bg-primary h-4 w-4 rounded-full"></div>
+                <div className="p-[3px] border-[3px] border-primary rounded-full h-fit w-fit">
+                  <div className="bg-primary h-3 w-3 rounded-full"></div>
                 </div>
               </AdvancedMarker>
-              {infowindowOpen && (
+              {UserLocationInfowindowOpen && (
                 <InfoWindow
                   anchor={marker}
                   maxWidth={200}
-                  onCloseClick={() => setInfowindowOpen(false)}
+                  onCloseClick={() => setUserLocationInfowindowOpen(false)}
                 >
                   <p className=" text-lg font-sans font-normal">
-                    the job location
+                    Your location
                   </p>
                 </InfoWindow>
               )}
             </>
           )}
         </Map>
+        <MyComponent />
       </APIProvider>
-      <div className="flex flex-col gap-3 absolute right-5 bottom-5 items-end">
-        <Button
-          className=" hover:opacity-[100%] p-3 h-fit w-fit"
-          onClick={handleZoomOut}
-        >
-          <ZoomOut />
-        </Button>
-        <Button
-          className="hover:opacity-[100%] p-3 h-fit w-fit"
-          onClick={handleZoomIn}
-        >
+      <div className="flex flex-col gap-3 absolute right-5 bottom-24 items-end">
+        <Button className="p-3 h-fit w-fit" onClick={handleZoomIn}>
           <ZoomIn />
         </Button>
-        <Button
-          className="hover:opacity-[100%] p-3 h-fit w-fit"
-          onClick={handleZoomChange}
-        >
-          Back to Algiers
+        <Button className="  p-3 h-fit w-fit" onClick={handleZoomOut}>
+          <ZoomOut />
         </Button>
+
         <Button
           className="hover:opacity-[99%] p-3 h-fit w-fit"
           onClick={() => {
@@ -364,12 +276,22 @@ const MapCompo = () => {
         >
           <Locate />
         </Button>
-        <Button className="">send as job location</Button>
+      </div>
+      <div className="flex gap-2 absolute right-5 bottom-5">
+        <Button onClick={backToYourWilaya}>Back to Your Wilaya</Button>
+        <Button
+          disabled={!jobLocation}
+          onClick={() => {
+            console.log(jobLocation);
+          }}
+        >
+          send as job location
+        </Button>
       </div>
       {/* {marker && <Marker position={{ lat: marker.lat, lng: marker.lng }} />} */}
     </div>
   );
-};
+}
 
 function Directions() {
   const map = useMap();
@@ -437,51 +359,5 @@ function Directions() {
         ))}
       </ul>
     </div>
-  );
-}
-
-export default function SendLocation() {
-  return (
-    <Drawer dismissible={false}>
-      <DrawerTrigger asChild>
-        <Button size="sm" onClick={() => {}}>
-          <MapPin className="h-4 w-4 mr-2" />
-          Send Job Location
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div
-          className=" w-full h-screen gap-2 flex flex-col items-center justify-center p-4 px-12 bg-bg relative"
-          data-vaul-no-drag
-        >
-          <div className=" flex items-center justify-start w-full px-4 pb-4 gap-2">
-            <DrawerClose
-              asChild
-              className=" rounded-sm opacity-70 ring-offset-background transition-translate duration-100  ease-in-out transform hover:translate-x-1  focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-bg data-[state=open]:text-muted-foreground"
-              data-vaul-no-drag
-            >
-              <ChevronLeft className="h-8 w-8" data-vaul-no-drag />
-            </DrawerClose>
-            <h3 className=" text-3xl text-black font-semibold">Maps</h3>
-          </div>
-
-          <MapCompo data-vaul-no-drag />
-          {/* <div className="w-full flex items-center justify-end">
-            <Button className="">send as job location</Button>
-          </div> */}
-          {/* <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader> */}
-
-          {/* <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter> */}
-        </div>
-      </DrawerContent>
-    </Drawer>
   );
 }
