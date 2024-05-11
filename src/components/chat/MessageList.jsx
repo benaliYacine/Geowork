@@ -5,6 +5,26 @@ import MessageItem from "./MessageItem"; // Import the updated MessageItem compo
 // Updated sample data with message types
 const messages = [
   {
+    id: -2,
+    senderName: "Alice",
+    message: {
+      type: "jobLocation",
+      location: { lat: 36.752255, lng: 3.042327 },
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: -1,
+    senderName: "Alice",
+    message: {
+      type: "jobLocation",
+      location: { lat: 36.752255, lng: 3.042327 },
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
     id: 0,
     senderName: "Alice",
     message: {

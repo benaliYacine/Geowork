@@ -4,7 +4,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
 import brightColorsStyles from "./style";
-import { ZoomIn, ZoomOut, Locate } from "lucide-react";
+import { ZoomIn, ZoomOut, Locate, LocateFixed } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
@@ -52,7 +52,7 @@ const MyComponent = () => {
 };
 
 export default function MapCompo({ center }) {
-  const GOOGLE_MAPS_API_KEY = "AIzaSyBQ2HGpfDC2KuongVMDAZUlb1Hn_-Osbk8";
+  const GOOGLE_MAPS_API_KEY = "AIzaSyCPWOgGlKyOIg905D1j2vGYnDgY3iJfAPM";
 
   const [showMarker, setShowMarker] = useState(null);
   const [userLocationMarker, setUserLocationMarker] = useState(null);
@@ -259,26 +259,37 @@ export default function MapCompo({ center }) {
         </Map>
         <MyComponent />
       </APIProvider>
-      <div className="flex flex-col gap-3 absolute right-5 bottom-24 items-end">
-        <Button className="p-3 h-fit w-fit" onClick={handleZoomIn}>
+      <div className="flex flex-col gap-3 absolute right-5 bottom-28 items-end  p-2 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
+        <Button
+          className="p-3 h-fit w-fit"
+          onClick={handleZoomIn}
+          variant="outline"
+        >
           <ZoomIn />
         </Button>
-        <Button className="  p-3 h-fit w-fit" onClick={handleZoomOut}>
+        <Button
+          className="  p-3 h-fit w-fit"
+          onClick={handleZoomOut}
+          variant="outline"
+        >
           <ZoomOut />
         </Button>
 
         <Button
-          className="hover:opacity-[99%] p-3 h-fit w-fit"
+          className=" p-3 h-fit w-fit  border-2 border-input"
           onClick={() => {
             getUserLocation();
             console.log("geting your location", userLocationMarker);
           }}
         >
-          <Locate />
+          {!userLocationMarker ? <Locate /> : <LocateFixed />}
         </Button>
       </div>
-      <div className="flex gap-2 absolute right-5 bottom-5">
-        <Button onClick={backToYourWilaya}>Back to Your Wilaya</Button>
+      <div className="flex gap-2 absolute right-5 bottom-5 p-3 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
+        <Button onClick={backToYourWilaya} variant="outline">
+          Back to Your Wilaya
+        </Button>
+
         <Button
           disabled={!jobLocation}
           onClick={() => {

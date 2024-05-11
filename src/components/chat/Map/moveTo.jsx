@@ -24,11 +24,15 @@ export default function moveTo(
   }
   // Map maxDistance to control parameters
   let intermediaryZoom =
-    maxDistance < 0.05
-      ? mapRange(maxDistance, 0, 5, 16, 6)
-      : maxDistance < 0.1
-        ? mapRange(maxDistance, 0, 5, 14, 6)
-        : mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
+    maxDistance < 0.005
+      ? targetCenter
+      : maxDistance < 0.05
+        ? mapRange(maxDistance, 0, 5, 16, 6)
+        : maxDistance < 0.1
+          ? mapRange(maxDistance, 0, 5, 14, 6)
+          : maxDistance > 2
+            ? 8
+            : mapRange(maxDistance, 0, 5, 12, 6); // Assuming 1 is the max possible distance change for simplicity
   // Assuming 1 is the max possible distance change for simplicity
   // const intermediaryZoom = 8; // Assuming 1 is the max possible distance change for simplicity
 
@@ -44,7 +48,7 @@ export default function moveTo(
   );
 
   if (
-    (initialZoom < intermediaryZoom && intermediaryZoom < targetZoom) ||
+    initialZoom < intermediaryZoom ||
     (initialZoom > intermediaryZoom && intermediaryZoom > targetZoom)
   ) {
     intermediaryZoom = targetZoom; // Directly set to targetZoom if initial is less than intermediary

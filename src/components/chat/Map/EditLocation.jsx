@@ -12,16 +12,16 @@ import {
 } from "@/components/ui/drawer";
 import { ChevronLeft } from "lucide-react";
 import { MapPin, Locate } from "lucide-react";
-import MapCompo from "./MapClientSend";
+import MapCompo from "./MapClientEdit";
 import { wilayasCoords } from "@/data/wilayasCoords";
-export default function SendLocation() {
+export default function EditLocation({ location }) {
   const wilayaNumber = 16;
   return (
     <Drawer dismissible={false}>
       <DrawerTrigger asChild>
         <Button size="sm" onClick={() => {}}>
           <MapPin className="h-4 w-4 mr-2" />
-          Send Job Location
+          Edit Job Location
         </Button>
       </DrawerTrigger>
       <DrawerContent>
@@ -37,12 +37,13 @@ export default function SendLocation() {
               <h3 className=" text-3xl text-black font-semibold">Maps</h3>
             </div>
             <p className=" text-lg text-black w-full pl-14 p-1">
-              Click on the map to select your job location, or use the 'Locate'{" "}
+              Click on the map to select and edit your job location, or use the
+              'Locate'{" "}
               <Locate className="w-fit h-fit inline-block stroke-[1.5px]" />{" "}
               button to set your current location.
             </p>
           </div>
-          <MapCompo center={wilayasCoords[wilayaNumber]} />
+          <MapCompo center={wilayasCoords[wilayaNumber]} location={location} />
           {/* <div className="w-full flex items-center justify-end">
             <Button className="">send as job location</Button>
           </div> */}
