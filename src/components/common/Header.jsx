@@ -9,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
+import { Search, Save } from "lucide-react";
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -43,39 +43,33 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
-const components = [
+const FindWork = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
+    title: "Find Work",
+    href: "/findWork",
     description: "",
+    icon: Search,
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
+    title: "Saved Jobs",
+    href: "/savedJobs",
     description: "",
+    icon: Save,
+  },
+];
+
+const Jobs = [
+  {
+    title: "Post a job",
+    href: "/jobSlides",
+    description: "",
+    icon: Search,
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "All Job Posts",
+    href: "/savedJobs",
+    description: "",
+    icon: Save,
   },
 ];
 
@@ -101,41 +95,9 @@ const ListItem = React.forwardRef(
   )
 );
 
-const products = [
-  {
-    name: "Analytics",
-    description: "",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
 const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
+  // { title: "Watch demo", href: "#", icon: PlayCircleIcon },
+  // { title: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
 function classNames(...classes) {
@@ -145,6 +107,8 @@ function classNames(...classes) {
 export default function Header({ logedIn = true }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
   const [profileIcon, setProfileIcon] = useState({});
   useEffect(() => {
     let timeoutId;
@@ -162,7 +126,7 @@ export default function Header({ logedIn = true }) {
       let profileIcon = {};
       if (response.data) {
         profileIcon = response.data;
-        console.log("profileIcon",profileIcon);
+        console.log("profileIcon", profileIcon);
       }
       setProfileIcon(profileIcon);
     };
@@ -174,72 +138,85 @@ export default function Header({ logedIn = true }) {
         className="flex items-center justify-between m-3 sm:mx-4 md:mx-8 lg:mx-12 xl:mx-18 w-full max-w-[1600px]"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex">
           <a href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">Geowork</span>
             <img className="h-8 w-auto" src={geowork} alt="geowork" />
           </a>
         </div>
+        {logedIn && (
+          <NavigationMenu className="hidden lg:block flex-1 px-8">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  {isClient ? "Find Work" : "Jobs"}
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
+                    {isClient
+                      ? FindWork.map((item) => (
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                          >
+                            {item.description}
+                          </ListItem>
+                        ))
+                      : Jobs.map((item) => (
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                          >
+                            {item.description}
+                          </ListItem>
+                        ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
 
-        <NavigationMenu className="hidden lg:block">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/docs" className={navigationMenuTriggerStyle()}>
-                  Documentation
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuIndicator />
-          </NavigationMenuList>
-        </NavigationMenu>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/messages" className={navigationMenuTriggerStyle()}>
+                    Messages
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuIndicator />
+            </NavigationMenuList>
+          </NavigationMenu>
+        )}
+        {logedIn && (
+          <div className="flex lg:hidden">
+            <button
+              type="button"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-black hover:opacity-80  transition-translate duration-200  ease-in-out"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+        )}
+
+        <div
+          className={
+            logedIn
+              ? "hidden lg:flex lg:flex-1 lg:justify-end"
+              : "flex flex-1 justify-end"
+          }
+        >
+          <div
+            className={
+              logedIn
+                ? "hidden lg:flex lg:flex-1 lg:justify-end gap-4"
+                : "flex flex-1 justify-end gap-4"
+            }
           >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
             {logedIn ? (
               <>
-                <NotificationIcon />
+                {/* <NotificationIcon /> */}
                 <ProfileIcon
                   name={profileIcon.name}
                   photoProfile={profileIcon.photoProfile}
@@ -277,7 +254,7 @@ export default function Header({ logedIn = true }) {
           onClose={() => {
             setMobileMenuOpen(false);
           }}
-        >x
+        >
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel
             className={`fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 drop-shadow-[0_0px_70px_rgba(0,0,0,0.20)]
@@ -289,7 +266,7 @@ export default function Header({ logedIn = true }) {
           >
             <div className="flex items-center justify-between">
               <a href="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+                <span className="sr-only">Geowork</span>
                 <img className="h-8 w-auto" src={geoworkLogo} alt="Geowork" />
               </a>
               <button
@@ -298,7 +275,10 @@ export default function Header({ logedIn = true }) {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                <XMarkIcon
+                  className="h-6 w-6 transition-translate duration-200 ease-in-out hover:opacity-75 text-black"
+                  aria-hidden="true"
+                />
               </button>
             </div>
             <div className="mt-6 flow-root">
@@ -307,39 +287,51 @@ export default function Header({ logedIn = true }) {
                   <Accordion type="single" collapsible className="">
                     <AccordionItem value="products">
                       <AccordionTrigger className="flex w-full items-center justify-between -mx-3 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
+                        {isClient ? "FindWork" : "Jobs"}
                       </AccordionTrigger>
                       <AccordionContent className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            {item.name}
-                          </a>
-                        ))}
+                        {isClient
+                          ? [...FindWork, ...callsToAction].map((item) => (
+                              <a
+                                key={item.title}
+                                href={item.href}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              >
+                                {item.title}
+                              </a>
+                            ))
+                          : [...Jobs, ...callsToAction].map((item) => (
+                              <a
+                                key={item.title}
+                                href={item.href}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              >
+                                {item.title}
+                              </a>
+                            ))}
                       </AccordionContent>
                     </AccordionItem>
                     {/* Replicate AccordionItem for other categories as needed */}
                   </Accordion>
+                  {isClient && (
+                    <a
+                      href="/profile"
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Profile
+                    </a>
+                  )}
                   <a
-                    href="#"
+                    href="/messages"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
-                    Features
+                    Messages
                   </a>
                   <a
-                    href="#"
+                    href="/settings"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
-                    Marketplace
-                  </a>
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Company
+                    Settings
                   </a>
                 </div>
                 <div className="py-6">
@@ -347,7 +339,7 @@ export default function Header({ logedIn = true }) {
                     href="#"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
-                    Log in
+                    Log out
                   </a>
                 </div>
               </div>

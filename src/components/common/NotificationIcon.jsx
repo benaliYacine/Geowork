@@ -11,11 +11,10 @@ export default function NotificationIcon() {
     <Popover>
       <PopoverTrigger>
         {" "}
-        <BellRing className="h-6 w-6 stroke-current stroke-[1.5px] text-black cursor-pointer" />
+        <BellRing className="h-8 w-8 stroke-current stroke-[1.2px] transition-translate duration-200 ease-in-out hover:opacity-80" />
       </PopoverTrigger>
       <PopoverContent className="p-2 flex flex-col gap-2 items-start justify-center w-fit">
-        
-        <NotificationListItem text="Lorem ipsum dolor sit amet consectetur adipisicing elit." />  
+        <NotificationListItem text="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
         <NotificationListItem text="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
         <NotificationListItem text="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
         <NotificationListItem text="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
