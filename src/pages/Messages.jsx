@@ -6,12 +6,12 @@ export default function Messages() {
   return (
     <div className="h-screen flex flex-col">
       <Header />
-      <div className="flex-grow flex flex-col">
+      <div className=" flex justify-start w-full">
         <h1 className="text-black font-header text-4xl font-semibold px-6">
           Messages
         </h1>
-        <Chat />
       </div>
+      <Chat />
     </div>
   );
 }

@@ -10,6 +10,8 @@ import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import ContactItem from "./ContactItem";
 // Example data (replace with actual data fetching from the backend)
 /* const contact = {
   name: "John Doe",
@@ -236,33 +238,171 @@ export default function Chat() {
 
   if (loading) return <div></div>;
 
+  const contacts2 = [
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+    {
+      id: 1,
+      name: "Alice",
+      message: "Hey, how are you?",
+      avatarUrl: "https://example.com/alice.jpg",
+      time: "2:49 PM, Feb 21",
+      isActive: true, // Alice is active
+    },
+    {
+      id: 2,
+      name: "Bob",
+      message: "Are you coming to the meeting?",
+      avatarUrl: "https://example.com/bob.jpg",
+      time: "1:15 PM, Feb 20",
+      isActive: false, // Bob is not active
+    },
+  ].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sorting based on time
+
   // return contacts.length != 0 ? (
   return true ? (
     <div className="flex-grow h-full flex w-full overflow-hidden">
-      <div className="h-full w-96 flex flex-col overflow-hidden">
-        <ContactsList />
-      </div>
-      {/* <div className=" w-full flex flex-col h-full">
-          <div className="flex w-full">
-            {" "}
-            <ChatHeader
-              contactName={contact.name}
-              avatarUrl={contact.avatarUrl}
-              lastSeen={contact.lastSeen}
-            />
-          </div>
-
-          <div className=" w-full h-full flex-grow overflow-y-auto">
-            <MessageList messages={messages} />
-          </div>
-          <div className="flex-none">
-            {" "}
-            <MessageInput
-              onSendMessage={sendMessage}
-              onFileAttach={handleFileAttach}
-            />
-          </div>
-        </div> */}
+      <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">
+        {contacts2.map((contact) => (
+          <ContactItem
+            onClick={() => {
+              redirectToMessage(contact.id);
+            }}
+            key={contact.id}
+            name={contact.name}
+            message={contact.message}
+            avatarUrl={contact.avatarUrl}
+            time={contact.time}
+            isActive={contact.isActive}
+          />
+        ))}
+      </ScrollArea>
     </div>
   ) : isclient ? (
     <main className="flex flex-grow items-center justify-center bg-bg px-6 py-24 sm:py-32 lg:px-8">

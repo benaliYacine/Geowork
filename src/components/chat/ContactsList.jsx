@@ -182,7 +182,7 @@ function ContactsList() {
 
   return (
     <div className="h-full">
-      <ScrollArea className=" w-full h-full max-w-xs rounded-2xl bg-white my-3">
+      <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">
         {contacts.map((contact) => (
           <ContactItem
             onClick={() => {
