@@ -181,23 +181,21 @@ function ContactsList() {
   // });
 
   return (
-    <div className="h-full">
-      <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">
-        {contacts.map((contact) => (
-          <ContactItem
-            onClick={() => {
-              redirectToMessage(contact.id);
-            }}
-            key={contact.id}
-            name={contact.name}
-            message={contact.message}
-            avatarUrl={contact.avatarUrl}
-            time={contact.time}
-            isActive={contact.isActive}
-          />
-        ))}
-      </ScrollArea>
-    </div>
+    <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">
+      {contacts.map((contact) => (
+        <ContactItem
+          onClick={() => {
+            redirectToMessage(contact.id);
+          }}
+          key={contact.id}
+          name={contact.name}
+          message={contact.message}
+          avatarUrl={contact.avatarUrl}
+          time={contact.time}
+          isActive={contact.isActive}
+        />
+      ))}
+    </ScrollArea>
   );
 }
 

@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import ProfileIcon from "@/components/common/ProfileIcon";
 import NotificationIcon from "@/components/common/NotificationIcon";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Accordion,
@@ -100,15 +101,18 @@ const callsToAction = [
   // { title: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function Header({ logedIn = true }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
+  const [isClient, setIsClient] = useState(true);
+  const navigate = useNavigate();
+  const handleLogOut = async () => {
+    console.log("fdsajhdfas");
+    const response = await axios.post("/logout");
+    if (response.data.redirectUrl) {
+      navigate(response.data.redirectUrl);
+    }
+  };
   const [profileIcon, setProfileIcon] = useState({});
   useEffect(() => {
     let timeoutId;
@@ -149,11 +153,11 @@ export default function Header({ logedIn = true }) {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
-                  {isClient ? "Find Work" : "Jobs"}
+                  {!isClient ? "Find Work" : "Jobs"}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
-                    {isClient
+                    {!isClient
                       ? FindWork.map((item) => (
                           <ListItem
                             key={item.title}
@@ -287,7 +291,7 @@ export default function Header({ logedIn = true }) {
                   <Accordion type="single" collapsible className="">
                     <AccordionItem value="products">
                       <AccordionTrigger className="flex w-full items-center justify-between -mx-3 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        {isClient ? "FindWork" : "Jobs"}
+                        {!isClient ? "FindWork" : "Jobs"}
                       </AccordionTrigger>
                       <AccordionContent className="mt-2 space-y-2">
                         {isClient
@@ -313,7 +317,7 @@ export default function Header({ logedIn = true }) {
                     </AccordionItem>
                     {/* Replicate AccordionItem for other categories as needed */}
                   </Accordion>
-                  {isClient && (
+                  {!isClient && (
                     <a
                       href="/profile"
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -335,12 +339,12 @@ export default function Header({ logedIn = true }) {
                   </a>
                 </div>
                 <div className="py-6">
-                  <a
-                    href="#"
+                  <p
+                    onClick={() => handleLogOut()}
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Log out
-                  </a>
+                  </p>
                 </div>
               </div>
             </div>

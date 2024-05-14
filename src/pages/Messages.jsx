@@ -7,7 +7,7 @@ export default function Messages() {
     <div className="h-screen flex flex-col">
       <Header />
       <div className=" flex justify-start w-full">
-        <h1 className="text-black font-header text-4xl font-semibold px-6">
+        <h1 className="text-black font-header text-4xl font-semibold px-8">
           Messages
         </h1>
       </div>
