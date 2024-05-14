@@ -268,7 +268,7 @@ export default function MapCompo({ center, location }) {
           onClick={handleZoomIn}
           variant="outline"
         >
-          <ZoomIn />
+          <ZoomIn className="h-7 w-7" />
         </Button>
         <Button
           className="  p-3 h-fit w-fit"

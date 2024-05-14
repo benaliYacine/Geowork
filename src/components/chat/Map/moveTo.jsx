@@ -58,13 +58,13 @@ export default function moveTo(
   // }
 
   const durationGoing =
-    Math.abs(intermediaryZoom - initialZoom) * 400 > 500
+    Math.abs(intermediaryZoom - initialZoom) * 500 > 500
       ? //  || Math.abs(intermediaryZoom - initialZoom) * 500 == 0
         Math.abs(intermediaryZoom - initialZoom) * 500
       : 500;
 
   const durationBack =
-    Math.abs(targetZoom - intermediaryZoom) * 400 > 500
+    Math.abs(targetZoom - intermediaryZoom) * 500 > 500
       ? //  || Math.abs(targetZoom - intermediaryZoom) * 500 == 0
         Math.abs(targetZoom - intermediaryZoom) * 500
       : 500;

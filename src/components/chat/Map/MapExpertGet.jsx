@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/drawer";
 import { easeInOutSine, easeInCubic, easeOutCubic } from "./easingFunctions";
 import moveTo from "./moveTo";
+import DirectionsIcon from "@/assets/illustrations/DirectionsW.svg";
 
 import { ChevronLeft } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -227,7 +228,7 @@ export default function MapCompo({ center, location }) {
           <ZoomIn />
         </Button>
         <Button
-          className="  p-3 h-fit w-fit"
+          className="p-3 h-fit w-fit"
           onClick={handleZoomOut}
           variant="outline"
         >
@@ -238,14 +239,18 @@ export default function MapCompo({ center, location }) {
           className=" p-3 h-fit w-fit  border-2 border-input"
           onClick={() => {}}
         >
-          <Navigation className="relative top-[1px] right-[1px]" />
+          <img
+            src={DirectionsIcon}
+            className="h-6 w-6 inline-block stroke-[1.4px]"
+            alt="Directions icon"
+          />
+          
         </Button>
       </div>
       <div className="flex gap-2 absolute right-5 bottom-5 p-3 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
         <Button onClick={backToJobLocation} variant="outline">
           Back to job location
         </Button>
-
       </div>
       {/* {marker && <Marker position={{ lat: marker.lat, lng: marker.lng }} />} */}
     </div>

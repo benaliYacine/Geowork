@@ -11,8 +11,9 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { ChevronLeft } from "lucide-react";
-import { MapPin, Navigation } from "lucide-react";
-import MapCompo from "./MapClientGet";
+import { MapPin } from "lucide-react";
+import Directions from "@/assets/illustrations/Directions.svg";
+import MapCompo from "./MapExpertGet";
 import { wilayasCoords } from "@/data/wilayasCoords";
 export default function SendLocation({ location }) {
   const wilayaNumber = 16;
@@ -37,8 +38,12 @@ export default function SendLocation({ location }) {
               <h3 className=" text-3xl text-black font-semibold">Maps</h3>
             </div>
             <p className=" text-lg text-black w-full pl-14 p-1">
-              Click the Directions button{" "}
-              <Navigation className="w-fit h-fit inline-block stroke-[1.4px] relative top-[1px] right-[1px]" />{" "}
+              Click the Directions button Directions
+              <img
+                src={Directions}
+                className="w-8 h-8 m-2 inline-block stroke-[1.4px]"
+                alt="Directions icon"
+              />
               to find your way to the job site.
             </p>
           </div>

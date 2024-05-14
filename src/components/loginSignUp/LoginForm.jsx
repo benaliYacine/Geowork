@@ -82,8 +82,13 @@ export default function LoginForm() {
   return (
     <div>
       <h2 className="text-center font-sans font-bold text-4xl mb-6">Log In</h2>
-      <AlertMessage showAlert={showAlert} message={alertMessage} />
-
+      
+      <AlertMessage
+        showAlert={showAlert}
+        variant="destructive"
+        onClose={() => setShowAlert(false)}
+        message={alertMessage}
+      />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <GenericFormField
