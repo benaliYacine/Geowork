@@ -210,6 +210,7 @@ export default function ProfilePage() {
             profileInfo={profileInfo}
             coverLetter={info.coverLetter}
             budget={info.budget}
+            action={true}
           />
         </PageContainer>
         <Footer />

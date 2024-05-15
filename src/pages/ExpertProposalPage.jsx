@@ -1,218 +1,172 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Profile from "@/components/profile/Profile";
+import { React, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
+import JobPost from "@/components/jobPost/JobPost";
+import { Button } from "@/components/ui/button";
+import CurrencyFormField from "@/components/formFields/CurrencyFormField";
+import TextareaFormField from "@/components/formFields/TextareaFormField";
+import { Form } from "@/components/ui/form";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate, useParams } from "react-router-dom";
 import SearchBar from "@/components/searchBar/SearchBar";
-import Proposal from "@/components/proposalList/Proposal";
-export default function ProfilePage() {
+import { Pencil, Save } from "lucide-react";
+import AlertDialog from "@/components/common/AlertDialog";
 
-  const [info, setInfo] = useState({
-    name: 'John Doe',
-    role: "Web Developer",
-    rating: Math.random() * 5,
-    avatarUrl: "https://github.com/johndoe.png",
-    wilaya: "Algiers",
-    city: "Central",
-    budget: "DZD  5, 500",
-    coverLetter:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+const proposalSchema = z.object({
+  budget: z
+    .string()
+    .min(1, "budget is required")
+    // Adjust regex as needed if your input format includes the "DZD" prefix.
+    .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
+});
+
+export default function SubmitProposal() {
+  const [budget, setbudget] = useState("DZD 50, 000");
+  const [coverLetter, seCoverLetter] = useState(
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit molestias totam dicta, dignissimos pariatur rerum quia blanditiis laborum quis voluptate voluptatem, magnam minus, officiis officia dolor amet accusantium? Impedit, ex."
+  );
+  const navigate = useNavigate();
+  const form = useForm({
+    resolver: zodResolver(proposalSchema),
+    defaultValues: {
+      budget: budget,
+    },
   });
-  const [profileInfo, setProfileInfo] = useState({
-    roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
+
+  const onSubmit = form.handleSubmit((values) => {
+    setbudget(values.budget);
+    setEdit(false);
+    console.log(values); // Handle the form values,
+  });
+
+  const [jobInfo, setJobInfo] = useState({
+    title: "na7ihom memba3d ",
     category: "education_and_tutoring",
     subCategory: "math_tutor",
-    employments: [
-      {
-        title: "memba3d na7iha",
-        company: "test",
-        Location: "test",
-        currentlyIn: true,
-        date: {
-          start: {
-            month: 2,
-            year: 2020,
-          },
-          end: {
-            month: 2,
-            year: 2021,
-          },
-        },
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-      {
-        title: "memba3d na7iha",
-        company: "test",
-        Location: "test",
-        currentlyIn: false,
-        date: {
-          start: {
-            month: 1,
-            year: 2020,
-          },
-          end: {
-            month: 1,
-            year: 2021,
-          },
-        },
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
+    wilaya: "alger",
+    city: "sidi_moussa",
+    budget: "DZD  5, 500",
+    description:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+    images: [
+      "https://placebear.com/g/200/200",
+      "https://source.unsplash.com/user/c_v_r/1900×800",
+      "https://via.placeholder.com/300.png/09f/fff",
     ],
-    experiences: [
-      {
-        title: "memba3d na7iha",
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-      {
-        title: "memba3d na7iha",
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-      {
-        title: "memba3d na7iha",
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-    ],
-    educations: [
-      {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
-        datesAttended: {
-          start: 2021,
-          end: 2025,
-        },
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-      {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
-        datesAttended: {
-          start: 2021,
-          end: 2025,
-        },
-        description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
-      },
-      {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
-        datesAttended: {
-          start: 2021,
-          end: 2025,
-        },
-        description:
-          " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
-      },
-    ],
-    jobs: [
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "alger",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "alger",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "alger",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "alger",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 4.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-    ],
-    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
-    // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-    dateBirthday: undefined,
-    streetAdress: " tiaret tiaret asdf asd f",
-    phone: "05 55 55 55 55",
-    // photoProfileSrc:
-    //   "https://third-party-test.glitch.me/check.svg?cors=anonymous", // ani dayer hada l url lakhatercch .toDataURL(); ma7abetch temchi m3a l url ta3 doub hadak ygoulek makch m7aded l cors w hadi l image url l9itha hna https://stackblitz.com/edit/cors-corp-image-example?file=src%2Findex.html haka l .toDataURL(); yemchi mais mech3aref ida ilyes ki ydir fetch ida temchi wela la
-    // teksar eras fel batel cors w mech3aref w lazem photoProfileSrc yzidha ilyes fel bdd .. khlas na7itha w f edit avatar card radit image tebda null (la bgha l user el src ta3 nafs l image li darha awal mara beh ghi hiya w ymodifi fiha y3awed ytala3ha w khlas) tema ay haja 3andha 3ala9a bel imagesrc na7itha hna ma3andna mandirou biha / mais fel slide seven khatitha kima rahi bah ida dert back moraha next w tefta7 el edit tel9a l image src fel edit mais hna ma3adnach back w next w fel state goulna ga3 la dernaha ra7 tkoun null tema makan hata fayda ki dirha w koun tebghi tdirha fel bdd lazem yzidha ilyes fel bdd w lazem tkoun cors w mech3aref .. tema makalah
-
-    photoProfile: "https://placebear.com/g/200/200",
   });
 
-  if (profileInfo)
-    return (
-      <>
-        <Header />
-        <PageContainer>
-          <SearchBar />
-          <ExpertProposal
-            proposal={info}
-            profileInfo={profileInfo}
-            coverLetter={info.coverLetter}
-            budget={info.budget}
-          />
-        </PageContainer>
-        <Footer />
-      </>
-    );
+  const [edit, setEdit] = useState(false);
+  return (
+    <>
+      <Header />
+      <PageContainer>
+        <SearchBar />
+        <div className="flex items-center justify-between">
+          <h1 className="text-black font-header text-4xl font-semibold">
+            Proposal details
+          </h1>
+        </div>
+        <div className="flex flex-col gap-4 mt-6 mb-6">
+          <div className="w-full flex flex-col rounded-3xl p-6 bg-white">
+            <h3 className="text-2xl font-header font-semibold mb-6">
+              Job details
+            </h3>
+            <h4 className="text-black font-header text-xl font-semibold">
+              {jobInfo.title}
+            </h4>
+            <JobPost
+              jobInfo={jobInfo}
+              edit={false}
+              apply={false}
+              title={false}
+            />
+            <Button variant="link" className="w-fit mt-2" type="button">
+              View job Posting
+            </Button>
+          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="w-full flex flex-col gap-2 rounded-3xl p-6 bg-white">
+                <h3 className="text-2xl font-header font-semibold mb-1">
+                  Budget
+                </h3>
+
+                {!edit ? (
+                  <>
+                    <p className="text-greyDark font-semibold text-xl p-2">
+                      {budget}
+                    </p>
+                    <div className="flex items-center justify-end gap-4">
+                      {" "}
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => {
+                          setEdit(true);
+                        }}
+                      >
+                        <Pencil className="h-4 w-4 mr-2" /> edit budjet
+                      </Button>
+                      {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
+                      <AlertDialog
+                        title="Withdraw proposal"
+                        description="Are you sure you want to withdraw this proposal"
+                        action={() => {}}
+                        actionButtonText="Withdraw"
+                      >
+                        <Button variant="outline" size="sm" type="button">
+                          Withdraw proposal
+                        </Button>
+                      </AlertDialog>
+                      {/* <DeleteJobPost onDelete={() => {}} /> */}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className=" text-sm font-normal ">
+                      How much do you want to be paid for this job
+                    </p>
+                    <CurrencyFormField
+                      control={form.control}
+                      name="budget"
+                      label=""
+                      placeholder="Enter your budget"
+                      className="border border-border focus-visible:border-primary"
+                    />
+                    <div className="flex items-center justify-end gap-4 mt-2">
+                      {" "}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEdit(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      {/* TODO: diir save lel job info fel base de donne fel onclick */}
+                      <Button type="submit" size="sm">
+                        <Save className="h-4 w-4 mr-2" /> Save
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </form>
+          </Form>
+          <div className="w-full flex flex-col gap-2 rounded-3xl p-6 bg-white">
+            <h3 className="text-2xl font-header font-semibold">Cover Letter</h3>
+            <p>{coverLetter}</p>
+          </div>
+        </div>
+      </PageContainer>
+      <Footer />
+    </>
+  );
 }
+//}

@@ -27,6 +27,7 @@ import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
 import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
+import ExpertProposalPage from "./pages/ExpertProposalPage";
 import io from "socket.io-client"
 import axios from "axios";
 
@@ -71,6 +72,7 @@ function App() {
           <Route path="/verifyEmail" element={<SendEmailPage />} />
           <Route path="/savedJobs" element={<SavedJobs />} />
           <Route path="/savedExperts" element={<SavedExperts />} />
+          <Route path="/expertProposalPage" element={<ExpertProposalPage />} />
 
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/proposal" element={<ProposalPage />} />
@@ -80,6 +82,7 @@ function App() {
           <Route path="/findWork" element={<FindWork />} />
           <Route path="/submitProposal" element={<SubmitProposal />} />
           <Route path="/job/:id" element={<Job />} />
+          <Route path="/job" element={<Job />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
