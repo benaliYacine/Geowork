@@ -309,6 +309,7 @@ app.get(
                 ...j,
                 id: j._id,
                 heart: true,
+                isExpert:true,
                 images: j.images.map((i) => i.url),
             }));
             console.log(jobs);
