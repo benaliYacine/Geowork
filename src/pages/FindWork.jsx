@@ -21,7 +21,7 @@ export default function FindWork({ }) {
   const [jobs, setJobs] = useState([]);
   const [jobsMatch, setJobsMatch] = useState([]);
   const navigate=useNavigate();
-  const [loading,setLoading]=useState(true)
+  const [loading,setLoading]=useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const response2 = await axios.get('/findWork');

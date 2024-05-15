@@ -1,104 +1,108 @@
-
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const passport = require('passport');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const passport = require("passport");
 //const GoogleStrategy = require('passport-google-oauth20').Strategy;
 //const cookieParser = require('cookie-parser');
-const RouterClient = require('./router/client');
-const RouterProfessionnel = require('./router/professionnel');
-const methodOverride = require('method-override');
-const RouterJob = require('./router/job');
-const RouterpasswordRecuperation = require('./router/passwordRecuperation');
-const RouterAuth = require('./router/auhGoogle');
-const RouterVerifyEmail = require('./router/verifyEmail');
-const AppError = require('./AppError');
+const RouterClient = require("./router/client");
+const RouterProfessionnel = require("./router/professionnel");
+const methodOverride = require("method-override");
+const RouterJob = require("./router/job");
+const RouterpasswordRecuperation = require("./router/passwordRecuperation");
+const RouterAuth = require("./router/auhGoogle");
+const RouterVerifyEmail = require("./router/verifyEmail");
+const AppError = require("./AppError");
 const Client = require("./models/client");
 const Professionnel = require("./models/professionnel");
 const Job = require("./models/job");
-const middlewars = require('./utils/middlewars');
-const { userInfo } = require('os');
+const middlewars = require("./utils/middlewars");
+const { userInfo } = require("os");
 const app = express();
 const Token = require("./models/token");
-const sendEmail = require('./utils/sendEmail');
-const crypto = require('crypto');
-const cors = require('cors');
-const WebSocket = require('ws');
-const { cloudinary, storage } = require('./cloudinary/index');
-const multer = require('multer');
+const sendEmail = require("./utils/sendEmail");
+const crypto = require("crypto");
+const cors = require("cors");
+const WebSocket = require("ws");
+const { cloudinary, storage } = require("./cloudinary/index");
+const multer = require("multer");
 const upload = multer({ storage });
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 let user_id;
 let user_type;
 
-
-
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
 //const uploadjobs = multer({ storageJobs });
 
-
-
-mongoose.connect('mongodb://127.0.0.1:27017/Geolans')//criation de la base de donne ismha shopApp
+mongoose
+    .connect("mongodb://127.0.0.1:27017/Geolans") //criation de la base de donne ismha shopApp
     //virification de connection de mongodb to mongo server
     .then(() => {
-        console.log('CONNECTION OPEN');
+        console.log("CONNECTION OPEN");
     })
-    .catch(err => {
-        console.log(err)
+    .catch((err) => {
+        console.log(err);
     });
 
-app.use(session({
-    secret: 'goodsecret',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        secure: false, // Cookie envoyé uniquement sur HTTPS ki tkon true
-        httpOnly: false, // Cookie accessible uniquement via HTTP(S) ki tkon true
-        sameSite: 'lax', // Restreint l'envoi du cookie aux requêtes du même site badalna strict l lax bh ki y5rj bg ydir auth google matatna7ach la session 
-        maxAge: 24 * 60 * 60 * 1000 // Durée de vie du cookie en millisecondes (ici, 24 heures)
-    }
-}));
+app.use(
+    session({
+        secret: "goodsecret",
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            secure: false, // Cookie envoyé uniquement sur HTTPS ki tkon true
+            httpOnly: false, // Cookie accessible uniquement via HTTP(S) ki tkon true
+            sameSite: "lax", // Restreint l'envoi du cookie aux requêtes du même site badalna strict l lax bh ki y5rj bg ydir auth google matatna7ach la session
+            maxAge: 24 * 60 * 60 * 1000, // Durée de vie du cookie en millisecondes (ici, 24 heures)
+        },
+    })
+);
 
 app.use((req, res, next) => {
-
     user_id = req.session.user_id;
     user_type = req.session.user_type;
     console.log(req.session.user_id);
     next();
 });
 
-
-
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 //app.set('views', 'views');
-app.set('views', path.join(__dirname, '/views'));
+app.set("views", path.join(__dirname, "/views"));
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Remplacez 'votre-domaine.com' par le domaine de votre application React
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Remplacez 'votre-domaine.com' par le domaine de votre application React
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "X-Requested-With,content-type"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", true);
     next();
 });
 
 //app.use(session({ secret: 'goodsecret', resave: false, saveUninitialized: true }));
-app.use(express.urlencoded({ limit: '10 mb', extended: true }));
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from this origin
-    credentials: true, // Allow credentials to be sent with requests
-}));
-app.use('/api/clients/', RouterClient);//tasta3mal request li waslatak men client
-app.use('/api/professionnels/', RouterProfessionnel);
-app.use('/api/jobs/', RouterJob);
-app.use('/', RouterAuth);
-app.use('/', RouterVerifyEmail);
-app.use('/', RouterpasswordRecuperation);//tasta3mal request li waslatak men client
-app.use((req, res, next) => { //bah fi kol request fi body yab3at id t3 client wla professionnel
+app.use(express.urlencoded({ limit: "10 mb", extended: true }));
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(
+    cors({
+        origin: "http://localhost:5173", // Allow requests from this origin
+        credentials: true, // Allow credentials to be sent with requests
+    })
+);
+app.use("/api/clients/", RouterClient); //tasta3mal request li waslatak men client
+app.use("/api/professionnels/", RouterProfessionnel);
+app.use("/api/jobs/", RouterJob);
+app.use("/", RouterAuth);
+app.use("/", RouterVerifyEmail);
+app.use("/", RouterpasswordRecuperation); //tasta3mal request li waslatak men client
+app.use((req, res, next) => {
+    //bah fi kol request fi body yab3at id t3 client wla professionnel
     //req.body.id = id;
-    next();    // Passer au middleware suivant dans la chaîne
+    next(); // Passer au middleware suivant dans la chaîne
 });
 
 /* const middlewars.requireLogin = (req, res, next) => {
@@ -112,28 +116,33 @@ app.use((req, res, next) => { //bah fi kol request fi body yab3at id t3 client w
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    })
-}
-function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
+        expiresIn: "30d",
+    });
+};
+function wrapAsync(fn) {
+    //fonction pour les erreur pour les fonction asynchrone
     return function (req, res, next) {
-        fn(req, res, next).catch(e => next(e))
-    }
+        fn(req, res, next).catch((e) => next(e));
+    };
 }
-app.get('/userId', (req, res) => {
+app.get("/", async (req,res) => {
+    if (req.session.user_id) {
+        res.json({ redirectUrl: "/dashboard" });
+    } else res.json({});
+});
+app.get("/userId", (req, res) => {
     res.json({ user_id: req.session.user_id });
-})
-app.get('/header', async (req, res) => {
+});
+app.get("/header", async (req, res) => {
     let user;
     let responseData = {};
-    if (req.session.user_type == 'Client') {
+    if (req.session.user_type == "Client") {
         user = await Client.findById(req.session.user_id);
         responseData.name = `${user.name.first} ${user.name.last}`;
         responseData.pro = false;
         responseData.logedIn = true;
         responseData.isClient = true;
-    }
-    else if (req.session.user_type == 'Professionnel') {
+    } else if (req.session.user_type == "Professionnel") {
         user = await Professionnel.findById(req.session.user_id);
         responseData.name = `${user.name.first} ${user.name.last}`;
         responseData.photoProfile = user.profile.photoProfile.url;
@@ -141,41 +150,42 @@ app.get('/header', async (req, res) => {
         responseData.logedIn = true;
         responseData.isClient = false;
     } else {
-        responseData.logedIn = false
+        responseData.logedIn = false;
     }
     return res.json(responseData);
-
-})
-app.get('/logout', (req, res) => {
+});
+app.get("/logout", (req, res) => {
     // Détruire la session côté serveur
-    res.render('logout');
+    res.render("logout");
 });
-app.get('/profileSlides', middlewars.requireLoginProfessionnel, async (req, res) => {
-    const pro = await Professionnel.findById(req.session.user_id);
-    if (pro.profile.added)
-        return res.json({ redirectUrl: '/dashboard' });
-    res.json("");
-});
-app.post('/logout', (req, res) => {
+app.get(
+    "/profileSlides",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const pro = await Professionnel.findById(req.session.user_id);
+        if (pro.profile.added) return res.json({ redirectUrl: "/dashboard" });
+        res.json("");
+    }
+);
+app.post("/logout", (req, res) => {
     // Détruire la session côté serveur
     req.session.destroy((err) => {
         if (err) {
             console.error("Erreur lors de la destruction de la session :", err);
             res.status(500).json({ error: "Erreur lors de la déconnexion" });
         } else {
-            res.json({ redirectUrl: '/login' });
+            res.json({ redirectUrl: "/login" });
         }
     });
 });
-app.get('/settings', middlewars.isLoginIn, async (req, res) => {
-    if (req.session.user_type == 'Client')
+app.get("/settings", middlewars.isLoginIn, async (req, res) => {
+    if (req.session.user_type == "Client")
         res.json(await Client.findById(req.session.user_id));
-    if (req.session.user_type == 'Professionnel')
+    if (req.session.user_type == "Professionnel")
         res.json(await Professionnel.findById(req.session.user_id));
-
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
     const { password, email } = req.body;
     let foundUser = await Professionnel.findAndValidate(email, password);
     if (!foundUser) {
@@ -184,124 +194,154 @@ app.post('/login', async (req, res) => {
             //generateToken(foundUser._id);
             if (req.session) {
                 req.session.user_id = foundUser._id;
-                req.session.user_type = 'Client';
+                req.session.user_type = "Client";
                 req.session.save();
                 //console.log(req.session.user_id);
                 //res.json('hello');
-                if (foundUser.verified)
-                    res.json({ redirectUrl: '/dashboard' });
+                if (foundUser.verified) res.json({ redirectUrl: "/dashboard" });
                 //res.redirect('/dashboard' );
-                else res.json({ redirectUrl: '/verifyEmail' });
-            } else res.send('err');
+                else res.json({ redirectUrl: "/verifyEmail" });
+            } else res.send("err");
         } else {
-            res.status(401).json({ message: 'email or password incorrect' });
+            res.status(401).json({ message: "email or password incorrect" });
         }
     } else {
         //generateToken(foundUser._id);
         if (req.session) {
             req.session.user_id = foundUser._id;
-            req.session.user_type = 'Professionnel';
+            req.session.user_type = "Professionnel";
             req.session.save();
-            res.json({ redirectUrl: '/dashboard' });
-        } else res.send('err');
+            res.json({ redirectUrl: "/dashboard" });
+        } else res.send("err");
     }
 });
 
-app.get('/photo', (req, res) => {
-    res.render('import')
+app.get("/photo", (req, res) => {
+    res.render("import");
 });
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     //console.log(req.session.user_id);
     res.send("HELOO WORLD !!!");
-})
-app.get('/signup', middlewars.requireLogin, (req, res) => {
+});
+app.get("/signup", middlewars.requireLogin, (req, res) => {
     res.json("");
 });
-app.get('/login', middlewars.requireLogin, (req, res) => {
+app.get("/login", middlewars.requireLogin, (req, res) => {
     //res.render('login');
     res.json("");
     //res.render('login');
 });
 
-
-app.get('/dashboard', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, async (req, res) => {
-    //console.log(req.session);
-    if (req.session.user_type == 'Client') {
-        const cli = await Client.findById(req.session.user_id).populate("jobs");
-        console.log(cli);
-        res.json(cli);
+app.get(
+    "/dashboard",
+    middlewars.isLoginIn,
+    middlewars.verifyProfessionnelProfil,
+    async (req, res) => {
+        //console.log(req.session);
+        if (req.session.user_type == "Client") {
+            const cli = await Client.findById(req.session.user_id).populate(
+                "jobs"
+            );
+            console.log(cli);
+            res.json(cli);
+        } else {
+            const pro = await Professionnel.findById(
+                req.session.user_id
+            ).populate("profile.jobs");
+            console.log(pro);
+            res.json(pro);
+        }
+        //res.render('clients/dashboard');
     }
-    else {
-        const pro = await Professionnel.findById(req.session.user_id).populate("profile.jobs");
-        console.log(pro);
-        res.json(pro);
+);
+
+app.get(
+    "/info",
+    middlewars.isLoginIn,
+    middlewars.verifyProfessionnelProfil,
+    async (req, res) => {
+        let foundUser;
+        if (req.session && req.session.user_type == "Client") {
+            foundUser = await Client.findById(req.session.user_id);
+        } else {
+            foundUser = await Professionnel.findById(req.session.user_id);
+        }
+        res.json(foundUser);
+
+        //res.render('professionnel/dashboard');
     }
-    //res.render('clients/dashboard');
-});
+);
 
-
-app.get('/info', middlewars.isLoginIn, middlewars.verifyProfessionnelProfil, async (req, res) => {
-    let foundUser;
-    if (req.session && req.session.user_type == 'Client') {
-        foundUser = await Client.findById(req.session.user_id);
-    }
-    else {
-        foundUser = await Professionnel.findById(req.session.user_id)
-    }
-    res.json(foundUser)
-
-    //res.render('professionnel/dashboard');
-});
-
-app.get('/InputWilayaCity', middlewars.requireLogin, (req, res) => {
+app.get("/InputWilayaCity", middlewars.requireLogin, (req, res) => {
     res.json("");
 });
-app.get('/chat', middlewars.isLoginIn, (req, res) => {
+app.get("/chat", middlewars.isLoginIn, (req, res) => {
     res.json("");
 });
 
-app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) => {
-    try {
-        const pro = await Professionnel.findById(req.session.user_id);
-        if (!pro.profile.added)
-            res.json(pro); // Sending JSON response using `res` object
-        else req.json({ redirectUrl: '/dashboard' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' }); // Sending error response if there's an issue
+app.get(
+    "/welcomePro",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        try {
+            const pro = await Professionnel.findById(req.session.user_id);
+            if (!pro.profile.added)
+                res.json(pro); // Sending JSON response using `res` object
+            else req.json({ redirectUrl: "/dashboard" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" }); // Sending error response if there's an issue
+        }
     }
-});
+);
 
-app.get('/savedJobs', middlewars.requireLoginProfessionnel, async (req, res) => {
-    if (req.session.user_type == "Professionnel") {
-        let pro = await Professionnel.findById(req.session.user_id).populate('profile.savedJobs').lean();
-        console.log("pro", pro);
-        let jobs = pro.profile.savedJobs;
-        jobs = jobs.map((j) => ({ ...j, id: j._id, heart: true, images: j.images.map((i) => (i.url)) }))
-        console.log(jobs);
-        res.json(jobs);
+app.get(
+    "/savedJobs",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        if (req.session.user_type == "Professionnel") {
+            let pro = await Professionnel.findById(req.session.user_id)
+                .populate("profile.savedJobs")
+                .lean();
+            console.log("pro", pro);
+            let jobs = pro.profile.savedJobs;
+            jobs = jobs.map((j) => ({
+                ...j,
+                id: j._id,
+                heart: true,
+                images: j.images.map((i) => i.url),
+            }));
+            console.log(jobs);
+            res.json(jobs);
+        }
     }
-})
-app.get('/savedExperts', async (req, res) => {
+);
+app.get("/savedExperts", async (req, res) => {
     if (req.session.user_type == "Client") {
-        let cli = await Client.findById(req.session.user_id).populate('savedProfessionnel').lean();
+        let cli = await Client.findById(req.session.user_id)
+            .populate("savedProfessionnel")
+            .lean();
         console.log("cli", cli);
         let pro = cli.savedProfessionnel;
         console.log(pro);
         res.json(pro);
     }
-})
-app.get('/jobPostPage/:id', async (req, res) => {
+});
+app.get("/jobPostPage/:id", async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
     if (foundJob) {
-        if (req.session.user_type == 'Professionnel') {
+        if (req.session.user_type == "Professionnel") {
             const pro = await Professionnel.findById(req.session.user_id);
             if (pro) {
-                const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+                const savedJobIds = pro.profile.savedJobs.map((j) =>
+                    j.toString()
+                ); // Assuming _id is an ObjectId
                 if (savedJobIds.length > 0) {
                     console.log(savedJobIds);
-                    foundJob.heart = savedJobIds.includes(foundJob.id.toString());
+                    foundJob.heart = savedJobIds.includes(
+                        foundJob.id.toString()
+                    );
                     console.log(foundJob.heart);
                 } else {
                     foundJob.heart = false;
@@ -313,7 +353,7 @@ app.get('/jobPostPage/:id', async (req, res) => {
             foundJob.heart = false; // User is not a professional
         }
         console.log("foundJob.heart", foundJob.heart);
-        console.log(foundJob)
+        console.log(foundJob);
         const job = { ...foundJob };
         job._doc.heart = foundJob.heart;
         console.log(job);
@@ -323,51 +363,61 @@ app.get('/jobPostPage/:id', async (req, res) => {
     }
 });
 
-app.get('/jobSlides', middlewars.requireLoginClient, async (req, res) => {
+app.get("/jobSlides", middlewars.requireLoginClient, async (req, res) => {
     res.json();
-})
-app.get('/job/:id/edit', middlewars.isAuthor, async (req, res) => {
-    const { id } = req.params
-    const job = await Job.findById(id)
+});
+app.get("/job/:id/edit", middlewars.isAuthor, async (req, res) => {
+    const { id } = req.params;
+    const job = await Job.findById(id);
     if (job) {
         console.log(job._id);
-        res.render('importJob', { job });
-    }
-    else console.log("Job n'exist pas")
-})
+        res.render("importJob", { job });
+    } else console.log("Job n'exist pas");
+});
 
 /* app.get('/job/createJob', async (req, res) => {
     res.send("creation job");
 }) */
 
-app.get('/findWork', middlewars.requireLoginProfessionnel, async (req, res) => {
+app.get("/findWork", middlewars.requireLoginProfessionnel, async (req, res) => {
     const pro = await Professionnel.findById(req.session.user_id);
-    const searchCriteria = { wilaya: pro.wilaya, city: pro.city, category: pro.profile.category, subCategory: pro.profile.subCategory };
+    const searchCriteria = {
+        wilaya: pro.wilaya,
+        city: pro.city,
+        category: pro.profile.category,
+        subCategory: pro.profile.subCategory,
+    };
     let jobs = await Job.find(searchCriteria);
-    const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+    const savedJobIds = pro.profile.savedJobs.map((j) => j.toString()); // Assuming _id is an ObjectId
     if (savedJobIds)
-        jobs = await Promise.all(jobs.map(async (j) => {
-            const heart = savedJobIds.includes(j._id.toString());
-            return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
-        }));
+        jobs = await Promise.all(
+            jobs.map(async (j) => {
+                const heart = savedJobIds.includes(j._id.toString());
+                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+            })
+        );
     else
-        jobs = await Promise.all(jobs.map(async (j) => {
-            const heart = savedJobIds.includes(j._id.toString());
-            return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
-        }));
-    jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => (i.url)) }));
-    console.log('jobsssssssssssss', jobs);
+        jobs = await Promise.all(
+            jobs.map(async (j) => {
+                const heart = savedJobIds.includes(j._id.toString());
+                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+            })
+        );
+    jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => i.url) }));
+    console.log("jobsssssssssssss", jobs);
     res.json(jobs);
 });
 
-app.get('/jobsSearch', async (req, res) => {
+app.get("/jobsSearch", async (req, res) => {
     try {
         // Extraire les valeurs des paramètres de la requête
         const { category, subCategory, wilaya, city } = req.query;
-        console.log("wilaya", wilaya);
+        console.log("req.query", req.query);
         // Vérifier si au moins un paramètre est fourni
         if (!category && !subCategory && !wilaya && !city) {
-            return res.status(400).json({ error: 'Au moins un paramètre de recherche est requis.' });
+            return res.status(400).json({
+                error: "Au moins un paramètre de recherche est requis.",
+            });
         }
 
         // Construire la recherche en fonction des paramètres fournis
@@ -376,40 +426,45 @@ app.get('/jobsSearch', async (req, res) => {
         if (subCategory) searchCriteria.subCategory = subCategory;
         if (wilaya) searchCriteria.wilaya = wilaya;
         if (city) searchCriteria.city = city;
-        console.log("searchCriteria", searchCriteria)
+        console.log("searchCriteria", searchCriteria);
         // Effectuer la recherche dans la base de données
         let jobs = await Job.find(searchCriteria);
-        console.log(jobs)
-        if (req.session.user_type == 'Professionnel') {
+        console.log(jobs);
+        if (req.session.user_type == "Professionnel") {
             const pro = await Professionnel.findById(req.session.user_id);
-            const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+            const savedJobIds = pro.profile.savedJobs.map((j) => j.toString()); // Assuming _id is an ObjectId
             if (savedJobIds)
-                jobs = await Promise.all(jobs.map(async (j) => {
-                    const heart = savedJobIds.includes(j._id.toString());
-                    return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
-                }));
+                jobs = await Promise.all(
+                    jobs.map(async (j) => {
+                        const heart = savedJobIds.includes(j._id.toString());
+                        return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                    })
+                );
             else
-                jobs = await Promise.all(jobs.map(async (j) => {
-                    const heart = savedJobIds.includes(j._id.toString());
-                    return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
-                }));
-
+                jobs = await Promise.all(
+                    jobs.map(async (j) => {
+                        const heart = savedJobIds.includes(j._id.toString());
+                        return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                    })
+                );
         }
         console.log("job+heart", jobs);
         // Retourner les résultats de la recherche
         res.json(jobs);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Une erreur est survenue lors de la recherche d\'emplois.' });
+        res.status(500).json({
+            error: "Une erreur est survenue lors de la recherche d'emplois.",
+        });
     }
 });
-app.get('/expertInfo/:id', async (req, res) => {
+app.get("/expertInfo/:id", async (req, res) => {
     const { id } = req.params;
     console.log("iddddddd", id);
     const pro = await Professionnel.findById(id);
-    console.log("professionnel", pro)
+    console.log("professionnel", pro);
     res.json(pro);
-})
+});
 /* app.get('/header', (req, res) => {
     let info;
     if (req.session.user_id) {
@@ -424,14 +479,16 @@ app.get('/expertInfo/:id', async (req, res) => {
     console.log("headerInfo",info);
     res.json(info);
 }) */
-app.get('/expertsSearch', async (req, res) => {
+app.get("/expertsSearch", async (req, res) => {
     try {
         // Extraire les valeurs des paramètres de la requête
         const { category, subCategory, wilaya, city } = req.query;
         console.log("wilaya", wilaya);
         // Vérifier si au moins un paramètre est fourni
         if (!category && !subCategory && !wilaya && !city) {
-            return res.status(400).json({ error: 'Au moins un paramètre de recherche est requis.' });
+            return res.status(400).json({
+                error: "Au moins un paramètre de recherche est requis.",
+            });
         }
 
         // Construire la recherche en fonction des paramètres fournis
@@ -440,41 +497,55 @@ app.get('/expertsSearch', async (req, res) => {
         if (subCategory) searchCriteria.subCategory = subCategory;
         if (wilaya) searchCriteria.wilaya = wilaya;
         if (city) searchCriteria.city = city;
-        console.log("searchCriteria", searchCriteria)
+        console.log("searchCriteria", searchCriteria);
         // Effectuer la recherche dans la base de données
         let professionnels = await Professionnel.find(searchCriteria);
-        console.log(professionnels)
+        console.log(professionnels);
         // Retourner les résultats de la recherche
-        if (req.session.user_type == 'Client') {
+        if (req.session.user_type == "Client") {
             const cli = await Client.findById(req.session.user_id);
-            const savedProfessionalIds = cli.savedProfessionnel.map(p => p.toString()); // Assuming _id is an ObjectId
-            professionnels = await Promise.all(professionnels.map(async (p) => {
-                const heart = savedProfessionalIds.includes(p._id.toString());
-                return { ...p.toObject(), heart }; // Convert toObject() if p is a mongoose document
-            }));
+            const savedProfessionalIds = cli.savedProfessionnel.map((p) =>
+                p.toString()
+            ); // Assuming _id is an ObjectId
+            professionnels = await Promise.all(
+                professionnels.map(async (p) => {
+                    const heart = savedProfessionalIds.includes(
+                        p._id.toString()
+                    );
+                    return { ...p.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                })
+            );
         }
         console.log("expert+heart", professionnels);
         res.json(professionnels);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Une erreur est survenue lors de la recherche d\'emplois.' });
+        res.status(500).json({
+            error: "Une erreur est survenue lors de la recherche d'emplois.",
+        });
     }
 });
 const Message = require("./models/message");
-app.post('/contact', middlewars.isLoginIn, async (req, res) => {
+app.post("/contact", middlewars.isLoginIn, async (req, res) => {
     let user;
 
-    if (req.session.user_type == 'Client') {
-        user = await Client.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
-
-    } else if (req.session.user_type == 'Professionnel') {
-        user = await Professionnel.findById(req.session.user_id).populate('contacts.contactId').populate('contacts.messages');
+    if (req.session.user_type == "Client") {
+        user = await Client.findById(req.session.user_id)
+            .populate("contacts.contactId")
+            .populate("contacts.messages");
+    } else if (req.session.user_type == "Professionnel") {
+        user = await Professionnel.findById(req.session.user_id)
+            .populate("contacts.contactId")
+            .populate("contacts.messages");
     }
 
     let array = user.contacts.map((c) => {
-
-        const lastMessage = c.messages.length > 0 ? c.messages[c.messages.length - 1].message.content : '';
-        const lastMessageTime = c.messages.length > 0 ? c.messages[c.messages.length - 1].time : '';
+        const lastMessage =
+            c.messages.length > 0
+                ? c.messages[c.messages.length - 1].message.content
+                : "";
+        const lastMessageTime =
+            c.messages.length > 0 ? c.messages[c.messages.length - 1].time : "";
 
         if (!c.contactId) {
             c.contactId = {};
@@ -483,9 +554,8 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         c.contactId.message = lastMessage;
         c.contactId.time = lastMessageTime;
 
-
         return c.contactId;
-    })
+    });
 
     const compareDates = (a, b) => {
         if (a.time < b.time) {
@@ -499,7 +569,10 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
     array.sort(compareDates);
 
     array = array.map((c) => {
-        const avatarUrl = req.session.user_type == 'Professionnel' ? c.photoProfile.url : c.profile.photoProfile.url;
+        const avatarUrl =
+            req.session.user_type == "Professionnel"
+                ? c.photoProfile.url
+                : c.profile.photoProfile.url;
         let time = c.time;
         /* const currentTime = new Date(); // Current date and time
         const messageTime = new Date(c.time); // Time of the message
@@ -516,20 +589,23 @@ app.post('/contact', middlewars.isLoginIn, async (req, res) => {
         } */
         let isActive = false;
         if (req.body.people)
-            isActive = req.body.people.some(p => p.user_id == c._id);
+            isActive = req.body.people.some((p) => p.user_id == c._id);
         //hada id de type objectId w ki na7i _ ywali string
-        return { id: c._id, name: `${c.name.first} ${c.name.last}`, message: c.message, avatarUrl: avatarUrl, isActive: isActive, time: time }
-    })
+        return {
+            id: c._id,
+            name: `${c.name.first} ${c.name.last}`,
+            message: c.message,
+            avatarUrl: avatarUrl,
+            isActive: isActive,
+            time: time,
+        };
+    });
 
     res.json(array);
-
-
 });
-app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
+app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
-
-
 
         if (id == 1) {
             return res.json("");
@@ -538,16 +614,16 @@ app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
         let user;
 
         // Determine user type from session
-        if (req.session.user_type === 'Client') {
-            user = await Professionnel.findById(id).populate('contacts.messages');
-        } else if (req.session.user_type === 'Professionnel') {
-            user = await Client.findById(id).populate('contacts.messages');
+        if (req.session.user_type === "Client") {
+            user =
+                await Professionnel.findById(id).populate("contacts.messages");
+        } else if (req.session.user_type === "Professionnel") {
+            user = await Client.findById(id).populate("contacts.messages");
         }
 
         if (!user) {
             return res.json({ redirectUrl: "/messages/1" });
         } else {
-
             const newUser = { ...user._doc, user_id: req.session.user_id };
 
             res.json(newUser);
@@ -558,8 +634,7 @@ app.get('/messages/:id', middlewars.isLoginIn, async (req, res) => {
     }
 });
 
-app.post('/addMessageFile', upload.array('files'), async (req, res) => {
-
+app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     recipientId = req.body.id;
     senderId = req.session.user_id;
     senderType = req.session.user_type;
@@ -569,37 +644,51 @@ app.post('/addMessageFile', upload.array('files'), async (req, res) => {
             senderId: req.session.user_id,
             recipientId: recipientId,
             senderType: senderType,
-            recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
-            message: { content: 'Sent an image' },
+            recipientType:
+                senderType == "Professionnel" ? "Client" : "Professionnel",
+            message: { content: "Sent an image" },
         });
         message.message.type = req.body.type;
         message.message.url = m.path;
         message.message.filename = m.filename;
         const saveMessage = await message.save();
 
-        const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
-        const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
+        const cli =
+            senderType == "Client"
+                ? await Client.findById(senderId)
+                : await Client.findById(recipientId);
+        const pro =
+            senderType == "Professionnel"
+                ? await Professionnel.findById(senderId)
+                : await Professionnel.findById(recipientId);
         let exist = false;
         cli.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
-                exist = true
+                exist = true;
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Client' ? recipientId : senderId;
-            cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+            const contactId = senderType == "Client" ? recipientId : senderId;
+            cli.contacts.push({
+                contactId: contactId,
+                messages: [saveMessage._id],
+            });
         }
         exist = false;
         pro.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
-                exist = true
+                exist = true;
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Professionnel' ? recipientId : senderId
-            pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+            const contactId =
+                senderType == "Professionnel" ? recipientId : senderId;
+            pro.contacts.push({
+                contactId: contactId,
+                messages: [saveMessage._id],
+            });
         }
 
         // user.contacts.map((c)=>{
@@ -612,12 +701,10 @@ app.post('/addMessageFile', upload.array('files'), async (req, res) => {
         const savePro = await pro.save();
 
         res.json(message);
-    }
-    )
-})
+    });
+});
 
-
-app.post('/addMessage', async (req, res) => {
+app.post("/addMessage", async (req, res) => {
     try {
         // const cli=await Client.findById(req.body.recipientId);
         // const pro=await Professionnel.findById(req.body.senderId);
@@ -628,35 +715,49 @@ app.post('/addMessage', async (req, res) => {
             senderId: senderId,
             recipientId: recipientId,
             senderType: senderType,
-            recipientType: senderType == 'Professionnel' ? 'Client' : 'Professionnel',
+            recipientType:
+                senderType == "Professionnel" ? "Client" : "Professionnel",
             message: req.body.message,
         });
 
         const saveMessage = await message.save();
-        const cli = senderType == 'Client' ? await Client.findById(senderId) : await Client.findById(recipientId);
-        const pro = senderType == 'Professionnel' ? await Professionnel.findById(senderId) : await Professionnel.findById(recipientId);
+        const cli =
+            senderType == "Client"
+                ? await Client.findById(senderId)
+                : await Client.findById(recipientId);
+        const pro =
+            senderType == "Professionnel"
+                ? await Professionnel.findById(senderId)
+                : await Professionnel.findById(recipientId);
 
         let exist = false;
         cli.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
-                exist = true
+                exist = true;
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Client' ? recipientId : senderId;
-            cli.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+            const contactId = senderType == "Client" ? recipientId : senderId;
+            cli.contacts.push({
+                contactId: contactId,
+                messages: [saveMessage._id],
+            });
         }
         exist = false;
         pro.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
                 c.messages.push(saveMessage._id);
-                exist = true
+                exist = true;
             }
         });
         if (!exist) {
-            const contactId = senderType == 'Professionnel' ? recipientId : senderId
-            pro.contacts.push({ contactId: contactId, messages: [saveMessage._id] })
+            const contactId =
+                senderType == "Professionnel" ? recipientId : senderId;
+            pro.contacts.push({
+                contactId: contactId,
+                messages: [saveMessage._id],
+            });
         }
 
         // user.contacts.map((c)=>{
@@ -671,19 +772,20 @@ app.post('/addMessage', async (req, res) => {
         console.error(e);
     }
 });
-const socketIo = require('socket.io');
-const http = require('http');
+const socketIo = require("socket.io");
+const http = require("http");
 //const { JsonWebTokenError } = require('jsonwebtoken');
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: 'http://localhost:5173', // Allow requests from this origin
-        methods: ['GET', 'POST'], // Allow only specific HTTP methods
-        credentials: true // Allow credentials to be sent with requests
-    }
+        origin: "http://localhost:5173", // Allow requests from this origin
+        methods: ["GET", "POST"], // Allow only specific HTTP methods
+        credentials: true, // Allow credentials to be sent with requests
+    },
 });
-app.use((err, req, res, next) => { //error hundler middlware
-    const { status = 500, message = 'Something went wrong' } = err;
+app.use((err, req, res, next) => {
+    //error hundler middlware
+    const { status = 500, message = "Something went wrong" } = err;
     res.status(status).send(message);
 });
 
@@ -692,31 +794,37 @@ app.use((err, req, res, next) => { //error hundler middlware
 let onlineUsers = [];
 io.on("connection", (socket) => {
     console.log("new connection", socket.id);
-    socket.on('addNewUser', () => {
-        !onlineUsers.some(user => user.userId === user_id) && user_id &&
+    socket.on("addNewUser", () => {
+        !onlineUsers.some((user) => user.userId === user_id) &&
+            user_id &&
             onlineUsers.push({
                 user_id: user_id,
                 user_type: user_type,
-                socketId: socket.id
-            })
+                socketId: socket.id,
+            });
         console.log(onlineUsers);
         io.emit("getOnlineUsers", onlineUsers);
-    })
+    });
     //add message
-    socket.on('sendMessage', (message) => {
-        const user = onlineUsers.find(user => user.user_id == message.id);
+    socket.on("sendMessage", (message) => {
+        const user = onlineUsers.find((user) => user.user_id == message.id);
         if (user) {
-            message = { ...message, id: user.user_id, isOwnMessage: false, senderId: user_id, timestamp: Date.now() };
+            message = {
+                ...message,
+                id: user.user_id,
+                isOwnMessage: false,
+                senderId: user_id,
+                timestamp: Date.now(),
+            };
             io.to(user.socketId).emit("getMessage", message);
         }
-    })
+    });
     socket.on("disconnect", () => {
-        onlineUsers = onlineUsers.filter(user => user.socketId !== socket.id);
+        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);
-    })
-})
+    });
+});
 // wss.on('connection', (connection) => {
-
 
 //     if (user_id) {
 //         connection.user_id = user_id;
@@ -792,11 +900,7 @@ io.on("connection", (socket) => {
 // });
 
 server.listen(3000, () => {
-    console.log('Server is running at localhost:3000');
+    console.log("Server is running at localhost:3000");
 });
-
-
-
-
 
 module.exports = app;
