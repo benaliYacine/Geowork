@@ -6,6 +6,7 @@ import ExperienceHistory from "@/components/profile/ExperienceHistory";
 import EducationHistory from "@/components/profile/EducationHistory";
 import GeoworkHistory from "@/components/profile/GeoworkHistory";
 import EditAvatarCard from "@/components/profile/EditAvatarCard";
+import EditRoleAndDescriptionButton from "@/components/profile/EditRoleAndDescriptionButton";
 import { Button } from "@/components/ui/button";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import { getInitials } from "@/lib/utils";
@@ -70,7 +71,7 @@ export default function Profile({
                 </AvatarFallback>
               </Avatar>
               {edit && (
-                <div className="absolute bottom-[-6px] right-4 ">
+                <div className="absolute bottom-[-6px] right-4">
                   <EditAvatarCard
                     addImage={addImage}
                     existingPhoto={profileInfo.photoProfile}
@@ -97,14 +98,22 @@ export default function Profile({
             </div>
           </div>
 
-          <div>
+          <div className="relative">
             <h3 className="text-4xl font-header font-semibold mb-1">
               {profileInfo.roleTitle}
             </h3>
-            {/* TODO: khdem mecanizme el more w el less */}
+
             <CollapsibleTextContainer collapsedHeight="50px">
               <p>{profileInfo.Bio}</p>
             </CollapsibleTextContainer>
+            <div className="absolute top-[-5px] right-2">
+              <EditRoleAndDescriptionButton
+                variant="outlined"
+                Bio={profileInfo.Bio}
+                roleTitle={profileInfo.roleTitle}
+                updateProfileInfo={updateProfileInfo}
+              />
+            </div>
           </div>
         </div>
         <GeoworkHistory

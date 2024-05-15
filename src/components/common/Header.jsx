@@ -68,7 +68,13 @@ const Jobs = [
   },
   {
     title: "All Job Posts",
-    href: "/savedJobs",
+    href: "/allJobPosts",
+    description: "",
+    icon: Save,
+  },
+  {
+    title: "Saved Geoworkers",
+    href: "/savedExperts",
     description: "",
     icon: Save,
   },
