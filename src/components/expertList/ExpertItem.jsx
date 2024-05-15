@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 
 export default function ExpertItem({ expert }) {
   const [isClick, setClick] = useState(expert.heart);
-  
+  const [isClient, setIsClient] = useState(false)
     const heartClick = async () => {
       let response;
       setClick(!isClick);
@@ -36,7 +36,7 @@ export default function ExpertItem({ expert }) {
             </Avatar>
           </div>
           <div className="flex-grow mb-2">
-          <ProfileDrawer expert={expert} />
+            <ProfileDrawer expert={expert} />
 
             <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
             <div className="mb-1">
@@ -45,19 +45,21 @@ export default function ExpertItem({ expert }) {
             <Location wilaya={expert.wilaya} city={expert.city} size="sm" />
           </div>
         </div>
-        <div className=" mb-0 ml-auto sm:ml-0 sm:mb-auto flex gap-4 justify-center items-center">
-          <SendInvitation expert={expert} />
-          <div className="w-7 h-7">
-            <Heart
-              onClick={heartClick}
-              className="w-full h-full"
-              isActive={isClick}
-              animationScale={1.25}
-              inactiveColor="#ff5400"
-              activeColor="#ff5400"
-            />
+        {isClient && (
+          <div className=" mb-0 ml-auto sm:ml-0 sm:mb-auto flex gap-4 justify-center items-center">
+            <SendInvitation expert={expert} />
+            <div className="w-7 h-7">
+              <Heart
+                onClick={heartClick}
+                className="w-full h-full"
+                isActive={isClick}
+                animationScale={1.25}
+                inactiveColor="#ff5400"
+                activeColor="#ff5400"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <Separator />
     </div>
