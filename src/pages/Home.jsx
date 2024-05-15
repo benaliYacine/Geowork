@@ -37,6 +37,11 @@ function Home() {
 
       <Footer />
       <br />
+      <Link to="/expertProposalPage">Go to Expert Proposal Page Page</Link>
+      <br />
+      <br />
+      <hr />
+      <br />
       <Link to="/login">Go to login Page</Link>
       <br />
       <br />

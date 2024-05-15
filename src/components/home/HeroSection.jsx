@@ -8,9 +8,7 @@ import PageContainer from "@/components/common/PageContainer";
 const HeroSection = () => {
   return (
     <PageContainer>
-      <section className="text-black body-font flex justify-center items-center w-full h-[550px] relative isolate">
-        
-
+      <section className="text-black body-font flex justify-center items-center w-full h-[650px] relative isolate">
         <div className="container flex flex-col lg:flex-row items-center justify-between w-full">
           <motion.div
             initial={{ opacity: 0, x: -50 }}

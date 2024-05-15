@@ -1,11 +1,18 @@
 import Chat from "../components/chat/Chat";
+import PageContainer from "@/components/common/PageContainer";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 export default function Messages() {
   return (
-    <>
-      <div className="bg-bg px-6 h-screen w-screen">
-        {/* <h1 className="text-4xl ">Messages</h1> */}
-        <Chat />
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className=" flex justify-start w-full">
+        <h1 className="text-black font-header text-4xl font-semibold px-8">
+          Messages
+        </h1>
       </div>
-    </>
+      <Chat />
+    </div>
   );
 }
+

@@ -216,7 +216,7 @@ export default function ProposalDrawer({ proposal }) {
             This action cannot be undone.
           </DrawerDescription>
         </DrawerHeader> */}
-        <ScrollArea className="px-2 mx-1 bg-bg">
+        <ScrollArea className="px-2 pr-3 mx-1 bg-bg">
           <div className="flex items-center justify-between mt-2">
             <DrawerClose
               asChild
@@ -226,7 +226,7 @@ export default function ProposalDrawer({ proposal }) {
               <ChevronLeft className="h-7 w-7" data-vaul-no-drag />
             </DrawerClose>
             <Button variant="link">
-              Open profile in a new window
+              Open proposal in a new window
               <ExternalLink className=" stroke-[1.7px] ml-2" />
             </Button>
           </div>

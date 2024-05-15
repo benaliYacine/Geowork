@@ -82,7 +82,7 @@ export default function SubmitProposal({}) {
                   apply={false}
                   title={false}
                 />
-                <Button variant="link" className="w-fit mt-2">
+                <Button variant="link" className="w-fit mt-2" type="button">
                   View job Posting
                 </Button>
               </div>
@@ -117,7 +117,9 @@ export default function SubmitProposal({}) {
               </div>
             </div>
             <div className="flex gap-4 p-4">
-              <Button type="submit" size="lg">Send</Button>
+              <Button type="submit" size="lg">
+                Send
+              </Button>
               <Button
                 onClick={(e) => {
                   navigate("/dashboard");

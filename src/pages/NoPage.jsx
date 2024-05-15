@@ -22,7 +22,7 @@ const NoPage = () => {
           </p>
           <div className="mt-6 flex items-center justify-center gap-x-6">
             <Link to="/" className="rounded-md shadow-sm">
-              <Button variant="default" className="text-sm font-semibold">
+              <Button variant="default">
                 Go back home
               </Button>
             </Link>

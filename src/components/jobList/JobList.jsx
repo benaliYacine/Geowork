@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import JobItem from "@/components/jobList/JobItem";
 import {
   Pagination,
@@ -10,22 +10,22 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
- const jobs = Array.from({ length: 100 }, (_, i) => ({
-  images: ["https://placebear.com/g/200/200"],
-  category: "education_and_tutoring",
-  subCategory: "math_tutor",
-  title: `test test ${i + 1}`,
-  budget: "DZD  5, 500",
-  description:
-    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-  wilaya: "Algiers",
-  city: "Central",
-})); 
+// const jobs = Array.from({ length: 100 }, (_, i) => ({
+//   images: ["https://placebear.com/g/200/200"],
+//   category: "education_and_tutoring",
+//   subCategory: "math_tutor",
+//   title: `test test ${i + 1}`,
+//   budget: "DZD  5, 500",
+//   description:
+//     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//   wilaya: "Algiers",
+//   city: "Central",
+// }));
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({jobs}) {
-  console.log("jobs",jobs);
+export default function JobList({ jobs }) {
+  console.log("jobs", jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPageIndex = Math.ceil(jobs.length / ITEMS_PER_PAGE);
