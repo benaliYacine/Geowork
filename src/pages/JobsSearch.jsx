@@ -38,7 +38,7 @@ export default function AllJobPosts() {
           return {...j,images:j.images.map((j)=>(j.url))}
         });
         
-        jobs=jobs.map((j)=>({id:j._id,title:j.title,description:j.description,images:j.images,budget:j.budget,category:j.category,subCategory:j.subCategory,wilaya:j.wilaya,city:j.city,heart:j.heart}));
+        jobs=jobs.map((j)=>({id:j._id,title:j.title,description:j.description,images:j.images,budget:j.budget,category:j.category,subCategory:j.subCategory,wilaya:j.wilaya,city:j.city,heart:j.heart,isExpert:j.isExpert}));
         setJobs(jobs);
         console.log("kkkkkk",jobs);
       }

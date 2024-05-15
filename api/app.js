@@ -309,7 +309,7 @@ app.get(
                 ...j,
                 id: j._id,
                 heart: true,
-                isExpert:true,
+                isExpert: true,
                 images: j.images.map((i) => i.url),
             }));
             console.log(jobs);
@@ -438,14 +438,14 @@ app.get("/jobsSearch", async (req, res) => {
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
                         const heart = savedJobIds.includes(j._id.toString());
-                        return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                        return { ...j.toObject(), heart, isExpert: true }; // Convert toObject() if p is a mongoose document
                     })
                 );
             else
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
                         const heart = savedJobIds.includes(j._id.toString());
-                        return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                        return { ...j.toObject(), heart, isExpert: true }; // Convert toObject() if p is a mongoose document
                     })
                 );
         }
