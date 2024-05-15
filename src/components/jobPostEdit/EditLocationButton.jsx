@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/dialog";
 
 function EditLocationButton({ wilaya, city, onEdit }) {
+  
+  
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -38,6 +40,9 @@ function EditLocationButton({ wilaya, city, onEdit }) {
       city: city,
     },
   });
+
+
+
 
   const [filteredCities, setFilteredCities] = useState([]);
 
@@ -64,6 +69,32 @@ function EditLocationButton({ wilaya, city, onEdit }) {
       form.setValue("city", "");
     }
   }, [form.watch("wilaya")]); // Dependency array to re-run the effect when the wilaya changes
+  
+  useEffect(() => {
+    // Watch the wilaya field for changes
+    const selectedWilaya = form.watch("wilaya");
+
+    // Filter cities based on the selected wilaya
+    const citiesForWilaya = cities.filter(
+      (city) => city.wilaya === selectedWilaya
+    );
+    setFilteredCities(citiesForWilaya);
+
+    // Get the current value of the city field
+    const currentCity = form.getValues("city");
+
+    // Check if the current city exists in the new list of filtered cities
+    const cityExists = citiesForWilaya.some(
+      (city) => city.value === currentCity
+    );
+
+    // If the current city does not exist in the filtered list, reset it
+    if (!cityExists) {
+      form.setValue("city", "");
+    }
+  }, []); // Dependency array to re-run the effect when the wilaya changes
+
+
 
   const onSubmit = async (values) => {
     console.log(values);
@@ -109,7 +140,7 @@ function EditLocationButton({ wilaya, city, onEdit }) {
               {/* Submit Button */}
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="outline" className="mt-3" type="button" >
+                  <Button variant="outline" className="mt-3" type="button">
                     Cancel
                   </Button>
                 </DialogClose>

@@ -437,7 +437,7 @@ const ProfileSlides = () => {
     <div>
       <Header />
       <PageContainer>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 mt-2">
           <h1 className="text-black font-header text-4xl font-semibold ">
             Profile Preview
           </h1>

@@ -69,7 +69,7 @@ const Jobs = [
   },
   {
     title: "All Job Posts",
-    href: "/allJobPosts",
+    href: "/dashboard",
     description: "",
     icon: Save,
   },
