@@ -54,39 +54,50 @@ function App() {
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (
-    <div className="bg-bg">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/inputWilayaCity" element={<InputWilayaCity />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/messages/:id" element={<Messages />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/welcomePro" element={<WelcomePro />} />
-          <Route path="/welcomeCli" element={<WelcomeCli />} />
-          <Route path="/profileSlides" element={<ProfileSlides />} />
-          <Route path="/jobSlides" element={<JobSlides />} />
-          <Route path="/jobPostPage/:id" element={<JobPostPage />} />
-          <Route path="/verifyEmail" element={<SendEmailPage />} />
-          <Route path="/savedJobs" element={<SavedJobs />} />
-          <Route path="/savedExperts" element={<SavedExperts />} />
-          <Route path="/expertProposalPage" element={<ExpertProposalPage />} />
+      <div className="bg-bg">
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                      path="/inputWilayaCity"
+                      element={<InputWilayaCity />}
+                  />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/messages/:id" element={<Messages />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/welcomePro" element={<WelcomePro />} />
+                  <Route path="/welcomeCli" element={<WelcomeCli />} />
+                  <Route path="/profileSlides" element={<ProfileSlides />} />
+                  <Route path="/jobSlides" element={<JobSlides />} />
+                  <Route path="/jobPostPage/:id" element={<JobPostPage />} />
+                  <Route path="/verifyEmail" element={<SendEmailPage />} />
+                  <Route path="/savedJobs" element={<SavedJobs />} />
+                  <Route path="/savedExperts" element={<SavedExperts />} />
+                  <Route
+                      path="/expertProposalPage"
+                      element={<ExpertProposalPage />}
+                  />
 
-          <Route path="/jobsSearch" element={<JobsSearch />} />
-          <Route path="/proposal" element={<ProposalPage />} />
-          <Route path="/expertsSearch" element={<ExpertsSearch />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/findWork" element={<FindWork />} />
-          <Route path="/submitProposal" element={<SubmitProposal />} />
-          <Route path="/job/:id" element={<Job />} />
-          <Route path="/job" element={<Job />} />
-          <Route path="*" element={<NoPage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+                  <Route path="/jobsSearch" element={<JobsSearch />} />
+                  <Route path="/proposal" element={<ProposalPage />} />
+                  <Route path="/expertsSearch" element={<ExpertsSearch />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route
+                      path="/profile"
+                      element={
+                          <ProfilePage/>
+                      }
+                  />
+                  <Route path="/submitProposal" element={<SubmitProposal />} />
+                  <Route path="/job/:id" element={<Job />} />
+                  <Route path="/job" element={<Job />} />
+                  <Route path="*" element={<NoPage />} />
+              </Routes>
+          </BrowserRouter>
+      </div>
   );
 }
 

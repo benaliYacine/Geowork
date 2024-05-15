@@ -48,7 +48,7 @@ import {
 const FindWork = [
   {
     title: "Find Work",
-    href: "/findWork",
+    href: "/dashboard",
     description: "",
     icon: Search,
   },
