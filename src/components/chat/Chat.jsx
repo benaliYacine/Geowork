@@ -10,6 +10,8 @@ import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import PropagateLoader from "react-spinners/PropagateLoader";
+
 // Example data (replace with actual data fetching from the backend)
 /* const contact = {
   name: "John Doe",
@@ -234,10 +236,14 @@ export default function Chat() {
     // TODO: Implement file attachment handling
   };
 
-  if (loading) return <div></div>;
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  );
 
-  // return contacts.length != 0 ? (
-  return true ? (
+  return contacts.length != 0 ? (
+  // return true ? (
     <div className="flex-grow h-full flex w-full gap-1 px-6 py-2 overflow-hidden">
       <div className="h-full w-96 flex flex-col overflow-hidden">
         <ContactsList contacts={contacts} />
