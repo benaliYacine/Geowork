@@ -147,11 +147,12 @@ export default function Header() {
     };
     fetchData();
   }, []);
-  if (loading) return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
-      <PropagateLoader color="#FF5400" />
-    </div>
-  ); 
+  if (loading)
+    return (
+      <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+        <PropagateLoader color="#FF5400" />
+      </div>
+    );
   return (
     <header className="flex justify-center items-center w-full pt-2">
       <nav
@@ -175,23 +176,23 @@ export default function Header() {
                   <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
                     {!isClient
                       ? FindWork.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
-                      ))
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                          >
+                            {item.description}
+                          </ListItem>
+                        ))
                       : Jobs.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
-                      ))}
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                          >
+                            {item.description}
+                          </ListItem>
+                        ))}
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -278,10 +279,11 @@ export default function Header() {
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel
             className={`fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 drop-shadow-[0_0px_70px_rgba(0,0,0,0.20)]
-                ${mobileMenuOpen
-                ? "animate-slide-in-right"
-                : "animate-slide-out-right"
-              }`}
+                ${
+                  mobileMenuOpen
+                    ? "animate-slide-in-right"
+                    : "animate-slide-out-right"
+                }`}
           >
             <div className="flex items-center justify-between">
               <a href="/" className="-m-1.5 p-1.5">
@@ -309,25 +311,25 @@ export default function Header() {
                         {!isClient ? "FindWork" : "Jobs"}
                       </AccordionTrigger>
                       <AccordionContent className="mt-2 space-y-2">
-                        {isClient
+                        {!isClient
                           ? [...FindWork, ...callsToAction].map((item) => (
-                            <a
-                              key={item.title}
-                              href={item.href}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              {item.title}
-                            </a>
-                          ))
+                              <a
+                                key={item.title}
+                                href={item.href}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              >
+                                {item.title}
+                              </a>
+                            ))
                           : [...Jobs, ...callsToAction].map((item) => (
-                            <a
-                              key={item.title}
-                              href={item.href}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              {item.title}
-                            </a>
-                          ))}
+                              <a
+                                key={item.title}
+                                href={item.href}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              >
+                                {item.title}
+                              </a>
+                            ))}
                       </AccordionContent>
                     </AccordionItem>
                     {/* Replicate AccordionItem for other categories as needed */}
