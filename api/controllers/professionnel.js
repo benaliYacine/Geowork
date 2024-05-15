@@ -208,18 +208,18 @@ exports.changeAlocationProfessionnel = async (req, res) => {
 
 //hado 5 li ta7t b3d mavirifithmch
 exports.addSavedProfessionnel = async (req, res) => {
-    const {id} = req.body;
-    let cli=await Client.findById(req.session.user_id);
+    const { id } = req.body;
+    let cli = await Client.findById(req.session.user_id);
     cli.savedProfessionnel.push(id);
-    const saveCli=await cli.save();
+    const saveCli = await cli.save();
     res.json(saveCli);
 }
 
 exports.suppSavedProfessionnel = async (req, res) => {
-    const {id} = req.body;
-    let cli=await Client.findById(req.session.user_id);
-    cli.savedProfessionnel=cli.savedProfessionnel.filter((p)=>(p!=id));
-    const saveCli=await cli.save();
+    const { id } = req.body;
+    let cli = await Client.findById(req.session.user_id);
+    cli.savedProfessionnel = cli.savedProfessionnel.filter((p) => (p != id));
+    const saveCli = await cli.save();
     res.json(saveCli);
 }
 exports.addEmployment = async (req, res) => {
@@ -361,11 +361,18 @@ exports.suppExperience = async (req, res) => {
 
 exports.changeProfileProfessionnel = async (req, res) => {
     try {
-        //id=req.session.user_id;
-        const { id } = req.params;
+        const id = req.session.user_id;
+        //const { id } = req.params;
         //const { id } = req.body;
-        delete req.body.id;
-        const pro = await Professionnel.findByIdAndUpdate(id, req.body, { new: true });
+        //delete req.body.id;
+        let pro = await Professionnel.findById(id);
+        if (req.body.Bio) {
+            pro.profile.Bio = req.body.Bio;
+        }
+        if (req.body.roleTitle) {
+            pro.profile.roleTitle = req.body.roleTitle;
+        }
+        await pro.save();
         return res.status(201).json(pro);
     } catch (err) {
         return res.status(400).json(err);

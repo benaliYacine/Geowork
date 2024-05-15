@@ -123,19 +123,25 @@ function wrapAsync(fn) { //fonction pour les erreur pour les fonction asynchrone
 app.get('/userId', (req, res) => {
     res.json({ user_id: req.session.user_id });
 })
-app.get('/header', middlewars.isLoginIn, async (req, res) => {
+app.get('/header', async (req, res) => {
     let user;
     let responseData = {};
     if (req.session.user_type == 'Client') {
         user = await Client.findById(req.session.user_id);
         responseData.name = `${user.name.first} ${user.name.last}`;
         responseData.pro = false;
+        responseData.logedIn = true;
+        responseData.isClient = true;
     }
-    else {
+    else if (req.session.user_type == 'Professionnel') {
         user = await Professionnel.findById(req.session.user_id);
         responseData.name = `${user.name.first} ${user.name.last}`;
         responseData.photoProfile = user.profile.photoProfile.url;
         responseData.pro = true;
+        responseData.logedIn = true;
+        responseData.isClient = false;
+    } else {
+        responseData.logedIn = false
     }
     return res.json(responseData);
 
@@ -271,7 +277,7 @@ app.get('/savedJobs', async (req, res) => {
         let pro = await Professionnel.findById(req.session.user_id).populate('profile.savedJobs').lean();
         console.log("pro", pro);
         let jobs = pro.profile.savedJobs;
-        jobs = jobs.map((j) => ({ ...j, id: j._id,heart:true, images: j.images.map((i) => (i.url)) }))
+        jobs = jobs.map((j) => ({ ...j, id: j._id, heart: true, images: j.images.map((i) => (i.url)) }))
         console.log(jobs);
         res.json(jobs);
     }
@@ -384,6 +390,20 @@ app.get('/expertInfo/:id', async (req, res) => {
     console.log("professionnel", pro)
     res.json(pro);
 })
+/* app.get('/header', (req, res) => {
+    let info;
+    if (req.session.user_id) {
+        info.logedIn = true
+    } else {
+        info.logedIn = false
+    }
+    if (req.session.user_type == 'Client') {
+        info.isClient = true;
+    } else
+        info.isClient = false;
+    console.log("headerInfo",info);
+    res.json(info);
+}) */
 app.get('/expertsSearch', async (req, res) => {
     try {
         // Extraire les valeurs des paramètres de la requête

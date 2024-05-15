@@ -44,7 +44,7 @@ const professionnelSchema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
-        roletitle: {
+        roleTitle: {
             type: String,
         },
         category: {

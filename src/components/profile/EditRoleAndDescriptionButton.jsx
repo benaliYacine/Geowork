@@ -60,7 +60,8 @@ function EditExperienceButton({
   });
   const onSubmit = async (values) => {
     console.log(values);
-
+    const response = axios.patch('api/professionnels/changeProfileProfessionnel', values);
+    console.log('response',response);
     updateProfileInfo({
       roleTitle: values.roleTitle,
     });

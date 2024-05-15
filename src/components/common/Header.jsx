@@ -107,13 +107,13 @@ const callsToAction = [
   // { title: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
-export default function Header({ logedIn = true }) {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isClient, setIsClient] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+  const [logedIn, setLogedIn] = useState(false);
   const navigate = useNavigate();
   const handleLogOut = async () => {
-    console.log("fdsajhdfas");
     const response = await axios.post("/logout");
     if (response.data.redirectUrl) {
       navigate(response.data.redirectUrl);
@@ -138,6 +138,8 @@ export default function Header({ logedIn = true }) {
         profileIcon = response.data;
         console.log("profileIcon", profileIcon);
       }
+      setLogedIn(ProfileIcon.logedIn);
+      setIsClient(ProfileIcon.isClient);
       setProfileIcon(profileIcon);
     };
     fetchData();
@@ -165,23 +167,23 @@ export default function Header({ logedIn = true }) {
                   <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
                     {!isClient
                       ? FindWork.map((item) => (
-                          <ListItem
-                            key={item.title}
-                            title={item.title}
-                            href={item.href}
-                          >
-                            {item.description}
-                          </ListItem>
-                        ))
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        >
+                          {item.description}
+                        </ListItem>
+                      ))
                       : Jobs.map((item) => (
-                          <ListItem
-                            key={item.title}
-                            title={item.title}
-                            href={item.href}
-                          >
-                            {item.description}
-                          </ListItem>
-                        ))}
+                        <ListItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        >
+                          {item.description}
+                        </ListItem>
+                      ))}
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -268,11 +270,10 @@ export default function Header({ logedIn = true }) {
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel
             className={`fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 drop-shadow-[0_0px_70px_rgba(0,0,0,0.20)]
-                ${
-                  mobileMenuOpen
-                    ? "animate-slide-in-right"
-                    : "animate-slide-out-right"
-                }`}
+                ${mobileMenuOpen
+                ? "animate-slide-in-right"
+                : "animate-slide-out-right"
+              }`}
           >
             <div className="flex items-center justify-between">
               <a href="/" className="-m-1.5 p-1.5">
@@ -302,23 +303,23 @@ export default function Header({ logedIn = true }) {
                       <AccordionContent className="mt-2 space-y-2">
                         {isClient
                           ? [...FindWork, ...callsToAction].map((item) => (
-                              <a
-                                key={item.title}
-                                href={item.href}
-                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                              >
-                                {item.title}
-                              </a>
-                            ))
+                            <a
+                              key={item.title}
+                              href={item.href}
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              {item.title}
+                            </a>
+                          ))
                           : [...Jobs, ...callsToAction].map((item) => (
-                              <a
-                                key={item.title}
-                                href={item.href}
-                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                              >
-                                {item.title}
-                              </a>
-                            ))}
+                            <a
+                              key={item.title}
+                              href={item.href}
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              {item.title}
+                            </a>
+                          ))}
                       </AccordionContent>
                     </AccordionItem>
                     {/* Replicate AccordionItem for other categories as needed */}

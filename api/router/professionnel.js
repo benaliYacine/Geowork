@@ -42,7 +42,7 @@ router.patch('/addExperience', ProfessionnelCtrl.addExperience);
 router.patch('/addSavedProfessionnel', ProfessionnelCtrl.addSavedProfessionnel);
 router.patch('/suppSavedProfessionnel', ProfessionnelCtrl.suppSavedProfessionnel);
 router.patch('/modifyExperience', ProfessionnelCtrl.modifyExperience);
-router.patch('/changeProfileProfessionnel/:id', middlewars.isAccessible, ProfessionnelCtrl.changeProfileProfessionnel);
+router.patch('/changeProfileProfessionnel', ProfessionnelCtrl.changeProfileProfessionnel);
 /* router.put('/changeProfessionnel', ProfessionnelCtrl.changeProfessionnel); */
 router.delete('/deleteProfessionnel', ProfessionnelCtrl.deleteProfessionnel);
 router.patch('/suppEducation', ProfessionnelCtrl.suppEducation);
