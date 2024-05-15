@@ -5,15 +5,15 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
 import SearchBar from "@/components/searchBar/SearchBar";
-export default function ProfilePage({ info, profileInfo, updateProfileInfo }) {
-  /* const [info, setInfo] = useState({});
+export default function ProfilePage() {
+  const [info, setInfo] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("ok")
-        const response = await axios.get('/dashboard');
+        const response = await axios.get('/profileProfessionnel');
         console.log(response.data);
         if (response.data) {
           setProfileInfo(response.data.profile);
@@ -32,12 +32,12 @@ export default function ProfilePage({ info, profileInfo, updateProfileInfo }) {
     fetchData();
 
   }, []);
- */
+ 
 
-  /* const updateProfileInfo = (newInfo) => {
+   const updateProfileInfo = (newInfo) => {
     console.log("newInfo:::",newInfo)
     setProfileInfo((prevInfo) => ({ ...prevInfo, ...newInfo }));
-  }; */
+  };
   if (profileInfo)
     return (
       <>

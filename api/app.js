@@ -231,6 +231,17 @@ app.get("/login", middlewars.requireLogin, (req, res) => {
     res.json("");
     //res.render('login');
 });
+app.get(
+    "/profileProfessionnel",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const pro = await Professionnel.findById(req.session.user_id).populate(
+            "profile.jobs"
+        );
+        console.log(pro);
+        res.json(pro);
+    }
+);
 
 app.get(
     "/dashboard",
