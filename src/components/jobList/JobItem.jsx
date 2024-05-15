@@ -9,6 +9,7 @@ import Heart from "react-heart";
 export default function JobItem({ job }) {
   console.log("job.heart",job.heart);
   const [isClick, setClick] = useState(false);
+  const [isExpert, setIsExpert] = useState(false)
   useEffect(()=>{
     setClick(job.heart);
   },[job.heart]);
@@ -68,16 +69,18 @@ export default function JobItem({ job }) {
               Open Job Post
             </Button>
           </JobPostDrawer>
-          <div className="w-7 h-7">
-            <Heart
-              onClick={heartClick}
-              className="w-full h-full"
-              isActive={isClick}
-              animationScale={1.25}
-              inactiveColor="#ff5400"
-              activeColor="#ff5400"
-            />
-          </div>
+          {isExpert &&
+            <div className="w-7 h-7">
+              <Heart
+                onClick={heartClick}
+                className="w-full h-full"
+                isActive={isClick}
+                animationScale={1.25}
+                inactiveColor="#ff5400"
+                activeColor="#ff5400"
+              />
+            </div>
+          }
         </div>
       </div>
       <Separator />
