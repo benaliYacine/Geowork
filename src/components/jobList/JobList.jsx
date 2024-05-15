@@ -24,7 +24,7 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList() {
+export default function JobList({jobs}) {
   console.log("jobs",jobs);
   const [currentPage, setCurrentPage] = useState(1);
 

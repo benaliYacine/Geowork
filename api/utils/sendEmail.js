@@ -12,7 +12,7 @@ module.exports = async (email, subject, text) => {
             },
         });
         //send mail;
-        const textEmail=["Merci de vous être inscrit(e) sur notre plateforme. Afin de compléter votre inscription et d'accéder à toutes les fonctionnalités de notre service, nous vous prions de bien vouloir vérifier votre adresse e-mail en cliquant sur le lien ci-dessous :\n"+text+"\nCordialement,\nGeolans",text];
+        const textEmail=["Merci de vous être inscrit(e) sur notre plateforme. Afin de compléter votre inscription et d'accéder à toutes les fonctionnalités de notre service, nous vous prions de bien vouloir vérifier votre adresse e-mail en cliquant sur le lien ci-dessous :\n"+text+"\nCordialement,\nGeowork",text];
         switch (subject){
             case 'Verify Email':
                 await transporter.sendMail({
