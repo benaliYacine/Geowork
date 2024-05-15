@@ -125,7 +125,7 @@ function wrapAsync(fn) {
         fn(req, res, next).catch((e) => next(e));
     };
 }
-app.get("/", async (req,res) => {
+app.get("/", async (req, res) => {
     if (req.session.user_id) {
         res.json({ redirectUrl: "/dashboard" });
     } else res.json({});
@@ -512,7 +512,7 @@ app.get("/expertsSearch", async (req, res) => {
                     const heart = savedProfessionalIds.includes(
                         p._id.toString()
                     );
-                    return { ...p.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                    return { ...p.toObject(), heart, isClient: true }; // Convert toObject() if p is a mongoose document
                 })
             );
         }

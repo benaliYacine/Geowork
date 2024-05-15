@@ -17,7 +17,7 @@ export default function SavedExperts() {
       const response = await axios.get('/savedExperts');
       console.log(response.data);
       if (response.data) {
-        const exp=response.data.map((e)=>({id:e._id,name:`${e.name.first} ${e.name.last}`,avatarUrl:e.profile.photoProfile.url,role:e.profile.subCategory,wilaya:e.wilaya,city:e.city,heart:true,rating:e.profile.rate}));
+        const exp=response.data.map((e)=>({id:e._id,name:`${e.name.first} ${e.name.last}`,avatarUrl:e.profile.photoProfile.url,role:e.profile.subCategory,wilaya:e.wilaya,city:e.city,heart:true,rating:e.profile.rate,isClient:true}));
         console.log(exp);
         setExperts(exp);
       }

@@ -34,7 +34,7 @@ export default function ExpertsSearch() {
       if (response.data) {
         console.log("response",response.data);
         let expert=response.data;
-        expert=expert.map((e)=>({id:e._id,name:`${e.name.first} ${e.name.last}`,role:e.profile.subCategory,rating:e.profile.rate,avatarUrl:e.profile.photoProfile.url,wilaya:e.wilaya,city:e.city,heart:e.heart}));
+        expert=expert.map((e)=>({id:e._id,name:`${e.name.first} ${e.name.last}`,role:e.profile.subCategory,rating:e.profile.rate,avatarUrl:e.profile.photoProfile.url,wilaya:e.wilaya,city:e.city,heart:e.heart,isClient:e.isClient}));
         console.log(expert);
         setExperts(expert);
 /*         let experts=response.data;
