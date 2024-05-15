@@ -3,10 +3,12 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import JobList from "@/components/jobList/JobList";
+import { useNavigate } from "react-router-dom";
 import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Hi from "@/components/common/Hi";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import SearchBar from "@/components/searchBar/SearchBar";
 import {
   Tabs,
@@ -15,7 +17,35 @@ import {
   TabsTrigger,
 } from "@/components/ui/search-tabs";
 
-export default function FindWork({}) {
+export default function FindWork({ }) {
+  const [jobs, setJobs] = useState([]);
+  const [jobsMatch, setJobsMatch] = useState([]);
+  const navigate=useNavigate();
+  const [loading,setLoading]=useState(true)
+  useEffect(() => {
+    const fetchData = async () => {
+      const response2 = await axios.get('/findWork');
+      console.log('response2...', response2);
+      if (response2.data) {
+        setJobsMatch(response2.data);
+      }
+      if(response2.data.redirectUrl){
+        navigate(response2.data.redirectUrl);
+      }
+      setLoading(false);
+      const response1 = await axios.get('/savedJobs');
+      if (response1.data) {
+        setJobs(response1.data);
+      }
+      
+    }
+    fetchData();
+  }, []);
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  ); 
   return (
     <>
       <Header />
@@ -38,12 +68,12 @@ export default function FindWork({}) {
             </TabsList>
             <TabsContent value="BestMatches">
               <div className="flex flex-col items-center mt-4">
-                <JobList />
+                <JobList jobs={jobsMatch} />
               </div>
             </TabsContent>
             <TabsContent value="savedJobs">
               <div className="flex flex-col items-center mt-4">
-                <JobList />
+                <JobList jobs={jobs} />
               </div>
             </TabsContent>
           </Tabs>

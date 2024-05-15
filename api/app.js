@@ -272,7 +272,7 @@ app.get('/welcomePro', middlewars.requireLoginProfessionnel, async (req, res) =>
     }
 });
 
-app.get('/savedJobs', async (req, res) => {
+app.get('/savedJobs', middlewars.requireLoginProfessionnel, async (req, res) => {
     if (req.session.user_type == "Professionnel") {
         let pro = await Professionnel.findById(req.session.user_id).populate('profile.savedJobs').lean();
         console.log("pro", pro);
@@ -339,6 +339,26 @@ app.get('/job/:id/edit', middlewars.isAuthor, async (req, res) => {
 /* app.get('/job/createJob', async (req, res) => {
     res.send("creation job");
 }) */
+
+app.get('/findWork', middlewars.requireLoginProfessionnel, async (req, res) => {
+    const pro = await Professionnel.findById(req.session.user_id);
+    const searchCriteria = { wilaya: pro.wilaya, city: pro.city, category: pro.profile.category, subCategory: pro.profile.subCategory };
+    let jobs = await Job.find(searchCriteria);
+    const savedJobIds = pro.profile.savedJobs.map(j => j.toString()); // Assuming _id is an ObjectId
+    if (savedJobIds)
+        jobs = await Promise.all(jobs.map(async (j) => {
+            const heart = savedJobIds.includes(j._id.toString());
+            return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+        }));
+    else
+        jobs = await Promise.all(jobs.map(async (j) => {
+            const heart = savedJobIds.includes(j._id.toString());
+            return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+        }));
+    jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => (i.url)) }));
+    console.log('jobsssssssssssss', jobs);
+    res.json(jobs);
+});
 
 app.get('/jobsSearch', async (req, res) => {
     try {

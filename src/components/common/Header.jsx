@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure } from "@headlessui/react";
 import ProfileIcon from "@/components/common/ProfileIcon";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import NotificationIcon from "@/components/common/NotificationIcon";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -112,6 +113,7 @@ export default function Header() {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [logedIn, setLogedIn] = useState(false);
+  const [loading, setloading] = useState(true);
   const navigate = useNavigate();
   const handleLogOut = async () => {
     const response = await axios.post("/logout");
@@ -138,12 +140,18 @@ export default function Header() {
         profileIcon = response.data;
         console.log("profileIcon", profileIcon);
       }
-      setLogedIn(ProfileIcon.logedIn);
-      setIsClient(ProfileIcon.isClient);
+      setLogedIn(profileIcon.logedIn);
+      setIsClient(profileIcon.isClient);
       setProfileIcon(profileIcon);
+      setloading(false);
     };
     fetchData();
   }, []);
+  if (loading) return (
+    <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+      <PropagateLoader color="#FF5400" />
+    </div>
+  ); 
   return (
     <header className="flex justify-center items-center w-full pt-2">
       <nav
