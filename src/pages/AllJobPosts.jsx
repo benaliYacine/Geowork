@@ -8,7 +8,7 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Hi from "@/components/common/Hi";
 import SearchBar from "@/components/searchBar/SearchBar";
-export default function AllJobPosts({ jobs }) {
+export default function AllJobPosts({ jobs,name }) {
   /* const [jobs, setJobs] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +25,7 @@ if(jobs) */
     <>
       <Header />
       <PageContainer>
-        <Hi name="Benali" />
+        <Hi name={name} />
         <SearchBar full />
         <div className="flex items-center justify-between">
           <h1 className="text-black font-header text-4xl font-semibold">

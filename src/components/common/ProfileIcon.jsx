@@ -41,7 +41,7 @@ export default function ProfileIcon({ pro = true, name = "test test", photoProfi
           <ListItemWithIcon
             Icon={CircleUser}
             text="profile"
-            link="/dashboard"
+            link="/profile"
           />
         )}
         <ListItemWithIcon
