@@ -11,7 +11,7 @@ export default function Dashboard() {
     const [info, setInfo] = useState({});
     const [jobs, setJobs] = useState(null);
     const [profileInfo, setProfileInfo] = useState(null);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
@@ -33,12 +33,14 @@ export default function Dashboard() {
                         setInfo(info);
 
                     } else {
+                        if(response.data.jobs){
                         const jobs=response.data.jobs.map((j)=>{
                             const images=j.images.map((i)=>(i.url));
                             return {...j,images}
                         })
                         console.log("jobs",jobs);
                         setJobs(jobs);
+                    }
                     }
                 }
             } catch (error) {

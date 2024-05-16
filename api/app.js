@@ -253,6 +253,9 @@ app.get(
             const cli = await Client.findById(req.session.user_id).populate(
                 "jobs"
             );
+            if (!cli.jobs || (cli.jobs && cli.jobs.length == 0))
+                return res.json({ redirectUrl: "/welcomeCli" });
+
             console.log(cli);
             res.json(cli);
         } else {
@@ -265,6 +268,12 @@ app.get(
         //res.render('clients/dashboard');
     }
 );
+app.get("/welcomeCli", middlewars.requireLoginClient, async (req, res) => {
+    const cli = await Client.findById(req.session.user_id).populate("jobs");
+    if (cli.jobs && cli.jobs.length != 0)
+        return res.json({ redirectUrl: "/dashboard" });
+    res.json(cli);
+});
 
 app.get(
     "/info",
@@ -329,7 +338,7 @@ app.get(
         }
     }
 );
-app.get("/savedExperts", async (req, res) => {
+app.get("/savedExperts",middlewars.requireLoginClient, async (req, res) => {
     if (req.session.user_type == "Client") {
         let cli = await Client.findById(req.session.user_id)
             .populate("savedProfessionnel")

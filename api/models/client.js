@@ -1,20 +1,20 @@
 //hna dir schema t3 collection client
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const clientSchema = new mongoose.Schema({
     name: {
         first: {
             type: String,
-            required: true
+            required: true,
         },
         last: {
             type: String,
             //required: true
-        }
+        },
     },
     email: {
         type: String,
-        required: true
+        required: true,
     },
     googleId: String,
     password: {
@@ -23,48 +23,56 @@ const clientSchema = new mongoose.Schema({
     },
     wilaya: {
         type: String,
-        required: true
+        required: true,
     },
     city: {
         type: String,
-        required: true
+        required: true,
     },
     photoProfile: {
         url: {
-            type:String,
-            default:''
+            type: String,
+            default: "",
         },
         filename: {
-            type:String,
-            default:''
+            type: String,
+            default: "",
         },
     },
     verified: {
         type: Boolean,
-        default: false
+        default: false,
     },
-    jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
-    ,
-    savedProfessionnel:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel' }]
-    ,
-    contacts: [{
-        contactId: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel'
+    jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+    savedProfessionnel: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Professionnel" },
+    ],
+    contacts: [
+        {
+            contactId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Professionnel",
+            },
+            jobId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Job",
+            },
+            messages: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    //required: true,
+                    ref: "Message",
+                },
+            ],
         },
-        messages: [{
-            type: mongoose.Schema.Types.ObjectId,
-            //required: true,
-            ref: 'Message'
-        }]
-    }],
+    ],
     /* rate: {
         type: Number,
         default: 0,
         min: 0,
         max: 5
     } */
-
-})
+});
 
 clientSchema.statics.findAndValidate = async function (email, password) {
     const foundUser = await this.findOne({ email });
@@ -75,11 +83,11 @@ clientSchema.statics.findAndValidate = async function (email, password) {
 
     const isValid = await bcrypt.compare(password, foundUser.password);
     return isValid ? foundUser : false;
-}
+};
 
-clientSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+clientSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
     next();
-})
+});
 module.exports = mongoose.model("Client", clientSchema); //dir export lemodel li hya class fiha des attribue w des methods

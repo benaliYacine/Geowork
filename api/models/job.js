@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const jobsSchema = new mongoose.Schema({
-    idClient: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+    idClient: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
     idProfessionnel: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Professionnel'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Professionnel",
     },
     title: {
-        type: String
+        type: String,
     },
     category: {
-        type: String
+        type: String,
         //enum:
     },
     subCategory: {
@@ -35,13 +36,13 @@ const jobsSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        require: true
+        require: true,
     },
     images: [
         {
             url: String,
-            filename: String
-        }
+            filename: String,
+        },
     ],
     feedback: {
         type: String,
@@ -50,9 +51,16 @@ const jobsSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         min: 0,
-        max: 5
-    }
-})
-
+        max: 5,
+    },
+    proposals: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Professionnel",
+    }],
+    hires: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Professionnel",
+    }],
+});
 
 module.exports = mongoose.model("Job", jobsSchema); //dir export lemodel li hya class fiha des attribue w des methods
