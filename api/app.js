@@ -316,13 +316,14 @@ app.get(
                 .lean();
             console.log("pro", pro);
             let jobs = pro.profile.savedJobs;
-            jobs = jobs.map((j) => ({
-                ...j,
-                id: j._id,
-                heart: true,
-                isExpert: true,
-                images: j.images.map((i) => i.url),
-            }));
+            if (jobs)
+                jobs = jobs.map((j) => ({
+                    ...j,
+                    id: j._id,
+                    heart: true,
+                    isExpert: true,
+                    images: j.images.map((i) => i.url),
+                }));
             console.log(jobs);
             res.json(jobs);
         }
