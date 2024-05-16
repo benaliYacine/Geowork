@@ -9,20 +9,30 @@ import { ChevronLeft } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import PropagateLoader from "react-spinners/PropagateLoader";
 export default function SavedJobs() {
   const navigate = useNavigate();
   const [jobs, setjobs] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get('/savedJobs');
       console.log(response.data);
+      if(response.data.redirectUrl)
+        navigate(response.data.redirectUrl);
       if (response.data) {
         setjobs(response.data);
       }
+      setLoading(false);
     }
     fetchData();
   }, [])
-  if (jobs)
+  if (loading)
+      return (
+          <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+              <PropagateLoader color="#FF5400" />
+          </div>
+      );
     return (
       <>
         <Header />

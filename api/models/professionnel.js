@@ -168,6 +168,9 @@ const professionnelSchema = new mongoose.Schema({
         contactId: {
             type: mongoose.Schema.Types.ObjectId, ref: 'Client'
         },
+        jobId:{
+            type: mongoose.Schema.Types.ObjectId, ref: 'Job'
+        },
         messages: [{
             type: mongoose.Schema.Types.ObjectId,
             //required: true,
