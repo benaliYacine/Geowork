@@ -5,25 +5,25 @@ const professionnelSchema = new mongoose.Schema({
     name: {
         first: {
             type: String,
-            required: true
+            required: true,
         },
         last: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
-    
+
     googleId: String,
     email: {
         type: String,
-        required: true
+        required: true,
     },
     password: {
         type: String,
     },
     verified: {
         type: Boolean,
-        default: false
+        default: false,
     },
     description: {
         type: String,
@@ -35,14 +35,14 @@ const professionnelSchema = new mongoose.Schema({
     city: {
         type: String,
         //required: true
-},
+    },
     profile: {
         streetAdress: {
-            type: String
+            type: String,
         },
         added: {
             type: Boolean,
-            default: false
+            default: false,
         },
         roleTitle: {
             type: String,
@@ -55,130 +55,140 @@ const professionnelSchema = new mongoose.Schema({
             type: String,
             //enum:[]//hadi nzidha ki natfahmo 3la les category
         },
-        employments: [{
-            title: {
-                type: String,
-
-            },
-            company: {
-                type: String,
-            },
-            Location: {
-                type: String,
-            },
-            currentlyIn: {
-                type: Boolean,
-                default: false
-            },
-            date: {
-                start: {
-                    month: {
-                        type: Number,
-                        min: 1,
-                        max: 12
-                    },
-                    year: {
-                        type: Number,
-                        min: 1990,
-                    }
+        employments: [
+            {
+                title: {
+                    type: String,
                 },
-                end: {
-                    month: {
-                        type: Number,
-                        min: 1,
-                        max: 12,
-                        default: 1
-                    },
-                    year: {
-                        type: Number,
-                        min: 1990,
-                        default: 2000
-                    }
-                }
-            },
-            description: {
-                type: String,
-            }
-        }],
-        experiences: [{
-            title: {
-                type: String
-            },
-            description: {
-                type: String
-            }
-        }],
-        educations: [{
-            school: {
-                type: String
-            },
-            degree: {
-                type: String
-            },
-            fieldOfStudy: {
-                type: String
-            },
-            datesAttended: {
-                start: {
-                    type: Number
+                company: {
+                    type: String,
                 },
-                end: {
-                    type: Number
-                }
+                Location: {
+                    type: String,
+                },
+                currentlyIn: {
+                    type: Boolean,
+                    default: false,
+                },
+                date: {
+                    start: {
+                        month: {
+                            type: Number,
+                            min: 1,
+                            max: 12,
+                        },
+                        year: {
+                            type: Number,
+                            min: 1990,
+                        },
+                    },
+                    end: {
+                        month: {
+                            type: Number,
+                            min: 1,
+                            max: 12,
+                            default: 1,
+                        },
+                        year: {
+                            type: Number,
+                            min: 1990,
+                            default: 2000,
+                        },
+                    },
+                },
+                description: {
+                    type: String,
+                },
             },
-            description: {
-                type: String
-            }
-        }
+        ],
+        experiences: [
+            {
+                title: {
+                    type: String,
+                },
+                description: {
+                    type: String,
+                },
+            },
+        ],
+        educations: [
+            {
+                school: {
+                    type: String,
+                },
+                degree: {
+                    type: String,
+                },
+                fieldOfStudy: {
+                    type: String,
+                },
+                datesAttended: {
+                    start: {
+                        type: Number,
+                    },
+                    end: {
+                        type: Number,
+                    },
+                },
+                description: {
+                    type: String,
+                },
+            },
         ],
         Bio: {
-            type: String
+            type: String,
         },
         photoProfile: {
             url: {
                 type: String,
-                default: ''
+                default: "",
             },
             filename: {
                 type: String,
-                default: ''
+                default: "",
             },
         },
         dateBirthday: {
             jour: Number,
             mois: Number,
-            anne: Number
+            anne: Number,
         },
-        jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
-        ,
-        savedJobs:[{type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
-        ,
+        jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+        savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
         rate: {
             type: Number,
             default: 0,
             min: 0,
-            max: 5
+            max: 5,
         },
         phone: {
-            type: String
-        }
-
+            type: String,
+        },
     },
-    contacts: [{
-        contactId: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'Client'
+    contacts: [
+        {
+            contactId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Client",
+            },
+            messages: [
+                {
+                    job: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "Job",
+                    },
+                    message: [
+                        {
+                            type: mongoose.Schema.Types.ObjectId,
+                            //required: true,
+                            ref: "Message",
+                        },
+                    ],
+                },
+            ],
         },
-        jobId:{
-            type: mongoose.Schema.Types.ObjectId, ref: 'Job'
-        },
-        messages: [{
-            type: mongoose.Schema.Types.ObjectId,
-            //required: true,
-            ref: 'Message'
-        }]
-    }],
-
-})
+    ],
+});
 professionnelSchema.statics.findAndValidate = async function (email, password) {
     const foundUser = await this.findOne({ email });
 

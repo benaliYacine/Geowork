@@ -1,46 +1,83 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const messageSchema = new mongoose.Schema({
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        refPath: 'userType'
+        refPath: "userType",
     },
     recipientId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        refPath: 'userType'
+        refPath: "userType",
     },
     senderType: {
         type: String,
         required: true,
-        enum: ['Client', 'Professionnel']
+        enum: ["Client", "Professionnel"],
     },
     recipientType: {
         type: String,
         required: true,
-        enum: ['Client', 'Professionnel']
+        enum: ["Client", "Professionnel"],
     },
     message: {
+        JobId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Job",
+        },
         type: {
             type: String,
-            enum:['text','image','file']
+            enum: [
+                "text",
+                "image",
+                "file",
+                "budgetEdit",
+                "proposal",
+                "invitation",
+                "jobLocation",
+            ],
         },
+        location: {
+            lat: {
+                type: Number,
+            },
+            lng: {
+                type: Number,
+            },
+        },
+        state: {
+            type: String,
+        },
+        budget: {
+            type: String,
+        },
+        from: {
+            type: String,
+        },
+        to: {
+            type: String,
+        },
+        coverLetter: {
+            type: String,
+            default: "",
+        },
+
         url: {
             type: String,
-            default:""
+            default: "",
         },
         filename: {
             type: String,
-            default:""
+            default: "",
         },
-        content:{
+        content: {
             type: String,
-            default:""
+            default: "",
         },
     },
     time: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
 });
 

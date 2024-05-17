@@ -59,9 +59,16 @@ const clientSchema = new mongoose.Schema({
             },
             messages: [
                 {
-                    type: mongoose.Schema.Types.ObjectId,
+                    job:{
+                        type:mongoose.Schema.Types.ObjectId,
+                        ref:"Job"
+                    },
+                    message:[{
+                        type: mongoose.Schema.Types.ObjectId,
                     //required: true,
                     ref: "Message",
+                    }
+                ]
                 },
             ],
         },

@@ -338,7 +338,7 @@ app.get(
         }
     }
 );
-app.get("/savedExperts",middlewars.requireLoginClient, async (req, res) => {
+app.get("/savedExperts", middlewars.requireLoginClient, async (req, res) => {
     if (req.session.user_type == "Client") {
         let cli = await Client.findById(req.session.user_id)
             .populate("savedProfessionnel")
@@ -514,9 +514,9 @@ app.get("/expertsSearch", async (req, res) => {
         }
 
         // Construire la recherche en fonction des paramètres fournis
-        const searchCriteria = {};
-        if (category) searchCriteria.category = category;
-        if (subCategory) searchCriteria.subCategory = subCategory;
+        let searchCriteria = {};
+        if (category) searchCriteria["profile.category"] = category;
+        if (subCategory) searchCriteria["profile.subCategory"] = subCategory;
         if (wilaya) searchCriteria.wilaya = wilaya;
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria);
@@ -637,10 +637,13 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
 
         // Determine user type from session
         if (req.session.user_type === "Client") {
-            user =
-                await Professionnel.findById(id).populate("contacts.messages");
+            user = await Professionnel.findById(id)
+                .populate("contacts.messages.message")
+                .populate("contacts.messages.job");
         } else if (req.session.user_type === "Professionnel") {
-            user = await Client.findById(id).populate("contacts.messages");
+            user = await Client.findById(id)
+                .populate("contacts.messages.message")
+                .populate("contacts.messages.job");
         }
 
         if (!user) {
@@ -655,11 +658,120 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+app.post("/addProposalMessage", async (req, res) => {
+    const recipientId = req.body.id;
+    const senderId = req.body.user_id;
+    const senderType = req.body.user_type;
+    const jobId = req.body.message.jobId;
+    const message = new Message({
+        senderId: senderId,
+        recipientId: recipientId,
+        senderType: senderType,
+        recipientType:
+            senderType == "Professionnel" ? "Client" : "Professionnel",
+        message: req.body.message,
+    });
+    let job;
+    if (jobId) {
+        job = await Job.findById(jobId);
+    }
+    const saveMessage = await message.save();
+    const cli =
+        senderType == "Client"
+            ? await Client.findById(senderId)
+            : await Client.findById(recipientId);
+    const pro =
+        senderType == "Professionnel"
+            ? await Professionnel.findById(senderId)
+            : await Professionnel.findById(recipientId);
+    let existJob = false;
+    let exist = false;
+    cli.contacts.map((c) => {
+        if (c.contactId == senderId || c.contactId == recipientId) {
+            if (jobId){
+                c.messages.map((m) => {
+                    if (m.job == jobId) {
+                        m.message.push(saveMessage._id);
+                        existJob = true;
+                    }
+                });
+            if(!existJob){
+                c.messages.push({
+                    job: jobId,
+                    message: [saveMessage._id],
+                });
+            }
+            }
+            else
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
+            exist = true;
+        }
+    });
+    if (!exist) {
+        const contactId = senderType == "Client" ? recipientId : senderId;
+        cli.contacts.push({
+            contactId: contactId,
+            messages: [
+                {
+                    job: jobId,
+                    message: [saveMessage._id],
+                },
+            ],
+        });
+    }
+    existJob = false;
+    exist = false;
+    pro.contacts.map((c) => {
+        if (c.contactId == senderId || c.contactId == recipientId) {
+            if (jobId){
+                c.messages.map((m) => {
+                    if (m.job == jobId) {
+                        m.message.push(saveMessage._id);
+                        existJob = true;
+                    }
+                });
+                if (!existJob) {
+                    c.messages.push({
+                        job: jobId,
+                        message: [saveMessage._id],
+                    });
+                }
+                } else
+                    c.messages[c.messages.length - 1].message.push(
+                        saveMessage._id
+                    );
+            exist = true;
+        }
+    });
+    if (!exist) {
+        const contactId =
+            senderType == "Professionnel" ? recipientId : senderId;
+        pro.contacts.push({
+            contactId: contactId,
+            messages: [
+                {
+                    job: jobId,
+                    message: [saveMessage._id],
+                },
+            ],
+        });
+    }
+    if (req.body.message.type == "proposal") job.proposals.push(senderId);
+    else if (req.body.message.type == "invitation") job.hires.push(recipientId);
+    await cli.save();
+    await pro.save();
+    if (jobId) await job.save();
+    console.log("saveMessage", saveMessage);
+    console.log("Professionnel", pro);
+    console.log("Client", cli);
+    console.log("Job", job);
+});
 
 app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     recipientId = req.body.id;
     senderId = req.session.user_id;
     senderType = req.session.user_type;
+    const jobId = req.body.message.job;
     const files = req.files;
     files.map(async (m) => {
         let message = new Message({
@@ -686,7 +798,7 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
         let exist = false;
         cli.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages.push(saveMessage._id);
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
                 exist = true;
             }
         });
@@ -694,13 +806,18 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
             const contactId = senderType == "Client" ? recipientId : senderId;
             cli.contacts.push({
                 contactId: contactId,
-                messages: [saveMessage._id],
+                messages: [
+                    {
+                        job: jobId,
+                        message: [saveMessage._id],
+                    },
+                ],
             });
         }
         exist = false;
         pro.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages.push(saveMessage._id);
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
                 exist = true;
             }
         });
@@ -709,7 +826,12 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
                 senderType == "Professionnel" ? recipientId : senderId;
             pro.contacts.push({
                 contactId: contactId,
-                messages: [saveMessage._id],
+                messages: [
+                    {
+                        job: jobId,
+                        message: [saveMessage._id],
+                    },
+                ],
             });
         }
 
@@ -733,6 +855,7 @@ app.post("/addMessage", async (req, res) => {
         recipientId = req.body.id;
         senderId = req.session.user_id;
         senderType = req.session.user_type;
+        const jobId = req.body.message.job;
         const message = new Message({
             senderId: senderId,
             recipientId: recipientId,
@@ -755,7 +878,7 @@ app.post("/addMessage", async (req, res) => {
         let exist = false;
         cli.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages.push(saveMessage._id);
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
                 exist = true;
             }
         });
@@ -763,13 +886,18 @@ app.post("/addMessage", async (req, res) => {
             const contactId = senderType == "Client" ? recipientId : senderId;
             cli.contacts.push({
                 contactId: contactId,
-                messages: [saveMessage._id],
+                messages: [
+                    {
+                        job: jobId,
+                        message: [saveMessage._id],
+                    },
+                ],
             });
         }
         exist = false;
         pro.contacts.map((c) => {
             if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages.push(saveMessage._id);
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
                 exist = true;
             }
         });
@@ -778,7 +906,12 @@ app.post("/addMessage", async (req, res) => {
                 senderType == "Professionnel" ? recipientId : senderId;
             pro.contacts.push({
                 contactId: contactId,
-                messages: [saveMessage._id],
+                messages: [
+                    {
+                        job: jobId,
+                        message: [saveMessage._id],
+                    },
+                ],
             });
         }
 
