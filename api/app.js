@@ -572,7 +572,7 @@ app.post("/contact", middlewars.isLoginIn, async (req, res) => {
             c.messages.length > 0
                 ? c.messages[c.messages.length - 1].message[
                       c.messages[c.messages.length - 1].message.length - 1
-                  ].content
+                  ].message.content
                 : "";
         const lastMessageTime =
             c.messages.length > 0
@@ -584,6 +584,8 @@ app.post("/contact", middlewars.isLoginIn, async (req, res) => {
         if (!c.contactId) {
             c.contactId = {};
         }
+        console.log("lastMessage", lastMessage);
+        console.log("lastMessage", lastMessageTime);
         c.contactId.id = c._id;
         c.contactId.message = lastMessage;
         c.contactId.time = lastMessageTime;
@@ -634,7 +636,7 @@ app.post("/contact", middlewars.isLoginIn, async (req, res) => {
             time: time,
         };
     });
-    console.log("array",array);
+    console.log("array", array);
     res.json(array);
 });
 app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
@@ -649,11 +651,13 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
 
         // Determine user type from session
         if (req.session.user_type === "Client") {
-            user = await Professionnel.findById(id)
-                .populate("contacts.messages.message")
+            user = await Professionnel.findById(id).populate(
+                "contacts.messages.message"
+            );
         } else if (req.session.user_type === "Professionnel") {
-            user = await Client.findById(id)
-                .populate("contacts.messages.message")
+            user = await Client.findById(id).populate(
+                "contacts.messages.message"
+            );
         }
 
         if (!user) {
@@ -668,11 +672,26 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+app.get("/SubmitProposal/:id", async (req, res) => {
+    const {id}=req.params;
+    const job=await Job.findById(id);
+    res.json(job);
+});
 app.post("/addMessage", async (req, res) => {
-    const recipientId = req.body.id;
-    const senderId = req.body.user_id;
-    const senderType = req.body.user_type;
-    const jobId = req.body.message.jobId;
+    let recipientId = req.body.id;
+    const senderId = req.session.user_id;
+    const senderType = req.session.user_type;
+    const jobId =
+        req.body.message && req.body.message.jobId
+            ? req.body.message.jobId
+            : null;
+    let job;
+    if (jobId) {
+        job = await Job.findById(jobId);
+        if (!recipientId && req.body.message.type == "proposal") {
+            recipientId = job.idClient;
+        }
+    }
     const message = new Message({
         senderId: senderId,
         recipientId: recipientId,
@@ -681,10 +700,6 @@ app.post("/addMessage", async (req, res) => {
             senderType == "Professionnel" ? "Client" : "Professionnel",
         message: req.body.message,
     });
-    let job;
-    if (jobId) {
-        job = await Job.findById(jobId);
-    }
     const saveMessage = await message.save();
     const cli =
         senderType == "Client"
@@ -772,6 +787,7 @@ app.post("/addMessage", async (req, res) => {
     console.log("Professionnel", pro);
     console.log("Client", cli);
     console.log("Job", job);
+    res.json(saveMessage);
 });
 
 app.post("/addMessageFile", upload.array("files"), async (req, res) => {

@@ -43,12 +43,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Content } from "@radix-ui/react-accordion";
 
 function SendInvitation({ name = "Yacine", expert }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [jobNotSpecified, setJobNotSpecified] = useState(true);
   const [jobId, setJobId] = useState(undefined);
-  const [clientJobs, setClientJobs] = useState([]);
+  const [clientJobs, setClientJobs] = useState([{label:"fds",value:"dsa"}]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("/client");
@@ -73,6 +74,18 @@ function SendInvitation({ name = "Yacine", expert }) {
   const onSubmit = async (values) => {
     console.log(values);
     console.log(jobId);
+    const Invitation1={id:expert.id,message:{jobId:jobId,type:"invitation",state:"waiting",content:"Invitation Message"}};
+    const response1=await axios.post('/addMessage',Invitation1);
+    if(response1.data){
+      console.log("response1.data",response1.data);
+    }
+    console.log("response1", response1);
+    const Invitation2 = {
+        id: expert.id,
+        message: { type: "text", content: values.invitationMessage },
+    };
+    const response2=await axios.post('/addMessage',Invitation2);
+    console.log("response2.data", response2.data);
     // TODO: handle send invitation message
     setDialogOpen(false);
   };

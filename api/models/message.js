@@ -21,7 +21,7 @@ const messageSchema = new mongoose.Schema({
         enum: ["Client", "Professionnel"],
     },
     message: {
-        JobId: {
+        jobId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Job",
         },

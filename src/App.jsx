@@ -91,7 +91,7 @@ function App() {
                           <ProfilePage/>
                       }
                   />
-                  <Route path="/submitProposal" element={<SubmitProposal />} />
+                  <Route path="/submitProposal/:id" element={<SubmitProposal />} />
                   <Route path="/job/:id" element={<Job />} />
                   <Route path="/job" element={<Job />} />
                   <Route path="*" element={<NoPage />} />

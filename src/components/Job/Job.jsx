@@ -64,7 +64,7 @@ function Job({ jobInfo, apply = false }) {
           {apply ? (
             <div className="flex flex-col gap-3">
               {/* TODO: khdem el apply */}
-              <Button onClick={() => { }}>Apply Now</Button>
+              <Button onClick={() => { navigate(`/submitProposal/${jobInfo.id}`);}}>Apply Now</Button>
               {/* TODO: khdem el save */}
               <Button
                 onClick={
