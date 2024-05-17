@@ -16,7 +16,7 @@ import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  coverLetter: z
+  invitationMessage: z
     .string()
     .min(10, {
       message: "Your invitation message must be at least 10 characters.",
@@ -81,7 +81,7 @@ function SendInvitation({ name = "Yacine", expert }) {
   const form = useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
-          coverLetter: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
+          invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
           job: clientJobs ? clientJobs[0].label : 'Choose',
       },
   });
@@ -102,7 +102,7 @@ function SendInvitation({ name = "Yacine", expert }) {
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-              {/* coverLetter */}
+              {/* invitationMessage */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
                   Invite To Job
@@ -126,7 +126,7 @@ function SendInvitation({ name = "Yacine", expert }) {
 
               <TextareaFormField
                 control={form.control}
-                name="coverLetter"
+                name="invitationMessage"
                 label="Message *"
                 placeholder="Already have a message? Paste it here!"
                 height="180px"
