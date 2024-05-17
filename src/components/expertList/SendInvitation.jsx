@@ -16,7 +16,7 @@ import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  invitationMessage: z
+  coverLetter: z
     .string()
     .min(10, {
       message: "Your invitation message must be at least 10 characters.",
@@ -65,12 +65,25 @@ function SendInvitation({ name = "Yacine", expert }) {
       value: "job4",
     },
   ]);
+  useEffect(()=>{
+    const fetchData=async ()=>{
+      const response=await axios.get("/client");
+      if(response.data){
+        console.log(response.data);
+        let jobs= response.data.map((j)=>({title:j.title,jobId:j._id})).map((r)=>({label: r.title, value:r.title,jobId:r.jobId }));
+        console.log(jobs);
+        setClientJobs(jobs);
+      }
+    }
+    fetchData();
+
+  },[])
   const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
-      job: clientJobs[0].label,
-    },
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+          coverLetter: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
+          job: clientJobs ? clientJobs[0].label : 'Choose',
+      },
   });
   const onSubmit = async (values) => {
     console.log(values);
@@ -89,7 +102,7 @@ function SendInvitation({ name = "Yacine", expert }) {
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-              {/* invitationMessage */}
+              {/* coverLetter */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
                   Invite To Job
@@ -113,7 +126,7 @@ function SendInvitation({ name = "Yacine", expert }) {
 
               <TextareaFormField
                 control={form.control}
-                name="invitationMessage"
+                name="coverLetter"
                 label="Message *"
                 placeholder="Already have a message? Paste it here!"
                 height="180px"

@@ -268,6 +268,12 @@ app.get(
         //res.render('clients/dashboard');
     }
 );
+app.get("/client", async (req, res) => {
+    if (req.session.user_type == "Client") {
+        const cli = await Client.findById(req.session.user_id).populate("jobs");
+        res.json(cli.jobs);
+    } else res.json({});
+});
 app.get("/welcomeCli", middlewars.requireLoginClient, async (req, res) => {
     const cli = await Client.findById(req.session.user_id).populate("jobs");
     if (cli.jobs && cli.jobs.length != 0)
@@ -658,7 +664,7 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-app.post("/addProposalMessage", async (req, res) => {
+app.post("/addMessage", async (req, res) => {
     const recipientId = req.body.id;
     const senderId = req.body.user_id;
     const senderType = req.body.user_type;
@@ -688,21 +694,20 @@ app.post("/addProposalMessage", async (req, res) => {
     let exist = false;
     cli.contacts.map((c) => {
         if (c.contactId == senderId || c.contactId == recipientId) {
-            if (jobId){
+            if (jobId) {
                 c.messages.map((m) => {
                     if (m.job == jobId) {
                         m.message.push(saveMessage._id);
                         existJob = true;
                     }
                 });
-            if(!existJob){
-                c.messages.push({
-                    job: jobId,
-                    message: [saveMessage._id],
-                });
-            }
-            }
-            else
+                if (!existJob) {
+                    c.messages.push({
+                        job: jobId,
+                        message: [saveMessage._id],
+                    });
+                }
+            } else
                 c.messages[c.messages.length - 1].message.push(saveMessage._id);
             exist = true;
         }
@@ -723,7 +728,7 @@ app.post("/addProposalMessage", async (req, res) => {
     exist = false;
     pro.contacts.map((c) => {
         if (c.contactId == senderId || c.contactId == recipientId) {
-            if (jobId){
+            if (jobId) {
                 c.messages.map((m) => {
                     if (m.job == jobId) {
                         m.message.push(saveMessage._id);
@@ -736,10 +741,8 @@ app.post("/addProposalMessage", async (req, res) => {
                         message: [saveMessage._id],
                     });
                 }
-                } else
-                    c.messages[c.messages.length - 1].message.push(
-                        saveMessage._id
-                    );
+            } else
+                c.messages[c.messages.length - 1].message.push(saveMessage._id);
             exist = true;
         }
     });
@@ -848,7 +851,7 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     });
 });
 
-app.post("/addMessage", async (req, res) => {
+/* app.post("/addMessage", async (req, res) => {
     try {
         // const cli=await Client.findById(req.body.recipientId);
         // const pro=await Professionnel.findById(req.body.senderId);
@@ -926,7 +929,7 @@ app.post("/addMessage", async (req, res) => {
     } catch (e) {
         console.error(e);
     }
-});
+}); */
 const socketIo = require("socket.io");
 const http = require("http");
 //const { JsonWebTokenError } = require('jsonwebtoken');
