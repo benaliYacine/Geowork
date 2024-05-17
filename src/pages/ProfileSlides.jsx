@@ -20,7 +20,9 @@ import Profile from "@/components/profile/Profile";
 import PropagateLoader from "react-spinners/PropagateLoader";
 const ProfileSlides = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [submiting, setSubmiting] = useState(false);
   const submitFormRef = useRef(null);
+
   // New state for profile information
   const [profileInfo, setProfileInfo] = useState({
     roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
@@ -277,6 +279,7 @@ const ProfileSlides = () => {
     // Additional logic to handle form submission on the last slide
   };
   const handleSubmit = async () => {
+    setSubmiting(true);
     const dataUrl = profileInfo.photoProfile;
     const blobData = await fetch(dataUrl).then((res) => res.blob());
     delete profileInfo.photoProfile;
@@ -367,7 +370,7 @@ const ProfileSlides = () => {
         },
       }
     );
-
+    setSubmiting(true);
     navigate("/dashboard");
   };
 
@@ -441,7 +444,12 @@ const ProfileSlides = () => {
           <h1 className="text-black font-header text-4xl font-semibold ">
             Profile Preview
           </h1>
-          <Button onClick={handleSubmit} variant="default" size="lg">
+          <Button
+            onClick={handleSubmit}
+            variant="default"
+            size="lg"
+            loading={submiting}
+          >
             Submit profile
           </Button>
         </div>
@@ -458,7 +466,7 @@ const ProfileSlides = () => {
           <Button onClick={handleBack} variant="outline">
             Back
           </Button>
-          <Button onClick={handleSubmit} variant="default">
+          <Button onClick={handleSubmit} variant="default" loading={submiting}>
             Submit profile
           </Button>
         </div>
