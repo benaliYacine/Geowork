@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import RatingDisplay from "@/components/common/RatingDisplay";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
-
+import { Badge } from "@/components/ui/badge";
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
@@ -22,10 +22,11 @@ const GeoworkItem = ({ job }) => {
             ></div>
           </div>
           <div>
-            <div className="flex items-center justify-between">
-              <h3 className="text-2xl  line-clamp-2 font-medium font-sans text-foreground flex-grow">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="text-2xl line-clamp-2 font-medium font-sans text-foreground flex-grow">
                 {job.title}
               </h3>
+              {job.canceled && <Badge variant="destructive">Canceled</Badge>}
             </div>
             {/* <Category
                 category={job.category}
