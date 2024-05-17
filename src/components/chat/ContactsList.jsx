@@ -151,13 +151,13 @@ const contacts = [
   },
 ].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sorting based on time
 
-function ContactsList() {
+function ContactsList({contacts}) {
   const navigate = useNavigate();
   const redirectToMessage = (id) => {
     console.log(id);
     navigate(`/messages/${id}`);
   };
-/*     contacts = contacts.map((c) => {
+    contacts = contacts.map((c) => {
       const currentTime = new Date(); // Date et heure actuelles
       const messageTime = new Date(c.time); // Heure du message
 
@@ -178,7 +178,7 @@ function ContactsList() {
 
       // Retourner l'objet de contact modifié avec le temps formaté
       return { ...c, time };
-  }); */
+  });
 
   return (
     <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">

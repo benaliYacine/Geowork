@@ -560,20 +560,26 @@ app.post("/contact", middlewars.isLoginIn, async (req, res) => {
     if (req.session.user_type == "Client") {
         user = await Client.findById(req.session.user_id)
             .populate("contacts.contactId")
-            .populate("contacts.messages");
+            .populate("contacts.messages.message");
     } else if (req.session.user_type == "Professionnel") {
         user = await Professionnel.findById(req.session.user_id)
             .populate("contacts.contactId")
-            .populate("contacts.messages");
+            .populate("contacts.messages.message");
     }
 
     let array = user.contacts.map((c) => {
         const lastMessage =
             c.messages.length > 0
-                ? c.messages[c.messages.length - 1].message.content
+                ? c.messages[c.messages.length - 1].message[
+                      c.messages[c.messages.length - 1].message.length - 1
+                  ].content
                 : "";
         const lastMessageTime =
-            c.messages.length > 0 ? c.messages[c.messages.length - 1].time : "";
+            c.messages.length > 0
+                ? c.messages[c.messages.length - 1].message[
+                      c.messages[c.messages.length - 1].message.length - 1
+                  ].time
+                : "";
 
         if (!c.contactId) {
             c.contactId = {};
@@ -628,7 +634,7 @@ app.post("/contact", middlewars.isLoginIn, async (req, res) => {
             time: time,
         };
     });
-
+    console.log("array",array);
     res.json(array);
 });
 app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
@@ -645,11 +651,9 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         if (req.session.user_type === "Client") {
             user = await Professionnel.findById(id)
                 .populate("contacts.messages.message")
-                .populate("contacts.messages.job");
         } else if (req.session.user_type === "Professionnel") {
             user = await Client.findById(id)
                 .populate("contacts.messages.message")
-                .populate("contacts.messages.job");
         }
 
         if (!user) {
