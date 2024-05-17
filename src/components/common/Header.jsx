@@ -246,22 +246,18 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Button asChild>
-                  <Link
-                    to="/signup"
-                    className="text-sm font-semibold leading-6 text-white"
-                  >
-                    Sign up
-                  </Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link
-                    to="/login"
-                    className="text-sm font-semibold leading-6 text-gray-900"
-                  >
-                    Log in
-                  </Link>
-                </Button>
+                <Link
+                  to="/signup"
+                  className="text-sm font-semibold leading-6 text-white"
+                >
+                  <Button>Sign up</Button>
+                </Link>
+                <Link
+                  to="/login"
+                  className="text-sm font-semibold leading-6 text-gray-900"
+                >
+                  <Button variant="outline">Log in</Button>
+                </Link>
               </>
             )}
           </div>
