@@ -1,10 +1,23 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Crown } from "lucide-react";
-const JobSuccess = ({ percentage = 65 }) => {
+const JobSuccess = ({ percentage = 65, size = "md" }) => {
+  const sizeMapping = {
+    xs: 8,
+    sm: 12, // Assuming 16 pixels for small
+    md: 18, // Assuming 24 pixels for medium
+    lg: 24, // Assuming 32 pixels for large
+    xl: 32, // Assuming 40 pixels for extra large
+  };
+
+
+
+  const iconSize = sizeMapping[size] || 24;
+  const barSize = sizeMapping[size] / 2 || 10;
+
   return (
     <div className="flex gap-2 items-center">
-      <div className="h-10 w-10 relative">
+      <div className={`h-${barSize} w-${barSize} relative`}>
         <CircularProgressbar
           value={percentage}
           text={""}
@@ -46,11 +59,13 @@ const JobSuccess = ({ percentage = 65 }) => {
             },
           }}
         />{" "}
-        <p className=" text-primary absolute top-2 left-2">
-          <Crown />
-        </p>
+        <div className="absolute flex top-0 right-0 bottom-0 left-0 justify-center items-center">
+          <p className=" text-primary">
+            <Crown size={iconSize} />
+          </p>
+        </div>
       </div>
-      <p className="text-xl text-primary"> {percentage}% Job Success</p>
+      <p className={`text-${size} text-primary`}> {percentage}% Job Success</p>
     </div>
   );
 };
