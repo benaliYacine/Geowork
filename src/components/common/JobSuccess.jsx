@@ -3,7 +3,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { Crown } from "lucide-react";
 const JobSuccess = ({ percentage = 65 }) => {
   return (
-    <div className="flex gap-2 items-center mt-2">
+    <div className="flex gap-2 items-center">
       <div className="h-10 w-10 relative">
         <CircularProgressbar
           value={percentage}

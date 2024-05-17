@@ -1,6 +1,7 @@
 import { useState, createContext } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Location from "@/components/common/Location";
+import Category from "@/components/common/Category";
 import JobSuccess from "@/components/common/JobSuccess";
 import EmploymentHistory from "@/components/profile/EmploymentHistory";
 import ExperienceHistory from "@/components/profile/ExperienceHistory";
@@ -83,9 +84,9 @@ export default function Profile({
                 </div>
               )}
             </div>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full gap-3">
               <div className="flex w-full justify-between">
-                <h2 className="text-6xl font-header font-semibold mb-1">
+                <h2 className="text-6xl font-header font-semibold">
                   {expert.name}
                 </h2>
                 {action && (
@@ -95,16 +96,24 @@ export default function Profile({
                   </div>
                 )}
               </div>
+
               <Location wilaya={expert.wilaya} city={expert.city} size="lg" />
               <JobSuccess percentage={65} />
             </div>
           </div>
 
           <div className="relative">
-            <h3 className="text-4xl font-header font-semibold mb-1">
-              {profileInfo.roleTitle}
-            </h3>
-
+            <div className="mb-4">
+              {" "}
+              <h3 className="text-4xl font-header font-semibold">
+                {profileInfo.roleTitle}
+              </h3>
+              <Category
+                category={profileInfo.category}
+                subCategory={profileInfo.subCategory}
+                size="lg"
+              />
+            </div>
             <CollapsibleTextContainer collapsedHeight="50px">
               <p>{profileInfo.Bio}</p>
             </CollapsibleTextContainer>
@@ -114,6 +123,8 @@ export default function Profile({
                 Bio={profileInfo.Bio}
                 roleTitle={profileInfo.roleTitle}
                 updateProfileInfo={updateProfileInfo}
+                category={profileInfo.category}
+                subCategory={profileInfo.subCategory}
               />
             </div>
           </div>
