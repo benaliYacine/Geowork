@@ -94,11 +94,11 @@ function CloseJobDialog({}) {
                 )}
               </DialogHeader>
 
-              {type == "close" && (
+              {/* {type == "close" && ( */}
                 <div className=" w-full flex justify-center items-center">
                   <RatingInput rating={rating} setRating={setRating} />
                 </div>
-              )}
+              {/* )} */}
               <TextareaFormField
                 control={form.control}
                 name="description"
