@@ -1,6 +1,7 @@
 import { useState, createContext } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Location from "@/components/common/Location";
+import JobSuccess from "@/components/common/JobSuccess";
 import EmploymentHistory from "@/components/profile/EmploymentHistory";
 import ExperienceHistory from "@/components/profile/ExperienceHistory";
 import EducationHistory from "@/components/profile/EducationHistory";
@@ -55,7 +56,7 @@ export default function Profile({
     <EditContext.Provider value={{ edit }}>
       <div className="flex flex-col gap-4 mb-4">
         <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
-          <div className="flex flex-row p-0 w-full mr-auto items-center">
+          <div className="flex flex-row p-0 w-full mr-auto items-start">
             <div className=" relative">
               <Avatar className="mr-4" size={24}>
                 <AvatarImage
@@ -95,6 +96,7 @@ export default function Profile({
                 )}
               </div>
               <Location wilaya={expert.wilaya} city={expert.city} size="lg" />
+              <JobSuccess percentage={65} />
             </div>
           </div>
 
