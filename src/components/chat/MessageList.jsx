@@ -342,32 +342,33 @@ const messages = [
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 // function MessageList({messages}) {
-function MessageList() {
-  const messagesEndRef = useRef(null);
-  // Scroll to the bottom of the messages list every time the messages change
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({});
-    }
-  }, [messages]);
+function MessageList({ messages }) {
+  console.log("messageList",messages)
+    const messagesEndRef = useRef(null);
+    // Scroll to the bottom of the messages list every time the messages change
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({});
+        }
+    }, [messages]);
 
-  return (
-    <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
-      <div className=" flex flex-col">
-        {messages.map((msg) => (
-          <MessageItem
-            key={msg.id}
-            senderName={msg.senderName}
-            message={msg.message}
-            timestamp={msg.timestamp}
-            isOwnMessage={msg.isOwnMessage}
-          />
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-      {/* Empty div to act as a scroll target */}
-    </ScrollArea>
-  );
+    return (
+        <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
+            <div className=" flex flex-col">
+                {messages.map((msg) => (
+                    <MessageItem
+                        key={msg.id}
+                        senderName={msg.senderName}
+                        message={msg.message}
+                        timestamp={msg.timestamp}
+                        isOwnMessage={msg.isOwnMessage}
+                    />
+                ))}
+                <div ref={messagesEndRef} />
+            </div>
+            {/* Empty div to act as a scroll target */}
+        </ScrollArea>
+    );
 }
 
 export default MessageList;
