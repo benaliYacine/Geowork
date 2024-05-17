@@ -127,7 +127,7 @@ export default function MapCompo({ center, location }) {
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [clickMarkerRef, clickMarker] = useAdvancedMarkerRef();
   const [jobLocation, setJobLocation] = useState(null);
- 
+
   const backToJobLocation = () => {
     moveTo(zoom, 17, setZoom, lastMapEventCenter, location, setCenter);
   };
@@ -244,7 +244,6 @@ export default function MapCompo({ center, location }) {
             className="h-6 w-6 inline-block stroke-[1.4px]"
             alt="Directions icon"
           />
-          
         </Button>
       </div>
       <div className="flex gap-2 absolute right-5 bottom-5 p-3 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">

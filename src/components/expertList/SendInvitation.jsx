@@ -10,7 +10,7 @@ import { Form } from "@/components/ui/form";
 
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import ComboBoxComponent from "@/components/formFields/ComboBoxComponent";
+import ComboBoxComponentWithId from "@/components/formFields/ComboBoxComponentWithId";
 
 // import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
 import GenericFormField from "@/components/formFields/GenericFormField";
@@ -47,37 +47,22 @@ import {
 function SendInvitation({ name = "Yacine", expert }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [jobNotSpecified, setJobNotSpecified] = useState(true);
-  const [clientJobs, setClientJobs] = useState([
-    {
-      label: "job1",
-      value: "job1",
-    },
-    {
-      label: "job2",
-      value: "job2",
-    },
-    {
-      label: "job3",
-      value: "job3",
-    },
-    {
-      label: "job4",
-      value: "job4",
-    },
-  ]);
-  useEffect(()=>{
-    const fetchData=async ()=>{
-      const response=await axios.get("/client");
-      if(response.data){
+  const [jobId, setJobId] = useState(undefined);
+  const [clientJobs, setClientJobs] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("/client");
+      if (response.data) {
         console.log(response.data);
-        let jobs= response.data.map((j)=>({title:j.title,jobId:j._id})).map((r)=>({label: r.title, value:r.title,jobId:r.jobId }));
+        let jobs = response.data
+          .map((j) => ({ title: j.title, jobId: j._id }))
+          .map((r) => ({ label: r.title, value: r.title, id: r.jobId }));
         console.log(jobs);
         setClientJobs(jobs);
       }
-    }
+    };
     fetchData();
-
-  },[])
+  }, []);
   const form = useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -87,6 +72,7 @@ function SendInvitation({ name = "Yacine", expert }) {
   });
   const onSubmit = async (values) => {
     console.log(values);
+    console.log(jobId);
     // TODO: handle send invitation message
     setDialogOpen(false);
   };
@@ -133,10 +119,11 @@ function SendInvitation({ name = "Yacine", expert }) {
               />
 
               {jobNotSpecified && (
-                <ComboBoxComponent
+                <ComboBoxComponentWithId
                   control={form.control}
                   name="job"
                   label="Choose one of your job posts"
+                  setId={setJobId}
                   itemList={clientJobs}
                   placeholder="Select a job"
                 />
