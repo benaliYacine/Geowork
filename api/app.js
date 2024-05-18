@@ -807,7 +807,17 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     recipientId = req.body.id;
     senderId = req.session.user_id;
     senderType = req.session.user_type;
-    const jobId = req.body.message.job;
+    const jobId =
+        req.body.message && req.body.message.jobId
+            ? req.body.message.jobId
+            : null;
+    let job;
+    if (jobId) {
+        job = await Job.findById(jobId);
+        if (!recipientId && req.body.message.type == "proposal") {
+            recipientId = job.idClient;
+        }
+    }
     const files = req.files;
     files.map(async (m) => {
         let message = new Message({
