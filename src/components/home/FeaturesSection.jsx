@@ -60,18 +60,18 @@ const HeroSection = () => {
           </div>
           <Feature
             img={geoRequest}
-            description="Ensure you're only matched with professionals who can easily reach you, making service delivery faster and more efficient."
+            description="Ensure you're only matched with geoworkers who can easily reach you, making service delivery faster and more efficient."
             title="Geolocated Requests"
             reverse={true}
           />
           <Feature
             img={diverse}
-            description="Access a wide variety of services all in one place. Whether you need household repairs, health consultations, or beauty services, find a professional for every need."
+            description="Access a wide variety of services all in one place. Whether you need household repairs, health consultations, or beauty services, find a geoworker for every need."
             title="Diverse Service Range"
           />
           <Feature
             img={detailedProfiles}
-            description="Gain insights into the professionals you're considering. Profiles include qualifications, past work experience, customer reviews, and ratings to help you make an informed choice."
+            description="Gain insights into the geoworkers you're considering. Profiles include qualifications, past work experience, customer reviews, and ratings to help you make an informed choice."
             title="Detailed Professional Profiles"
             reverse={true}
           />

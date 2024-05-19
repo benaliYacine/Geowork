@@ -80,15 +80,15 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       case "accepted":
         return (
           <p className=" text-md text-success w-full">
-            {isClient ? "The expert" : "The Client"} has accepted your budget
+            {isClient ? "The geoworker" : "The Client"} has accepted your budget
             edit suggestion
           </p>
         );
       case "denied":
         return (
           <p className=" text-md text-destructive w-full">
-            {isClient ? "The expert" : "The Client"} has denied your budget edit
-            suggestion
+            {isClient ? "The geoworker" : "The Client"} has denied your budget
+            edit suggestion
           </p>
         );
 
@@ -115,8 +115,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             <EditBudgetButton budget="" />
 
             <AlertDialog
-              title="Hire expert"
-              description="Are you sure you want to Hire this expert"
+              title="Hire geoworker"
+              description="Are you sure you want to Hire this geoworker"
               action={() => {}}
               actionButtonText="Hire"
             >
@@ -128,7 +128,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
         return (
           <div className="flex flex-col gap-2 w-full">
             <p className=" text-md text-success w-full">
-              you have hired this expert.
+              you have hired this geoworker.
             </p>
             <div className="flex justify-end w-full gap-2">
               <CloseJobDialog />
@@ -237,7 +237,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       // case "denied":
       //   return (
       //     <p className=" text-md text-destructive w-full">
-      //       The expert has denied your job invitation
+      //       The geoworker has denied your job invitation
       //     </p>
       //   );
 
@@ -350,7 +350,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
         return (
           <div className="flex flex-col gap-2 w-full">
             <p className=" text-md text-success w-full">
-              the expert has accepted your job invitation
+              the geoworker has accepted your job invitation
             </p>
             <div className="flex justify-end w-full gap-2">
               <CloseJobDialog />
@@ -362,7 +362,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
       case "denied":
         return (
           <p className=" text-md text-destructive w-full">
-            The expert has denied your job invitation
+            The geoworker has denied your job invitation
           </p>
         );
       case "closed":
@@ -398,7 +398,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               <>
                 {" "}
                 <p className=" text-md text-black ">
-                  You have shared the exact job location with the expert
+                  You have shared the exact job location with the geoworker
                 </p>
                 <div className="flex justify-end w-full gap-2">
                   <EditLocation location={message.location} />
@@ -497,7 +497,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             </div>
             {isOwnMessage ? (
               <p className=" text-md text-black ">
-                You've Invited this expert for your job
+                You've Invited this geoworker for your job
               </p>
             ) : (
               <p className=" text-md text-black ">

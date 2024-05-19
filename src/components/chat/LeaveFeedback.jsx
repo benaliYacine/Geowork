@@ -77,7 +77,7 @@ function CloseJobDialog({}) {
 
                 <DialogDescription>
                   please take a moment to rate and review the client, this can
-                  help future experts.
+                  help future geoworkers.
                 </DialogDescription>
               </DialogHeader>
 

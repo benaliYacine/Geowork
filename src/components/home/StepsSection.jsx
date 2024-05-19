@@ -43,19 +43,19 @@ const HeroSection = () => {
           <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 lg:space-y-0 space-y-8">
             <Step
               img={post}
-              description="Begin by simply posting your service need. Whether it's a leaky faucet or a need for a home tutor, describe what you need, and get offers from experts in minutes."
+              description="Begin by simply posting your service need. Whether it's a leaky faucet or a need for a home tutor, describe what you need, and get offers from our geoworkers in minutes."
               title="1: Post Your Request"
               delay={0}
             />
             <Step
               img={discover}
-              description="Compare experts offers, browse their profiles, reviews, and work, negotiate with them via messages, and choose the best one to do the job."
+              description="Compare geoworkers offers, browse their profiles, reviews, and work, negotiate with them, and choose the best one to do the job."
               title="2: Discover Local Professionals"
               delay={0.4}
             />
             <Step
               img={done}
-              description="Connect with your chosen professional, agree on the details, send him the exact job location, and get your service completed with ease. It’s hassle-free, efficient, and reliable."
+              description="Connect with your chosen geoworker, agree on the details, send him the exact job location, and get your service completed with ease. It’s hassle-free, efficient, and reliable."
               title="3: Get It Done"
               delay={0.8}
             />

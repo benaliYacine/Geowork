@@ -68,7 +68,7 @@ export default function SlideFour({
             Set a price for the job and pay cash at the end of it. You can
           </p>
           <p className="text-sm text-black">
-            negotiate this cost when you chat with your chosen expert.
+            negotiate this cost when you chat with your chosen geoworker.
           </p>
         </form>
       </Form>

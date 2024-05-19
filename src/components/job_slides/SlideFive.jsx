@@ -56,7 +56,7 @@ export default function SlideFive({
           <p className="text-md text-greyDark mb-4">
             This is where you'll share what you need done. A clear and
             comprehensive job description not only attracts the right
-            professionals but also sets the foundation for a successful
+            geoworkers but also sets the foundation for a successful
             collaboration. Include as much detail as possible to ensure a
             perfect match.
           </p>

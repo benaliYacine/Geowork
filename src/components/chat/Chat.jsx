@@ -304,7 +304,7 @@ export default function Chat() {
                     You don't have any contacts yet.
                 </p>{" "}
                 <p className="mt-6 text-base leading-7 text-greyDark">
-                    Start by posting a job and inviting experts to collaborate!
+                    Start by posting a job and inviting geoworkers to collaborate!
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-x-6">
                     <Link to="/jobslides" className="">
