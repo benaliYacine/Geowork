@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import axios from 'axios';
+import axios from "axios";
 import { React, useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import JobPost from "@/components/jobPost/JobPost";
@@ -8,10 +8,33 @@ import AboutClient from "@/components/Job/AboutClient";
 import JobActivity from "@/components/Job/JobActivity";
 import { useNavigate, useParams } from "react-router-dom";
 import AlertMessage from "@/components/common/AlertMessage";
-
+import ClientHistory from "@/components/Job/ClientHistory";
 function Job({ jobInfo, apply = false }) {
-  console.log("heart",jobInfo.heart)
+  console.log("heart", jobInfo.heart);
   const navigate = useNavigate();
+
+  const clientHistory = [
+    {
+      title: "test test",
+      ExpertRating: 5,
+      category: "test",
+      subCategory: "test",
+      startDate: "Aug 2023",
+      endDate: "Jan 2024",
+      budget: "DZD 5000",
+      feedback: "lorem",
+    },
+    {
+      title: "test test",
+      ExpertRating: 5,
+      category: "test",
+      subCategory: "test",
+      startDate: "Aug 2023",
+      endDate: "Jan 2024",
+      budget: "DZD 5000",
+      feedback: "lorem",
+    },
+  ];
   const [showAlert, setShowAlert] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [client, setClient] = useState({
@@ -27,25 +50,27 @@ function Job({ jobInfo, apply = false }) {
     invitesNumber: "0",
     hiredNumber: "0",
   });
-  useEffect(()=>{
+  useEffect(() => {
     setIsSaved(jobInfo.heart);
-  },[jobInfo.heart])
+  }, [jobInfo.heart]);
   const heartClick = async () => {
     let response;
     console.log(jobInfo);
     console.log(isSaved);
     setIsSaved(!isSaved);
     if (!isSaved) {
-      response = await axios.patch('/api/jobs/addSavedJob', { id: jobInfo.id });
+      response = await axios.patch("/api/jobs/addSavedJob", { id: jobInfo.id });
       console.log(response.data);
     } else {
-      response = await axios.patch('/api/jobs/suppSavedJob', { id: jobInfo.id });
+      response = await axios.patch("/api/jobs/suppSavedJob", {
+        id: jobInfo.id,
+      });
       console.log(response.data);
     }
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mb-4">
       <AlertMessage
         showAlert={showAlert}
         variant="destructive"
@@ -64,15 +89,15 @@ function Job({ jobInfo, apply = false }) {
           {apply ? (
             <div className="flex flex-col gap-3">
               {/* TODO: khdem el apply */}
-              <Button onClick={() => { navigate(`/submitProposal/${jobInfo.id}`);}}>Apply Now</Button>
-              {/* TODO: khdem el save */}
               <Button
-                onClick={
-
-                  heartClick
-                }
-                variant="outline"
+                onClick={() => {
+                  navigate(`/submitProposal/${jobInfo.id}`);
+                }}
               >
+                Apply Now
+              </Button>
+              {/* TODO: khdem el save */}
+              <Button onClick={heartClick} variant="outline">
                 <Heart className={isSaved ? "fill-primary mr-2" : "mr-2"} />
                 Save job
               </Button>
@@ -92,6 +117,7 @@ function Job({ jobInfo, apply = false }) {
           <AboutClient client={client} />
         </div>
       </div>
+      <ClientHistory clientHistory={clientHistory} />
     </div>
   );
 }
