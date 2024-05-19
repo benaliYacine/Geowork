@@ -400,7 +400,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             )}
             <div
               className="bg-cover bg-center rounded-lg h-[250px] w-full"
-              style={{ backgroundImage: `url(${message.images[0]})` }}
+              style={{ backgroundImage: `url(${message.images? message.images[0] : ""})` }}
             />
             <div className="flex-grow mb-2">
               {/* <Category
@@ -415,8 +415,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               <Location wilaya={message.wilaya} city={message.city} size="sm" />
             </div>
             {isOwnMessage
-              ? invitationRenderFooterSent()
-              : invitationRenderFooterRecieved()}
+              ? renderFooterSent(message.invitationState)
+              : renderFootereRecieved(message.invitationState)}
           </div>
         );
       case "text":

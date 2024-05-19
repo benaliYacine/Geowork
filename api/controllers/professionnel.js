@@ -372,6 +372,12 @@ exports.changeProfileProfessionnel = async (req, res) => {
         if (req.body.roleTitle) {
             pro.profile.roleTitle = req.body.roleTitle;
         }
+        if (req.body.category) {
+            pro.profile.category = req.body.category;
+        }
+        if (req.body.subCategory) {
+            pro.profile.subCategory = req.body.subCategory;
+        }
         await pro.save();
         return res.status(201).json(pro);
     } catch (err) {

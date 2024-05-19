@@ -76,12 +76,12 @@ function App() {
                   <Route path="/savedJobs" element={<SavedJobs />} />
                   <Route path="/savedExperts" element={<SavedExperts />} />
                   <Route
-                      path="/expertProposalPage"
+                      path="/expertProposalPage/:id"
                       element={<ExpertProposalPage />}
                   />
 
                   <Route path="/jobsSearch" element={<JobsSearch />} />
-                  <Route path="/proposal" element={<ProposalPage />} />
+                  <Route path="/proposal/:id" element={<ProposalPage />} />
                   <Route path="/expertsSearch" element={<ExpertsSearch />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -93,7 +93,6 @@ function App() {
                   />
                   <Route path="/submitProposal/:id" element={<SubmitProposal />} />
                   <Route path="/job/:id" element={<Job />} />
-                  <Route path="/job" element={<Job />} />
                   <Route path="*" element={<NoPage />} />
               </Routes>
           </BrowserRouter>

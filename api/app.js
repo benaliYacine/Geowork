@@ -651,14 +651,27 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
 
         // Determine user type from session
         if (req.session.user_type === "Client") {
-            user = await Professionnel.findById(id).populate(
-                "contacts.messages.message"
-            );
+            user = await Professionnel.findById(id)
+                .populate("contacts.messages.message")
+                .populate({
+                    path: "contacts.messages.message", // Popule le champ "message" des messages dans les contacts
+                    populate: {
+                        path: "message.jobId", // Popule le champ "jobId" dans les messages peuplés précédemment
+                        model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
+                    },
+                });
         } else if (req.session.user_type === "Professionnel") {
-            user = await Client.findById(id).populate(
-                "contacts.messages.message"
-            );
+            user = await Client.findById(id)
+                .populate("contacts.messages.message")
+                .populate({
+                path: 'contacts.messages.message',   // Popule le champ "message" des messages dans les contacts
+                populate: {
+                    path: 'message.jobId',            // Popule le champ "jobId" dans les messages peuplés précédemment
+                    model: 'Job'                      // Assurez-vous que "Job" est le bon modèle pour "jobId"
+                }
+            });
         }
+        
 
         if (!user) {
             return res.json({ redirectUrl: "/messages/1" });
@@ -794,7 +807,17 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     recipientId = req.body.id;
     senderId = req.session.user_id;
     senderType = req.session.user_type;
-    const jobId = req.body.message.job;
+    const jobId =
+        req.body.message && req.body.message.jobId
+            ? req.body.message.jobId
+            : null;
+    let job;
+    if (jobId) {
+        job = await Job.findById(jobId);
+        if (!recipientId && req.body.message.type == "proposal") {
+            recipientId = job.idClient;
+        }
+    }
     const files = req.files;
     files.map(async (m) => {
         let message = new Message({

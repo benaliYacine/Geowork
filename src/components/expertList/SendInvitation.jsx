@@ -80,12 +80,12 @@ function SendInvitation({ name = "Yacine", expert }) {
       console.log("response1.data",response1.data);
     }
     console.log("response1", response1);
-    const Invitation2 = {
+    /* const Invitation2 = {
         id: expert.id,
         message: { type: "text", content: values.invitationMessage },
     };
     const response2=await axios.post('/addMessage',Invitation2);
-    console.log("response2.data", response2.data);
+    console.log("response2.data", response2.data); */
     // TODO: handle send invitation message
     setDialogOpen(false);
   };
