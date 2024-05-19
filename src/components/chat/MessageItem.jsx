@@ -7,6 +7,8 @@ import Heart from "react-heart";
 import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
+import LeaveFeadback from "@/components/chat/LeaveFeadback";
+import ReportComplete from "@/components/chat/ReportComplete";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
 import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
@@ -134,6 +136,22 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             </div>
           </div>
         );
+      case "closed":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-success w-full">
+              you have closed this job.
+            </p>
+          </div>
+        );
+      case "canceled":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-destructive w-full">
+              you have canceled this job.
+            </p>
+          </div>
+        );
 
       //makach diny el client maye9derch y deny proposal
       // case "denied":
@@ -177,6 +195,43 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             the client has hired you
             {/* ask him to share the exact job location with you so you can... */}
           </p>
+        );
+      case "closed":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-success w-full">
+              the client has closed the job
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <LeaveFeadback />
+            </div>
+          </>
+        );
+      case "canceled":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-destructive w-full">
+              the client has canceled the job
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <ReportComplete />
+            </div>
+          </>
+        );
+      case "reported":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-success w-full">
+              You have reported the job as completed. We will review the images
+              and update the job status accordingly
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+          </>
         );
       // makach deny fel proposal
       // case "denied":
@@ -229,6 +284,43 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             you have denied this job invitation
           </p>
         );
+      case "closed":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-success w-full">
+              the client has closed the job
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <LeaveFeadback />
+            </div>
+          </>
+        );
+      case "canceled":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-destructive w-full">
+              the client has canceled the job
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <ReportComplete />
+            </div>
+          </>
+        );
+      case "reported":
+        return (
+          <>
+            {" "}
+            <p className=" text-md text-success w-full">
+              You have reported the job as completed. We will review the images
+              and update the job status accordingly
+              {/* ask him to share the exact job location with you so you can... */}
+            </p>
+          </>
+        );
 
       default:
         return null;
@@ -274,6 +366,22 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
           <p className=" text-md text-destructive w-full">
             The expert has denied your job invitation
           </p>
+        );
+      case "closed":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-success w-full">
+              you have closed this job.
+            </p>
+          </div>
+        );
+      case "canceled":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-destructive w-full">
+              you have canceled this job.
+            </p>
+          </div>
         );
 
       default:
