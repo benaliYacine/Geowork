@@ -7,7 +7,7 @@ import Heart from "react-heart";
 import { File } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
-import LeaveFeadback from "@/components/chat/LeaveFeadback";
+import LeaveFeedback from "@/components/chat/LeaveFeedback";
 import ReportComplete from "@/components/chat/ReportComplete";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
 import SendLocation from "@/components/chat/Map/SendLocation";
@@ -205,7 +205,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               {/* ask him to share the exact job location with you so you can... */}
             </p>
             <div className="flex justify-end w-full gap-2">
-              <LeaveFeadback />
+              <LeaveFeedback />
             </div>
           </>
         );
@@ -293,7 +293,7 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               {/* ask him to share the exact job location with you so you can... */}
             </p>
             <div className="flex justify-end w-full gap-2">
-              <LeaveFeadback />
+              <LeaveFeedback />
             </div>
           </>
         );

@@ -49,8 +49,8 @@ export default function SignUpForm() {
       name: { first: "", last: "" },
       email: "",
       password: "",
-      wilaya: "alger",
-      city:"",
+      wilaya: "algiers",
+      city: "",
     },
   });
 

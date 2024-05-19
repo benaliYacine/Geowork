@@ -7,9 +7,8 @@ import PageContainer from "@/components/common/PageContainer";
 import SearchBar from "@/components/searchBar/SearchBar";
 import Proposal from "@/components/proposalList/Proposal";
 export default function ProfilePage() {
-
   const [info, setInfo] = useState({
-    name: 'John Doe',
+    name: "John Doe",
     role: "Web Developer",
     rating: Math.random() * 5,
     avatarUrl: "https://github.com/johndoe.png",
@@ -122,7 +121,7 @@ export default function ProfilePage() {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "alger",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -140,7 +139,7 @@ export default function ProfilePage() {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "alger",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -158,7 +157,7 @@ export default function ProfilePage() {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "alger",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -176,7 +175,7 @@ export default function ProfilePage() {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "alger",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
