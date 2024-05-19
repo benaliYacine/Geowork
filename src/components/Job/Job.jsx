@@ -36,6 +36,8 @@ function Job({ jobInfo, apply = false }) {
     },
   ];
   const [showAlert, setShowAlert] = useState(true);
+  const [notAvailable, setNotAvailable] = useState(true);
+
   const [isSaved, setIsSaved] = useState(false);
   const [client, setClient] = useState({
     jobsNumber: "73",
@@ -72,7 +74,7 @@ function Job({ jobInfo, apply = false }) {
   return (
     <div className="flex flex-col gap-4 mb-4">
       <AlertMessage
-        showAlert={showAlert}
+        showAlert={showAlert && notAvailable}
         variant="destructive"
         onClose={() => setShowAlert(false)}
         message="This job is no longer available."
@@ -90,6 +92,7 @@ function Job({ jobInfo, apply = false }) {
             <div className="flex flex-col gap-3">
               {/* TODO: khdem el apply */}
               <Button
+                disabled={notAvailable}
                 onClick={() => {
                   navigate(`/submitProposal/${jobInfo.id}`);
                 }}

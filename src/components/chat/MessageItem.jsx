@@ -343,8 +343,6 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
                   Cancel Invitation
                 </Button>
               </AlertDialog>
-
-              <SendLocation />
             </div>
           </div>
         );

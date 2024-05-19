@@ -14,7 +14,7 @@ import CollapsibleTextContainer from "@/components/common/CollapsibleTextContain
 import { getInitials } from "@/lib/utils";
 import axios from "axios";
 import SendInvitation from "@/components/expertList/SendInvitation";
-
+import Help from "@/components/Job/Help";
 export const EditContext = createContext();
 
 export default function Profile({
@@ -98,7 +98,12 @@ export default function Profile({
               </div>
 
               <Location wilaya={expert.wilaya} city={expert.city} size="lg" />
-              <JobSuccess percentage={65} />
+              <div className="w-fit">
+                <Help context="The percentage of this expert's successful jobs"
+                profile>
+                  <JobSuccess percentage={65} />
+                </Help>
+              </div>
             </div>
           </div>
 

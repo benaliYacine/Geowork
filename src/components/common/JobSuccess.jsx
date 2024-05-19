@@ -16,7 +16,7 @@ const JobSuccess = ({ percentage = 65, size = "md" }) => {
   const barSize = sizeMapping[size] / 2 || 10;
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center w-fit ">
       <div className={`h-${barSize} w-${barSize} relative`}>
         <CircularProgressbar
           value={percentage}
