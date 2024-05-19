@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react"; // Ensure useState is imported like this
-
+import React, { useState, useEffect } from "react";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
@@ -18,10 +17,8 @@ import {
 import { easeInOutSine, easeInCubic, easeOutCubic } from "./easingFunctions";
 import moveTo from "./moveTo";
 import DirectionsIcon from "@/assets/illustrations/DirectionsW.svg";
-
 import { ChevronLeft } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
 import { createRoot } from "react-dom/client";
 import {
   useMapsLibrary,
@@ -34,7 +31,6 @@ import {
   Pin,
   useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
-console.log(Map);
 import { MapPin } from "lucide-react";
 
 const MyComponent = () => {
@@ -42,28 +38,28 @@ const MyComponent = () => {
 
   useEffect(() => {
     if (!map) return;
-    map.setOptions({
-      // draggableCursor: "default",
-      // draggingCursor: "move",
-    });
-    // here you can interact with the imperative maps API
+    map.setOptions({});
   }, [map]);
 
   return <></>;
 };
 
 export default function MapCompo({ center, location }) {
-  const GOOGLE_MAPS_API_KEY = "AIzaSyCPWOgGlKyOIg905D1j2vGYnDgY3iJfAPM";
+  const GOOGLE_MAPS_API_KEY = "AIzaSyAOCLqzTy2eOzu-BAKdLo1jedug0qk4-Kc";
 
   const [showMarker, setShowMarker] = useState(location);
+  const [showDirections, setShowDirections] = useState(false);
   const [userLocationMarker, setUserLocationMarker] = useState(null);
   const [zoom, setZoom] = useState(7);
-
-  const [mapCenter, setCenter] = useState({
-    lat: 34.7538,
-    lng: 3.0588,
-  });
+  const [mapCenter, setCenter] = useState({ lat: 34.7538, lng: 3.0588 });
   const [lastMapEventCenter, setLastMapEventCenter] = useState(mapCenter);
+  const [infowindowOpen, setInfowindowOpen] = useState(true);
+  const [UserLocationInfowindowOpen, setUserLocationInfowindowOpen] =
+    useState(true);
+  const [markerRef, marker] = useAdvancedMarkerRef();
+  const [clickMarkerRef, clickMarker] = useAdvancedMarkerRef();
+  const [jobLocation, setJobLocation] = useState(null);
+
   useEffect(() => {
     setTimeout(
       moveTo(zoom, 13, setZoom, lastMapEventCenter, location, setCenter),
@@ -107,26 +103,29 @@ export default function MapCompo({ center, location }) {
     stepZoomOut();
   };
 
-  // if (loadError) {
-  //   return <div>Error loading maps</div>;
-  // }
+  function getUserLocation() {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
 
-  // if (!isLoaded) {
-  //   return (
-  //     <div
-  //       className="flex items-center justify-center w-full h-full min-h-screen min-w-screen"
-  //
-  //     >
-  //       <PropagateLoader color="#FF5400" />
-  //     </div>
-  //   );
-  // }
-  const [infowindowOpen, setInfowindowOpen] = useState(true);
-  const [UserLocationInfowindowOpen, setUserLocationInfowindowOpen] =
-    useState(true);
-  const [markerRef, marker] = useAdvancedMarkerRef();
-  const [clickMarkerRef, clickMarker] = useAdvancedMarkerRef();
-  const [jobLocation, setJobLocation] = useState(null);
+    const handleSuccess = (position) => {
+      const userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+      // moveTo(zoom, 17, setZoom, lastMapEventCenter, userLocation, setCenter);
+      setUserLocationMarker(userLocation);
+      setUserLocationInfowindowOpen(true);
+      setShowDirections(true);
+    };
+
+    const handleError = (error) => {
+      alert(`Geolocation error: ${error.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+  }
 
   const backToJobLocation = () => {
     moveTo(zoom, 17, setZoom, lastMapEventCenter, location, setCenter);
@@ -134,34 +133,26 @@ export default function MapCompo({ center, location }) {
 
   return (
     <div
-      className=" rounded-xl overflow-hidden relative "
+      className="rounded-xl overflow-hidden relative"
       style={{ height: "100%", width: "100%" }}
     >
       <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
         <Map
-          style={{ width: "100%", height: "100%", cursor: "pointer" }}
+          style={{ width: "100%", height: "100%" }}
           defaultCenter={mapCenter}
           center={mapCenter}
-          // defaultCenter={{ lat: 43.65, lng: -79.38 }}
-          // defaultZoom={zoom}
           zoom={zoom}
           mapId={"49ae42fed52588c3"}
-          // mapTypeId={"roadmap"}
-          onZoomChanged={(ev) => {
-            setZoom(ev.detail.zoom);
-          }}
+          onZoomChanged={(ev) => setZoom(ev.detail.zoom)}
           onCenterChanged={(ev) => {
             setCenter(null);
             setLastMapEventCenter(ev.detail.center);
           }}
-          // styles={google.maps.MapTypeStyle}
-          // onClick={onMapClick}
-          // gestureHandling={"greedy"}
-
           disableDefaultUI={true}
-          // fullscreenControl={false}
         >
-          {/* <Directions /> */}
+          {showDirections && (
+            <Directions origin={userLocationMarker} destination={showMarker} />
+          )}
 
           {showMarker && (
             <>
@@ -169,9 +160,6 @@ export default function MapCompo({ center, location }) {
                 ref={clickMarkerRef}
                 position={{ lat: showMarker.lat, lng: showMarker.lng }}
                 onClick={() => setInfowindowOpen(true)}
-                // clickable={true}
-                // onClick={() => alert("marker was clicked!")}
-                // title={"clickable google.maps.Marker"}
               >
                 <Pin
                   background={"#ff5400"}
@@ -186,7 +174,7 @@ export default function MapCompo({ center, location }) {
                   maxWidth={200}
                   onCloseClick={() => setInfowindowOpen(false)}
                 >
-                  <p className=" text-lg font-sans font-normal">Job location</p>
+                  <p className="text-lg font-sans font-normal">Job location</p>
                 </InfoWindow>
               )}
             </>
@@ -209,9 +197,7 @@ export default function MapCompo({ center, location }) {
                   maxWidth={200}
                   onCloseClick={() => setUserLocationInfowindowOpen(false)}
                 >
-                  <p className=" text-lg font-sans font-normal">
-                    Your location
-                  </p>
+                  <p className="text-lg font-sans font-normal">Your location</p>
                 </InfoWindow>
               )}
             </>
@@ -219,7 +205,7 @@ export default function MapCompo({ center, location }) {
         </Map>
         <MyComponent />
       </APIProvider>
-      <div className="flex flex-col gap-3 absolute right-5 bottom-28 items-end  p-2 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
+      <div className="flex flex-col gap-3 absolute right-5 bottom-28 items-end p-2 rounded-full backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
         <Button
           className="p-3 h-fit w-fit"
           onClick={handleZoomIn}
@@ -234,10 +220,11 @@ export default function MapCompo({ center, location }) {
         >
           <ZoomOut />
         </Button>
-
         <Button
-          className=" p-3 h-fit w-fit  border-2 border-input"
-          onClick={() => {}}
+          className="p-3 h-fit w-fit border-2 border-input"
+          onClick={() => {
+            getUserLocation();
+          }}
         >
           <img
             src={DirectionsIcon}
@@ -251,76 +238,168 @@ export default function MapCompo({ center, location }) {
           Back to job location
         </Button>
       </div>
-      {/* {marker && <Marker position={{ lat: marker.lat, lng: marker.lng }} />} */}
     </div>
   );
 }
 
-function Directions() {
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { Footprints, CarFront, Compass } from "lucide-react";
+
+function Directions({ origin, destination }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
   const [routes, setRoutes] = useState([]);
   const [routeIndex, setRouteIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected ? selected.legs[0] : null;
 
-  // Initialize directions service and renderer
   useEffect(() => {
     if (!routesLibrary || !map) return;
     setDirectionsService(new routesLibrary.DirectionsService());
-    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-  }, [routesLibrary, map]);
 
-  // Use directions service
+    const rendererOptions = {
+      map,
+      suppressMarkers: true, // Suppress default markers
+      polylineOptions: {
+        strokeColor: "#ff5400",
+        strokeOpacity: travelMode === google.maps.TravelMode.WALKING ? 0 : 1,
+        icons:
+          travelMode === google.maps.TravelMode.WALKING
+            ? [
+                {
+                  icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 2,
+                    strokeOpacity: 1,
+                  },
+                  offset: "0",
+                  repeat: "10px",
+                },
+              ]
+            : null,
+      },
+    };
+    setDirectionsRenderer(
+      new routesLibrary.DirectionsRenderer(rendererOptions)
+    );
+  }, [routesLibrary, map, travelMode]);
+
   useEffect(() => {
-    if (!directionsService || !directionsRenderer) return;
+    if (!directionsService || !directionsRenderer || !origin || !destination)
+      return;
 
     directionsService
       .route({
-        origin: "100 Front St, Toronto ON",
-        destination: "500 College St, Toronto ON",
-        travelMode: google.maps.TravelMode.DRIVING,
+        origin: origin,
+        destination: destination,
+        travelMode: travelMode,
         provideRouteAlternatives: true,
       })
       .then((response) => {
-        console.log("Directions response:", response); // Log API response
         directionsRenderer.setDirections(response);
         setRoutes(response.routes);
       })
-      .catch((error) => console.error("Directions request failed:", error)); // Catch and log any errors
+      .catch((error) => console.error("Directions request failed:", error));
 
     return () => directionsRenderer && directionsRenderer.setMap(null);
-  }, [directionsService, directionsRenderer]);
+  }, [directionsService, directionsRenderer, origin, destination, travelMode]);
 
-  // Update direction route
   useEffect(() => {
     if (!directionsRenderer) return;
     directionsRenderer.setRouteIndex(routeIndex);
-  }, [routeIndex, directionsRenderer]);
+  }, [routeIndex, directionsRenderer, travelMode]);
 
   if (!leg) return null;
 
   return (
-    <div className="directions">
-      <h2>{selected.summary}</h2>
-      <p>
-        {leg.start_address.split(",")[0]} to {leg.end_address.split(",")[0]}
+    <div className="h-fit max-w-80 absolute top-4 left-4  p-4 rounded-3xl backdrop-blur-sm shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]">
+      <h2 className=" text-primary font-bold text-xl inline-block">Route:</h2>
+      <p className="text-black font-medium inline-block ml-2">
+        {selected.summary}
       </p>
-      <p>Distance: {leg.distance ? leg.distance.text : ""}</p>
-      <p>Duration: {leg.duration ? leg.duration.text : ""}</p>
-
-      <h2>Other Routes</h2>
+      {/* <p className=" text-black font-medium">
+        {leg.start_address.split(",")[0]} to {leg.end_address.split(",")[0]}
+      </p> */}
+      <div className="m-2">
+        <p>Distance: {leg.distance ? leg.distance.text : ""}</p>
+        <p>Duration: {leg.duration ? leg.duration.text : ""}</p>
+      </div>
+      <h2 className="text-primary font-bold text-xl mt-2">Other Routes: </h2>
       <ul>
         {routes.map((route, index) => (
           <li key={route.summary}>
-            <button onClick={() => setRouteIndex(index)}>
+            <Button
+              size="none"
+              variant="link"
+              className=" text-black hover:text-primary px-2 py-1 text-wrap text-start"
+              onClick={() => setRouteIndex(index)}
+            >
+              <Compass className="mr-2 stroke-[1.5px] w-5" />
               {route.summary}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
+      <h2 className="text-primary font-bold text-xl mt-2">Travel Mode: </h2>
+      <div className="mt-2 w-full flex items-center justify-center">
+        <RadioGroup className="flex">
+          <div className="flex">
+            <Label
+              className={cn(
+                "cursor-pointer space-x-2 flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                travelMode === google.maps.TravelMode.DRIVING
+                  ? "text-primary  backdrop-blur-sm border-primary rounded-l-full"
+                  : "text-greyDark  backdrop-blur-sm  border-greyDark rounded-l-full"
+              )}
+              onClick={() => setTravelMode(google.maps.TravelMode.DRIVING)}
+              htmlFor="driving"
+            >
+              {/* <RadioGroupItem
+                value="driving"
+                id="driving"
+                className={cn(
+                  travelMode === google.maps.TravelMode.DRIVING
+                    ? "border-primary"
+                    : "border-greyDark"
+                )}
+              /> */}
+              Driving <CarFront className="ml-2" />
+            </Label>
+            <Label
+              className={cn(
+                "cursor-pointer flex items-center space-x-2 justify-center px-4 py-2 border-t border-b border-r text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                travelMode === google.maps.TravelMode.WALKING
+                  ? "text-primary backdrop-blur-sm  border-primary rounded-r-full"
+                  : "text-greyDark backdrop-blur-sm border-greyDark rounded-r-full"
+              )}
+              onClick={() => setTravelMode(google.maps.TravelMode.WALKING)}
+              htmlFor="walking"
+            >
+              {/* <RadioGroupItem
+                value="walking"
+                id="walking"
+                className={cn(
+                  travelMode === google.maps.TravelMode.WALKING
+                    ? "border-primary"
+                    : "border-greyDark"
+                )}
+              /> */}
+              Walking <Footprints className="ml-2" />
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
     </div>
   );
 }

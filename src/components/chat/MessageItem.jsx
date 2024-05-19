@@ -12,91 +12,94 @@ import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
 import EditLocation from "@/components/chat/Map/EditLocation";
 
-function budgetRenderFootereRecieved(budgetEditState, isClient) {
-  switch (budgetEditState) {
-    case "waiting":
-      return (
-        <div className="flex justify-end w-full gap-2">
-          <AlertDialog
-            title="deny budget edit suggestion"
-            description="Are you sure you want to deny this budget edit suggestion"
-            action={() => {}}
-            actionButtonText="deny"
-          >
-            <Button variant="outline" size="sm">
-              Deny
-            </Button>
-          </AlertDialog>
+function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
+  const [messageState, setMessageState] = useState(message.state);
 
-          <AlertDialog
-            title="Accept budget edit suggestion"
-            description="Are you sure you want to accept this budget edit suggestion"
-            action={() => {}}
-            actionButtonText="Accept"
-          >
-            <Button size="sm">Accept</Button>
-          </AlertDialog>
-        </div>
-      );
-    case "accepted":
-      return (
-        <p className=" text-md text-success w-full">
-          you have accepted this budget edit suggestion
-        </p>
-      );
-    case "denied":
-      return (
-        <p className=" text-md text-destructive w-full">
-          you have denied this budget edit suggestion
-        </p>
-      );
+  function budgetRenderFootereRecieved(isClient) {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex justify-end w-full gap-2">
+            <AlertDialog
+              title="deny budget edit suggestion"
+              description="Are you sure you want to deny this budget edit suggestion"
+              action={() => {}}
+              actionButtonText="deny"
+            >
+              <Button variant="outline" size="sm">
+                Deny
+              </Button>
+            </AlertDialog>
 
-    default:
-      return null;
+            <AlertDialog
+              title="Accept budget edit suggestion"
+              description="Are you sure you want to accept this budget edit suggestion"
+              action={() => {}}
+              actionButtonText="Accept"
+            >
+              <Button size="sm">Accept</Button>
+            </AlertDialog>
+          </div>
+        );
+      case "accepted":
+        return (
+          <p className=" text-md text-success w-full">
+            you have accepted this budget edit suggestion
+          </p>
+        );
+      case "denied":
+        return (
+          <p className=" text-md text-destructive w-full">
+            you have denied this budget edit suggestion
+          </p>
+        );
+
+      default:
+        return null;
+    }
   }
-}
-function budgetRenderFootereSent(budgetEditState, isClient) {
-  switch (budgetEditState) {
-    case "waiting":
-      return (
-        <div className="flex justify-end w-full gap-2">
-          <AlertDialog
-            title="cancel budget edit suggestion"
-            description="Are you sure you want to cancel this budget edit suggestion"
-            action={() => {}}
-            actionButtonText="yes"
-          >
-            <Button variant="outline" size="sm">
-              Cancel
-            </Button>
-          </AlertDialog>
-        </div>
-      );
-    case "accepted":
-      return (
-        <p className=" text-md text-success w-full">
-          {isClient ? "The expert" : "The Client"} has accepted your budget edit
-          suggestion
-        </p>
-      );
-    case "denied":
-      return (
-        <p className=" text-md text-destructive w-full">
-          {isClient ? "The expert" : "The Client"} has denied your budget edit
-          suggestion
-        </p>
-      );
+  function budgetRenderFootereSent(isClient) {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex justify-end w-full gap-2">
+            <AlertDialog
+              title="cancel budget edit suggestion"
+              description="Are you sure you want to cancel this budget edit suggestion"
+              action={() => {}}
+              actionButtonText="yes"
+            >
+              <Button variant="outline" size="sm">
+                Cancel
+              </Button>
+            </AlertDialog>
+          </div>
+        );
+      case "accepted":
+        return (
+          <p className=" text-md text-success w-full">
+            {isClient ? "The expert" : "The Client"} has accepted your budget
+            edit suggestion
+          </p>
+        );
+      case "denied":
+        return (
+          <p className=" text-md text-destructive w-full">
+            {isClient ? "The expert" : "The Client"} has denied your budget edit
+            suggestion
+          </p>
+        );
 
-    default:
-      return null;
+      default:
+        return null;
+    }
   }
-}
-function proposalRenderFootereRecieved(invitationState) {
-  switch (invitationState) {
-    case "waiting":
-      return (
-        <div className="flex justify-end w-full gap-2">
-          {/* <AlertDialog
+  function proposalRenderFootereRecieved() {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex justify-end w-full gap-2">
+            {/* <AlertDialog
             title="deny invitation"
             description="Are you sure you want to deny this job invitation"
             action={() => {}}
@@ -107,178 +110,177 @@ function proposalRenderFootereRecieved(invitationState) {
             </Button>
           </AlertDialog> */}
 
-          <EditBudgetButton budget="" />
+            <EditBudgetButton budget="" />
 
-          <AlertDialog
-            title="Hire expert"
-            description="Are you sure you want to Hire this expert"
-            action={() => {}}
-            actionButtonText="Hire"
-          >
-            <Button size="sm">Hire</Button>
-          </AlertDialog>
-        </div>
-      );
-    case "accepted":
-      return (
-        <div className="flex flex-col gap-2 w-full">
-          <p className=" text-md text-success w-full">
-            you have hired this expert.
-          </p>
-          <div className="flex justify-end w-full gap-2">
-            <CloseJobDialog />
-            <SendLocation />
-          </div>
-        </div>
-      );
-
-    //makach diny el client maye9derch y deny proposal
-    // case "denied":
-    //   return (
-    //     <p className=" text-md text-destructive w-full">
-    //       you have denied this job invitation
-    //     </p>
-    //   );
-
-    default:
-      return null;
-  }
-}
-function proposalRenderFooterSent(invitationState) {
-  switch (invitationState) {
-    case "waiting":
-      return (
-        <div className="flex flex-col gap-2 w-full">
-          {/* hadi makech parceque makach deny */}
-          {/* <p className=" text-md text-warningDark w-full">no reply yet</p> */}
-          <div className="flex justify-end w-full gap-2">
             <AlertDialog
-              title="Withraw Proposal"
-              description="Are you sure you want to Withraw your Proposal"
+              title="Hire expert"
+              description="Are you sure you want to Hire this expert"
               action={() => {}}
-              actionButtonText="Withraw"
+              actionButtonText="Hire"
             >
-              <Button variant="outline" size="sm">
-                {/* Cancel  */}
-                Withraw Proposal
+              <Button size="sm">Hire</Button>
+            </AlertDialog>
+          </div>
+        );
+      case "accepted":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-success w-full">
+              you have hired this expert.
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <CloseJobDialog />
+              <SendLocation />
+            </div>
+          </div>
+        );
+
+      //makach diny el client maye9derch y deny proposal
+      // case "denied":
+      //   return (
+      //     <p className=" text-md text-destructive w-full">
+      //       you have denied this job invitation
+      //     </p>
+      //   );
+
+      default:
+        return null;
+    }
+  }
+  function proposalRenderFooterSent() {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            {/* hadi makech parceque makach deny */}
+            {/* <p className=" text-md text-warningDark w-full">no reply yet</p> */}
+            <div className="flex justify-end w-full gap-2">
+              <AlertDialog
+                title="Withraw Proposal"
+                description="Are you sure you want to Withraw your Proposal"
+                action={() => {}}
+                actionButtonText="Withraw"
+              >
+                <Button variant="outline" size="sm">
+                  {/* Cancel  */}
+                  Withraw Proposal
+                </Button>
+              </AlertDialog>
+
+              <Button size="sm">Edit</Button>
+            </div>
+          </div>
+        );
+      case "accepted":
+        return (
+          <p className=" text-md text-success w-full">
+            the client has hired you
+            {/* ask him to share the exact job location with you so you can... */}
+          </p>
+        );
+      // makach deny fel proposal
+      // case "denied":
+      //   return (
+      //     <p className=" text-md text-destructive w-full">
+      //       The expert has denied your job invitation
+      //     </p>
+      //   );
+
+      default:
+        return null;
+    }
+  }
+  function invitationRenderFooterRecieved() {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex justify-end w-full gap-2">
+            <EditBudgetButton budget="" />
+            <AlertDialog
+              title="deny invitation"
+              description="Are you sure you want to deny this job invitation"
+              action={() => {}}
+              actionButtonText="deny"
+            >
+              <Button variant="primary2" size="sm">
+                Deny
               </Button>
             </AlertDialog>
-
-            <Button size="sm">Edit</Button>
-          </div>
-        </div>
-      );
-    case "accepted":
-      return (
-        <p className=" text-md text-success w-full">
-          the client has hired you
-          {/* ask him to share the exact job location with you so you can... */}
-        </p>
-      );
-    // makach deny fel proposal
-    // case "denied":
-    //   return (
-    //     <p className=" text-md text-destructive w-full">
-    //       The expert has denied your job invitation
-    //     </p>
-    //   );
-
-    default:
-      return null;
-  }
-}
-function renderFootereRecieved(invitationState) {
-  switch (invitationState) {
-    case "waiting":
-      return (
-        <div className="flex justify-end w-full gap-2">
-          <EditBudgetButton budget="" />
-          <AlertDialog
-            title="deny invitation"
-            description="Are you sure you want to deny this job invitation"
-            action={() => {}}
-            actionButtonText="deny"
-          >
-            <Button variant="primary2" size="sm">
-              Deny
-            </Button>
-          </AlertDialog>
-          <AlertDialog
-            title="accept invitation"
-            description="Are you sure you want to accept this job invitation"
-            action={() => {}}
-            actionButtonText="accept"
-          >
-            <Button size="sm">Accept</Button>
-          </AlertDialog>
-        </div>
-      );
-    case "accepted":
-      return (
-        <p className=" text-md text-success w-full">
-          you have accepted this job invitation. now, ask the client to share
-          the exact job location with you
-        </p>
-      );
-    case "denied":
-      return (
-        <p className=" text-md text-destructive w-full">
-          you have denied this job invitation
-        </p>
-      );
-
-    default:
-      return null;
-  }
-}
-function renderFooterSent(invitationState) {
-  switch (invitationState) {
-    case "waiting":
-      return (
-        <div className="flex flex-col gap-2 w-full">
-          <p className=" text-md text-warningDark w-full">no reply yet</p>
-          <div className="flex justify-end w-full gap-2">
             <AlertDialog
-              title="cancel invitation"
-              description="Are you sure you want to cancel your job invitation"
+              title="accept invitation"
+              description="Are you sure you want to accept this job invitation"
               action={() => {}}
-              actionButtonText="Yes"
+              actionButtonText="accept"
             >
-              <Button variant="outline" size="sm">
-                Cancel Invitation
-              </Button>
+              <Button size="sm">Accept</Button>
             </AlertDialog>
-
-            <SendLocation />
           </div>
-        </div>
-      );
-    case "accepted":
-      return (
-        <div className="flex flex-col gap-2 w-full">
+        );
+      case "accepted":
+        return (
           <p className=" text-md text-success w-full">
-            the expert has accepted your job invitation
+            you have accepted this job invitation. now, ask the client to share
+            the exact job location with you
           </p>
-          <div className="flex justify-end w-full gap-2">
-            <CloseJobDialog />
+        );
+      case "denied":
+        return (
+          <p className=" text-md text-destructive w-full">
+            you have denied this job invitation
+          </p>
+        );
 
-            <SendLocation />
-          </div>
-        </div>
-      );
-    case "denied":
-      return (
-        <p className=" text-md text-destructive w-full">
-          The expert has denied your job invitation
-        </p>
-      );
-
-    default:
-      return null;
+      default:
+        return null;
+    }
   }
-}
+  function invitationRenderFooterSent() {
+    switch (messageState) {
+      case "waiting":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-warningDark w-full">no reply yet</p>
+            <div className="flex justify-end w-full gap-2">
+              <AlertDialog
+                title="cancel invitation"
+                description="Are you sure you want to cancel your job invitation"
+                action={() => {}}
+                actionButtonText="Yes"
+              >
+                <Button variant="outline" size="sm">
+                  Cancel Invitation
+                </Button>
+              </AlertDialog>
 
-function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
+              <SendLocation />
+            </div>
+          </div>
+        );
+      case "accepted":
+        return (
+          <div className="flex flex-col gap-2 w-full">
+            <p className=" text-md text-success w-full">
+              the expert has accepted your job invitation
+            </p>
+            <div className="flex justify-end w-full gap-2">
+              <CloseJobDialog />
+
+              <SendLocation />
+            </div>
+          </div>
+        );
+      case "denied":
+        return (
+          <p className=" text-md text-destructive w-full">
+            The expert has denied your job invitation
+          </p>
+        );
+
+      default:
+        return null;
+    }
+  }
+
   // Helper function to render the message content based on its type
   const [isClient, setIsClient] = useState(true);
   const renderMessageContent = (message) => {
@@ -329,8 +331,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               <span className=" text-primary  ">{message.to}</span>
             </p>
             {isOwnMessage
-              ? budgetRenderFootereSent(message.state, isClient)
-              : budgetRenderFootereRecieved(message.state, isClient)}
+              ? budgetRenderFootereSent(isClient)
+              : budgetRenderFootereRecieved(isClient)}
           </div>
         );
       case "proposal":
@@ -366,8 +368,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               </p>
             </div>
             {isOwnMessage
-              ? proposalRenderFooterSent(message.state)
-              : proposalRenderFootereRecieved(message.state)}
+              ? proposalRenderFooterSent()
+              : proposalRenderFootereRecieved()}
           </div>
         );
       case "invitation":
@@ -398,7 +400,9 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             )}
             <div
               className="bg-cover bg-center rounded-lg h-[250px] w-full"
-              style={{ backgroundImage: `url(${message.images? message.images[0] : ""})` }}
+              style={{
+                backgroundImage: `url(${message.images ? message.images[0] : ""})`,
+              }}
             />
             <div className="flex-grow mb-2">
               {/* <Category
@@ -413,8 +417,8 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
               <Location wilaya={message.wilaya} city={message.city} size="sm" />
             </div>
             {isOwnMessage
-              ? renderFooterSent(message.state)
-              : renderFootereRecieved(message.state)}
+              ? invitationRenderFooterSent()
+              : invitationRenderFooterRecieved()}
           </div>
         );
       case "text":
