@@ -77,6 +77,71 @@ const messages = [
     isOwnMessage: true,
   },
   {
+    id: 3,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "closed",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 3,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "closed",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
+    id: 3,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "canceled",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 3,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "reported",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 3,
+    senderName: "Aliced",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      state: "canceled",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
     id: 4,
     senderName: "Alice",
     message: {
@@ -257,10 +322,105 @@ const messages = [
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
       wilaya: "Algiers",
       city: "Central",
-      stateF: "denied",
+      state: "denied",
     },
     timestamp: "10:00 AM",
     isOwnMessage: true,
+  },
+  {
+    id: 16,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: ["https://placebear.com/g/200/200"],
+      category: "education_and_tutoring",
+      subCategory: "math_tutor",
+      title: `test test`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "Algiers",
+      city: "Central",
+      state: "closed",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 16,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: ["https://placebear.com/g/200/200"],
+      category: "education_and_tutoring",
+      subCategory: "math_tutor",
+      title: `test test`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "Algiers",
+      city: "Central",
+      state: "closed",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
+    id: 16,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: ["https://placebear.com/g/200/200"],
+      category: "education_and_tutoring",
+      subCategory: "math_tutor",
+      title: `test test`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "Algiers",
+      city: "Central",
+      state: "canceled",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
+    id: 16,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: ["https://placebear.com/g/200/200"],
+      category: "education_and_tutoring",
+      subCategory: "math_tutor",
+      title: `test test`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "Algiers",
+      city: "Central",
+      state: "canceled",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
+  },
+  {
+    id: 16,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: ["https://placebear.com/g/200/200"],
+      category: "education_and_tutoring",
+      subCategory: "math_tutor",
+      title: `test test`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "Algiers",
+      city: "Central",
+      state: "reported",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: false,
   },
   {
     id: 17,
@@ -342,7 +502,7 @@ const messages = [
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 // function MessageList({messages}) {
-function MessageList({ messages }) {
+function MessageList() {
   console.log("messageList",messages)
     const messagesEndRef = useRef(null);
     // Scroll to the bottom of the messages list every time the messages change
