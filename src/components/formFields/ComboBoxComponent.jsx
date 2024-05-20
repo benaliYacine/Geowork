@@ -45,7 +45,7 @@ const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
                   role="combobox"
                   className="w-full justify-between hover:scale-100 rounded-md"
                 >
-                  {field.value != ""
+                  {field.value && field.value != ""
                     ? itemList.find((item) => item.value === field.value)?.label
                     : placeholder}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

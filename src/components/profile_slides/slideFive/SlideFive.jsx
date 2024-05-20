@@ -68,7 +68,9 @@ export default function SlideTree({
         qualifications and expertise.
       </p>
       {profileInfo.educations.length === 0 ? (
-        <AddEducationCard addEducation={addEducation} />
+        <div className="px-12 py-6">
+          <AddEducationCard addEducation={addEducation} />
+        </div>
       ) : (
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           {" "}

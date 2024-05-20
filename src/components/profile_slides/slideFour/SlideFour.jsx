@@ -71,7 +71,9 @@ export default function SlideFour({
         experience counts.
       </p>
       {profileInfo.experiences.length === 0 ? (
-        <AddExperienceCard addExperience={addExperience} />
+        <div className="px-12 py-6">
+          <AddExperienceCard addExperience={addExperience} />
+        </div>
       ) : (
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           {" "}
