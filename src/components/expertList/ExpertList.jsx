@@ -84,9 +84,11 @@ export default function ExpertList({ experts }) {
             there is no items here !
           </div>
         ) : (
-          currentData.map((expert, index) => (
-            <ExpertItem key={index} expert={expert} />
-          ))
+          <div className="min-h-[500px] w-full">
+            {currentData.map((expert, index) => (
+              <ExpertItem key={index} expert={expert} />
+            ))}
+          </div>
         )}
       </div>
       <Pagination className="flex justify-end">

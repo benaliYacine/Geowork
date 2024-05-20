@@ -88,7 +88,11 @@ export default function JobList({ jobs = [] }) {
             there is no items here !
           </div>
         ) : (
-          currentData.map((job, index) => <JobItem key={index} job={job} />)
+          <div className="min-h-[500px] w-full">
+            {currentData.map((job, index) => (
+              <JobItem key={index} job={job} />
+            ))}
+          </div>
         )}
       </div>
       <Pagination className="flex justify-end">

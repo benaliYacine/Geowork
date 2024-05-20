@@ -75,7 +75,7 @@ function EditAccountButton({ streetAdress, wilaya, city, onEdit }) {
               {/* Title */}
               <DialogHeader>
                 <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Account
+                  Edit Location
                 </DialogTitle>
                 <DialogDescription>
                   {/* Make changes to your profile here. Click save when you're done. */}

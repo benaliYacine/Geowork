@@ -10,16 +10,17 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-const proposals = Array.from({ length: 100 }, (_, i) => ({
-  name: `John Doe ${i + 1}`,
-  role: "Web Developer",
+const proposals = Array.from({ length: 1 }, (_, i) => ({
+  name: `John Doe `,
+  role: "electrician",
   rating: Math.random() * 5,
-  avatarUrl: "https://github.com/johndoe.png",
+  avatarUrl:
+    "https://ashallendesign.ams3.cdn.digitaloceanspaces.com/rMbsGOyK6i1KjNkbXff8qLohzM1nWQA8HNGwHF0J.png",
   wilaya: "algiers",
   city: "Central",
   budget: "DZD  5, 500",
   coverLetter:
-    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+    "Hello! \n\n \t I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. My extensive experience includes upgrading wiring, installing circuit breakers, and ensuring all electrical components meet local codes and safety standards. In previous projects, I have successfully improved electrical efficiency and safety for numerous clients. I take pride in my attention to detail and commitment to providing reliable and efficient solutions. I understand the importance of safety and will ensure that your home’s electrical system is upgraded to the highest standards. I am available to start the project at your earliest convenience and will work diligently to complete it within the agreed timeframe. I look forward to the opportunity to discuss your project further and answer any questions you may have. Thank you for considering my proposal. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards",
 }));
 
 const ITEMS_PER_PAGE = 10;
@@ -87,9 +88,11 @@ export default function ProposalList() {
             there is no items here !
           </div>
         ) : (
-          currentData.map((proposal, index) => (
-            <ProposalItem key={index} proposal={proposal} />
-          ))
+          <div className="w-full min-h-[500px]">
+            {currentData.map((proposal, index) => (
+              <ProposalItem key={index} proposal={proposal} />
+            ))}
+          </div>
         )}
       </div>
       <Pagination className="flex justify-end">

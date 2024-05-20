@@ -15,14 +15,14 @@ function Job({ jobInfo, apply = false }) {
 
   const clientHistory = [
     {
-      title: "test test",
-      ExpertRating: 5,
-      category: "test",
-      subCategory: "test",
-      startDate: "Aug 2023",
-      endDate: "Jan 2024",
-      budget: "DZD 5000",
-      feedback: "lorem",
+      title: "Home Electrical System Upgrade",
+      ExpertRating: 3.5,
+      category: "home_improvement_and_maintenance",
+      subCategory: "electrician",
+      startDate: "Jan 2024",
+      endDate: "Aug 2024",
+      budget: "DZD 50000",
+      feedback: "excellent client, I recommend working with him",
     },
     {
       title: "test test",
@@ -36,7 +36,7 @@ function Job({ jobInfo, apply = false }) {
     },
   ];
   const [showAlert, setShowAlert] = useState(true);
-  const [notAvailable, setNotAvailable] = useState(true);
+  const [notAvailable, setNotAvailable] = useState(false);
 
   const [isSaved, setIsSaved] = useState(false);
   const [client, setClient] = useState({

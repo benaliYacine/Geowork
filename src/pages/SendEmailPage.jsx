@@ -7,7 +7,7 @@ import axios from "axios";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { useNavigate } from "react-router-dom";
 import PageContainer from "@/components/common/PageContainer";
-const SendEmailPage = ({ emailAddress }) => {
+const SendEmailPage = ({ emailAddress="benaliyacine324@gmail.com" }) => {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);

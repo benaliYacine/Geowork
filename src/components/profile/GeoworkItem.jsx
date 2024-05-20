@@ -8,7 +8,7 @@ import RatingDisplay from "@/components/common/RatingDisplay";
 import CollapsibleTextContainer from "@/components/common/CollapsibleTextContainer";
 import { Badge } from "@/components/ui/badge";
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
-
+import localImage from "@/assets/illustrations/images.jpeg";
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
 const GeoworkItem = ({ job }) => {
   return (
@@ -52,7 +52,7 @@ const GeoworkItem = ({ job }) => {
             Job Description
           </h4>
           <CollapsibleTextContainer collapsedHeight="25px">
-            <p className="">{job.coverLetter}</p>
+            <p className="">{job.description}</p>
           </CollapsibleTextContainer>
         </div>
         <div>

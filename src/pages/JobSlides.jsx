@@ -174,7 +174,7 @@ const JobSlides = () => {
       <Header />
       <PageContainer>
         <div className="h-full flex items-center justify-between">
-          <h1 className="text-black font-header text-4xl font-semibold ">
+          <h1 className="text-black font-header text-4xl font-semibold my-2">
             Job Details
           </h1>
           <Button onClick={handleSubmit} variant="default" size="lg">

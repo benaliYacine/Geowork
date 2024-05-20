@@ -76,9 +76,14 @@ function App() {
             path="/expertProposalPage/:id"
             element={<ExpertProposalPage />}
           />
+          <Route
+            path="/expertProposalPage"
+            element={<ExpertProposalPage />}
+          />
 
           <Route path="/jobsSearch" element={<JobsSearch />} />
           <Route path="/proposal/:id" element={<ProposalPage />} />
+          <Route path="/proposal/" element={<ProposalPage />} />
           <Route path="/expertsSearch" element={<ExpertsSearch />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/dashboard" element={<Dashboard />} />

@@ -58,6 +58,26 @@ export default function SlideOne({
             label="Job post title" // You can customize this label as needed
             placeholder="Your job post title "
           />
+          <div className="w-full py-2">
+            <h3 className=" text-black text-xl font-bold mb-1">
+              Example titles
+            </h3>
+            <ul className=" list-disc list-inside p-2 space-y-2 text-greyDark">
+              <li>
+                I need an Electrician to fix a short circuit in my home's living
+                room
+              </li>
+              <li>
+                Looking for a Plumber to repair a leaking kitchen sink ASAP.
+              </li>
+              <li>
+                Need a Painter to refresh the exterior of my two-story house.
+              </li>
+              <li>
+                Looking for a Tutor to help with high school math and physics.
+              </li>
+            </ul>
+          </div>
         </form>
       </Form>
     </div>

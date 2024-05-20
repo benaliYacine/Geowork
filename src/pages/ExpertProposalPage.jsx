@@ -22,6 +22,14 @@ const proposalSchema = z.object({
     .min(1, "budget is required")
     // Adjust regex as needed if your input format includes the "DZD" prefix.
     .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
+  coverLetter: z
+    .string()
+    .min(10, {
+      message: "Your coverLetter must be at least 10 characters.",
+    })
+    .max(3000, {
+      message: "Your coverLetter must not be longer than 3000 characters.",
+    }),
 });
 
 export default function SubmitProposal() {
@@ -34,6 +42,7 @@ export default function SubmitProposal() {
     resolver: zodResolver(proposalSchema),
     defaultValues: {
       budget: budget,
+      coverLetter: coverLetter,
     },
   });
 
@@ -89,7 +98,10 @@ export default function SubmitProposal() {
             </Button>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-4"
+            >
               <div className="w-full flex flex-col gap-2 rounded-3xl p-6 bg-white">
                 <h3 className="text-2xl font-header font-semibold mb-1">
                   Budget
@@ -100,30 +112,6 @@ export default function SubmitProposal() {
                     <p className="text-greyDark font-semibold text-xl p-2">
                       {budget}
                     </p>
-                    <div className="flex items-center justify-end gap-4">
-                      {" "}
-                      <Button
-                        type="button"
-                        size="sm"
-                        onClick={() => {
-                          setEdit(true);
-                        }}
-                      >
-                        <Pencil className="h-4 w-4 mr-2" /> edit budjet
-                      </Button>
-                      {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
-                      <AlertDialog
-                        title="Withdraw proposal"
-                        description="Are you sure you want to withdraw this proposal"
-                        action={() => {}}
-                        actionButtonText="Withdraw"
-                      >
-                        <Button variant="outline" size="sm" type="button">
-                          Withdraw proposal
-                        </Button>
-                      </AlertDialog>
-                      {/* <DeleteJobPost onDelete={() => {}} /> */}
-                    </div>
                   </>
                 ) : (
                   <>
@@ -137,32 +125,76 @@ export default function SubmitProposal() {
                       placeholder="Enter your budget"
                       className="border border-border focus-visible:border-primary"
                     />
-                    <div className="flex items-center justify-end gap-4 mt-2">
-                      {" "}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setEdit(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      {/* TODO: diir save lel job info fel base de donne fel onclick */}
-                      <Button type="submit" size="sm">
-                        <Save className="h-4 w-4 mr-2" /> Save
-                      </Button>
-                    </div>
                   </>
                 )}
               </div>
+
+              <div className="w-full flex flex-col gap-2 rounded-3xl p-6 bg-white">
+                <h3 className="text-2xl font-header font-semibold">
+                  Cover Letter
+                </h3>
+                {!edit ? (
+                  <>
+                    <p>{coverLetter}</p>
+                  </>
+                ) : (
+                  <>
+                    <TextareaFormField
+                      className="border border-border focus-visible:border-primary"
+                      control={form.control}
+                      name="coverLetter"
+                      label=""
+                      placeholder=""
+                      height="180px"
+                    />
+                  </>
+                )}
+              </div>
+              {!edit ? (<div className="flex items-center justify-end gap-4">
+                {" "}
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setEdit(true);
+                  }}
+                >
+                  <Pencil className="h-4 w-4 mr-2" /> edit budjet
+                </Button>
+                {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
+                <AlertDialog
+                  title="Withdraw proposal"
+                  description="Are you sure you want to withdraw this proposal"
+                  action={() => {}}
+                  actionButtonText="Withdraw"
+                >
+                  <Button variant="outline" size="sm" type="button">
+                    Withdraw proposal
+                  </Button>
+                </AlertDialog>
+                {/* <DeleteJobPost onDelete={() => {}} /> */}
+              </div>) :()}
+              
+
+              <div className="flex items-center justify-end gap-4 mt-2">
+                {" "}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setEdit(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                {/* TODO: diir save lel job info fel base de donne fel onclick */}
+                <Button type="submit" size="sm">
+                  <Save className="h-4 w-4 mr-2" /> Save
+                </Button>
+              </div>
             </form>
           </Form>
-          <div className="w-full flex flex-col gap-2 rounded-3xl p-6 bg-white">
-            <h3 className="text-2xl font-header font-semibold">Cover Letter</h3>
-            <p>{coverLetter}</p>
-          </div>
         </div>
       </PageContainer>
       <Footer />
