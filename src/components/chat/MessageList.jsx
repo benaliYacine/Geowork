@@ -502,7 +502,7 @@ const messages = [
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 // function MessageList({messages}) {
-function MessageList() {
+function MessageList({messages, updateMessage}) {
   console.log("messageList", messages);
   const messagesEndRef = useRef(null);
   // Scroll to the bottom of the messages list every time the messages change
@@ -518,10 +518,12 @@ function MessageList() {
         {messages.map((msg) => (
           <MessageItem
             key={msg.id}
+            id={msg.id}
             senderName={msg.senderName}
             message={msg.message}
             timestamp={msg.timestamp}
             isOwnMessage={msg.isOwnMessage}
+            updateMessage={updateMessage}
           />
         ))}
         <div ref={messagesEndRef} />

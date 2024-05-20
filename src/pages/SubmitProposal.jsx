@@ -55,7 +55,7 @@ export default function SubmitProposal({}) {
         };
         const response = await axios.post("addMessage", proposal);
         console.log("messaaaaage", response.data);
-        //navigate("/dashboard");
+        navigate("/messages");
     });
 
     const [jobInfo, setJobInfo] = useState(null);

@@ -17,6 +17,7 @@ const AppError = require("./AppError");
 const Client = require("./models/client");
 const Professionnel = require("./models/professionnel");
 const Job = require("./models/job");
+const Message = require("./models/message");
 const middlewars = require("./utils/middlewars");
 const { userInfo } = require("os");
 const app = express();
@@ -358,6 +359,7 @@ app.get("/savedExperts", middlewars.requireLoginClient, async (req, res) => {
 app.get("/jobPostPage/:id", async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
+    let apply = true;
     if (foundJob) {
         if (req.session.user_type == "Professionnel") {
             const pro = await Professionnel.findById(req.session.user_id);
@@ -378,6 +380,7 @@ app.get("/jobPostPage/:id", async (req, res) => {
                 foundJob.heart = false; // User not found
             }
         } else {
+            apply = false;
             foundJob.heart = false; // User is not a professional
         }
         console.log("foundJob.heart", foundJob.heart);
@@ -385,7 +388,8 @@ app.get("/jobPostPage/:id", async (req, res) => {
         const job = { ...foundJob };
         job._doc.heart = foundJob.heart;
         console.log(job);
-        res.json(job._doc);
+
+        res.json({ ...job._doc, apply });
     } else {
         res.status(400).json({ message: "Invalid Job Id" });
     }
@@ -553,7 +557,7 @@ app.get("/expertsSearch", async (req, res) => {
         });
     }
 });
-const Message = require("./models/message");
+
 app.post("/contact", middlewars.isLoginIn, async (req, res) => {
     let user;
 
@@ -664,14 +668,13 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
             user = await Client.findById(id)
                 .populate("contacts.messages.message")
                 .populate({
-                path: 'contacts.messages.message',   // Popule le champ "message" des messages dans les contacts
-                populate: {
-                    path: 'message.jobId',            // Popule le champ "jobId" dans les messages peuplés précédemment
-                    model: 'Job'                      // Assurez-vous que "Job" est le bon modèle pour "jobId"
-                }
-            });
+                    path: "contacts.messages.message", // Popule le champ "message" des messages dans les contacts
+                    populate: {
+                        path: "message.jobId", // Popule le champ "jobId" dans les messages peuplés précédemment
+                        model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
+                    },
+                });
         }
-        
 
         if (!user) {
             return res.json({ redirectUrl: "/messages/1" });
@@ -686,10 +689,56 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
     }
 });
 app.get("/SubmitProposal/:id", async (req, res) => {
-    const {id}=req.params;
-    const job=await Job.findById(id);
+    const { id } = req.params;
+    const job = await Job.findById(id);
     res.json(job);
 });
+app.patch(
+    "/changeProposalBudget",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const { id, budget } = req.body;
+        const message = await Message.findById(id);
+        if (message) {
+            message.message.budget = budget;
+        }
+        const saveMessage = await message.save();
+        res.json(saveMessage);
+    }
+);
+app.patch(
+    "/withrawProposal",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const { id } = req.body;
+        const message = await Message.findById(id);
+        if (message) {
+            message.message.state = "withrawed";
+        }
+        const saveMessage = await message.save();
+        res.json(saveMessage);
+    }
+);
+app.get(
+    "/expertProposalPage/:id",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const { id } = req.params;
+
+        const message = await Message.findById(id)
+            .populate("message.jobId")
+            .lean();
+        if (message && message.senderId != req.session.user_id)
+            res.json({ redirectUrl: "/dashboard" });
+        console.log("okkkkk");
+        console.log("Message---------", message);
+        res.json({
+            ...message.message.jobId,
+            budgetProposal: message.message.budget,
+            coverLetter: message.message.coverLetter,
+        });
+    }
+);
 app.post("/addMessage", async (req, res) => {
     let recipientId = req.body.id;
     const senderId = req.session.user_id;
@@ -791,8 +840,16 @@ app.post("/addMessage", async (req, res) => {
             ],
         });
     }
-    if (req.body.message.type == "proposal") job.proposals.push(senderId);
-    else if (req.body.message.type == "invitation") job.hires.push(recipientId);
+    if (
+        req.body.message.type == "proposal" &&
+        !job.proposals.includes(senderId)
+    )
+        job.proposals.push(senderId);
+    else if (
+        req.body.message.type == "invitation" &&
+        !job.proposals.includes(recipientId)
+    )
+        job.hires.push(recipientId);
     await cli.save();
     await pro.save();
     if (jobId) await job.save();

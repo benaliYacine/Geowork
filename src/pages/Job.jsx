@@ -26,7 +26,7 @@ if(jobInfo)
       <Header />
       <PageContainer>
         <SearchBar />
-        <Job jobInfo={jobInfo} apply />
+        <Job jobInfo={jobInfo} apply={jobInfo.apply} />
       </PageContainer>
       <Footer />
     </>
