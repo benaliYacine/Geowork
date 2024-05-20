@@ -15,13 +15,13 @@ import {
   role: "Web Developer",
   rating: Math.random() * 5,
   avatarUrl: "https://github.com/johndoe.png",
-  wilaya: "Algiers",
+  wilaya: "algiers",
   city: "Central",
 }));
 */
-const ITEMS_PER_PAGE = 10; 
+const ITEMS_PER_PAGE = 10;
 
-export default function ExpertList({experts}) {
+export default function ExpertList({ experts }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPageIndex = Math.ceil(experts.length / ITEMS_PER_PAGE);

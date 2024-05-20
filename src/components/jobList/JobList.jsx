@@ -18,14 +18,14 @@ import {
 //   budget: "DZD  5, 500",
 //   description:
 //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-//   wilaya: "Algiers",
+//   wilaya: "algiers",
 //   city: "Central",
 // }));
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({jobs=[]}) {
-  console.log("jobs",jobs);
+export default function JobList({ jobs = [] }) {
+  console.log("jobs", jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPageIndex = Math.ceil(jobs.length / ITEMS_PER_PAGE);

@@ -225,7 +225,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "waiting",
     },
@@ -244,7 +244,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "waiting",
     },
@@ -263,7 +263,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "accepted",
     },
@@ -282,7 +282,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "accepted",
     },
@@ -301,7 +301,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "denied",
     },
@@ -320,7 +320,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "denied",
     },
@@ -339,7 +339,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "closed",
     },
@@ -358,7 +358,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "closed",
     },
@@ -377,7 +377,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "canceled",
     },
@@ -396,7 +396,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "canceled",
     },
@@ -415,7 +415,7 @@ const messages = [
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      wilaya: "Algiers",
+      wilaya: "algiers",
       city: "Central",
       state: "reported",
     },
@@ -503,32 +503,32 @@ const messages = [
 
 // function MessageList({messages}) {
 function MessageList() {
-  console.log("messageList",messages)
-    const messagesEndRef = useRef(null);
-    // Scroll to the bottom of the messages list every time the messages change
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({});
-        }
-    }, [messages]);
+  console.log("messageList", messages);
+  const messagesEndRef = useRef(null);
+  // Scroll to the bottom of the messages list every time the messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({});
+    }
+  }, [messages]);
 
-    return (
-        <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
-            <div className=" flex flex-col">
-                {messages.map((msg) => (
-                    <MessageItem
-                        key={msg.id}
-                        senderName={msg.senderName}
-                        message={msg.message}
-                        timestamp={msg.timestamp}
-                        isOwnMessage={msg.isOwnMessage}
-                    />
-                ))}
-                <div ref={messagesEndRef} />
-            </div>
-            {/* Empty div to act as a scroll target */}
-        </ScrollArea>
-    );
+  return (
+    <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
+      <div className=" flex flex-col">
+        {messages.map((msg) => (
+          <MessageItem
+            key={msg.id}
+            senderName={msg.senderName}
+            message={msg.message}
+            timestamp={msg.timestamp}
+            isOwnMessage={msg.isOwnMessage}
+          />
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+      {/* Empty div to act as a scroll target */}
+    </ScrollArea>
+  );
 }
 
 export default MessageList;

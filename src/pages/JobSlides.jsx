@@ -25,7 +25,7 @@ const JobSlides = () => {
     title: "na7ihom memba3d ",
     category: "education_and_tutoring",
     subCategory: "math_tutor",
-    wilaya: "Algiers",
+    wilaya: "algiers",
     city: "sidi_moussa",
     budget: "DZD  5, 500",
     description:

@@ -61,7 +61,7 @@ const wilayas = [
     },
     {
         label: "Algiers",
-        value: "Algiers",
+        value: "algiers",
     },
     {
         label: "Djelfa",

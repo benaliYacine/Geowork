@@ -163,7 +163,7 @@ const ProfileSlides = () => {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "Algiers",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -182,7 +182,7 @@ const ProfileSlides = () => {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "Algiers",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -200,7 +200,7 @@ const ProfileSlides = () => {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "Algiers",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -218,7 +218,7 @@ const ProfileSlides = () => {
           "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         category: "education_and_tutoring",
         subCategory: "math_tutor",
-        wilaya: "Algiers",
+        wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
@@ -397,7 +397,7 @@ const ProfileSlides = () => {
     role: "Web Developer",
     rating: Math.random() * 5,
     avatarUrl: "https://github.com/johndoe.png",
-    wilaya: "Algiers",
+    wilaya: "algiers",
     city: "Central",
   };
   // Render the current slide based on `currentSlide`

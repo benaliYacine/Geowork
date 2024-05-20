@@ -15,7 +15,7 @@ const proposals = Array.from({ length: 100 }, (_, i) => ({
   role: "Web Developer",
   rating: Math.random() * 5,
   avatarUrl: "https://github.com/johndoe.png",
-  wilaya: "Algiers",
+  wilaya: "algiers",
   city: "Central",
   budget: "DZD  5, 500",
   coverLetter:
