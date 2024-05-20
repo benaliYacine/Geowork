@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
+import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Messages from "./pages/Messages";
@@ -28,7 +28,7 @@ import Job from "./pages/Job";
 import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
 import ExpertProposalPage from "./pages/ExpertProposalPage";
-import io from "socket.io-client"
+import io from "socket.io-client";
 import axios from "axios";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
@@ -37,67 +37,59 @@ import axios from "axios";
 function App() {
   const [socket, setSocket] = useState(null);
   useEffect(() => {
-    const newSocket = io('ws://localhost:3000');
+    const newSocket = io("ws://localhost:3000");
     setSocket(newSocket);
 
     return () => {
       newSocket.disconnect();
-    }
+    };
   }, []);
   useEffect(() => {
     if (socket === null) return;
     socket.emit("addNewUser");
     return () => {
       socket.off("getOnlineUsers");
-    }
-  }, [socket])
+    };
+  }, [socket]);
   axios.defaults.baseURL = "http://localhost:3000";
   axios.defaults.withCredentials = true;
   return (
-      <div className="bg-bg">
-          <BrowserRouter>
-              <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route
-                      path="/inputWilayaCity"
-                      element={<InputWilayaCity />}
-                  />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/messages" element={<Messages />} />
-                  <Route path="/messages/:id" element={<Messages />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/welcomePro" element={<WelcomePro />} />
-                  <Route path="/welcomeCli" element={<WelcomeCli />} />
-                  <Route path="/profileSlides" element={<ProfileSlides />} />
-                  <Route path="/jobSlides" element={<JobSlides />} />
-                  <Route path="/jobPostPage/:id" element={<JobPostPage />} />
-                  <Route path="/verifyEmail" element={<SendEmailPage />} />
-                  <Route path="/savedJobs" element={<SavedJobs />} />
-                  <Route path="/savedExperts" element={<SavedExperts />} />
-                  <Route
-                      path="/expertProposalPage/:id"
-                      element={<ExpertProposalPage />}
-                  />
+    <div className="bg-bg">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/inputWilayaCity" element={<InputWilayaCity />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/messages/:id" element={<Messages />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/welcomePro" element={<WelcomePro />} />
+          <Route path="/welcomeCli" element={<WelcomeCli />} />
+          <Route path="/profileSlides" element={<ProfileSlides />} />
+          <Route path="/jobSlides" element={<JobSlides />} />
+          <Route path="/jobPostPage/:id" element={<JobPostPage />} />
+          <Route path="/verifyEmail" element={<SendEmailPage />} />
+          <Route path="/savedJobs" element={<SavedJobs />} />
+          <Route path="/savedExperts" element={<SavedExperts />} />
+          <Route
+            path="/expertProposalPage/:id"
+            element={<ExpertProposalPage />}
+          />
 
-                  <Route path="/jobsSearch" element={<JobsSearch />} />
-                  <Route path="/proposal/:id" element={<ProposalPage />} />
-                  <Route path="/expertsSearch" element={<ExpertsSearch />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route
-                      path="/profile"
-                      element={
-                          <ProfilePage/>
-                      }
-                  />
-                  <Route path="/submitProposal/:id" element={<SubmitProposal />} />
-                  <Route path="/job" element={<Job />} />
-                  <Route path="/job/:id" element={<Job />} />
-                  <Route path="*" element={<NoPage />} />
-              </Routes>
-          </BrowserRouter>
-      </div>
+          <Route path="/jobsSearch" element={<JobsSearch />} />
+          <Route path="/proposal/:id" element={<ProposalPage />} />
+          <Route path="/expertsSearch" element={<ExpertsSearch />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/submitProposal/:id" element={<SubmitProposal />} />
+          <Route path="/job" element={<Job />} />
+          <Route path="/job/:id" element={<Job />} />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
