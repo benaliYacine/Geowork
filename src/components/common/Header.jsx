@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Search, Save } from "lucide-react";
+import { Search, Save, Megaphone, BriefcaseBusiness } from "lucide-react";
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -65,13 +65,13 @@ const Jobs = [
     title: "Post a job",
     href: "/jobSlides",
     description: "",
-    icon: Search,
+    icon: Megaphone,
   },
   {
     title: "All Job Posts",
     href: "/dashboard",
     description: "",
-    icon: Save,
+    icon: BriefcaseBusiness,
   },
   {
     title: "Saved Geoworkers",
@@ -82,7 +82,7 @@ const Jobs = [
 ];
 
 const ListItem = React.forwardRef(
-  ({ className, title, href, children }, ref) => (
+  ({ className, title, href, Icon, children }, ref) => (
     <li>
       <NavigationMenuLink asChild>
         <Link
@@ -93,7 +93,11 @@ const ListItem = React.forwardRef(
             className
           )}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="flex h-4 items-center text-sm font-medium leading-none">
+            {" "}
+            <Icon className=" stroke-[1.5px] mr-2" />
+            {title}
+          </div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
@@ -180,6 +184,7 @@ export default function Header() {
                             key={item.title}
                             title={item.title}
                             href={item.href}
+                            Icon={item.icon}
                           >
                             {item.description}
                           </ListItem>
@@ -189,6 +194,7 @@ export default function Header() {
                             key={item.title}
                             title={item.title}
                             href={item.href}
+                            Icon={item.icon}
                           >
                             {item.description}
                           </ListItem>
@@ -312,8 +318,9 @@ export default function Header() {
                               <a
                                 key={item.title}
                                 href={item.href}
-                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                className=" rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 flex hover:bg-gray-50"
                               >
+                                <item.icon className="mr-2 stroke-[1.5px]" />{" "}
                                 {item.title}
                               </a>
                             ))
@@ -321,8 +328,9 @@ export default function Header() {
                               <a
                                 key={item.title}
                                 href={item.href}
-                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                className="flex rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                               >
+                                <item.icon className="mr-2 stroke-[1.5px]" />
                                 {item.title}
                               </a>
                             ))}
