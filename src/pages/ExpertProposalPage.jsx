@@ -47,6 +47,7 @@ export default function SubmitProposal() {
         resolver: zodResolver(proposalSchema),
         defaultValues: {
             budget: budget,
+            coverLetter: coverLetter,
         },
     });
 
