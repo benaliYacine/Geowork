@@ -44,7 +44,7 @@ export default function InputWilayaCity() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      wilaya: "algiers",
+      wilaya: "Algiers",
       city: "",
     },
   });

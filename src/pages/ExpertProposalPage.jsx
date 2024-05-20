@@ -47,7 +47,7 @@ export default function SubmitProposal() {
     title: "na7ihom memba3d ",
     category: "education_and_tutoring",
     subCategory: "math_tutor",
-    wilaya: "algiers",
+    wilaya: "Algiers",
     city: "sidi_moussa",
     budget: "DZD  5, 500",
     description:

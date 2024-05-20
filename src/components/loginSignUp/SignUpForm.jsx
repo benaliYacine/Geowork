@@ -49,7 +49,7 @@ export default function SignUpForm() {
       name: { first: "", last: "" },
       email: "",
       password: "",
-      wilaya: "algiers",
+      wilaya: "Algiers",
       city: "",
     },
   });
