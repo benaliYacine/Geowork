@@ -25,7 +25,7 @@ const ProfileSlides = () => {
 
   // New state for profile information
   const [profileInfo, setProfileInfo] = useState({
-    roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
+    roleTitle: "Residential Electrician", // Initialize with empty string or a default value
     category: "education_and_tutoring",
     subCategory: "math_tutor",
     employments: [

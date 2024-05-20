@@ -87,7 +87,9 @@ export default function SlideTree({
         organizations showcase your professional journey and expertise.
       </p>
       {profileInfo.employments.length === 0 ? (
-        <AddEmploymentCard addEmployment={addEmployment} />
+        <div className="px-12 py-6">
+          <AddEmploymentCard addEmployment={addEmployment} />
+        </div>
       ) : (
         <div className="flex flex-col sm:flex-row items-center justify-start gap-3">
           {" "}
@@ -99,8 +101,8 @@ export default function SlideTree({
             }}
             className={
               profileInfo.employments.length > 3
-                ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-4"
-                : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-4"
+                ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-6"
+                : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-6"
             }
           >
             <CarouselContent>
