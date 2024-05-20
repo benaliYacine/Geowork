@@ -84,7 +84,7 @@ export default function SlideFour({
               align: "start",
             }}
             className={
-              profileInfo.employments.length > 3
+              profileInfo.experiences.length >= 3
                 ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-4"
                 : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-4"
             }
@@ -107,10 +107,10 @@ export default function SlideFour({
               ))}
             </CarouselContent>
             <CarouselPrevious
-              className={!(profileInfo.employments.length > 3) && " hidden"}
+              className={!(profileInfo.experiences.length >= 3) && " hidden"}
             />
             <CarouselNext
-              className={!(profileInfo.employments.length > 3) && " hidden"}
+              className={!(profileInfo.experiences.length >= 3) && " hidden"}
             />
           </Carousel>
         </div>

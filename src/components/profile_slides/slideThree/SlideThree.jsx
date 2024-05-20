@@ -100,7 +100,7 @@ export default function SlideTree({
               align: "start",
             }}
             className={
-              profileInfo.employments.length > 3
+              profileInfo.employments.length >= 3
                 ? "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-12 my-6"
                 : "max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl w-full mx-0 my-6"
             }
@@ -135,10 +135,10 @@ export default function SlideTree({
               ))}
             </CarouselContent>
             <CarouselPrevious
-              className={!(profileInfo.employments.length > 3) && " hidden"}
+              className={!(profileInfo.employments.length >= 3) && " hidden"}
             />
             <CarouselNext
-              className={!(profileInfo.employments.length > 3) && " hidden"}
+              className={!(profileInfo.employments.length >= 3) && " hidden"}
             />
           </Carousel>
         </div>
