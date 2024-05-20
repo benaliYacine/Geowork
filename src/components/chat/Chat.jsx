@@ -33,7 +33,19 @@ export default function Chat() {
     const [socket, setSocket] = useState(null);
     let { id } = useParams();
     if (!id) id = 1;
-
+    const updateMessage = (id, state) => {
+      console.log("rani ndir fi update",id,state);
+        setMessages(
+            messages.map((m) => {
+                console.log(m.id, id);
+                if (m.id == id) {
+                    m.message.state = state;
+                    console.log(m.message);
+                }
+                return m;
+            })
+        );
+    };
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");
         setSocket(newSocket);
@@ -48,6 +60,7 @@ export default function Chat() {
         if (socket === null) return;
         socket.emit("sendMessage", { ...message });
     }, [message]);
+    
     //receive Message
     useEffect(() => {
         if (socket === null) return;
@@ -285,7 +298,7 @@ export default function Chat() {
                 </div>
 
                 <div className=" w-full h-full flex-grow overflow-y-auto">
-                    <MessageList messages={messages} />
+                    <MessageList messages={messages} updateMessage={updateMessage} />
                 </div>
                 <div className="flex-none">
                     {" "}
@@ -304,7 +317,8 @@ export default function Chat() {
                     You don't have any contacts yet.
                 </p>{" "}
                 <p className="mt-6 text-base leading-7 text-greyDark">
-                    Start by posting a job and inviting geoworkers to collaborate!
+                    Start by posting a job and inviting geoworkers to
+                    collaborate!
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-x-6">
                     <Link to="/jobslides" className="">

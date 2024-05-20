@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Location from "@/components/common/Location";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -13,95 +13,113 @@ import EditBudgetButton from "@/components/chat/EditBudgetButton";
 import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
 import EditLocation from "@/components/chat/Map/EditLocation";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
-  const [messageState, setMessageState] = useState(message.state);
+function MessageItem({
+    senderName,
+    message,
+    timestamp,
+    isOwnMessage,
+    key,
+    id,
+    updateMessage,
+}) {
+    const navigate = useNavigate();
+    const [messageState, setMessageState] = useState(message.state);
+    //const [rerender, setRerender] = useState(false);
+    const withrawProposal = async () => {
+        const response = await axios.patch("withrawProposal", { id });
+        setMessageState("withrawed");
+        console.log("ProposalWithrawed", response.data);
+        updateMessage(id, "withrawed");
+    };
 
-  function budgetRenderFootereRecieved(isClient) {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex justify-end w-full gap-2">
-            <AlertDialog
-              title="deny budget edit suggestion"
-              description="Are you sure you want to deny this budget edit suggestion"
-              action={() => {}}
-              actionButtonText="deny"
-            >
-              <Button variant="outline" size="sm">
-                Deny
-              </Button>
-            </AlertDialog>
+    function budgetRenderFootereRecieved(isClient) {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex justify-end w-full gap-2">
+                        <AlertDialog
+                            title="deny budget edit suggestion"
+                            description="Are you sure you want to deny this budget edit suggestion"
+                            action={() => {}}
+                            actionButtonText="deny"
+                        >
+                            <Button variant="outline" size="sm">
+                                Deny
+                            </Button>
+                        </AlertDialog>
 
-            <AlertDialog
-              title="Accept budget edit suggestion"
-              description="Are you sure you want to accept this budget edit suggestion"
-              action={() => {}}
-              actionButtonText="Accept"
-            >
-              <Button size="sm">Accept</Button>
-            </AlertDialog>
-          </div>
-        );
-      case "accepted":
-        return (
-          <p className=" text-md text-success w-full">
-            you have accepted this budget edit suggestion
-          </p>
-        );
-      case "denied":
-        return (
-          <p className=" text-md text-destructive w-full">
-            you have denied this budget edit suggestion
-          </p>
-        );
+                        <AlertDialog
+                            title="Accept budget edit suggestion"
+                            description="Are you sure you want to accept this budget edit suggestion"
+                            action={() => {}}
+                            actionButtonText="Accept"
+                        >
+                            <Button size="sm">Accept</Button>
+                        </AlertDialog>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <p className=" text-md text-success w-full">
+                        you have accepted this budget edit suggestion
+                    </p>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have denied this budget edit suggestion
+                    </p>
+                );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
-  function budgetRenderFootereSent(isClient) {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex justify-end w-full gap-2">
-            <AlertDialog
-              title="cancel budget edit suggestion"
-              description="Are you sure you want to cancel this budget edit suggestion"
-              action={() => {}}
-              actionButtonText="yes"
-            >
-              <Button variant="outline" size="sm">
-                Cancel
-              </Button>
-            </AlertDialog>
-          </div>
-        );
-      case "accepted":
-        return (
-          <p className=" text-md text-success w-full">
-            {isClient ? "The geoworker" : "The Client"} has accepted your budget
-            edit suggestion
-          </p>
-        );
-      case "denied":
-        return (
-          <p className=" text-md text-destructive w-full">
-            {isClient ? "The geoworker" : "The Client"} has denied your budget
-            edit suggestion
-          </p>
-        );
+    function budgetRenderFootereSent(isClient) {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex justify-end w-full gap-2">
+                        <AlertDialog
+                            title="cancel budget edit suggestion"
+                            description="Are you sure you want to cancel this budget edit suggestion"
+                            action={() => {}}
+                            actionButtonText="yes"
+                        >
+                            <Button variant="outline" size="sm">
+                                Cancel
+                            </Button>
+                        </AlertDialog>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <p className=" text-md text-success w-full">
+                        {isClient ? "The geoworker" : "The Client"} has accepted
+                        your budget edit suggestion
+                    </p>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        {isClient ? "The geoworker" : "The Client"} has denied
+                        your budget edit suggestion
+                    </p>
+                );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
-  function proposalRenderFootereRecieved() {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex justify-end w-full gap-2">
-            {/* <AlertDialog
+    function proposalRenderFootereRecieved() {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex justify-end w-full gap-2">
+                        {/* <AlertDialog
             title="deny invitation"
             description="Are you sure you want to deny this job invitation"
             action={() => {}}
@@ -112,467 +130,499 @@ function MessageItem({ senderName, message, timestamp, isOwnMessage }) {
             </Button>
           </AlertDialog> */}
 
-            <EditBudgetButton budget="" />
+                        <EditBudgetButton budget="" />
 
-            <AlertDialog
-              title="Hire geoworker"
-              description="Are you sure you want to Hire this geoworker"
-              action={() => {}}
-              actionButtonText="Hire"
-            >
-              <Button size="sm">Hire</Button>
-            </AlertDialog>
-          </div>
-        );
-      case "accepted":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-success w-full">
-              you have hired this geoworker.
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <CloseJobDialog />
-              <SendLocation />
-            </div>
-          </div>
-        );
-      case "closed":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-success w-full">
-              you have closed this job.
-            </p>
-          </div>
-        );
-      case "canceled":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-destructive w-full">
-              you have canceled this job.
-            </p>
-          </div>
-        );
+                        <AlertDialog
+                            title="Hire geoworker"
+                            description="Are you sure you want to Hire this geoworker"
+                            action={() => {}}
+                            actionButtonText="Hire"
+                        >
+                            <Button size="sm">Hire</Button>
+                        </AlertDialog>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have hired this geoworker.
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <CloseJobDialog />
+                            <SendLocation />
+                        </div>
+                    </div>
+                );
+            case "closed":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have closed this job.
+                        </p>
+                    </div>
+                );
+            case "canceled":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-destructive w-full">
+                            you have canceled this job.
+                        </p>
+                    </div>
+                );
 
-      //makach diny el client maye9derch y deny proposal
-      // case "denied":
-      //   return (
-      //     <p className=" text-md text-destructive w-full">
-      //       you have denied this job invitation
-      //     </p>
-      //   );
+            //makach diny el client maye9derch y deny proposal
+            // case "denied":
+            //   return (
+            //     <p className=" text-md text-destructive w-full">
+            //       you have denied this job invitation
+            //     </p>
+            //   );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
-  function proposalRenderFooterSent() {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            {/* hadi makech parceque makach deny */}
-            {/* <p className=" text-md text-warningDark w-full">no reply yet</p> */}
-            <div className="flex justify-end w-full gap-2">
-              <AlertDialog
-                title="Withraw Proposal"
-                description="Are you sure you want to Withraw your Proposal"
-                action={() => {}}
-                actionButtonText="Withraw"
-              >
-                <Button variant="outline" size="sm">
-                  {/* Cancel  */}
-                  Withraw Proposal
-                </Button>
-              </AlertDialog>
+    function proposalRenderFooterSent() {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        {/* hadi makech parceque makach deny */}
+                        {/* <p className=" text-md text-warningDark w-full">no reply yet</p> */}
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="Withraw Proposal"
+                                description="Are you sure you want to Withraw your Proposal"
+                                action={withrawProposal}
+                                actionButtonText="Withraw"
+                            >
+                                <Button variant="outline" size="sm">
+                                    {/* Cancel  */}
+                                    Withraw Proposal
+                                </Button>
+                            </AlertDialog>
 
-              <Button size="sm">Edit</Button>
-            </div>
-          </div>
-        );
-      case "accepted":
-        return (
-          <p className=" text-md text-success w-full">
-            the client has hired you
-            {/* ask him to share the exact job location with you so you can... */}
-          </p>
-        );
-      case "closed":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-success w-full">
-              the client has closed the job
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <LeaveFeedback />
-            </div>
-          </>
-        );
-      case "canceled":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-destructive w-full">
-              the client has canceled the job
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <ReportComplete />
-            </div>
-          </>
-        );
-      case "reported":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-success w-full">
-              You have reported the job as completed. We will review the images
-              and update the job status accordingly
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-          </>
-        );
-      // makach deny fel proposal
-      // case "denied":
-      //   return (
-      //     <p className=" text-md text-destructive w-full">
-      //       The geoworker has denied your job invitation
-      //     </p>
-      //   );
+                            <Button
+                                size="sm"
+                                onClick={() => {
+                                    navigate(`/expertProposalPage/${id}`);
+                                }}
+                            >
+                                Edit
+                            </Button>
+                        </div>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <p className=" text-md text-success w-full">
+                        the client has hired you
+                        {/* ask him to share the exact job location with you so you can... */}
+                    </p>
+                );
+            case "closed":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            the client has closed the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <LeaveFeedback />
+                        </div>
+                    </>
+                );
+            case "canceled":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-destructive w-full">
+                            the client has canceled the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <ReportComplete />
+                        </div>
+                    </>
+                );
+            case "reported":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            You have reported the job as completed. We will
+                            review the images and update the job status
+                            accordingly
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                    </>
+                );
+            // makach deny fel proposal
+            // case "denied":
+            //   return (
+            //     <p className=" text-md text-destructive w-full">
+            //       The geoworker has denied your job invitation
+            //     </p>
+            //   );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
-  function invitationRenderFooterRecieved() {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex justify-end w-full gap-2">
-            <EditBudgetButton budget="" />
-            <AlertDialog
-              title="deny invitation"
-              description="Are you sure you want to deny this job invitation"
-              action={() => {}}
-              actionButtonText="deny"
-            >
-              <Button variant="primary2" size="sm">
-                Deny
-              </Button>
-            </AlertDialog>
-            <AlertDialog
-              title="accept invitation"
-              description="Are you sure you want to accept this job invitation"
-              action={() => {}}
-              actionButtonText="accept"
-            >
-              <Button size="sm">Accept</Button>
-            </AlertDialog>
-          </div>
-        );
-      case "accepted":
-        return (
-          <p className=" text-md text-success w-full">
-            you have accepted this job invitation. now, ask the client to share
-            the exact job location with you
-          </p>
-        );
-      case "denied":
-        return (
-          <p className=" text-md text-destructive w-full">
-            you have denied this job invitation
-          </p>
-        );
-      case "closed":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-success w-full">
-              the client has closed the job
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <LeaveFeedback />
-            </div>
-          </>
-        );
-      case "canceled":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-destructive w-full">
-              the client has canceled the job
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <ReportComplete />
-            </div>
-          </>
-        );
-      case "reported":
-        return (
-          <>
-            {" "}
-            <p className=" text-md text-success w-full">
-              You have reported the job as completed. We will review the images
-              and update the job status accordingly
-              {/* ask him to share the exact job location with you so you can... */}
-            </p>
-          </>
-        );
+    function invitationRenderFooterRecieved() {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex justify-end w-full gap-2">
+                        <EditBudgetButton budget="" />
+                        <AlertDialog
+                            title="deny invitation"
+                            description="Are you sure you want to deny this job invitation"
+                            action={() => {}}
+                            actionButtonText="deny"
+                        >
+                            <Button variant="primary2" size="sm">
+                                Deny
+                            </Button>
+                        </AlertDialog>
+                        <AlertDialog
+                            title="accept invitation"
+                            description="Are you sure you want to accept this job invitation"
+                            action={() => {}}
+                            actionButtonText="accept"
+                        >
+                            <Button size="sm">Accept</Button>
+                        </AlertDialog>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <p className=" text-md text-success w-full">
+                        you have accepted this job invitation. now, ask the
+                        client to share the exact job location with you
+                    </p>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have denied this job invitation
+                    </p>
+                );
+            case "closed":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            the client has closed the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <LeaveFeedback />
+                        </div>
+                    </>
+                );
+            case "canceled":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-destructive w-full">
+                            the client has canceled the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <ReportComplete />
+                        </div>
+                    </>
+                );
+            case "reported":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            You have reported the job as completed. We will
+                            review the images and update the job status
+                            accordingly
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                    </>
+                );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
-  function invitationRenderFooterSent() {
-    switch (messageState) {
-      case "waiting":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-warningDark w-full">no reply yet</p>
-            <div className="flex justify-end w-full gap-2">
-              <AlertDialog
-                title="cancel invitation"
-                description="Are you sure you want to cancel your job invitation"
-                action={() => {}}
-                actionButtonText="Yes"
-              >
-                <Button variant="outline" size="sm">
-                  Cancel Invitation
-                </Button>
-              </AlertDialog>
-            </div>
-          </div>
-        );
-      case "accepted":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-success w-full">
-              the geoworker has accepted your job invitation
-            </p>
-            <div className="flex justify-end w-full gap-2">
-              <CloseJobDialog />
+    function invitationRenderFooterSent() {
+        switch (messageState) {
+            case "waiting":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-warningDark w-full">
+                            no reply yet
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="cancel invitation"
+                                description="Are you sure you want to cancel your job invitation"
+                                action={() => {}}
+                                actionButtonText="Yes"
+                            >
+                                <Button variant="outline" size="sm">
+                                    Cancel Invitation
+                                </Button>
+                            </AlertDialog>
+                        </div>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            the geoworker has accepted your job invitation
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <CloseJobDialog />
 
-              <SendLocation />
-            </div>
-          </div>
-        );
-      case "denied":
-        return (
-          <p className=" text-md text-destructive w-full">
-            The geoworker has denied your job invitation
-          </p>
-        );
-      case "closed":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-success w-full">
-              you have closed this job.
-            </p>
-          </div>
-        );
-      case "canceled":
-        return (
-          <div className="flex flex-col gap-2 w-full">
-            <p className=" text-md text-destructive w-full">
-              you have canceled this job.
-            </p>
-          </div>
-        );
+                            <SendLocation />
+                        </div>
+                    </div>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        The geoworker has denied your job invitation
+                    </p>
+                );
+            case "closed":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have closed this job.
+                        </p>
+                    </div>
+                );
+            case "canceled":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-destructive w-full">
+                            you have canceled this job.
+                        </p>
+                    </div>
+                );
 
-      default:
-        return null;
+            default:
+                return null;
+        }
     }
-  }
 
-  // Helper function to render the message content based on its type
-  const [isClient, setIsClient] = useState(true);
-  const renderMessageContent = (message) => {
-    switch (message.type) {
-      case "jobLocation":
-        return (
-          <div className="flex flex-col w-96 gap-3 ">
-            {isOwnMessage ? (
-              <>
-                {" "}
-                <p className=" text-md text-black ">
-                  You have shared the exact job location with the geoworker
-                </p>
-                <div className="flex justify-end w-full gap-2">
-                  <EditLocation location={message.location} />
-                </div>
-              </>
-            ) : (
-              <>
-                <p className=" text-md text-black ">
-                  The client has shared the exact work location with you
-                </p>
-                <div className="flex justify-end w-full gap-2">
-                  <GetLocation location={message.location} />
-                </div>
-              </>
-            )}
-          </div>
-        );
-      case "budgetEdit":
-        return (
-          <div className="flex flex-col w-96 gap-3 ">
-            {isOwnMessage ? (
-              <p className=" text-md text-black ">
-                You have sent a budget edit suggestion
-              </p>
-            ) : (
-              <p className=" text-md text-black ">
-                {isClient ? "The expert" : "The Client"} has send a budget edit
-                suggestion
-              </p>
-            )}
+    // Helper function to render the message content based on its type
+    const [isClient, setIsClient] = useState(true);
+    const renderMessageContent = (message) => {
+        switch (message.type) {
+            case "jobLocation":
+                return (
+                    <div className="flex flex-col w-96 gap-3 ">
+                        {isOwnMessage ? (
+                            <>
+                                {" "}
+                                <p className=" text-md text-black ">
+                                    You have shared the exact job location with
+                                    the geoworker
+                                </p>
+                                <div className="flex justify-end w-full gap-2">
+                                    <EditLocation location={message.location} />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <p className=" text-md text-black ">
+                                    The client has shared the exact work
+                                    location with you
+                                </p>
+                                <div className="flex justify-end w-full gap-2">
+                                    <GetLocation location={message.location} />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                );
+            case "budgetEdit":
+                return (
+                    <div className="flex flex-col w-96 gap-3 ">
+                        {isOwnMessage ? (
+                            <p className=" text-md text-black ">
+                                You have sent a budget edit suggestion
+                            </p>
+                        ) : (
+                            <p className=" text-md text-black ">
+                                {isClient ? "The expert" : "The Client"} has
+                                send a budget edit suggestion
+                            </p>
+                        )}
 
-            <p className="text-md text-greyDark font-semibold flex justify-between">
-              <span>from:</span>
-              <span className=" text-primary  ">{message.from}</span>
-              <span>to:</span>
-              <span className=" text-primary  ">{message.to}</span>
-            </p>
-            {isOwnMessage
-              ? budgetRenderFootereSent(isClient)
-              : budgetRenderFootereRecieved(isClient)}
-          </div>
-        );
-      case "proposal":
-        return (
-          <div className="flex flex-col justify-center items-start gap-2 p-2 w-[450px]">
-            <div className="flex justify-between items-center w-full">
-              <h3 className=" text-3xl text-black font-semibold">Proposal</h3>
-              {isOwnMessage ? (
-                <Button variant="primary2" size="sm">
-                  Open Proposal
-                </Button>
-              ) : (
-                <Button variant="primary2" size="sm">
-                  View Details
-                </Button>
-              )}
-            </div>
-            {isOwnMessage ? (
-              <p className=" text-md text-black ">
-                You have sent a proposal to this client
-              </p>
-            ) : (
-              <p className=" text-md text-black ">
-                You have recieved a proposal from this expert
-              </p>
-            )}
-            <p className="w-full p-4 bg-bg rounded-3xl">
-              Cover Letter - {message.coverLetter}
-            </p>
-            <div className="flex-grow mb-2">
-              <p className="text-md text-primary font-semibold ">
-                {message.budget}
-              </p>
-            </div>
-            {isOwnMessage
-              ? proposalRenderFooterSent()
-              : proposalRenderFootereRecieved()}
-          </div>
-        );
-      case "invitation":
-        return (
-          <div className="flex flex-col justify-center items-start gap-2 p-2 w-[450px]">
-            <div className="flex justify-between items-center w-full">
-              <h3 className=" text-3xl text-black font-semibold">
-                {message.title}
-              </h3>
-              {isOwnMessage ? (
-                <Button variant="primary2" size="sm">
-                  Open Job Post
-                </Button>
-              ) : (
-                <Button variant="primary2" size="sm">
-                  view job post
-                </Button>
-              )}
-            </div>
-            {isOwnMessage ? (
-              <p className=" text-md text-black ">
-                You've Invited this geoworker for your job
-              </p>
-            ) : (
-              <p className=" text-md text-black ">
-                You've Been Invited to a New Job Opportunity!
-              </p>
-            )}
-            <div
-              className="bg-cover bg-center rounded-lg h-[250px] w-full"
-              style={{
-                backgroundImage: `url(${message.images ? message.images[0] : ""})`,
-              }}
-            />
-            <div className="flex-grow mb-2">
-              {/* <Category
+                        <p className="text-md text-greyDark font-semibold flex justify-between">
+                            <span>from:</span>
+                            <span className=" text-primary  ">
+                                {message.from}
+                            </span>
+                            <span>to:</span>
+                            <span className=" text-primary  ">
+                                {message.to}
+                            </span>
+                        </p>
+                        {isOwnMessage
+                            ? budgetRenderFootereSent(isClient)
+                            : budgetRenderFootereRecieved(isClient)}
+                    </div>
+                );
+            case "proposal":
+                return (
+                    <div className="flex flex-col justify-center items-start gap-2 p-2 w-[450px]">
+                        <div className="flex justify-between items-center w-full">
+                            <h3 className=" text-3xl text-black font-semibold">
+                                Proposal
+                            </h3>
+                            {isOwnMessage ? (
+                                <Button
+                                    variant="primary2"
+                                    size="sm"
+                                    onClick={() => {
+                                        console.log("key", id);
+                                        navigate(`/expertProposalPage/${id}`);
+                                    }}
+                                >
+                                    Open Proposal
+                                </Button>
+                            ) : (
+                                <Button variant="primary2" size="sm">
+                                    View Details
+                                </Button>
+                            )}
+                        </div>
+                        {isOwnMessage ? (
+                            <p className=" text-md text-black ">
+                                You have sent a proposal to this client
+                            </p>
+                        ) : (
+                            <p className=" text-md text-black ">
+                                You have recieved a proposal from this expert
+                            </p>
+                        )}
+                        <p className="w-full p-4 bg-bg rounded-3xl">
+                            Cover Letter - {message.coverLetter}
+                        </p>
+                        <div className="flex-grow mb-2">
+                            <p className="text-md text-primary font-semibold ">
+                                {message.budget}
+                            </p>
+                        </div>
+                        {isOwnMessage
+                            ? proposalRenderFooterSent()
+                            : proposalRenderFootereRecieved()}
+                    </div>
+                );
+            case "invitation":
+                return (
+                    <div className="flex flex-col justify-center items-start gap-2 p-2 w-[450px]">
+                        <div className="flex justify-between items-center w-full">
+                            <h3 className=" text-3xl text-black font-semibold">
+                                {message.title}
+                            </h3>
+                            {isOwnMessage ? (
+                                <Button variant="primary2" size="sm">
+                                    Open Job Post
+                                </Button>
+                            ) : (
+                                <Button variant="primary2" size="sm">
+                                    view job post
+                                </Button>
+                            )}
+                        </div>
+                        {isOwnMessage ? (
+                            <p className=" text-md text-black ">
+                                You've Invited this geoworker for your job
+                            </p>
+                        ) : (
+                            <p className=" text-md text-black ">
+                                You've Been Invited to a New Job Opportunity!
+                            </p>
+                        )}
+                        <div
+                            className="bg-cover bg-center rounded-lg h-[250px] w-full"
+                            style={{
+                                backgroundImage: `url(${message.images ? message.images[0] : ""})`,
+                            }}
+                        />
+                        <div className="flex-grow mb-2">
+                            {/* <Category
                 category={message.category}
                 subCategory={message.subCategory}
                 size="sm"
               /> */}
 
-              <p className="text-md text-primary font-semibold ">
-                {message.budget}
-              </p>
-              <Location wilaya={message.wilaya} city={message.city} size="sm" />
-            </div>
-            {isOwnMessage
-              ? invitationRenderFooterSent()
-              : invitationRenderFooterRecieved()}
-          </div>
-        );
-      case "text":
-        return (
-          <div className="max-w-full md:max-w-lg lg:max-w-xl">
-            <p className="text-sm font-sans text-black">{message.content}</p>
-          </div>
-        );
-      case "image":
-        return (
-          <img
-            src={message.url}
-            alt="Sent image"
-            className="max-w-xs md:max-w-md rounded-lg"
-          />
-        );
-      case "file":
-        return (
-          <div className="flex flex-row items-center justify-center">
-            <File className="m-2 h-4 w-4 shrink-0" />
-            <a href={message.url} download className="text-sm">
-              {message.content}
-            </a>
-          </div>
-        );
-      default:
-        return <p className="text-sm">Unsupported message type</p>;
-    }
-  };
+                            <p className="text-md text-primary font-semibold ">
+                                {message.budget}
+                            </p>
+                            <Location
+                                wilaya={message.wilaya}
+                                city={message.city}
+                                size="sm"
+                            />
+                        </div>
+                        {isOwnMessage
+                            ? invitationRenderFooterSent()
+                            : invitationRenderFooterRecieved()}
+                    </div>
+                );
+            case "text":
+                return (
+                    <div className="max-w-full md:max-w-lg lg:max-w-xl">
+                        <p className="text-sm font-sans text-black">
+                            {message.content}
+                        </p>
+                    </div>
+                );
+            case "image":
+                return (
+                    <img
+                        src={message.url}
+                        alt="Sent image"
+                        className="max-w-xs md:max-w-md rounded-lg"
+                    />
+                );
+            case "file":
+                return (
+                    <div className="flex flex-row items-center justify-center">
+                        <File className="m-2 h-4 w-4 shrink-0" />
+                        <a href={message.url} download className="text-sm">
+                            {message.content}
+                        </a>
+                    </div>
+                );
+            default:
+                return <p className="text-sm">Unsupported message type</p>;
+        }
+    };
 
-  return (
-    <div
-      className={`flex ${
-        isOwnMessage ? "flex-row-reverse" : ""
-      } mb-2 items-end`}
-    >
-      <div
-        className={`p-4 my-1 mx-2  ${
-          isOwnMessage
-            ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
-            : "bg-white rounded-e-3xl rounded-t-3xl"
-        }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit" || message.type == "jobLocation") && "bg-white"} `}
-      >
-        {renderMessageContent(message)}
-      </div>
-      <span className="text-xs text-gray-500">{timestamp}</span>
-    </div>
-  );
+    return (
+        <div
+            className={`flex ${
+                isOwnMessage ? "flex-row-reverse" : ""
+            } mb-2 items-end`}
+        >
+            <div
+                className={`p-4 my-1 mx-2  ${
+                    isOwnMessage
+                        ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
+                        : "bg-white rounded-e-3xl rounded-t-3xl"
+                }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit" || message.type == "jobLocation") && "bg-white"} `}
+            >
+                {renderMessageContent(message)}
+            </div>
+            <span className="text-xs text-gray-500">{timestamp}</span>
+        </div>
+    );
 }
 
 export default MessageItem;
