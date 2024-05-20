@@ -35,7 +35,7 @@ const proposalSchema = z.object({
 export default function SubmitProposal() {
   const [budget, setbudget] = useState("DZD 50, 000");
   const [coverLetter, seCoverLetter] = useState(
-    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit molestias totam dicta, dignissimos pariatur rerum quia blanditiis laborum quis voluptate voluptatem, magnam minus, officiis officia dolor amet accusantium? Impedit, ex."
+    "Hello! I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. My extensive experience includes upgrading wiring, installing circuit breakers, and ensuring all electrical components meet local codes and safety standards. In previous projects, I have successfully improved electrical efficiency and safety for numerous clients. I take pride in my attention to detail and commitment to providing reliable and efficient solutions. I understand the importance of safety and will ensure that your home’s electrical system is upgraded to the highest standards. I am available to start the project at your earliest convenience and will work diligently to complete it within the agreed timeframe. I look forward to the opportunity to discuss your project further and answer any questions you may have. Thank you for considering my proposal. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards"
   );
   const navigate = useNavigate();
   const form = useForm({
@@ -53,16 +53,16 @@ export default function SubmitProposal() {
   });
 
   const [jobInfo, setJobInfo] = useState({
-    title: "na7ihom memba3d ",
-    category: "education_and_tutoring",
-    subCategory: "math_tutor",
+    title: "Residential Wiring Upgrade",
+    category: "home_improvement_and_maintenance",
+    subCategory: "electrician",
     wilaya: "algiers",
     city: "sidi_moussa",
     budget: "DZD  5, 500",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",
     images: [
-      "https://placebear.com/g/200/200",
+      "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
       "https://source.unsplash.com/user/c_v_r/1900×800",
       "https://via.placeholder.com/300.png/09f/fff",
     ],
@@ -150,49 +150,50 @@ export default function SubmitProposal() {
                   </>
                 )}
               </div>
-              {!edit ? (<div className="flex items-center justify-end gap-4">
-                {" "}
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={() => {
-                    setEdit(true);
-                  }}
-                >
-                  <Pencil className="h-4 w-4 mr-2" /> edit budjet
-                </Button>
-                {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
-                <AlertDialog
-                  title="Withdraw proposal"
-                  description="Are you sure you want to withdraw this proposal"
-                  action={() => {}}
-                  actionButtonText="Withdraw"
-                >
-                  <Button variant="outline" size="sm" type="button">
-                    Withdraw proposal
+              {!edit ? (
+                <div className="flex items-center justify-end gap-4">
+                  {" "}
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setEdit(true);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4 mr-2" /> edit budjet
                   </Button>
-                </AlertDialog>
-                {/* <DeleteJobPost onDelete={() => {}} /> */}
-              </div>) :()}
-              
-
-              <div className="flex items-center justify-end gap-4 mt-2">
-                {" "}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setEdit(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-                {/* TODO: diir save lel job info fel base de donne fel onclick */}
-                <Button type="submit" size="sm">
-                  <Save className="h-4 w-4 mr-2" /> Save
-                </Button>
-              </div>
+                  {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
+                  <AlertDialog
+                    title="Withdraw proposal"
+                    description="Are you sure you want to withdraw this proposal"
+                    action={() => {}}
+                    actionButtonText="Withdraw"
+                  >
+                    <Button variant="outline" size="sm" type="button">
+                      Withdraw proposal
+                    </Button>
+                  </AlertDialog>
+                  {/* <DeleteJobPost onDelete={() => {}} /> */}
+                </div>
+              ) : (
+                <div className="flex items-center justify-end gap-4 mt-2">
+                  {" "}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEdit(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  {/* TODO: diir save lel job info fel base de donne fel onclick */}
+                  <Button type="submit" size="sm">
+                    <Save className="h-4 w-4 mr-2" /> Save
+                  </Button>
+                </div>
+              )}
             </form>
           </Form>
         </div>

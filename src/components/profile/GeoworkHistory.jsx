@@ -19,7 +19,9 @@ const jobs = [
     budget: "DZD  5, 500",
     description:
       "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",
-    images: ["https://placebear.com/g/200/200"],
+    images: [
+      "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+    ],
     rate: 2.5,
     canceled: false,
     feedback:

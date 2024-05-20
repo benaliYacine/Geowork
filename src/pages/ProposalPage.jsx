@@ -9,29 +9,30 @@ import Proposal from "@/components/proposalList/Proposal";
 export default function ProfilePage() {
   const [info, setInfo] = useState({
     name: "John Doe",
-    role: "Web Developer",
+    role: "electrician",
     rating: Math.random() * 5,
-    avatarUrl: "https://github.com/johndoe.png",
+    avatarUrl:
+      "https://ashallendesign.ams3.cdn.digitaloceanspaces.com/rMbsGOyK6i1KjNkbXff8qLohzM1nWQA8HNGwHF0J.png",
     wilaya: "algiers",
     city: "Central",
     budget: "DZD  5, 500",
     coverLetter:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      "Hello! \n\n \t I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. My extensive experience includes upgrading wiring, installing circuit breakers, and ensuring all electrical components meet local codes and safety standards. In previous projects, I have successfully improved electrical efficiency and safety for numerous clients. I take pride in my attention to detail and commitment to providing reliable and efficient solutions. I understand the importance of safety and will ensure that your home’s electrical system is upgraded to the highest standards. I am available to start the project at your earliest convenience and will work diligently to complete it within the agreed timeframe. I look forward to the opportunity to discuss your project further and answer any questions you may have. Thank you for considering my proposal. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards",
   });
   const [profileInfo, setProfileInfo] = useState({
-    roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
-    category: "education_and_tutoring",
-    subCategory: "math_tutor",
+    roleTitle: "Residential Electrician", // Initialize with empty string or a default value
+    category: "home_improvement_and_maintenance",
+    subCategory: "electrician",
     employments: [
       {
-        title: "memba3d na7iha",
-        company: "test",
-        Location: "test",
+        title: "Residential Electrician",
+        company: "El Djazair Electric",
+        Location: " Algiers, Algeria",
         currentlyIn: true,
         date: {
           start: {
-            month: 2,
-            year: 2020,
+            month: 9,
+            year: 2023,
           },
           end: {
             month: 2,
@@ -39,164 +40,131 @@ export default function ProfilePage() {
           },
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Installed and maintained electrical systems in residential buildings. Ensured compliance with safety standards and local codes.",
       },
       {
-        title: "memba3d na7iha",
-        company: "test",
-        Location: "test",
-        currentlyIn: false,
+        title: "Commercial Electrician",
+        company: "Sahara Power Solutions",
+        Location: "Oran, Algeria",
+        currentlyIn: true,
         date: {
           start: {
-            month: 1,
-            year: 2020,
+            month: 5,
+            year: 2017,
           },
           end: {
             month: 1,
-            year: 2021,
+            year: 2022,
           },
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          "Handled electrical wiring and systems for commercial properties. Performed regular maintenance and troubleshooting.",
+      },
+      {
+        title: " Industrial Electrician",
+        company: "Sonatrach Energy",
+        Location: "Hassi Messaoud, Algeria",
+        currentlyIn: true,
+        date: {
+          start: {
+            month: 5,
+            year: 2007,
+          },
+          end: {
+            month: 1,
+            year: 2015,
+          },
+        },
+        description:
+          " Maintained and repaired electrical equipment in an industrial setting. Worked on high-voltage systems and ensured operational efficiency.",
       },
     ],
     experiences: [
       {
-        title: "memba3d na7iha",
+        title: "Residential Installations",
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          " Installed wiring and electrical systems for new homes. Worked independently and collaborated with local builders.",
       },
       {
-        title: "memba3d na7iha",
+        title: "Commercial Lighting Upgrades",
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          "Upgraded lighting systems for small businesses. Improved energy efficiency and reduced operational costs.",
       },
       {
-        title: "memba3d na7iha",
+        title: "Home Electrical Repairs",
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          "Performed electrical repairs for friends and neighbors. Fixed wiring issues, replaced outlets, and installed new fixtures.",
       },
     ],
     educations: [
       {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
+        school:
+          "University of Science and Technology Houari Boumediene (USTHB)",
+        degree: " Bachelor's Degree",
+        fieldOfStudy: " Electrical Engineering",
         datesAttended: {
-          start: 2021,
-          end: 2025,
+          start: 2010,
+          end: 2014,
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde. Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          "Completed comprehensive coursework in electrical systems, circuits, and power distribution. Participated in hands-on lab projects.",
       },
       {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
+        school: "Algerian Vocational Training Center",
+        degree: "Certification",
+        fieldOfStudy: "Residential Electrical Systems",
         datesAttended: {
-          start: 2021,
-          end: 2025,
+          start: 2015,
+          end: 2016,
         },
         description:
-          " Lorem ipsum dolor sit ametmagnam porro voluptatem fugit molestiae perferendis, dicta unde.",
+          "Specialized in residential electrical wiring and safety practices. Certified to work as a residential electrician.",
       },
       {
-        school: "memba3d na7iha",
-        degree: "test",
-        fieldOfStudy: "test",
+        school: "National Institute of Renewable Energy (INE)",
+        degree: "Certification",
+        fieldOfStudy: "Solar Energy Systems",
         datesAttended: {
-          start: 2021,
-          end: 2025,
+          start: 2017,
+          end: 2018,
         },
         description:
-          " Lorem ipsum dolor e possimus, neque itaque, nisi nihil saepe, dicta unde.",
+          "Studied the design and installation of solar power systems. Emphasized sustainable energy solutions and practical applications.",
       },
     ],
     jobs: [
       {
-        title: "na7ihom memba3d ",
+        title: "Residential Wiring Upgrade",
         startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+          "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
         endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
+          "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+        category: "home_improvement_and_maintenance",
+        subCategory: "electrician",
         wilaya: "algiers",
         city: "sidi_moussa",
         budget: "DZD  5, 500",
         description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-      },
-      {
-        title: "na7ihom memba3d ",
-        startDate:
-          "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-          "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
+          "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",
+        images: [
+          "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+        ],
         rate: 4.5,
+        canceled: false,
         feedback:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+          "The electrician did an excellent job upgrading our home's wiring. He was professional, punctual, and made sure everything was done safely and efficiently. We feel much safer now with the new wiring. Highly recommended!",
       },
     ],
-    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    Bio: "I am an experienced electrician with over a decade of expertise in residential, commercial, and industrial electrical systems. With a Bachelor's Degree in Electrical Engineering from USTHB and certifications in various specialized fields, I have a strong foundation in both theoretical knowledge and practical skills. I have worked on a wide range of projects, from installing solar panels in rural communities to upgrading commercial lighting systems. My passion for sustainable energy solutions and commitment to electrical safety have driven my career. Whether it's troubleshooting complex issues or providing emergency services, I am dedicated to delivering reliable and efficient electrical solutions to my clients in Algeria.",
     // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
     dateBirthday: undefined,
-    streetAdress: " tiaret tiaret asdf asd f",
-    phone: "05 55 55 55 55",
-    // photoProfileSrc:
-    //   "https://third-party-test.glitch.me/check.svg?cors=anonymous", // ani dayer hada l url lakhatercch .toDataURL(); ma7abetch temchi m3a l url ta3 doub hadak ygoulek makch m7aded l cors w hadi l image url l9itha hna https://stackblitz.com/edit/cors-corp-image-example?file=src%2Findex.html haka l .toDataURL(); yemchi mais mech3aref ida ilyes ki ydir fetch ida temchi wela la
-    // teksar eras fel batel cors w mech3aref w lazem photoProfileSrc yzidha ilyes fel bdd .. khlas na7itha w f edit avatar card radit image tebda null (la bgha l user el src ta3 nafs l image li darha awal mara beh ghi hiya w ymodifi fiha y3awed ytala3ha w khlas) tema ay haja 3andha 3ala9a bel imagesrc na7itha hna ma3andna mandirou biha / mais fel slide seven khatitha kima rahi bah ida dert back moraha next w tefta7 el edit tel9a l image src fel edit mais hna ma3adnach back w next w fel state goulna ga3 la dernaha ra7 tkoun null tema makan hata fayda ki dirha w koun tebghi tdirha fel bdd lazem yzidha ilyes fel bdd w lazem tkoun cors w mech3aref .. tema makalah
-
-    photoProfile: "https://placebear.com/g/200/200",
+    streetAdress: "123 Rue Didouche Mourad, Algiers, Algeria",
+    phone: "05 62 17 02 86",
+    photoProfile:
+      "https://ashallendesign.ams3.cdn.digitaloceanspaces.com/rMbsGOyK6i1KjNkbXff8qLohzM1nWQA8HNGwHF0J.png",
   });
+
+
 
   if (profileInfo)
     return (

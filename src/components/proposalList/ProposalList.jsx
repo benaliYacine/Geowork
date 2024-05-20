@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/pagination";
 
 const proposals = Array.from({ length: 1 }, (_, i) => ({
-  name: `John Doe `,
+  name: `John Doe`,
   role: "electrician",
   rating: Math.random() * 5,
   avatarUrl:
