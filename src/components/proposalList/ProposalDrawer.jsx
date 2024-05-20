@@ -15,9 +15,9 @@ import Proposal from "@/components/proposalList/Proposal";
 import { ScrollArea } from "@/components/ui/scroll-area";
 export default function ProposalDrawer({ proposal }) {
   const [profileInfo, setProfileInfo] = useState({
-    roleTitle: "na7ihom memba3d ", // Initialize with empty string or a default value
-    category: "education_and_tutoring",
-    subCategory: "math_tutor",
+    roleTitle: "Electrician", // Initialize with empty string or a default value
+    category: "home_improvement_and_maintenance",
+    subCategory: "electrician",
     employments: [
       {
         title: "memba3d na7iha",
@@ -182,7 +182,7 @@ export default function ProposalDrawer({ proposal }) {
           "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
       },
     ],
-    Bio: "na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde. na7i memba3d Lorem m tempore possimus, neque itaque, nisi nihil saepe, dicta unde.",
+    Bio: "I am an experienced electrician with over a decade of expertise in residential, commercial, and industrial electrical systems. With a Bachelor's Degree in Electrical Engineering from USTHB and certifications in various specialized fields, I have a strong foundation in both theoretical knowledge and practical skills. I have worked on a wide range of projects, from installing solar panels in rural communities to upgrading commercial lighting systems. My passion for sustainable energy solutions and commitment to electrical safety have driven my career. Whether it's troubleshooting complex issues or providing emergency services, I am dedicated to delivering reliable and efficient electrical solutions to my clients in Algeria.",
     // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
     dateBirthday: undefined,
     streetAdress: " tiaret tiaret asdf asd f",
@@ -191,7 +191,8 @@ export default function ProposalDrawer({ proposal }) {
     //   "https://third-party-test.glitch.me/check.svg?cors=anonymous", // ani dayer hada l url lakhatercch .toDataURL(); ma7abetch temchi m3a l url ta3 doub hadak ygoulek makch m7aded l cors w hadi l image url l9itha hna https://stackblitz.com/edit/cors-corp-image-example?file=src%2Findex.html haka l .toDataURL(); yemchi mais mech3aref ida ilyes ki ydir fetch ida temchi wela la
     // teksar eras fel batel cors w mech3aref w lazem photoProfileSrc yzidha ilyes fel bdd .. khlas na7itha w f edit avatar card radit image tebda null (la bgha l user el src ta3 nafs l image li darha awal mara beh ghi hiya w ymodifi fiha y3awed ytala3ha w khlas) tema ay haja 3andha 3ala9a bel imagesrc na7itha hna ma3andna mandirou biha / mais fel slide seven khatitha kima rahi bah ida dert back moraha next w tefta7 el edit tel9a l image src fel edit mais hna ma3adnach back w next w fel state goulna ga3 la dernaha ra7 tkoun null tema makan hata fayda ki dirha w koun tebghi tdirha fel bdd lazem yzidha ilyes fel bdd w lazem tkoun cors w mech3aref .. tema makalah
 
-    photoProfile: "https://placebear.com/g/200/200",
+    photoProfile:
+      "https://ashallendesign.ams3.cdn.digitaloceanspaces.com/rMbsGOyK6i1KjNkbXff8qLohzM1nWQA8HNGwHF0J.png",
   });
 
   const updateProfileInfo = (newInfo) => {

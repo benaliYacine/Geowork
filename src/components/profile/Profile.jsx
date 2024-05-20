@@ -18,6 +18,7 @@ import Help from "@/components/Job/Help";
 export const EditContext = createContext();
 
 export default function Profile({
+  preview = false,
   expert,
   profileInfo,
   photoProfileSrc = undefined,
@@ -98,12 +99,16 @@ export default function Profile({
               </div>
 
               <Location wilaya={expert.wilaya} city={expert.city} size="lg" />
-              <div className="w-fit">
-                <Help context="The percentage of this expert's successful jobs"
-                profile>
-                  <JobSuccess percentage={65} />
-                </Help>
-              </div>
+              {!preview && (
+                <div className="w-fit">
+                  <Help
+                    context="The percentage of this expert's successful jobs"
+                    profile
+                  >
+                    <JobSuccess percentage={65} />
+                  </Help>
+                </div>
+              )}
             </div>
           </div>
 
@@ -134,10 +139,12 @@ export default function Profile({
             </div>
           </div>
         </div>
-        <GeoworkHistory
-          profileInfo={profileInfo}
-          updateProfileInfo={updateProfileInfo}
-        />
+        {!preview && (
+          <GeoworkHistory
+            profileInfo={profileInfo}
+            updateProfileInfo={updateProfileInfo}
+          />
+        )}
         <EmploymentHistory
           profileInfo={profileInfo}
           updateProfileInfo={updateProfileInfo}

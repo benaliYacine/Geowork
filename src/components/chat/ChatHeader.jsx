@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // Assuming these are correctly imported from your project structure
 import { Button } from "@/components/ui/button";
 import EditBudgetButton from "@/components/chat/EditBudgetButton";
-
+import { getInitials } from "@/lib/utils";
 // Helper function to format the "last seen" message
 function formatLastSeen(lastSeen) {
   if (!lastSeen) return "Active Now";
@@ -16,6 +16,7 @@ function formatLastSeen(lastSeen) {
   if (minutesAgo < 1440)
     return `Active ${Math.round(minutesAgo / 60)} hours ago`;
 
+  return `Active 12 minutes ago`;
   return `Active on ${lastSeenDate.toLocaleDateString()}`;
 }
 
@@ -28,19 +29,19 @@ function isActive(lastSeen) {
 }
 
 function ChatHeader({
-  contactName = "test",
+  contactName = "Bouazziz Ilyes",
   avatarUrl = "test",
   lastSeen = "test",
 }) {
   const contactIsActive = isActive(lastSeen);
-  if(contactName=="") return (<div></div>);
+  if (contactName == "") return <div></div>;
   return (
     <div className="border-b-1 w-full flex justify-between items-center">
       <div className="flex items-start p-2">
         <div className="relative mr-4">
           <Avatar className="w-12">
             <AvatarImage src={avatarUrl} alt={contactName} />
-            <AvatarFallback>{contactName.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{getInitials(contactName)}</AvatarFallback>
           </Avatar>
           {contactIsActive && (
             <span className="absolute bottom-1 right-1 block h-3 w-3 transform translate-x-1/2 translate-y-1/2 bg-green-500 border-2 border-white rounded-full"></span>
@@ -55,7 +56,6 @@ function ChatHeader({
       {/* <EditBudgetButton
         budget=""
       /> */}
-     
     </div>
   );
 }

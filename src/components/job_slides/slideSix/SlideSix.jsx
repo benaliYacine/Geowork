@@ -55,7 +55,7 @@ export default function SlideSix({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="text-md text-primary font-header mb-2">
-            1/6 job post
+            6/6 job post
           </div>
           <h2 className="text-4xl font-bold mb-4">
             last step, Add some photos for your job post

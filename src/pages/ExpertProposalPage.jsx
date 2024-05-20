@@ -20,11 +20,19 @@ import AlertDialog from "@/components/common/AlertDialog";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 const proposalSchema = z.object({
-    budget: z
-        .string()
-        .min(1, "budget is required")
-        // Adjust regex as needed if your input format includes the "DZD" prefix.
-        .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
+  budget: z
+    .string()
+    .min(1, "budget is required")
+    // Adjust regex as needed if your input format includes the "DZD" prefix.
+    .regex(/^DZD  \d{1,3}(, \d{3})*$/, "budget is required"),
+  coverLetter: z
+    .string()
+    .min(10, {
+      message: "Your coverLetter must be at least 10 characters.",
+    })
+    .max(3000, {
+      message: "Your coverLetter must not be longer than 3000 characters.",
+    }),
 });
 
 export default function SubmitProposal() {
