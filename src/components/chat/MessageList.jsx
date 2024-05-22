@@ -31,7 +31,7 @@ const messages = [
       type: "proposal",
       budget: "DZD  5, 500",
       coverLetter:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+        "Hello! \n\n \t I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards.",
       state: "waiting",
     },
     timestamp: "10:00 AM",
@@ -218,15 +218,17 @@ const messages = [
     senderName: "Alice",
     message: {
       type: "invitation",
-      images: ["https://placebear.com/g/200/200"],
-      category: "education_and_tutoring",
-      subCategory: "math_tutor",
-      title: `test test`,
+      images: [
+        "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+      ],
+      category: "home_improvement_and_maintenance",
+      subCategory: "electrician",
+      title: `Residential Wiring Upgrade`,
       budget: "DZD  5, 500",
       description:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
       wilaya: "algiers",
-      city: "Central",
+      city: "sidi_moussa",
       state: "waiting",
     },
     timestamp: "10:00 AM",
@@ -501,8 +503,8 @@ const messages = [
   // Add more messages as needed
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-// function MessageList({messages}) {
-function MessageList({messages, updateMessage}) {
+function MessageList({ updateMessage }) {
+  // function MessageList({messages, updateMessage}) {
   console.log("messageList", messages);
   const messagesEndRef = useRef(null);
   // Scroll to the bottom of the messages list every time the messages change
