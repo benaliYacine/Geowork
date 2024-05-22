@@ -1,8 +1,8 @@
-const Job = require('../models/job');
+const Job = require("../models/job");
 const Client = require("../models/client");
 const Professionnel = require("../models/professionnel");
-const { cloudinary } = require('../cloudinary');
-
+const Message = require("../models/message");
+const { cloudinary } = require("../cloudinary");
 
 /* exports.addPhoto = async (req, res) => {
     try {
@@ -31,11 +31,14 @@ exports.addImage = async (req, res) => {
         console.log("req.file:", req.file);
         if (req.file) {
             const { id } = req.params;
-            const dataImage = { url: req.file.path, filename: req.file.filename };
+            const dataImage = {
+                url: req.file.path,
+                filename: req.file.filename,
+            };
 
             return res.json(dataImage.url);
         } else {
-            console.error('No file uploaded');
+            console.error("No file uploaded");
             return res.status(400).json({ error: "No file uploaded" });
         }
     } catch (error) {
@@ -52,7 +55,7 @@ exports.deletePhoto = async (req, res) => {
         if (idP) {
             //const foundPhoto = job.photos.find(e => e._id == idP);
             //console.log(foundPhoto);
-            job.photos = job.photos.filter(c => c._id != idP);
+            job.photos = job.photos.filter((c) => c._id != idP);
             await cloudinary.uploader.destroy(req.body.filename);
             await job.save(); // Move inside the if block
         }
@@ -61,7 +64,7 @@ exports.deletePhoto = async (req, res) => {
         console.error(error);
         return res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
 //delete plusieur photos yamchi m3a deletephotos.ejs
 /* exports.deletePhotos = async (req, res) => {
@@ -85,8 +88,6 @@ exports.deletePhoto = async (req, res) => {
     }
 } */
 
-
-
 exports.createJob = async (req, res) => {
     try {
         // Crée un nouvel emploi en utilisant les données du corps de la requête\
@@ -94,12 +95,12 @@ exports.createJob = async (req, res) => {
         req.body.idClient = req.session.user_id;
         console.log("body:", req.body);
         console.log("files:", req.files);
-        const imageDataArray = req.files.map(fileData => ({
+        const imageDataArray = req.files.map((fileData) => ({
             url: fileData.path,
-            filename: fileData.filename
+            filename: fileData.filename,
         }));
         const job = new Job(req.body);
-        imageDataArray.forEach(element => {
+        imageDataArray.forEach((element) => {
             job.images.push(element);
         });
         // Recherche le client associé à l'ID fourni dans le corps de la requête
@@ -113,8 +114,6 @@ exports.createJob = async (req, res) => {
 
         const savedJob = await job.save();
 
-
-
         // Ajoute l'emploi à la liste des emplois du client
         client.jobs.push(savedJob._id);
 
@@ -122,30 +121,40 @@ exports.createJob = async (req, res) => {
         await client.save();
         console.log(savedJob);
         // Renvoie la réponse avec l'emploi créé
-        return res.status(201).json({ ...savedJob, redirectUrl: `/jobPostPage/${savedJob._id}` });
+        return res
+            .status(201)
+            .json({ ...savedJob, redirectUrl: `/jobPostPage/${savedJob._id}` });
     } catch (err) {
         // En cas d'erreur, renvoie une réponse avec le message d'erreur
         return res.status(400).json({ message: err.message });
     }
 };
 
-
 exports.addProfessionnelToJob = async (req, res) => {
     try {
-        const { id, idProfessionnel } = req.body;
-
+        const { jobId, id, proId } = req.body;
+        let userId;
+        if (req.session.user_type == "Professionnel") {
+            userId = req.session.user_id;
+        } else {
+            userId = proId;
+        }
         // Input validation
-        if (!id || !idProfessionnel) {
+        if (!jobId || !userId) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        const updatedJob = await Job.findByIdAndUpdate(id, { idProfessionnel: idProfessionnel }, { new: true });
+        const updatedJob = await Job.findByIdAndUpdate(
+            jobId,
+            { idProfessionnel: userId, hired: true },
+            { new: true }
+        );
 
         if (!updatedJob) {
             return res.status(404).json({ message: "Job not found" });
         }
 
-        const professionnel = await Professionnel.findById(idProfessionnel);
+        const professionnel = await Professionnel.findById(userId);
 
         if (!professionnel) {
             return res.status(404).json({ message: "Professionnel not found" });
@@ -153,6 +162,9 @@ exports.addProfessionnelToJob = async (req, res) => {
 
         professionnel.profile.jobs.push(updatedJob._id); // Assuming jobs is an array of job IDs in Professionnel model
         await professionnel.save();
+        const foundMessage = await Message.findById(id);
+        foundMessage.message.state = "accepted";
+        const saveMessage = await foundMessage.save();
 
         return res.status(201).json(updatedJob);
     } catch (error) {
@@ -165,8 +177,10 @@ exports.changeJob = async (req, res) => {
     try {
         console.log("req.body", req.body);
         const { id } = req.params;
-        console.log("images", req.body.images)
-        const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true });
+        console.log("images", req.body.images);
+        const updatedJob = await Job.findByIdAndUpdate(id, req.body, {
+            new: true,
+        });
         return res.status(201).json(updatedJob);
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -178,18 +192,26 @@ exports.deleteJob = async (req, res) => {
         const { id } = req.params;
         const deletedJob = await Job.findByIdAndDelete(id);
         console.log("deleted", deletedJob);
-        await Promise.all(deletedJob.images.map(async (c) => {
-            await cloudinary.uploader.destroy(c.filename);
-        }));
+        await Promise.all(
+            deletedJob.images.map(async (c) => {
+                await cloudinary.uploader.destroy(c.filename);
+            })
+        );
 
         if (deletedJob.idProfessionnel) {
-            const pro = await Professionnel.findById(deletedJob.idProfessionnel);
-            pro.profile.jobs = pro.profile.jobs.filter((j) => (j.toString() !== deletedJob._id.toString()));
+            const pro = await Professionnel.findById(
+                deletedJob.idProfessionnel
+            );
+            pro.profile.jobs = pro.profile.jobs.filter(
+                (j) => j.toString() !== deletedJob._id.toString()
+            );
             await pro.save();
             console.log("pro");
         }
         const cli = await Client.findById(deletedJob.idClient);
-        cli.jobs = cli.jobs.filter((j) => (j.toString() !== deletedJob._id.toString()));
+        cli.jobs = cli.jobs.filter(
+            (j) => j.toString() !== deletedJob._id.toString()
+        );
         console.log("cli.jobs", cli.jobs);
         await cli.save();
         console.log("cli", cli);
@@ -198,7 +220,6 @@ exports.deleteJob = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 };
-
 
 exports.chercheJob = async (req, res) => {
     try {
@@ -234,7 +255,7 @@ exports.addFeedback = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 exports.addSavedJob = async (req, res) => {
     try {
         const { id } = req.body;
@@ -246,19 +267,19 @@ exports.addSavedJob = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 exports.suppSavedJob = async (req, res) => {
     try {
-
         const { id } = req.body;
         const job = await Job.findById(id);
-        console.log("fsdkakjkkkkk")
+        console.log("fsdkakjkkkkk");
         let pro = await Professionnel.findById(req.session.user_id);
-        pro.profile.savedJobs = pro.profile.savedJobs.filter((j) => (j.toString() != job._id.toString()));
+        pro.profile.savedJobs = pro.profile.savedJobs.filter(
+            (j) => j.toString() != job._id.toString()
+        );
         const savedPro = await pro.save();
         return res.status(201).json(savedPro);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
-
+};

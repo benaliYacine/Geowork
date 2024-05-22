@@ -31,7 +31,7 @@ router.post('/createJob',upload.array('images'), JobCtrl.createJob);
 router.patch('/changeJob/:id', JobCtrl.changeJob);
 router.patch('/addSavedJob', JobCtrl.addSavedJob);
 router.patch('/suppSavedJob', JobCtrl.suppSavedJob);
-router.patch('/addProfessionnelToJob/:id', JobCtrl.addProfessionnelToJob); //mazal ndir middlewar t3 hadi
+router.patch('/addProfessionnelToJob', JobCtrl.addProfessionnelToJob); //mazal ndir middlewar t3 hadi
 router.patch('/addFeedback/:id', middlewars.isAuthor, JobCtrl.addFeedback);
 router.delete('/deleteJob/:id', middlewars.isAuthor, JobCtrl.deleteJob);
 router.get('/searchJob', JobCtrl.chercheJob);

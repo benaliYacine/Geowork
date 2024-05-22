@@ -34,7 +34,7 @@ export default function Chat() {
     let { id } = useParams();
     if (!id) id = 1;
     const updateMessage = (id, state) => {
-      console.log("rani ndir fi update",id,state);
+        console.log("rani ndir fi update", id, state);
         setMessages(
             messages.map((m) => {
                 console.log(m.id, id);
@@ -60,7 +60,7 @@ export default function Chat() {
         if (socket === null) return;
         socket.emit("sendMessage", { ...message });
     }, [message]);
-    
+
     //receive Message
     useEffect(() => {
         if (socket === null) return;
@@ -130,16 +130,20 @@ export default function Chat() {
                         console.log("mmm", m);
                         m.message.forEach((ms) => {
                             console.log();
-                            let invitation =
-                                ms.message.type == "invitation"
-                                    ? { ...ms.message.jobId }
+                            let InPrBd =
+                                ms.message.type == "invitation" ||
+                                ms.message.type == "proposal"
+                                    ? {
+                                          ...ms.message.jobId,
+                                      }
                                     : null;
-                            if (invitation) {
-                                delete invitation._id;
-                                delete invitation.hires;
-                                delete invitation.proposals;
-                                if (invitation.images)
-                                    invitation.images = invitation.images.map(
+                            if (InPrBd) {
+                                InPrBd.jobId = InPrBd._id;
+                                delete InPrBd._id;
+                                delete InPrBd.hires;
+                                delete InPrBd.proposals;
+                                if (InPrBd.images)
+                                    InPrBd.images = InPrBd.images.map(
                                         (i) => i.url
                                     );
                             }
@@ -149,7 +153,7 @@ export default function Chat() {
                                 id: ms._id,
                                 senderName:
                                     ms.senderId == id ? "Alice" : "User",
-                                message: { ...invitation, ...ms.message },
+                                message: { ...InPrBd, ...ms.message },
                                 isOwnMessage: ms.senderId == id ? false : true,
                                 timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
                             });
@@ -298,7 +302,10 @@ export default function Chat() {
                 </div>
 
                 <div className=" w-full h-full flex-grow overflow-y-auto">
-                    <MessageList messages={messages} updateMessage={updateMessage} />
+                    <MessageList
+                        messages={messages}
+                        updateMessage={updateMessage}
+                    />
                 </div>
                 <div className="flex-none">
                     {" "}

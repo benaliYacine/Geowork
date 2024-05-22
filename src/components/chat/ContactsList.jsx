@@ -159,7 +159,7 @@ const contacts = [
   // },
 ].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sorting based on time
 
-function ContactsList() {
+function ContactsList({contacts}) {
   const navigate = useNavigate();
   const redirectToMessage = (id) => {
     console.log(id);

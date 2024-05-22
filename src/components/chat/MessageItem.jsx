@@ -13,8 +13,9 @@ import EditBudgetButton from "@/components/chat/EditBudgetButton";
 import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
 import EditLocation from "@/components/chat/Map/EditLocation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { IdentificationIcon } from "@heroicons/react/24/outline";
 
 function MessageItem({
     senderName,
@@ -26,13 +27,40 @@ function MessageItem({
     updateMessage,
 }) {
     const navigate = useNavigate();
+    let proId = useParams().id;
     const [messageState, setMessageState] = useState(message.state);
     //const [rerender, setRerender] = useState(false);
     const withrawProposal = async () => {
         const response = await axios.patch("withrawProposal", { id });
         setMessageState("withrawed");
         console.log("ProposalWithrawed", response.data);
-        updateMessage(id, "withrawed");
+    };
+    const acceptInvitation = async () => {
+        const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
+            jobId: message.jobId,
+            id,
+        });
+        console.log("acceptInvitation", response.data);
+        setMessageState("accepted");
+    };
+    const acceptProposal = async () => {
+        const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
+            jobId: message.jobId,
+            id,
+            proId,
+        });
+        console.log("acceptProposal", response.data);
+        setMessageState("accepted");
+    };
+    const denyInvitation = async () => {
+        const response = await axios.patch("/denyInvitation", { id });
+        console.log("denyInvitation", response.data);
+        setMessageState("denied");
+    };
+    const cancelBudgetEdit = async () => {
+        const response = await axios.patch("/cancelBudgetEdit", { id });
+        console.log("cancelBudgetEdit", response.data);
+        setMessageState("withrawed");
     };
 
     function budgetRenderFootereRecieved(isClient) {
@@ -86,7 +114,7 @@ function MessageItem({
                         <AlertDialog
                             title="cancel budget edit suggestion"
                             description="Are you sure you want to cancel this budget edit suggestion"
-                            action={() => {}}
+                            action={cancelBudgetEdit}
                             actionButtonText="yes"
                         >
                             <Button variant="outline" size="sm">
@@ -135,7 +163,7 @@ function MessageItem({
                         <AlertDialog
                             title="Hire geoworker"
                             description="Are you sure you want to Hire this geoworker"
-                            action={() => {}}
+                            action={acceptProposal}
                             actionButtonText="Hire"
                         >
                             <Button size="sm">Hire</Button>
@@ -280,7 +308,7 @@ function MessageItem({
                         <AlertDialog
                             title="deny invitation"
                             description="Are you sure you want to deny this job invitation"
-                            action={() => {}}
+                            action={denyInvitation}
                             actionButtonText="deny"
                         >
                             <Button variant="primary2" size="sm">
@@ -290,7 +318,7 @@ function MessageItem({
                         <AlertDialog
                             title="accept invitation"
                             description="Are you sure you want to accept this job invitation"
-                            action={() => {}}
+                            action={acceptInvitation}
                             actionButtonText="accept"
                         >
                             <Button size="sm">Accept</Button>
@@ -495,7 +523,13 @@ function MessageItem({
                                     Open Proposal
                                 </Button>
                             ) : (
-                                <Button variant="primary2" size="sm">
+                                <Button
+                                    variant="primary2"
+                                    size="sm"
+                                    onClick={() => {
+                                        navigate(`/expertProposalPage/${id}`);
+                                    }}
+                                >
                                     View Details
                                 </Button>
                             )}
@@ -530,11 +564,23 @@ function MessageItem({
                                 {message.title}
                             </h3>
                             {isOwnMessage ? (
-                                <Button variant="primary2" size="sm">
+                                <Button
+                                    variant="primary2"
+                                    size="sm"
+                                    onClick={() => {
+                                        navigate(`/job/${message.jobId}`);
+                                    }}
+                                >
                                     Open Job Post
                                 </Button>
                             ) : (
-                                <Button variant="primary2" size="sm">
+                                <Button
+                                    variant="primary2"
+                                    size="sm"
+                                    onClick={() => {
+                                        navigate(`/job/${message.jobId}`);
+                                    }}
+                                >
                                     view job post
                                 </Button>
                             )}

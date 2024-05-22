@@ -53,6 +53,10 @@ const jobsSchema = new mongoose.Schema({
         min: 0,
         max: 5,
     },
+    hired:{
+        type: Boolean,
+        default:false
+    },
     proposals: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Professionnel",

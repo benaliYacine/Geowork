@@ -719,20 +719,36 @@ app.patch(
         res.json(saveMessage);
     }
 );
+app.patch("/cancelBudgetEdit", async (req, res) => {
+    const { id } = req.body;
+    const foundMessage = await Message.findById(id);
+    if (foundMessage) foundMessage.message.state = "withrawed";
+    const saveMessage=await foundMessage.save();
+    res.json(saveMessage);
+});
+app.patch("/denyInvitation", async (req, res) => {
+    const { id } = req.body;
+    console.log("id", id);
+    const foundMessage = await Message.findById(id);
+    console.log("foundMessage", foundMessage);
+    if (foundMessage) foundMessage.message.state = "denied";
+    await foundMessage.save();
+    res.json(foundMessage);
+});
 app.get(
     "/expertProposalPage/:id",
-    middlewars.requireLoginProfessionnel,
     async (req, res) => {
         const { id } = req.params;
 
         const message = await Message.findById(id)
             .populate("message.jobId")
             .lean();
-        if (message && message.senderId != req.session.user_id)
-            res.json({ redirectUrl: "/dashboard" });
+        if (!message || message == {}) {
+            return res.json({ redirectUrl: "/dashboard" });
+        }
         console.log("okkkkk");
         console.log("Message---------", message);
-        res.json({
+        return res.json({
             ...message.message.jobId,
             budgetProposal: message.message.budget,
             coverLetter: message.message.coverLetter,
@@ -741,8 +757,8 @@ app.get(
 );
 app.post("/addMessage", async (req, res) => {
     let recipientId = req.body.id;
-    const senderId = req.session.user_id;
-    const senderType = req.session.user_type;
+    const senderId = req.body.user_id;
+    const senderType = req.body.user_type;
     const jobId =
         req.body.message && req.body.message.jobId
             ? req.body.message.jobId
