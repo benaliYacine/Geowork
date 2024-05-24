@@ -38,6 +38,19 @@ const messages = [
     isOwnMessage: false,
   },
   {
+    id: 0,
+    senderName: "Alice",
+    message: {
+      type: "proposal",
+      budget: "DZD  5, 500",
+      coverLetter:
+        "Hello! \n\n \t I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards.",
+      state: "waiting",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
+  },
+  {
     id: 1,
     senderName: "Alice",
     message: {
@@ -233,6 +246,27 @@ const messages = [
     },
     timestamp: "10:00 AM",
     isOwnMessage: false,
+  },
+  {
+    id: 10,
+    senderName: "Alice",
+    message: {
+      type: "invitation",
+      images: [
+        "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+      ],
+      category: "home_improvement_and_maintenance",
+      subCategory: "electrician",
+      title: `Residential Wiring Upgrade`,
+      budget: "DZD  5, 500",
+      description:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+      wilaya: "algiers",
+      city: "sidi_moussa",
+      state: "waiting",
+    },
+    timestamp: "10:00 AM",
+    isOwnMessage: true,
   },
   {
     id: 12,
