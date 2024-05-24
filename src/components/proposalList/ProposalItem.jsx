@@ -45,6 +45,16 @@ export default function ProposalItem({ proposal }) {
               Message
             </Button>
             <AlertDialog
+              title="deny proposal"
+              description="Are you sure you want to deny this proposal"
+              action={() => {}}
+              actionButtonText="deny"
+            >
+              <Button variant="primary2" size="sm">
+                deny
+              </Button>
+            </AlertDialog>
+            <AlertDialog
               title="Hire expert"
               description="Are you sure you want to Hire this expert"
               action={() => {}}

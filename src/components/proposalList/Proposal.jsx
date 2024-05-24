@@ -10,6 +10,7 @@ import CollapsibleTextContainer from "@/components/common/CollapsibleTextContain
 import { getInitials } from "@/lib/utils";
 import axios from "axios";
 import { EditContext } from "@/components/profile/Profile";
+import AlertDialog from "@/components/common/AlertDialog";
 
 export default function Proposal({
   proposal,
@@ -48,8 +49,27 @@ export default function Proposal({
                 </h2>
                 {action && (
                   <div className="flex gap-4 items-center">
-                    <Button variant="outline">Message</Button>
-                    <Button>Hire</Button>
+                    <Button variant="outline">
+                      Message
+                    </Button>
+                    <AlertDialog
+                      title="deny proposal"
+                      description="Are you sure you want to deny this proposal"
+                      action={() => {}}
+                      actionButtonText="deny"
+                    >
+                      <Button variant="primary2" >
+                        deny
+                      </Button>
+                    </AlertDialog>
+                    <AlertDialog
+                      title="Hire expert"
+                      description="Are you sure you want to Hire this expert"
+                      action={() => {}}
+                      actionButtonText="Hire"
+                    >
+                      <Button >Hire</Button>
+                    </AlertDialog>
                   </div>
                 )}
               </div>
