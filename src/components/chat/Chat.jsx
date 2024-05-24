@@ -33,18 +33,11 @@ export default function Chat() {
     const [socket, setSocket] = useState(null);
     let { id } = useParams();
     if (!id) id = 1;
-    const updateMessage = (id, state) => {
-        console.log("rani ndir fi update", id, state);
-        setMessages(
-            messages.map((m) => {
-                console.log(m.id, id);
-                if (m.id == id) {
-                    m.message.state = state;
-                    console.log(m.message);
-                }
-                return m;
-            })
-        );
+    const updateMessage = (message) => {
+        message.isOwnMessage = true;
+        message.timestamp = `${new Date(Date.now()).getHours()}:${String(new Date(Date.now()).getMinutes()).padStart(2, "0")}`;
+        console.log("updateMessage",message);
+        setMessages([...messages, message ]);
     };
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");

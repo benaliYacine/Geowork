@@ -165,28 +165,28 @@ function ContactsList({contacts}) {
     console.log(id);
     navigate(`/messages/${id}`);
   };
-    // contacts = contacts.map((c) => {
-    //   const currentTime = new Date(); // Date et heure actuelles
-    //   const messageTime = new Date(c.time); // Heure du message
+    contacts = contacts.map((c) => {
+      const currentTime = new Date(); // Date et heure actuelles
+      const messageTime = new Date(c.time); // Heure du message
 
-    //   let time; // Déclarer la variable de temps
+      let time; // Déclarer la variable de temps
 
-    //   // Vérifier si le message est de la journée actuelle
-    //   if (currentTime.toDateString() === messageTime.toDateString()) {
-    //       // Si le message a été envoyé aujourd'hui, afficher l'heure et les minutes
-    //       time = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    //   } else {
-    //       // Si le message n'a pas été envoyé aujourd'hui, afficher la date
-    //       time = messageTime.toLocaleDateString('en-US', {
-    //           day: 'numeric',
-    //           month: 'short',
-    //           year: 'numeric'
-    //       });
-    //   }
+      // Vérifier si le message est de la journée actuelle
+      if (currentTime.toDateString() === messageTime.toDateString()) {
+          // Si le message a été envoyé aujourd'hui, afficher l'heure et les minutes
+          time = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } else {
+          // Si le message n'a pas été envoyé aujourd'hui, afficher la date
+          time = messageTime.toLocaleDateString('en-US', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+          });
+      }
 
-  //     // Retourner l'objet de contact modifié avec le temps formaté
-  //     return { ...c, time };
-  // });
+      // Retourner l'objet de contact modifié avec le temps formaté
+      return { ...c, time };
+  });
 
   return (
     <ScrollArea className="w-full h-full max-w-xs rounded-2xl bg-white my-3">

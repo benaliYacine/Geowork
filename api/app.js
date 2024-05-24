@@ -735,6 +735,22 @@ app.patch("/denyInvitation", async (req, res) => {
     await foundMessage.save();
     res.json(foundMessage);
 });
+app.patch('/editLocation',async (req,res)=>{
+    let message= await Message.findById(req.body.id);
+    if(message){
+        message.message.location=req.body.location;
+    }
+    return res.json(message);
+})
+app.get("/fetchWilayaData",middlewars.isLoginIn, async(req,res)=>{
+    const user =
+        req.session.user_type == "Client"
+            ? await Client.findById(req.session.user_id)
+            : await Professionnel.findById(req.session.user_id);
+    if(user){
+        return res.json({wilaya:user.wilaya});
+    }
+});
 app.get(
     "/expertProposalPage/:id",
     async (req, res) => {
@@ -757,8 +773,8 @@ app.get(
 );
 app.post("/addMessage", async (req, res) => {
     let recipientId = req.body.id;
-    const senderId = req.body.user_id;
-    const senderType = req.body.user_type;
+    const senderId = req.session.user_id;
+    const senderType = req.session.user_type;
     const jobId =
         req.body.message && req.body.message.jobId
             ? req.body.message.jobId

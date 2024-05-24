@@ -62,6 +62,11 @@ function MessageItem({
         console.log("cancelBudgetEdit", response.data);
         setMessageState("withrawed");
     };
+    const editLocation = async (location) => {
+        const response = await axios.patch("/editLocation", { id, location });
+        console.log("editLocation",response.data);
+        
+    };
 
     function budgetRenderFootereRecieved(isClient) {
         switch (messageState) {
@@ -158,7 +163,11 @@ function MessageItem({
             </Button>
           </AlertDialog> */}
 
-                        <EditBudgetButton budget="" />
+                        <EditBudgetButton
+                            updateMessage={updateMessage}
+                            jobId={message.jobId}
+                            budget={message.budget}
+                        />
 
                         <AlertDialog
                             title="Hire geoworker"
@@ -178,7 +187,7 @@ function MessageItem({
                         </p>
                         <div className="flex justify-end w-full gap-2">
                             <CloseJobDialog />
-                            <SendLocation />
+                            <SendLocation updateMessage={updateMessage} />
                         </div>
                     </div>
                 );
@@ -459,7 +468,10 @@ function MessageItem({
                                     the geoworker
                                 </p>
                                 <div className="flex justify-end w-full gap-2">
-                                    <EditLocation location={message.location} />
+                                    <EditLocation
+                                        editLocation={editLocation}
+                                        location={message.location}
+                                    />
                                 </div>
                             </>
                         ) : (

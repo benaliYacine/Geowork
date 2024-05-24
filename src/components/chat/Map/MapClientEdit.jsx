@@ -51,7 +51,7 @@ const MyComponent = () => {
   return <></>;
 };
 
-export default function MapCompo({ center, location }) {
+export default function MapCompo({editLocation, center, location }) {
   const GOOGLE_MAPS_API_KEY = "AIzaSyCPWOgGlKyOIg905D1j2vGYnDgY3iJfAPM";
 
   const [showMarker, setShowMarker] = useState(location);
@@ -301,6 +301,7 @@ export default function MapCompo({ center, location }) {
         <Button
           disabled={!jobLocation}
           onClick={() => {
+            editLocation(jobLocation);
             console.log(jobLocation);
           }}
         >

@@ -47,6 +47,7 @@ const messageSchema = new mongoose.Schema({
         },
         state: {
             type: String,
+            default:"waiting"
         },
         budget: {
             type: String,

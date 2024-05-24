@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react"; // Ensure useState is imported like this
-
+import axios from 'axios';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid } from "lucide-react";
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/drawer";
 import { easeInOutSine, easeInCubic, easeOutCubic } from "./easingFunctions";
 import moveTo from "./moveTo";
-
+import { useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
@@ -51,9 +51,9 @@ const MyComponent = () => {
   return <></>;
 };
 
-export default function MapCompo({ center }) {
+export default function MapCompo({updateMessage, center }) {
   const GOOGLE_MAPS_API_KEY = "AIzaSyCPWOgGlKyOIg905D1j2vGYnDgY3iJfAPM";
-
+  const {id}=useParams();
   const [showMarker, setShowMarker] = useState(null);
   const [userLocationMarker, setUserLocationMarker] = useState(null);
   const [zoom, setZoom] = useState(7);
@@ -169,6 +169,22 @@ export default function MapCompo({ center }) {
   const backToYourWilaya = () => {
     moveTo(zoom, 13, setZoom, lastMapEventCenter, center, setCenter);
   };
+
+  const sendJobLocation = async ()=>{
+    let message = {
+        id: id,
+        message: {
+            type: "jobLocation",
+            location: jobLocation,
+        },
+    };
+    const response =await axios.post('/addMessage',message);
+    if(response.data){
+      message.id=response.data._id
+    }
+    updateMessage(message);
+    console.log("jobLocation",response.data);
+  }
 
   return (
     <div
@@ -292,9 +308,9 @@ export default function MapCompo({ center }) {
 
         <Button
           disabled={!jobLocation}
-          onClick={() => {
-            console.log(jobLocation);
-          }}
+          onClick={
+            sendJobLocation
+          }
         >
           send as job location
         </Button>
