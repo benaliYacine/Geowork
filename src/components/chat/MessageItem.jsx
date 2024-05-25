@@ -64,8 +64,7 @@ function MessageItem({
     };
     const editLocation = async (location) => {
         const response = await axios.patch("/editLocation", { id, location });
-        console.log("editLocation",response.data);
-        
+        console.log("editLocation", response.data);
     };
 
     function budgetRenderFootereRecieved(isClient) {
@@ -149,171 +148,177 @@ function MessageItem({
     }
     function proposalRenderFootereRecieved() {
         switch (messageState) {
-          case "waiting":
-            return (
-              <div className="flex justify-end w-full gap-2">
-                <EditBudgetButton
-                  updateMessage={updateMessage}
-                  jobId={message.jobId}
-                  budget={message.budget}
-                />
-                <AlertDialog
-                  title="deny proposal"
-                  description="Are you sure you want to deny this proposal"
-                  action={() => {}}
-                  actionButtonText="deny"
-                >
-                  <Button variant="primary2" size="sm">
-                    deny
-                  </Button>
-                </AlertDialog>
-                <AlertDialog
-                  title="Hire geoworker"
-                  description="Are you sure you want to Hire this geoworker"
-                  action={acceptProposal}
-                  actionButtonText="Hire"
-                >
-                  <Button size="sm">Hire</Button>
-                </AlertDialog>
-              </div>
-            );
-          case "accepted":
-            return (
-              <div className="flex flex-col gap-2 w-full">
-                <p className=" text-md text-success w-full">
-                  you have hired this geoworker.
-                </p>
-                <div className="flex justify-end w-full gap-2">
-                  <CloseJobDialog />
-                  <SendLocation updateMessage={updateMessage} />
-                </div>
-              </div>
-            );
-          case "denied":
-            return (
-              <p className=" text-md text-destructive w-full">
-                you have denied this proposal
-              </p>
-            );
-          case "closed":
-            return (
-              <div className="flex flex-col gap-2 w-full">
-                <p className=" text-md text-success w-full">
-                  you have closed this job.
-                </p>
-              </div>
-            );
-          case "canceled":
-            return (
-              <div className="flex flex-col gap-2 w-full">
-                <p className=" text-md text-destructive w-full">
-                  you have canceled this job.
-                </p>
-              </div>
-            );
+            case "waiting":
+                return (
+                    <div className="flex justify-end w-full gap-2">
+                        <EditBudgetButton
+                            updateMessage={updateMessage}
+                            jobId={message.jobId}
+                            budget={message.budget}
+                        />
+                        <AlertDialog
+                            title="deny proposal"
+                            description="Are you sure you want to deny this proposal"
+                            action={() => {}}
+                            actionButtonText="deny"
+                        >
+                            <Button variant="primary2" size="sm">
+                                deny
+                            </Button>
+                        </AlertDialog>
+                        <AlertDialog
+                            title="Hire geoworker"
+                            description="Are you sure you want to Hire this geoworker"
+                            action={acceptProposal}
+                            actionButtonText="Hire"
+                        >
+                            <Button size="sm">Hire</Button>
+                        </AlertDialog>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have hired this geoworker.
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <CloseJobDialog />
+                            <SendLocation updateMessage={updateMessage} />
+                        </div>
+                    </div>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have denied this proposal
+                    </p>
+                );
+            case "closed":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have closed this job.
+                        </p>
+                    </div>
+                );
+            case "canceled":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-destructive w-full">
+                            you have canceled this job.
+                        </p>
+                    </div>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have denied this proposal
+                    </p>
+                );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        the geoworker has withrawed his proposal
+                    </p>
+                );
 
-          //makach diny el client maye9derch y deny proposal
-          // case "denied":
-          //   return (
-          //     <p className=" text-md text-destructive w-full">
-          //       you have denied this job invitation
-          //     </p>
-          //   );
-
-          default:
-            return null;
+            default:
+                return null;
         }
     }
     function proposalRenderFooterSent() {
         switch (messageState) {
-          case "waiting":
-            return (
-              <div className="flex flex-col gap-2 w-full">
-                <p className=" text-md text-warningDark w-full">no reply yet</p>
-                <div className="flex justify-end w-full gap-2">
-                  <AlertDialog
-                    title="Withraw Proposal"
-                    description="Are you sure you want to Withraw your Proposal"
-                    action={withrawProposal}
-                    actionButtonText="Withraw"
-                  >
-                    <Button variant="outline" size="sm">
-                      {/* Cancel  */}
-                      Withraw Proposal
-                    </Button>
-                  </AlertDialog>
+            case "waiting":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-warningDark w-full">
+                            no reply yet
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="Withraw Proposal"
+                                description="Are you sure you want to Withraw your Proposal"
+                                action={withrawProposal}
+                                actionButtonText="Withraw"
+                            >
+                                <Button variant="outline" size="sm">
+                                    {/* Cancel  */}
+                                    Withraw Proposal
+                                </Button>
+                            </AlertDialog>
 
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      navigate(`/expertProposalPage/${id}`);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </div>
-              </div>
-            );
-          case "accepted":
-            return (
-              <p className=" text-md text-success w-full">
-                the client has hired you
-                {/* ask him to share the exact job location with you so you can... */}
-              </p>
-            );
-          case "denied":
-            return (
-              <p className=" text-md text-destructive w-full">
-                The client has denied your proposal
-              </p>
-            );
-          case "closed":
-            return (
-              <>
-                {" "}
-                <p className=" text-md text-success w-full">
-                  the client has closed the job
-                  {/* ask him to share the exact job location with you so you can... */}
-                </p>
-                <div className="flex justify-end w-full gap-2">
-                  <LeaveFeedback />
-                </div>
-              </>
-            );
-          case "canceled":
-            return (
-              <>
-                {" "}
-                <p className=" text-md text-destructive w-full">
-                  the client has canceled the job
-                  {/* ask him to share the exact job location with you so you can... */}
-                </p>
-                <div className="flex justify-end w-full gap-2">
-                  <ReportComplete />
-                </div>
-              </>
-            );
-          case "reported":
-            return (
-              <>
-                {" "}
-                <p className=" text-md text-success w-full">
-                  You have reported the job as completed. We will review the
-                  images and update the job status accordingly
-                  {/* ask him to share the exact job location with you so you can... */}
-                </p>
-              </>
-            );
-          // makach deny fel proposal
-          // case "denied":
-          //   return (
-          //     <p className=" text-md text-destructive w-full">
-          //       The geoworker has denied your job invitation
-          //     </p>
-          //   );
+                            <Button
+                                size="sm"
+                                onClick={() => {
+                                    navigate(`/expertProposalPage/${id}`);
+                                }}
+                            >
+                                Edit
+                            </Button>
+                        </div>
+                    </div>
+                );
+            case "accepted":
+                return (
+                    <p className=" text-md text-success w-full">
+                        the client has hired you
+                        {/* ask him to share the exact job location with you so you can... */}
+                    </p>
+                );
+            case "denied":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        The client has denied your proposal
+                    </p>
+                );
+            case "closed":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            the client has closed the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <LeaveFeedback />
+                        </div>
+                    </>
+                );
+            case "canceled":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-destructive w-full">
+                            the client has canceled the job
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <ReportComplete />
+                        </div>
+                    </>
+                );
+            case "reported":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            You have reported the job as completed. We will
+                            review the images and update the job status
+                            accordingly
+                            {/* ask him to share the exact job location with you so you can... */}
+                        </p>
+                    </>
+                );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have withrawed your proposal
+                    </p>
+                );
 
-          default:
-            return null;
+            default:
+                return null;
         }
     }
     function invitationRenderFooterRecieved() {
@@ -380,6 +385,12 @@ function MessageItem({
                             <ReportComplete />
                         </div>
                     </>
+                );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        the client has withrawed his invitation
+                    </p>
                 );
             case "reported":
                 return (
@@ -455,6 +466,12 @@ function MessageItem({
                         </p>
                     </div>
                 );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have withrawed your invitation
+                    </p>
+                );
 
             default:
                 return null;
@@ -504,7 +521,7 @@ function MessageItem({
                             </p>
                         ) : (
                             <p className=" text-md text-black ">
-                                {isClient ? "The expert" : "The Client"} has
+                                {isClient ? "The geoworker" : "The Client"} has
                                 send a budget edit suggestion
                             </p>
                         )}
@@ -560,7 +577,7 @@ function MessageItem({
                             </p>
                         ) : (
                             <p className=" text-md text-black ">
-                                You have recieved a proposal from this expert
+                                You have recieved a proposal from this geoworker
                             </p>
                         )}
                         <p className="w-full p-4 bg-bg rounded-3xl">
