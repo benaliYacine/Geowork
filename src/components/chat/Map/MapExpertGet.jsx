@@ -345,7 +345,7 @@ function Directions({ origin, destination }) {
               className=" text-black hover:text-primary px-2 py-1 text-wrap text-start"
               onClick={() => setRouteIndex(index)}
             >
-              <Compass className="mr-2 stroke-[1.5px] w-5" />
+              <Compass className="mr-2 stroke-[1.5px] min-w-5 w-4 min-h-5 h-5" />
               {route.summary}
             </Button>
           </li>
