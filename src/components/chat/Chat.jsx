@@ -125,7 +125,8 @@ export default function Chat() {
                             console.log();
                             let InPrBd =
                                 ms.message.type == "invitation" ||
-                                ms.message.type == "proposal"
+                                ms.message.type == "proposal" ||
+                                ms.message.type == "budgetEdit"
                                     ? {
                                           ...ms.message.jobId,
                                       }

@@ -1,6 +1,6 @@
 //hna dir schema t3 collection client
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const professionnelSchema = new mongoose.Schema({
     name: {
         first: {
@@ -154,6 +154,10 @@ const professionnelSchema = new mongoose.Schema({
             anne: Number,
         },
         jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+        numJobCanceled: {
+            type: Number,
+            default: 0,
+        },
         savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
         rate: {
             type: Number,
@@ -198,12 +202,11 @@ professionnelSchema.statics.findAndValidate = async function (email, password) {
 
     const isValid = await bcrypt.compare(password, foundUser.password);
     return isValid ? foundUser : false;
-}
+};
 
-
-professionnelSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+professionnelSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
     next();
-})
+});
 module.exports = mongoose.model("Professionnel", professionnelSchema); //dir export lemodel li hya class fiha des attribue w des methods

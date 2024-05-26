@@ -16,6 +16,10 @@ const jobsSchema = new mongoose.Schema({
         type: String,
         //enum:[]//hadi nzidha ki natfahmo 3la les category
     },
+    closed: {
+        type: Boolean,
+        default: false,
+    },
     /* level: {
         type: String
         //enum:
@@ -53,18 +57,22 @@ const jobsSchema = new mongoose.Schema({
         min: 0,
         max: 5,
     },
-    hired:{
+    hired: {
         type: Boolean,
-        default:false
+        default: false,
     },
-    proposals: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Professionnel",
-    }],
-    hires: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Professionnel",
-    }],
+    proposals: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Professionnel",
+        },
+    ],
+    hires: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Professionnel",
+        },
+    ],
 });
 
 module.exports = mongoose.model("Job", jobsSchema); //dir export lemodel li hya class fiha des attribue w des methods
