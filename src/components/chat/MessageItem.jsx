@@ -112,6 +112,13 @@ function MessageItem({
                         you have denied this budget edit suggestion
                     </p>
                 );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-success w-full">
+                        {isClient ? "The geoworker" : "The Client"} has
+                        withdrawn his budget edit suggestion
+                    </p>
+                );
 
             default:
                 return null;
@@ -146,6 +153,12 @@ function MessageItem({
                     <p className=" text-md text-destructive w-full">
                         {isClient ? "The geoworker" : "The Client"} has denied
                         your budget edit suggestion
+                    </p>
+                );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have withdrawn this buget edit suggestion
                     </p>
                 );
 
@@ -230,7 +243,7 @@ function MessageItem({
             case "withrawed":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the geoworker has withrawed his proposal
+                        the geoworker has withdrawn his proposal
                     </p>
                 );
 
@@ -324,7 +337,7 @@ function MessageItem({
             case "withrawed":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawed your proposal
+                        you have withdrawn your proposal
                     </p>
                 );
 
@@ -400,7 +413,7 @@ function MessageItem({
             case "withrawed":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the client has withrawed his invitation
+                        the client has withdrawn his invitation
                     </p>
                 );
             case "reported":
@@ -480,7 +493,7 @@ function MessageItem({
             case "withrawed":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawed your invitation
+                        you have withdrawn your invitation
                     </p>
                 );
 
