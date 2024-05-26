@@ -97,6 +97,10 @@ function App() {
                       path="/submitProposal/:id"
                       element={<SubmitProposal />}
                   />
+                  <Route
+                      path="/submitProposal/"
+                      element={<SubmitProposal />}
+                  />
                   <Route path="/job" element={<Job />} />
                   <Route path="/job/:id" element={<Job />} />
                   <Route path="*" element={<NoPage />} />

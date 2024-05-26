@@ -273,10 +273,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -292,10 +294,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -311,10 +315,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -330,10 +336,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -349,10 +357,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -368,10 +378,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -387,10 +399,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -406,10 +420,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -425,10 +441,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -444,10 +462,12 @@ const messages = [
         senderName: "Alice",
         message: {
             type: "invitation",
-            images: ["https://placebear.com/g/200/200"],
-            category: "education_and_tutoring",
-            subCategory: "math_tutor",
-            title: `test test`,
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
             budget: "DZD  5, 500",
             description:
                 "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
@@ -457,6 +477,48 @@ const messages = [
         },
         timestamp: "10:00 AM",
         isOwnMessage: false,
+    },
+    {
+        id: 16,
+        senderName: "Alice",
+        message: {
+            type: "invitation",
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
+            budget: "DZD  5, 500",
+            description:
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+            wilaya: "algiers",
+            city: "Central",
+            state: "withrawed",
+        },
+        timestamp: "10:00 AM",
+        isOwnMessage: false,
+    },
+    {
+        id: 16,
+        senderName: "Alice",
+        message: {
+            type: "invitation",
+            images: [
+                "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+            ],
+            category: "home_improvement_and_maintenance",
+            subCategory: "electrician",
+            title: `Residential Wiring Upgrade`,
+            budget: "DZD  5, 500",
+            description:
+                "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+            wilaya: "algiers",
+            city: "Central",
+            state: "withrawed",
+        },
+        timestamp: "10:00 AM",
+        isOwnMessage: true,
     },
     {
         id: 17,
@@ -537,16 +599,16 @@ const messages = [
     // Add more messages as needed
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-function MessageList({ messages, updateMessage }) {
-    // function MessageList({messages=[], updateMessage}) {
-    console.log("messageList", messages);
-    const messagesEndRef = useRef(null);
-    // Scroll to the bottom of the messages list every time the messages change
-    useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({});
-        }
-    }, [messages]);
+// function MessageList({updateMessage }) {
+  function MessageList({messages=[], updateMessage}) {
+  console.log("messageList", messages);
+  const messagesEndRef = useRef(null);
+  // Scroll to the bottom of the messages list every time the messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({});
+    }
+  }, [messages]);
 
     return (
         <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
