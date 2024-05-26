@@ -52,6 +52,13 @@ function MessageItem({
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
     };
+    const denyProposal = async () => {
+        const response = await axios.patch("/denyProposal", {
+            id,
+        });
+        console.log("denyProposal", response.data);
+        setMessageState("denied");
+    };
     const denyInvitation = async () => {
         const response = await axios.patch("/denyInvitation", { id });
         console.log("denyInvitation", response.data);
@@ -159,7 +166,7 @@ function MessageItem({
                         <AlertDialog
                             title="deny proposal"
                             description="Are you sure you want to deny this proposal"
-                            action={() => {}}
+                            action={denyProposal}
                             actionButtonText="deny"
                         >
                             <Button variant="primary2" size="sm">
@@ -183,7 +190,11 @@ function MessageItem({
                             you have hired this geoworker.
                         </p>
                         <div className="flex justify-end w-full gap-2">
-                            <CloseJobDialog />
+                            <CloseJobDialog
+                                setMessageState={setMessageState}
+                                id={id}
+                                jobId={message.jobId}
+                            />
                             <SendLocation updateMessage={updateMessage} />
                         </div>
                     </div>

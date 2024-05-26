@@ -723,7 +723,7 @@ app.patch("/cancelBudgetEdit", async (req, res) => {
     const { id } = req.body;
     const foundMessage = await Message.findById(id);
     if (foundMessage) foundMessage.message.state = "withrawed";
-    const saveMessage=await foundMessage.save();
+    const saveMessage = await foundMessage.save();
     res.json(saveMessage);
 });
 app.patch("/denyInvitation", async (req, res) => {
@@ -735,42 +735,93 @@ app.patch("/denyInvitation", async (req, res) => {
     await foundMessage.save();
     res.json(foundMessage);
 });
-app.patch('/editLocation',async (req,res)=>{
-    let message= await Message.findById(req.body.id);
-    if(message){
-        message.message.location=req.body.location;
+app.patch("/denyProposal", async (req, res) => {
+    const { id } = req.body;
+    console.log("id", id);
+    const foundMessage = await Message.findById(id);
+    console.log("foundMessage", foundMessage);
+    if (foundMessage) foundMessage.message.state = "denied";
+    await foundMessage.save();
+    res.json(foundMessage);
+});
+app.patch("/editLocation", async (req, res) => {
+    let message = await Message.findById(req.body.id);
+    if (message) {
+        message.message.location = req.body.location;
     }
     return res.json(message);
-})
-app.get("/fetchWilayaData",middlewars.isLoginIn, async(req,res)=>{
+});
+app.get("/fetchWilayaData", middlewars.isLoginIn, async (req, res) => {
     const user =
         req.session.user_type == "Client"
             ? await Client.findById(req.session.user_id)
             : await Professionnel.findById(req.session.user_id);
-    if(user){
-        return res.json({wilaya:user.wilaya});
+    if (user) {
+        return res.json({ wilaya: user.wilaya });
     }
 });
-app.get(
-    "/expertProposalPage/:id",
-    async (req, res) => {
-        const { id } = req.params;
+app.patch("/closeJob", async (req, res) => {
+    const message = await Message.findById(req.body.id);
+    const job = await Job.findById(req.body.jobId);
+    message.message.state = "closed";
+    job.feedback = req.body.description;
+    job.rate = req.body.rating;
+    job.closed = true;
+    const user = await Professionnel.findById(job.idProfessionnel).populate(
+        "profile.jobs"
+    );
 
-        const message = await Message.findById(id)
-            .populate("message.jobId")
-            .lean();
-        if (!message || message == {}) {
-            return res.json({ redirectUrl: "/dashboard" });
-        }
-        console.log("okkkkk");
-        console.log("Message---------", message);
-        return res.json({
-            ...message.message.jobId,
-            budgetProposal: message.message.budget,
-            coverLetter: message.message.coverLetter,
-        });
+    const jobclosed = user.profile.jobs.filter((j) => j.closed);
+
+    console.log("jobclosed", jobclosed);
+    let numJobClosed = 0;
+    for (let i = 0; i < jobclosed.length; i++) {
+        numJobClosed++;
     }
-);
+    user.profile.rate =
+        (numJobClosed * user.profile.rate + req.body.rating) /
+        (numJobClosed + 1);
+    // console.log("user",user);
+    console.log("numJobClosed", numJobClosed);
+    // console.log("jobclosed", jobclosed);
+    // console.log("new professionnel rating", user.profile.rate);
+    // console.log(message);
+    // console.log(job);
+    await message.save();
+    await job.save();
+    await user.save();
+    res.json(message);
+});
+app.patch("/cancelJob", async (req, res) => {
+    const message = await Message.findById(req.body.id);
+    const job = await Job.findById(req.body.jobId);
+    message.message.state = "canceled";
+    const user = await Professionnel.findById(job.idProfessionnel);
+    user.profile.numJobCanceled++;
+    user.profile.jobs = user.profile.jobs.filter((j) => j != req.body.jobId);
+    console.log("user.profile.numJobCanceled", user.profile.numJobCanceled);
+    console.log("job.idProfessionnel", job.idProfessionnel);
+    job.idProfessionnel = null;
+    await message.save();
+    await job.save();
+    await user.save();
+    res.json(message);
+});
+app.get("/expertProposalPage/:id", async (req, res) => {
+    const { id } = req.params;
+
+    const message = await Message.findById(id).populate("message.jobId").lean();
+    if (!message || message == {}) {
+        return res.json({ redirectUrl: "/dashboard" });
+    }
+    console.log("okkkkk");
+    console.log("Message---------", message);
+    return res.json({
+        ...message.message.jobId,
+        budgetProposal: message.message.budget,
+        coverLetter: message.message.coverLetter,
+    });
+});
 app.post("/addMessage", async (req, res) => {
     let recipientId = req.body.id;
     const senderId = req.session.user_id;
@@ -983,85 +1034,6 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     });
 });
 
-/* app.post("/addMessage", async (req, res) => {
-    try {
-        // const cli=await Client.findById(req.body.recipientId);
-        // const pro=await Professionnel.findById(req.body.senderId);
-        recipientId = req.body.id;
-        senderId = req.session.user_id;
-        senderType = req.session.user_type;
-        const jobId = req.body.message.job;
-        const message = new Message({
-            senderId: senderId,
-            recipientId: recipientId,
-            senderType: senderType,
-            recipientType:
-                senderType == "Professionnel" ? "Client" : "Professionnel",
-            message: req.body.message,
-        });
-
-        const saveMessage = await message.save();
-        const cli =
-            senderType == "Client"
-                ? await Client.findById(senderId)
-                : await Client.findById(recipientId);
-        const pro =
-            senderType == "Professionnel"
-                ? await Professionnel.findById(senderId)
-                : await Professionnel.findById(recipientId);
-
-        let exist = false;
-        cli.contacts.map((c) => {
-            if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages[c.messages.length - 1].message.push(saveMessage._id);
-                exist = true;
-            }
-        });
-        if (!exist) {
-            const contactId = senderType == "Client" ? recipientId : senderId;
-            cli.contacts.push({
-                contactId: contactId,
-                messages: [
-                    {
-                        job: jobId,
-                        message: [saveMessage._id],
-                    },
-                ],
-            });
-        }
-        exist = false;
-        pro.contacts.map((c) => {
-            if (c.contactId == senderId || c.contactId == recipientId) {
-                c.messages[c.messages.length - 1].message.push(saveMessage._id);
-                exist = true;
-            }
-        });
-        if (!exist) {
-            const contactId =
-                senderType == "Professionnel" ? recipientId : senderId;
-            pro.contacts.push({
-                contactId: contactId,
-                messages: [
-                    {
-                        job: jobId,
-                        message: [saveMessage._id],
-                    },
-                ],
-            });
-        }
-
-        // user.contacts.map((c)=>{
-        //     if(c.contactId==message.senderId||c.contactId==message.recipientId){
-        //         c.messages.push(saveMessage._id);
-        //     }
-        // });
-        await cli.save();
-        await pro.save();
-        res.json(saveMessage);
-    } catch (e) {
-        console.error(e);
-    }
-}); */
 const socketIo = require("socket.io");
 const http = require("http");
 //const { JsonWebTokenError } = require('jsonwebtoken');
@@ -1114,80 +1086,6 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", onlineUsers);
     });
 });
-// wss.on('connection', (connection) => {
-
-//     if (user_id) {
-//         connection.user_id = user_id;
-//         connection.user_type = user_type;
-//     }
-
-//     // Envoyer les informations de tous les clients connectés à tous les clients
-//     const clientInfo = { online: [...wss.clients].map(c => ({ user_id: c.user_id, user_type: c.user_type })) };
-//     [...wss.clients].forEach(client =>
-//         client.send(JSON.stringify(clientInfo))
-//     );
-//     /* connection.isAlive = true;
-
-//     connection.timer = setInterval(() => {
-//         connection.ping();
-//         connection.deathTimer = setTimeout(() => {
-//             connection.isAlive = false;
-//             clearInterval(connection.timer);
-//             connection.terminate();
-//             //notifyAboutOnlinePeople();
-//             console.log('dead');
-//         }, 1000);
-//     }, 5000);
-
-//     connection.on('pong', () => {
-//         clearTimeout(connection.deathTimer);
-//     }) */
-//     connection.on('message', async (message) => {
-//         const messageData = JSON.parse(message.toString());
-//         console.log(messageData);
-
-//         //console.log("wsss", ...wss.clients);
-//         const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
-
-//         if (recipientClient) {
-//             await recipientClient.send(JSON.stringify(messageData));
-//         } else {
-//             console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
-//         }
-//         connection.on('error', (error) => {
-//             console.error('WebSocket connection error:', error);
-//         });
-//         //const recipientClient = [...wss.clients].find(c => c.user_id === messageData.recipientId);
-
-//         /* if (recipientClient) {
-//             recipientClient.send(JSON.stringify(messageData));
-//         } else {
-//             console.log(`Aucun client trouvé avec l'ID du destinataire ${messageData.recipientId}`);
-//         } */
-
-//         //console.log("le resulta",resultat);
-
-//         //console.log("clientInfo", clientInfo);
-//         /* .forEach(c => c.send(JSON.stringify({
-//           _id:messageData._id,
-//         }))); */
-//         /* const {id,message}=messageData;
-//         if(id && message){
-//             console.log('created message');
-//             [...wss.clients]
-//               .filter(c => c.userId === id)
-//               .forEach(c => c.send(JSON.stringify({
-//                 id: id, // Assurez-vous d'avoir une variable id définie quelque part
-//                 message: message,
-//                 isOwnMessage: true,
-//               }
-//             )
-//         )
-//     );
-//       } */
-//     })
-
-// });
 
 server.listen(3000, () => {
     console.log("Server is running at localhost:3000");

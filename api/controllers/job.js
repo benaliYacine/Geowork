@@ -159,8 +159,8 @@ exports.addProfessionnelToJob = async (req, res) => {
         if (!professionnel) {
             return res.status(404).json({ message: "Professionnel not found" });
         }
-
-        professionnel.profile.jobs.push(updatedJob._id); // Assuming jobs is an array of job IDs in Professionnel model
+        if (!professionnel.profile.jobs.includes(jobId))
+            professionnel.profile.jobs.push(updatedJob._id); // Assuming jobs is an array of job IDs in Professionnel model
         await professionnel.save();
         const foundMessage = await Message.findById(id);
         foundMessage.message.state = "accepted";

@@ -610,25 +610,25 @@ function MessageList({updateMessage }) {
     }
   }, [messages]);
 
-  return (
-    <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
-      <div className=" flex flex-col">
-        {messages.map((msg) => (
-          <MessageItem
-            key={msg.id}
-            id={msg.id}
-            senderName={msg.senderName}
-            message={msg.message}
-            timestamp={msg.timestamp}
-            isOwnMessage={msg.isOwnMessage}
-            updateMessage={updateMessage}
-          />
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-      {/* Empty div to act as a scroll target */}
-    </ScrollArea>
-  );
+    return (
+        <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
+            <div className=" flex flex-col">
+                {messages.map((msg) => (
+                    <MessageItem
+                        key={msg.id}
+                        id={msg.id}
+                        senderName={msg.senderName}
+                        message={msg.message}
+                        timestamp={msg.timestamp}
+                        isOwnMessage={msg.isOwnMessage}
+                        updateMessage={updateMessage}
+                    />
+                ))}
+                <div ref={messagesEndRef} />
+            </div>
+            {/* Empty div to act as a scroll target */}
+        </ScrollArea>
+    );
 }
 
 export default MessageList;
