@@ -14,6 +14,7 @@ import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
 import EditLocation from "@/components/chat/Map/EditLocation";
 import { useNavigate, useParams } from "react-router-dom";
+import io from "socket.io-client";
 import axios from "axios";
 import { IdentificationIcon } from "@heroicons/react/24/outline";
 
@@ -26,14 +27,48 @@ function MessageItem({
     id,
     updateMessage,
 }) {
+    const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [messageState, setMessageState] = useState(message.state);
     //const [rerender, setRerender] = useState(false);
+    useEffect(() => {
+        const newSocket = io("ws://localhost:3000");
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.emit("updateMessage", { userId: proId, id, messageState });
+    }, [messageState]);
+
+    // useEffect(() => {
+    //     if (!socket) return;
+
+    //     const handleGetUpdateMessage = (res) => {
+    //         console.log("responseMessage", res);
+    //         if (id !== res.id) return;
+    //         console.log("responseMessage", res);
+    //         setMessageState(res.messageState);
+    //     };
+
+    //     socket.on("getUpdateMessage", handleGetUpdateMessage);
+
+    //     return () => {
+    //         socket.off("getUpdateMessage", handleGetUpdateMessage);
+    //     };
+    // }, [socket, id]);
+
+
     const withrawProposal = async () => {
         const response = await axios.patch("withrawProposal", { id });
-        setMessageState("withrawed");
-        console.log("ProposalWithrawed", response.data);
+        setMessageState("withrawn");
+        console.log("Proposalwithrawn", response.data);
     };
     const acceptInvitation = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
@@ -52,6 +87,20 @@ function MessageItem({
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
     };
+    const acceptBudgetEdit = async () => {
+        const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
+            jobId: message.jobId,
+            id,
+            proId,
+        });
+        console.log("acceptBudgetEdit", response.data);
+        setMessageState("accepted");
+    };
+    const denyBudgetEdit = async () => {
+        const response = await axios.patch("/denyBudgetEdit", { id });
+        console.log("denyBudgetEdit", response.data);
+        setMessageState("denied");
+    };
     const denyProposal = async () => {
         const response = await axios.patch("/denyProposal", {
             id,
@@ -67,7 +116,7 @@ function MessageItem({
     const cancelBudgetEdit = async () => {
         const response = await axios.patch("/cancelBudgetEdit", { id });
         console.log("cancelBudgetEdit", response.data);
-        setMessageState("withrawed");
+        setMessageState("withrawn");
     };
     const editLocation = async (location) => {
         const response = await axios.patch("/editLocation", { id, location });
@@ -82,7 +131,7 @@ function MessageItem({
                         <AlertDialog
                             title="deny budget edit suggestion"
                             description="Are you sure you want to deny this budget edit suggestion"
-                            action={() => {}}
+                            action={denyBudgetEdit}
                             actionButtonText="deny"
                         >
                             <Button variant="outline" size="sm">
@@ -93,7 +142,7 @@ function MessageItem({
                         <AlertDialog
                             title="Accept budget edit suggestion"
                             description="Are you sure you want to accept this budget edit suggestion"
-                            action={() => {}}
+                            action={acceptBudgetEdit}
                             actionButtonText="Accept"
                         >
                             <Button size="sm">Accept</Button>
@@ -227,10 +276,10 @@ function MessageItem({
                         you have denied this proposal
                     </p>
                 );
-            case "withrawed":
+            case "withrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the geoworker has withrawed his proposal
+                        the geoworker has withrawn his proposal
                     </p>
                 );
 
@@ -321,10 +370,10 @@ function MessageItem({
                         </p>
                     </>
                 );
-            case "withrawed":
+            case "withrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawed your proposal
+                        you have withrawn your proposal
                     </p>
                 );
 
@@ -337,7 +386,11 @@ function MessageItem({
             case "waiting":
                 return (
                     <div className="flex justify-end w-full gap-2">
-                        <EditBudgetButton budget="" />
+                        <EditBudgetButton
+                            updateMessage={updateMessage}
+                            jobId={message.jobId}
+                            budget={message.budget}
+                        />
                         <AlertDialog
                             title="deny invitation"
                             description="Are you sure you want to deny this job invitation"
@@ -397,10 +450,10 @@ function MessageItem({
                         </div>
                     </>
                 );
-            case "withrawed":
+            case "withrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the client has withrawed his invitation
+                        the client has withrawn his invitation
                     </p>
                 );
             case "reported":
@@ -477,10 +530,10 @@ function MessageItem({
                         </p>
                     </div>
                 );
-            case "withrawed":
+            case "withrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawed your invitation
+                        you have withrawn your invitation
                     </p>
                 );
 

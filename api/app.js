@@ -713,7 +713,7 @@ app.patch(
         const { id } = req.body;
         const message = await Message.findById(id);
         if (message) {
-            message.message.state = "withrawed";
+            message.message.state = "withrawn";
         }
         const saveMessage = await message.save();
         res.json(saveMessage);
@@ -722,7 +722,7 @@ app.patch(
 app.patch("/cancelBudgetEdit", async (req, res) => {
     const { id } = req.body;
     const foundMessage = await Message.findById(id);
-    if (foundMessage) foundMessage.message.state = "withrawed";
+    if (foundMessage) foundMessage.message.state = "withrawn";
     const saveMessage = await foundMessage.save();
     res.json(saveMessage);
 });
@@ -736,6 +736,15 @@ app.patch("/denyInvitation", async (req, res) => {
     res.json(foundMessage);
 });
 app.patch("/denyProposal", async (req, res) => {
+    const { id } = req.body;
+    console.log("id", id);
+    const foundMessage = await Message.findById(id);
+    console.log("foundMessage", foundMessage);
+    if (foundMessage) foundMessage.message.state = "denied";
+    await foundMessage.save();
+    res.json(foundMessage);
+});
+app.patch("/denyBudgetEdit", async (req, res) => {
     const { id } = req.body;
     console.log("id", id);
     const foundMessage = await Message.findById(id);
@@ -1079,6 +1088,17 @@ io.on("connection", (socket) => {
                 timestamp: Date.now(),
             };
             io.to(user.socketId).emit("getMessage", message);
+        }
+    });
+    socket.on("updateMessage", (message) => {
+        console.log("updatedMessage", message);
+        const user = onlineUsers.find((user) => user.user_id == message.userId);
+        console.log("useruseruser", user);
+        if (user) {
+            io.to(user.socketId).emit("getUpdateMessage", {
+                ...message,
+                userId: user_id,
+            });
         }
     });
     socket.on("disconnect", () => {

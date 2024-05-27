@@ -36,8 +36,9 @@ export default function Chat() {
     const updateMessage = (message) => {
         message.isOwnMessage = true;
         message.timestamp = `${new Date(Date.now()).getHours()}:${String(new Date(Date.now()).getMinutes()).padStart(2, "0")}`;
-        console.log("updateMessage",message);
-        setMessages([...messages, message ]);
+        console.log("updateMessage", message);
+        setMessages([...messages, message]);
+        setMessage({ ...message, id: id });
     };
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");
@@ -57,6 +58,21 @@ export default function Chat() {
     //receive Message
     useEffect(() => {
         if (socket === null) return;
+        // const handleGetUpdateMessage = (res) => {
+        //     console.log("responseMessage", res);
+        //     if (res.userId !== id) return;
+        //     console.log("responseMessage", res);
+        //     console.log("messages raham farghin",messages);
+        //     const updateMessages = messages.map((m) => {
+        //         if (messages.id == res.id) {
+        //             m.message.state = res.messageState;
+        //         }
+        //         return m;
+        //     });
+        //     setMessages(updateMessages);
+        // };
+
+        // socket.on("getUpdateMessage", handleGetUpdateMessage);
         socket.on("getMessage", (res) => {
             //setRefrechContacts(!refrechContacts);
             //setContacts([...contacts]);
@@ -77,6 +93,7 @@ export default function Chat() {
         });
         return () => {
             socket.off("getMessage");
+            socket.off("getUpdateMessage", handleGetUpdateMessage);
         };
     }, [socket, id]);
     // add online users
@@ -299,6 +316,7 @@ export default function Chat() {
                     <MessageList
                         messages={messages}
                         updateMessage={updateMessage}
+                        socket={socket}
                     />
                 </div>
                 <div className="flex-none">

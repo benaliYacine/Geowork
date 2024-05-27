@@ -600,7 +600,7 @@ const messages = [
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 // function MessageList({updateMessage }) {
-  function MessageList({messages=[], updateMessage}) {
+  function MessageList({messages=[], updateMessage,socket=null}) {
   console.log("messageList", messages);
   const messagesEndRef = useRef(null);
   // Scroll to the bottom of the messages list every time the messages change
