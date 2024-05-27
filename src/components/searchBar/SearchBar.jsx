@@ -30,9 +30,9 @@ export default function SearchBar({ full = false }) {
     const form = useForm({
         resolver: zodResolver(SearchBarSchema),
         defaultValues: {
-            category:"",
-            subCategory:"",
-            wilaya:"",
+            category: "",
+            subCategory: "",
+            wilaya: "",
             city: "",
             role: "Jobs",
         },
@@ -44,15 +44,14 @@ export default function SearchBar({ full = false }) {
     const navigate = useNavigate();
     let queryString = "";
     useEffect(() => {
-        if (
-            searchParams.get("wilaya") ||
-            searchParams.get("category") 
-        ) {
+        if (searchParams.get("city"))
             form.setValue("city", searchParams.get("city"));
+        if (searchParams.get("wilaya"))
             form.setValue("wilaya", searchParams.get("wilaya"));
+        if (searchParams.get("category"))
             form.setValue("category", searchParams.get("category"));
+        if (searchParams.get("subCategory"))
             form.setValue("subCategory", searchParams.get("subCategory"));
-        }
     }, [location.search]);
 
     useEffect(() => {
