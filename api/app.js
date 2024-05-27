@@ -713,7 +713,7 @@ app.patch(
         const { id } = req.body;
         const message = await Message.findById(id);
         if (message) {
-            message.message.state = "withrawn";
+            message.message.state = "withdrawn";
         }
         const saveMessage = await message.save();
         res.json(saveMessage);
@@ -722,7 +722,14 @@ app.patch(
 app.patch("/cancelBudgetEdit", async (req, res) => {
     const { id } = req.body;
     const foundMessage = await Message.findById(id);
-    if (foundMessage) foundMessage.message.state = "withrawn";
+    if (foundMessage) foundMessage.message.state = "withdrawn";
+    const saveMessage = await foundMessage.save();
+    res.json(saveMessage);
+});
+app.patch("/cancelInvitation", async (req, res) => {
+    const { id } = req.body;
+    const foundMessage = await Message.findById(id);
+    if (foundMessage) foundMessage.message.state = "withdrawn";
     const saveMessage = await foundMessage.save();
     res.json(saveMessage);
 });

@@ -27,7 +27,11 @@ export default function FindWork({ name = "" }) {
             const response2 = await axios.get("/findWork");
             console.log("response2...", response2);
             if (response2.data) {
-                const info=(response2.data.map((r)=>({...r,id:r._id})));
+                const info = response2.data.map((r) => ({
+                    ...r,
+                    id: r._id,
+                    isExpert: true,
+                }));
                 console.log(info);
                 setJobsMatch(info);
                 console.log("JobsMatch", response2.data);

@@ -40,7 +40,7 @@ export default function JobPostDrawer({ job, children }) {
             </Button>
           </div>
           <div className="px-2">
-            <Job jobInfo={job} apply={true} />
+            <Job jobInfo={job} apply={job.isExpert? true : false} />
           </div>
         </ScrollArea>
         {/* <DrawerFooter data-vaul-no-drag>

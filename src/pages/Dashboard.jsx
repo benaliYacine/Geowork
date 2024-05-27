@@ -35,14 +35,14 @@ export default function Dashboard() {
                         if (response.data.jobs) {
                             const jobs = response.data.jobs.map((j) => {
                                 const images = j.images.map((i) => i.url);
-                                return { ...j, images };
+                                return { ...j, images, isExpert: false };
                             });
                             console.log("jobs", jobs);
 
                             setJobs(jobs);
                         }
-                        if(response.data){
-                            setInfo({ firstName: response.data.name.first});
+                        if (response.data) {
+                            setInfo({ firstName: response.data.name.first });
                         }
                     }
                 }

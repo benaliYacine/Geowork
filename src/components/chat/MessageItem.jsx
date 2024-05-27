@@ -27,25 +27,25 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    const [socket, setSocket] = useState(null);
+    //const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [messageState, setMessageState] = useState(message.state);
     //const [rerender, setRerender] = useState(false);
-    useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
-        setSocket(newSocket);
+    // useEffect(() => {
+    //     const newSocket = io("ws://localhost:3000");
+    //     setSocket(newSocket);
 
-        return () => {
-            newSocket.disconnect();
-        };
-    }, []);
+    //     return () => {
+    //         newSocket.disconnect();
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        if (!socket) return;
+    // useEffect(() => {
+    //     if (!socket) return;
 
-        socket.emit("updateMessage", { userId: proId, id, messageState });
-    }, [messageState]);
+    //     socket.emit("updateMessage", { userId: proId, id, messageState });
+    // }, [messageState]);
 
     // useEffect(() => {
     //     if (!socket) return;
@@ -64,11 +64,10 @@ function MessageItem({
     //     };
     // }, [socket, id]);
 
-
     const withrawProposal = async () => {
         const response = await axios.patch("withrawProposal", { id });
-        setMessageState("withrawn");
-        console.log("Proposalwithrawn", response.data);
+        setMessageState("withdrawn");
+        console.log("Proposalwithdrawn", response.data);
     };
     const acceptInvitation = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
@@ -113,10 +112,15 @@ function MessageItem({
         console.log("denyInvitation", response.data);
         setMessageState("denied");
     };
+    const cancelInvitation = async () => {
+        const response = await axios.patch("/cancelInvitation", { id });
+        console.log("cancelInvitation", response.data);
+        setMessageState("withdrawn");
+    };
     const cancelBudgetEdit = async () => {
         const response = await axios.patch("/cancelBudgetEdit", { id });
         console.log("cancelBudgetEdit", response.data);
-        setMessageState("withrawn");
+        setMessageState("withdrawn");
     };
     const editLocation = async (location) => {
         const response = await axios.patch("/editLocation", { id, location });
@@ -161,6 +165,13 @@ function MessageItem({
                         you have denied this budget edit suggestion
                     </p>
                 );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        {isClient ? "The geoworker" : "The Client"} has
+                        withdrawn his budget edit suggestion
+                    </p>
+                );
 
             default:
                 return null;
@@ -195,6 +206,12 @@ function MessageItem({
                     <p className=" text-md text-destructive w-full">
                         {isClient ? "The geoworker" : "The Client"} has denied
                         your budget edit suggestion
+                    </p>
+                );
+            case "withrawed":
+                return (
+                    <p className=" text-md text-destructive w-full">
+                        you have withdrawn this buget edit suggestion
                     </p>
                 );
 
@@ -276,10 +293,10 @@ function MessageItem({
                         you have denied this proposal
                     </p>
                 );
-            case "withrawn":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the geoworker has withrawn his proposal
+                        the geoworker has withdrawn his proposal
                     </p>
                 );
 
@@ -370,10 +387,10 @@ function MessageItem({
                         </p>
                     </>
                 );
-            case "withrawn":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawn your proposal
+                        you have withdrawn your proposal
                     </p>
                 );
 
@@ -450,10 +467,10 @@ function MessageItem({
                         </div>
                     </>
                 );
-            case "withrawn":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        the client has withrawn his invitation
+                        the client has withdrawn his invitation
                     </p>
                 );
             case "reported":
@@ -485,7 +502,7 @@ function MessageItem({
                             <AlertDialog
                                 title="cancel invitation"
                                 description="Are you sure you want to cancel your job invitation"
-                                action={() => {}}
+                                action={cancelInvitation}
                                 actionButtonText="Yes"
                             >
                                 <Button variant="outline" size="sm">
@@ -530,10 +547,10 @@ function MessageItem({
                         </p>
                     </div>
                 );
-            case "withrawn":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
-                        you have withrawn your invitation
+                        you have withdrawn your invitation
                     </p>
                 );
 
