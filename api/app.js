@@ -446,20 +446,42 @@ app.get("/jobsSearch", async (req, res) => {
         const { category, subCategory, wilaya, city } = req.query;
         console.log("req.query", req.query);
         // Vérifier si au moins un paramètre est fourni
-        if (!category && !subCategory && !wilaya && !city) {
-            return res.status(400).json({
-                error: "Au moins un paramètre de recherche est requis.",
-            });
-        }
+        // if (!category && !subCategory && !wilaya && !city) {
+        //     return res.status(400).json({
+        //         error: "Au moins un paramètre de recherche est requis.",
+        //     });
+        // }
 
         // Construire la recherche en fonction des paramètres fournis
         const searchCriteria = {};
+        
+        if (Object.keys(req.query).length == 0) {
+            let user;
+            if (req.session.user_type == "Professionnel") {
+                user = await Professionnel.findById(req.session.user_id);
+                searchCriteria.category = user.profile.category;
+                searchCriteria.subCategory = user.profile.subCategory;
+                searchCriteria.wilaya = user.wilaya;
+                searchCriteria.city = user.city;
+                return res.json({
+                    redirectUrl: `?category=${user.profile.category}&subCategory=${user.profile.subCategory}&wilaya=${user.wilaya}&city=${user.city}`,
+                });
+            } else if (req.session.user_type == "Client") {
+                
+                user = await Client.findById(req.session.user_id);
+                return res.json({
+                    redirectUrl: `?wilaya=${user.wilaya}&city=${user.city}`,
+                });
+            }
+        }
+        
         if (category) searchCriteria.category = category;
         if (subCategory) searchCriteria.subCategory = subCategory;
         if (wilaya) searchCriteria.wilaya = wilaya;
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria);
-        // Effectuer la recherche dans la base de données
+        //Effectuer la recherche dans la base de données
+
         let jobs = await Job.find(searchCriteria);
         console.log(jobs);
         if (req.session.user_type == "Professionnel") {

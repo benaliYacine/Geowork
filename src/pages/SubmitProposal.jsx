@@ -111,6 +111,7 @@ export default function SubmitProposal({}) {
                                         variant="link"
                                         className="w-fit mt-2"
                                         type="button"
+                                        onClick={()=>{navigate(`/job/${id}`)}}
                                     >
                                         View job Posting
                                     </Button>
