@@ -14,7 +14,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import JobPost from "@/components/jobPost/JobPost";
 import { React, useState } from "react";
 import Job from "@/components/Job/Job";
+import { useNavigate } from "react-router-dom";
 export default function JobPostDrawer({ job, children }) {
+  const navigate=useNavigate();
   return (
     <Drawer>
       <DrawerTrigger>{children}</DrawerTrigger>
@@ -34,7 +36,7 @@ export default function JobPostDrawer({ job, children }) {
             >
               <ChevronLeft className="h-7 w-7" data-vaul-no-drag />
             </DrawerClose>
-            <Button variant="link">
+            <Button variant="link" onClick={()=>{navigate(`/job/${job.id}`)}}>
               Open job in a new window
               <ExternalLink className=" stroke-[1.7px] ml-2" />
             </Button>

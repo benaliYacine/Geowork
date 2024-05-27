@@ -32,7 +32,7 @@ const upload = multer({ storage });
 const jwt = require("jsonwebtoken");
 let user_id;
 let user_type;
-
+const bcrypt = require("bcrypt");
 app.use(methodOverride("_method"));
 
 //const uploadjobs = multer({ storageJobs });
@@ -185,7 +185,12 @@ app.get("/settings", middlewars.isLoginIn, async (req, res) => {
     if (req.session.user_type == "Professionnel")
         res.json(await Professionnel.findById(req.session.user_id));
 });
-
+app.post("/verifyOldPassword",async (req,res)=>{
+    const {oldPassword,password}=req.body;
+    return res.json({
+        passwordVerify: await bcrypt.compare(oldPassword, password),
+    });
+})
 app.post("/login", async (req, res) => {
     const { password, email } = req.body;
     let foundUser = await Professionnel.findAndValidate(email, password);
@@ -454,7 +459,7 @@ app.get("/jobsSearch", async (req, res) => {
 
         // Construire la recherche en fonction des paramètres fournis
         const searchCriteria = {};
-        
+
         if (Object.keys(req.query).length == 0) {
             let user;
             if (req.session.user_type == "Professionnel") {
@@ -467,14 +472,13 @@ app.get("/jobsSearch", async (req, res) => {
                     redirectUrl: `?category=${user.profile.category}&subCategory=${user.profile.subCategory}&wilaya=${user.wilaya}&city=${user.city}`,
                 });
             } else if (req.session.user_type == "Client") {
-                
                 user = await Client.findById(req.session.user_id);
                 return res.json({
                     redirectUrl: `?wilaya=${user.wilaya}&city=${user.city}`,
                 });
             }
         }
-        
+
         if (category) searchCriteria.category = category;
         if (subCategory) searchCriteria.subCategory = subCategory;
         if (wilaya) searchCriteria.wilaya = wilaya;
@@ -738,6 +742,9 @@ app.patch(
             message.message.state = "withdrawn";
         }
         const saveMessage = await message.save();
+        // const job = await Job.findById(message.message.jobId);
+        // job.proposals = job.proposals.filter((p) => p != req.session.user_id);
+        // await job.save();
         res.json(saveMessage);
     }
 );
@@ -787,6 +794,7 @@ app.patch("/editLocation", async (req, res) => {
     if (message) {
         message.message.location = req.body.location;
     }
+    await message.save();
     return res.json(message);
 });
 app.get("/fetchWilayaData", middlewars.isLoginIn, async (req, res) => {
@@ -802,8 +810,8 @@ app.patch("/closeJob", async (req, res) => {
     const message = await Message.findById(req.body.id);
     const job = await Job.findById(req.body.jobId);
     message.message.state = "closed";
-    job.feedback = req.body.description;
-    job.rate = req.body.rating;
+    job.clientFeedback = req.body.description;
+    job.clientRating = req.body.rating;
     job.closed = true;
     const user = await Professionnel.findById(job.idProfessionnel).populate(
         "profile.jobs"
@@ -844,6 +852,20 @@ app.patch("/cancelJob", async (req, res) => {
     await job.save();
     await user.save();
     res.json(message);
+});
+app.patch("/leaveFeedback", async (req, res) => {
+    const { jobId, id, description, rating } = req.body;
+    const job = await Job.findById(jobId);
+    job.professionnelFeedback = description;
+    job.professionnelRating = rating;
+    const client = await Client.findById(job.idClient).populate("jobs");
+    const numberJobClose = client.jobs.filter((j) => j.closed).length;
+
+    client.rating =
+        (client.rating * (numberJobClose - 1) + rating) / numberJobClose;
+    await job.save();
+    await client.save();
+    res.json({job,client});
 });
 app.get("/expertProposalPage/:id", async (req, res) => {
     const { id } = req.params;
@@ -1074,6 +1096,7 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
 
 const socketIo = require("socket.io");
 const http = require("http");
+const job = require("./models/job");
 //const { JsonWebTokenError } = require('jsonwebtoken');
 const server = http.createServer(app);
 const io = socketIo(server, {

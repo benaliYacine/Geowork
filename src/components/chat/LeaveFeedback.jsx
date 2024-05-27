@@ -40,7 +40,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-function CloseJobDialog({}) {
+function CloseJobDialog({leaveFeedback}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [rating, setRating] = useState(4);
   const form = useForm({
@@ -51,6 +51,7 @@ function CloseJobDialog({}) {
   });
   const onSubmit = async (values) => {
     console.log(values);
+    leaveFeedback({...values,rating:rating})
     console.log("rating:", rating);
     setDialogOpen(false);
   };

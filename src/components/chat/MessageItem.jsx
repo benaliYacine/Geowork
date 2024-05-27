@@ -30,7 +30,8 @@ function MessageItem({
     //const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
-    const [messageState, setMessageState] = useState(message.state);
+    const [Message,setMessage]=useState(message);
+    const [messageState, setMessageState] = useState(Message.state);
     //const [rerender, setRerender] = useState(false);
     // useEffect(() => {
     //     const newSocket = io("ws://localhost:3000");
@@ -71,7 +72,7 @@ function MessageItem({
     };
     const acceptInvitation = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
-            jobId: message.jobId,
+            jobId: Message.jobId,
             id,
         });
         console.log("acceptInvitation", response.data);
@@ -79,7 +80,7 @@ function MessageItem({
     };
     const acceptProposal = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
-            jobId: message.jobId,
+            jobId: Message.jobId,
             id,
             proId,
         });
@@ -88,7 +89,7 @@ function MessageItem({
     };
     const acceptBudgetEdit = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
-            jobId: message.jobId,
+            jobId: Message.jobId,
             id,
             proId,
         });
@@ -125,6 +126,11 @@ function MessageItem({
     const editLocation = async (location) => {
         const response = await axios.patch("/editLocation", { id, location });
         console.log("editLocation", response.data);
+        setMessage({...response.data.message});
+    };
+    const leaveFeedback = async (values) => {
+        const response = await axios.patch("/leaveFeedback", {...values,id,jobId:Message.jobId});
+        console.log("leaveFeedback", response.data);
     };
 
     function budgetRenderFootereRecieved(isClient) {
@@ -226,8 +232,8 @@ function MessageItem({
                     <div className="flex justify-end w-full gap-2">
                         <EditBudgetButton
                             updateMessage={updateMessage}
-                            jobId={message.jobId}
-                            budget={message.budget}
+                            jobId={Message.jobId}
+                            budget={Message.budget}
                         />
                         <AlertDialog
                             title="deny proposal"
@@ -259,7 +265,7 @@ function MessageItem({
                             <CloseJobDialog
                                 setMessageState={setMessageState}
                                 id={id}
-                                jobId={message.jobId}
+                                jobId={Message.jobId}
                             />
                             <SendLocation updateMessage={updateMessage} />
                         </div>
@@ -358,7 +364,7 @@ function MessageItem({
                             {/* ask him to share the exact job location with you so you can... */}
                         </p>
                         <div className="flex justify-end w-full gap-2">
-                            <LeaveFeedback />
+                            <LeaveFeedback leaveFeedback={leaveFeedback} />
                         </div>
                     </>
                 );
@@ -405,8 +411,8 @@ function MessageItem({
                     <div className="flex justify-end w-full gap-2">
                         <EditBudgetButton
                             updateMessage={updateMessage}
-                            jobId={message.jobId}
-                            budget={message.budget}
+                            jobId={Message.jobId}
+                            budget={Message.budget}
                         />
                         <AlertDialog
                             title="deny invitation"
@@ -780,9 +786,9 @@ function MessageItem({
                     isOwnMessage
                         ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
                         : "bg-white rounded-e-3xl rounded-t-3xl"
-                }  ${(message.type == "invitation" || message.type == "proposal" || message.type == "budgetEdit" || message.type == "jobLocation") && "bg-white"} `}
+                }  ${(Message.type == "invitation" || Message.type == "proposal" || Message.type == "budgetEdit" || Message.type == "jobLocation") && "bg-white"} `}
             >
-                {renderMessageContent(message)}
+                {renderMessageContent(Message)}
             </div>
             <span className="text-xs text-gray-500">{timestamp}</span>
         </div>

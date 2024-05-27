@@ -57,15 +57,17 @@ function EditAccountButton({ password, onEdit }) {
   });
   const onSubmit = async (values) => {
     console.log(values);
-    if (values.oldPassword !== password) {
-      // Manually set the error for the OldPassword field
-      form.setError("oldPassword", {
-        type: "manual",
-        message: "Your old password was incorrect.",
-      });
-      return;
+    const response=await axios.post('/verifyOldPassword',{oldPassword:values.oldPassword,password:password});
+    console.log(response.data.passwordVerify)
+    if(response.data)
+    if (!response.data.passwordVerify) {
+        // Manually set the error for the OldPassword field
+        form.setError("oldPassword", {
+            type: "manual",
+            message: "Your old password was incorrect.",
+        });
+        return;
     }
-
     onEdit(values.confirmPassword);
     setDialogOpen(false);
   };

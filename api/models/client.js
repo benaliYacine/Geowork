@@ -69,12 +69,12 @@ const clientSchema = new mongoose.Schema({
             ],
         },
     ],
-    /* rate: {
+    rating: {
         type: Number,
         default: 0,
         min: 0,
         max: 5
-    } */
+    }
 });
 
 clientSchema.statics.findAndValidate = async function (email, password) {

@@ -48,10 +48,19 @@ const jobsSchema = new mongoose.Schema({
             filename: String,
         },
     ],
-    feedback: {
+    clientFeedback: {
         type: String,
     },
-    rate: {
+    professionnelFeedback: {
+        type: String,
+    },
+    clientRating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+    },
+    professionnelRating: {
         type: Number,
         default: 0,
         min: 0,
