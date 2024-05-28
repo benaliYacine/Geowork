@@ -40,6 +40,7 @@ export default function Dashboard() {
                                     images,
                                     isExpert: false,
                                     id: j._id,
+                                    client: response.data,
                                 };
                             });
                             console.log("jobs", jobs);

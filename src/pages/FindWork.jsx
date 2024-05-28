@@ -41,6 +41,7 @@ export default function FindWork({ name = "" }) {
             }
             setLoading(false);
             const response1 = await axios.get("/savedJobs");
+            console.log("response",response1)
             if (response1.data) {
                 setJobs(response1.data);
             }
