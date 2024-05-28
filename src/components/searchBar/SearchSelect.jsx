@@ -40,7 +40,7 @@ const SearchSelect = ({ control, name, label, itemList, placeholder }) => {
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <SelectTrigger className="focus:outline-none w-full">
               <FormControl>
-                <div className="flex flex-col gap-1 hover:bg-bg h-fit py-2 pl-8 pr-16 rounded-full  cursor-pointer items-start">
+                <div className="flex flex-col gap-1 hover:bg-bg h-fit py-2 pl-8 pr-16 rounded-full  cursor-pointer ">
                   <FormLabel className=" text-md font-medium cursor-pointer">
                     {label}
                   </FormLabel>

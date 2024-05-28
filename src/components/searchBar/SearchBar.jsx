@@ -141,30 +141,28 @@ export default function SearchBar({ full = false }) {
     return (
         <Form {...form}>
             <motion.div
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => setIsExpanded(true)}
                 layout
                 data-isOpen={isExpanded}
                 className={` ${isExpanded ? "w-fit h-fit absolute top-40 z-10 inset-0 mx-auto" : "w-fit h-fit"}  cursor-pointer`}
             >
-                <div
-                    className=" cursor-pointer"
-                    onClick={() => setIsExpanded(true)}
-                >
+                <div className=" cursor-pointer">
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="w-full flex align-middle justify-center"
                     >
                         <div
                             className={cn(
-                                "w-fit h-fit p-2 flex gap-1 rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
+                                "w-fit h-fit p-2 flex gap-1 rounded-full bg-white items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
                                 full && "w-full"
                             )}
                         >
                             <SearchComboBox
+                                isExpanded={isExpanded}
                                 control={form.control}
                                 full={!full}
                                 name="category"
-                                label="Category"
+                                label={isExpanded ? "Category" : ""}
                                 itemList={categories.map(
                                     ({ value, label }) => ({
                                         value,
@@ -178,10 +176,11 @@ export default function SearchBar({ full = false }) {
                                 className="h-12"
                             />
                             <SearchComboBox
+                                isExpanded={isExpanded}
                                 full={!full}
                                 control={form.control}
                                 name="subCategory"
-                                label="Sub-Category"
+                                label={isExpanded ? "Sub-Category" : ""}
                                 itemList={subCategories.map(
                                     ({ value, label }) => ({
                                         value,
@@ -195,10 +194,11 @@ export default function SearchBar({ full = false }) {
                                 className="h-12"
                             />
                             <SearchComboBox
+                                isExpanded={isExpanded}
                                 full={!full}
                                 control={form.control}
                                 name="wilaya"
-                                label="Wilaya"
+                                label={isExpanded ? "Wilaya" : ""}
                                 itemList={wilayas}
                                 placeholder="Select wilaya"
                             />
@@ -209,28 +209,30 @@ export default function SearchBar({ full = false }) {
                             />
 
                             <SearchComboBox
+                                isExpanded={isExpanded}
                                 full={!full}
                                 control={form.control}
                                 name="city"
-                                label="City"
+                                label={isExpanded ? "City" : ""}
                                 itemList={filteredCities}
                                 placeholder="Select city"
                             />
 
                             <Separator
+                                isExpanded={isExpanded}
                                 orientation="vertical"
                                 className="h-12"
                             />
-
                             <SearchSelect
+                                isExpanded={isExpanded}
                                 control={form.control}
                                 name="role"
-                                label="Role"
+                                label={isExpanded ? "Role" : ""}
                                 // itemList={filteredCities}
                                 placeholder="Select Role"
                             />
                             <button type="submit">
-                                <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
+                                <div className=" text-center flex-none items-center flex justify-center  aspect-square w-12 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
                                     <Search className="h-10 w-10" />
                                 </div>
                             </button>
