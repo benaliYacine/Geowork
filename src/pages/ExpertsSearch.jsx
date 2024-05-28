@@ -6,6 +6,7 @@ import PageContainer from "@/components/common/PageContainer";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import SearchBar from "@/components/searchBar/SearchBar";
+import JobSuccess from "../components/common/JobSuccess";
 export default function ExpertsSearch() {
   const location = useLocation();
   const [experts,setExperts]=useState([]);
@@ -34,7 +35,25 @@ export default function ExpertsSearch() {
       if (response.data) {
         console.log("response",response.data);
         let expert=response.data;
-        expert=expert.map((e)=>({id:e._id,name:`${e.name.first} ${e.name.last}`,role:e.profile.subCategory,rating:e.profile.rate,avatarUrl:e.profile.photoProfile.url,wilaya:e.wilaya,city:e.city,heart:e.heart,isClient:e.isClient}));
+        expert = expert.map((e) => ({
+            id: e._id,
+            name: `${e.name.first} ${e.name.last}`,
+            role: e.profile.subCategory,
+            rating: e.profile.rating,
+            avatarUrl: e.profile.photoProfile.url,
+            wilaya: e.wilaya,
+            city: e.city,
+            heart: e.heart,
+            isClient: e.isClient,
+            JobSuccess:
+                (e.profile.jobs.filter((j) => j.closed).length /
+                    (e.profile.jobs.filter((j) => j.closed).length +
+                    e.profile.numJobCanceled
+                        ? e.profile.jobs.filter((j) => j.closed).length +
+                          e.profile.numJobCanceled
+                        : 1)) *
+                100,
+        }));
         console.log(expert);
         setExperts(expert);
 /*         let experts=response.data;

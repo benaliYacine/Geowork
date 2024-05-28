@@ -35,7 +35,12 @@ export default function Dashboard() {
                         if (response.data.jobs) {
                             const jobs = response.data.jobs.map((j) => {
                                 const images = j.images.map((i) => i.url);
-                                return { ...j, images, isExpert: false };
+                                return {
+                                    ...j,
+                                    images,
+                                    isExpert: false,
+                                    id: j._id,
+                                };
                             });
                             console.log("jobs", jobs);
 

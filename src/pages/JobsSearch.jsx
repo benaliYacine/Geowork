@@ -55,7 +55,8 @@ export default function AllJobPosts() {
                     heart: j.heart,
                     isExpert: j.isExpert,
                     hires:j.hires,
-                    proposals:j.proposals
+                    proposals:j.proposals,
+                    closed:j.closed
                 }));
                 setJobs(jobs);
                 console.log("kkkkkk", jobs);

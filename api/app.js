@@ -185,12 +185,12 @@ app.get("/settings", middlewars.isLoginIn, async (req, res) => {
     if (req.session.user_type == "Professionnel")
         res.json(await Professionnel.findById(req.session.user_id));
 });
-app.post("/verifyOldPassword",async (req,res)=>{
-    const {oldPassword,password}=req.body;
+app.post("/verifyOldPassword", async (req, res) => {
+    const { oldPassword, password } = req.body;
     return res.json({
         passwordVerify: await bcrypt.compare(oldPassword, password),
     });
-})
+});
 app.post("/login", async (req, res) => {
     const { password, email } = req.body;
     let foundUser = await Professionnel.findAndValidate(email, password);
@@ -280,14 +280,15 @@ app.get("/client", async (req, res) => {
         res.json(cli.jobs);
     } else res.json({});
 });
-app.post("/clientinfo",async (req,res)=>{
-    const {id}=req.body;
-    const job=await Job.findById(id);
-    const cli=await Client.findById(job.idClient);
-    if(cli){
+app.post("/clientinfo", async (req, res) => {
+    const { id } = req.body;
+    const job = await Job.findById(id);
+    console.log("job",job);
+    const cli = await Client.findById(job.idClient);
+    if (cli) {
         return res.json(cli);
-    }else{
-        return res.json({})
+    } else {
+        return res.json({});
     }
 });
 app.get("/welcomeCli", middlewars.requireLoginClient, async (req, res) => {
@@ -529,9 +530,14 @@ app.get("/jobsSearch", async (req, res) => {
 app.get("/expertInfo/:id", async (req, res) => {
     const { id } = req.params;
     console.log("iddddddd", id);
-    const pro = await Professionnel.findById(id);
+    const pro = await Professionnel.findById(id)
+        .populate("profile.jobs")
+        .lean();
     console.log("professionnel", pro);
-    res.json(pro);
+    res.json({
+        ...pro,
+        isExpert: req.session.user_type == "Professionnel" ? true : false,
+    });
 });
 /* app.get('/header', (req, res) => {
     let info;
@@ -567,7 +573,8 @@ app.get("/expertsSearch", async (req, res) => {
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria);
         // Effectuer la recherche dans la base de données
-        let professionnels = await Professionnel.find(searchCriteria);
+        let professionnels =
+            await Professionnel.find(searchCriteria).populate("profile.jobs");
         console.log(professionnels);
         // Retourner les résultats de la recherche
         if (req.session.user_type == "Client") {
@@ -834,8 +841,8 @@ app.patch("/closeJob", async (req, res) => {
     for (let i = 0; i < jobclosed.length; i++) {
         numJobClosed++;
     }
-    user.profile.rate =
-        (numJobClosed * user.profile.rate + req.body.rating) /
+    user.profile.rating =
+        (numJobClosed * user.profile.rating + req.body.rating) /
         (numJobClosed + 1);
     // console.log("user",user);
     console.log("numJobClosed", numJobClosed);
@@ -875,7 +882,7 @@ app.patch("/leaveFeedback", async (req, res) => {
         (client.rating * (numberJobClose - 1) + rating) / numberJobClose;
     await job.save();
     await client.save();
-    res.json({job,client});
+    res.json({ job, client });
 });
 app.get("/expertProposalPage/:id", async (req, res) => {
     const { id } = req.params;

@@ -58,12 +58,20 @@ export default function JobPostPage() {
             id: e._id,
             name: `${e.name.first} ${e.name.last}`,
             role: e.profile.subCategory,
-            rating: e.profile.rate,
+            rating: e.profile.rating,
             avatarUrl: e.profile.photoProfile.url,
             wilaya: e.wilaya,
             city: e.city,
             heart: e.heart,
             isClient: e.isClient,
+            JobSuccess:
+                (e.profile.jobs.filter((j) => j.closed).length /
+                    (e.profile.jobs.filter((j) => j.closed).length +
+                    e.profile.numJobCanceled
+                        ? e.profile.jobs.filter((j) => j.closed).length +
+                          e.profile.numJobCanceled
+                        : 1)) *
+                100,
         }));
         console.log(expert);
         setExperts(expert);
