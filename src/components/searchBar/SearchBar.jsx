@@ -44,10 +44,10 @@ export default function SearchBar({ full = false }) {
     const navigate = useNavigate();
     let queryString = "";
     useEffect(() => {
-        if (searchParams.get("city"))
-            form.setValue("city", searchParams.get("city"));
         if (searchParams.get("wilaya"))
             form.setValue("wilaya", searchParams.get("wilaya"));
+        if (searchParams.get("city"))
+            form.setValue("city", searchParams.get("city"));
         if (searchParams.get("category"))
             form.setValue("category", searchParams.get("category"));
         if (searchParams.get("subCategory"))
