@@ -6,28 +6,39 @@ const Token = require("../models/token");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const middlewars = require("../utils/middlewars");
-router.get("/:type/:id/verify/:tokenId", async (req, res) => {
-    try {
-        const { type, id, tokenId } = req.params;
-        let user;
-        if (type == "clients") {
-            user = await Client.findById(id);
-        } else if (type == "professionnels") {
-            user = await Professionnel.findById(id);
-        }
-        if (!user) return res.status(200).json({ message: "Invalid link" });
-        const token = await Token.findOne({ userId: id, token: tokenId });
-        if (!token) return res.status(200).json({ message: "Invalid link" });
-        if (type == "clients") {
-            await Client.findByIdAndUpdate(id, { verified: true });
-        } else if (type == "professionnels") {
-            await Professionnel.findByIdAndUpdate(id, { verified: true });
-        }
-        await Token.findOneAndDelete({ userId: id, token: tokenId });
-        res.status(200).json({ message: "Email verified successfully" });
-    } catch (error) {}
-});
-router.get("/verifyEmail", async (req, res) => {
+router.get(
+    "/:type/:id/verify/:tokenId",
+    middlewars.isLoginIn,
+    async (req, res) => {
+        try {
+            const { type, id, tokenId } = req.params;
+            let user;
+            if (type == "clients") {
+                user = await Client.findById(id);
+            } else if (type == "professionnels") {
+                user = await Professionnel.findById(id);
+            }
+            if (!user) return res.status(200).json({ message: "Invalid link" });
+            console.log("user.verified", user.verified);
+            if (user.verified) {
+                return res.json({ redirectUrl: "/dashboard" });
+            }
+            const token = await Token.findOne({ userId: id, token: tokenId });
+            if (!token)
+                return res.status(200).json({ message: "Invalid link" });
+            if (type == "clients") {
+                await Client.findByIdAndUpdate(id, { verified: true });
+            } else if (type == "professionnels") {
+                await Professionnel.findByIdAndUpdate(id, { verified: true });
+            }
+            await Token.findOneAndDelete({ userId: id, token: tokenId });
+            return res
+                .status(200)
+                .json({ message: "Email verified successfully" });
+        } catch (error) {}
+    }
+);
+router.get("/verifyEmail", middlewars.isLoginIn, async (req, res) => {
     let user;
     const id = req.session.user_id;
     if (req.session.user_type == "Client") {
@@ -39,7 +50,7 @@ router.get("/verifyEmail", async (req, res) => {
     else return res.json({ emailAddress: user.email });
 });
 
-router.post("/verifyEmail", async (req, res) => {
+router.post("/verifyEmail", middlewars.isLoginIn, async (req, res) => {
     const id = req.session.user_id;
     let user;
     let url;

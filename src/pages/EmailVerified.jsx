@@ -13,16 +13,21 @@ const EmailVerified = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [isValid, setIsValid] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
     const { type, id, tokenId } = useParams();
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(
                 `/${type}/${id}/verify/${tokenId}`
             );
+            if (response.data.redirectUrl) {
+                navigate(response.data.redirectUrl);
+            }
+            if (response.data.message == "Invalid link") setIsValid(false);
             console.log(response.data);
             setLoading(false);
         };
-        fetchData(false);
+        fetchData();
     }, []);
 
     const handleSendVerifyEmail = async () => {
