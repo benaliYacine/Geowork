@@ -7,11 +7,11 @@ import axios from "axios";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { useNavigate } from "react-router-dom";
 import PageContainer from "@/components/common/PageContainer";
+import { Link } from "react-router-dom";
+
 const EmailVerified = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    
-
+    const [loading, setLoading] = useState(false);
 
     if (loading)
         return (
@@ -21,8 +21,6 @@ const EmailVerified = () => {
         );
     return (
         <PageContainer>
-            
-
             <div className="text-center py-20 sm:py-24">
                 <img
                     src={mail_sent}
@@ -30,23 +28,17 @@ const EmailVerified = () => {
                     className="mx-auto w-1/4 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
                 />
                 <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-                    Verify your email to continue
+                    Your email was verified successfully
                 </h1>
                 <p className="mt-6 text-base leading-7 text-greyDark">
-                    Your email was verified successfully{" "}
-                    
-                    <br />
+                    {/* Your email was verified successfully <br /> */}
                     {/* Please check your email and select the link provided to
                     verify your address. */}
                 </p>
                 <div className="mt-6 w-full flex justify-center">
-                    <Button
-                        onClick={handleSendVerifyEmail}
-                        variant="default"
-                        className="text-sm font-semibold"
-                    >
-                        Send Again
-                    </Button>
+                    <Link to="/" className="rounded-md shadow-sm">
+                        <Button variant="default">Go back home</Button>
+                    </Link>
                 </div>
             </div>
         </PageContainer>

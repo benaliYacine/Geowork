@@ -22,6 +22,7 @@ import ProfilePage from "./pages/ProfilePage";
 import JobPostPage from "./pages/JobPostPage";
 import Dashboard from "./pages/Dashboard";
 import FindWork from "./pages/FindWork";
+import EmailVerified from "./pages/EmailVerified";
 import ProposalPage from "./pages/ProposalPage";
 import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
@@ -29,6 +30,7 @@ import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
 import ExpertProposalPage from "./pages/ExpertProposalPage";
 import ClientProfilePage from "./pages/ClientProfilePage";
+
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -40,7 +42,54 @@ function App() {
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");
         setSocket(newSocket);
+    const [socket, setSocket] = useState(null);
+    useEffect(() => {
+        const newSocket = io("ws://localhost:3000");
+        setSocket(newSocket);
 
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
+    useEffect(() => {
+        if (socket === null) return;
+        socket.emit("addNewUser");
+        return () => {
+            socket.off("getOnlineUsers");
+        };
+    }, [socket]);
+    axios.defaults.baseURL = "http://localhost:3000";
+    axios.defaults.withCredentials = true;
+    return (
+        <div className="bg-bg">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/inputWilayaCity"
+                        element={<InputWilayaCity />}
+                    />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/messages/:id" element={<Messages />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/welcomePro" element={<WelcomePro />} />
+                    <Route path="/welcomeCli" element={<WelcomeCli />} />
+                    <Route path="/profileSlides" element={<ProfileSlides />} />
+                    <Route path="/jobSlides" element={<JobSlides />} />
+                    <Route path="/jobPostPage/:id" element={<JobPostPage />} />
+                    <Route path="/verifyEmail" element={<SendEmailPage />} />
+                    <Route path="/savedJobs" element={<SavedJobs />} />
+                    <Route path="/savedExperts" element={<SavedExperts />} />
+                    <Route
+                        path="/expertProposalPage/:id"
+                        element={<ExpertProposalPage />}
+                    />
+                    <Route
+                        path="/expertProposalPage"
+                        element={<ExpertProposalPage />}
+                    />
         return () => {
             newSocket.disconnect();
         };
