@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-
+import io from "socket.io-client";
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ComboBoxComponentWithId from "@/components/formFields/ComboBoxComponentWithId";
@@ -48,8 +48,9 @@ import { Content } from "@radix-ui/react-accordion";
 function SendInvitation({ name = "Yacine", expert }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [jobNotSpecified, setJobNotSpecified] = useState(true);
-
+    const [invitation,setInvitation]=useState();
     const [clientJobs, setClientJobs] = useState(undefined);
+    const [socket, setSocket] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get("/client");
@@ -85,6 +86,9 @@ function SendInvitation({ name = "Yacine", expert }) {
         if (response1.data) {
             console.log("response1.data", response1.data);
         }
+        Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
+        Invitation1.messageId=response1.data._id
+        setInvitation(Invitation1);
         console.log("response1", response1);
         /* const Invitation2 = {
         id: expert.id,
@@ -95,6 +99,19 @@ function SendInvitation({ name = "Yacine", expert }) {
         // TODO: handle send invitation message
         setDialogOpen(false);
     };
+        useEffect(() => {
+            const newSocket = io("ws://localhost:3000");
+            setSocket(newSocket);
+
+            return () => {
+                newSocket.disconnect();
+            };
+        }, []);
+        useEffect(() => {
+            console.log("message", invitation);
+            if (socket === null) return;
+            socket.emit("sendMessage", { ...invitation });
+        }, [invitation]);
 
     return (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

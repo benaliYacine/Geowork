@@ -27,12 +27,12 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    //const [socket, setSocket] = useState(null);
+    // const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [Message, setMessage] = useState(message);
     const [messageState, setMessageState] = useState(Message.state);
-    //const [rerender, setRerender] = useState(false);
+    const [rerender, setRerender] = useState(false);
     // useEffect(() => {
     //     const newSocket = io("ws://localhost:3000");
     //     setSocket(newSocket);
@@ -49,12 +49,15 @@ function MessageItem({
     // }, [messageState]);
 
     // useEffect(() => {
+    //     console.log("Socket:", socket);
     //     if (!socket) return;
-
+        
     //     const handleGetUpdateMessage = (res) => {
+    //         console.log("hnaya");
     //         console.log("responseMessage", res);
-    //         if (id !== res.id) return;
-    //         console.log("responseMessage", res);
+    //         if (id.toString() != res.id.toString()) return;
+    //         if (proId.toString() != res.userId.toString())
+    //             console.log("responseMessage", res);
     //         setMessageState(res.messageState);
     //     };
 
@@ -176,7 +179,7 @@ function MessageItem({
                         you have denied this budget edit suggestion
                     </p>
                 );
-            case "withrawed":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
                         {isClient ? "The geoworker" : "The Client"} has
@@ -219,7 +222,7 @@ function MessageItem({
                         your budget edit suggestion
                     </p>
                 );
-            case "withrawed":
+            case "withdrawn":
                 return (
                     <p className=" text-md text-destructive w-full">
                         you have withdrawn this buget edit suggestion

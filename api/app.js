@@ -343,17 +343,17 @@ app.get(
     middlewars.requireLoginProfessionnel,
     async (req, res) => {
         if (req.session.user_type == "Professionnel") {
-        let pro = await Professionnel.findById(req.session.user_id)
-            .populate({
-                path: "profile.savedJobs",
-                populate: {
-                    path: "idClient",
+            let pro = await Professionnel.findById(req.session.user_id)
+                .populate({
+                    path: "profile.savedJobs",
                     populate: {
-                        path: "jobs", // Correctly populates the jobs array within idClient
+                        path: "idClient",
+                        populate: {
+                            path: "jobs", // Correctly populates the jobs array within idClient
+                        },
                     },
-                },
-            })
-            .lean();
+                })
+                .lean();
             console.log("pro", pro);
             let jobs = pro.profile.savedJobs;
             if (jobs)
@@ -391,6 +391,9 @@ app.get("/idClient", (req, res) => {
 app.get("/jobPostPage/:id", async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
+    if (!foundJob) {
+        return res.json({ redirectUrl: "/dashboard" });
+    }
     const client = await Client.findById(foundJob.idClient).populate("jobs");
     let apply = true;
     if (foundJob) {
@@ -434,6 +437,9 @@ app.get("/jobSlides", middlewars.requireLoginClient, async (req, res) => {
 app.get("/job/:id/edit", middlewars.isAuthor, async (req, res) => {
     const { id } = req.params;
     const job = await Job.findById(id);
+    if (!job) {
+        return res.json({ redirectUrl: "/dashboard" });
+    }
     if (job) {
         console.log(job._id);
         res.render("importJob", { job });
@@ -528,34 +534,35 @@ app.get("/jobsSearch", async (req, res) => {
             if (savedJobIds)
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
-                        const client = await Client.findById(
-                            j.idClient
-                        ).populate("jobs");
                         const heart = savedJobIds.includes(j._id.toString());
                         return {
                             ...j.toObject(),
                             heart,
                             isExpert: true,
-                            client: client,
                         }; // Convert toObject() if p is a mongoose document
                     })
                 );
             else
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
-                        const client = await Client.findById(
-                            j.idClient
-                        ).populate("jobs");
                         const heart = savedJobIds.includes(j._id.toString());
                         return {
                             ...j.toObject(),
                             heart,
                             isExpert: true,
-                            client: client,
+                            
                         }; // Convert toObject() if p is a mongoose document
                     })
                 );
         }
+        jobs = await Promise.all(
+            jobs.map(async (j) => {
+                const client = await Client.findById(j.idClient).populate(
+                    "jobs"
+                );
+                return { ...j.toObject(), client: client };
+            })
+        );
         console.log("job+heart", jobs);
         // Retourner les résultats de la recherche
         res.json(jobs);
@@ -572,6 +579,9 @@ app.get("/expertInfo/:id", async (req, res) => {
     const pro = await Professionnel.findById(id)
         .populate("profile.jobs")
         .lean();
+    if (!pro) {
+        return res.json({ redirectUrl: "/dashboard" });
+    }
     console.log("professionnel", pro);
     res.json({
         ...pro,
@@ -746,6 +756,9 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
                         model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
                     },
                 });
+            if (!user) {
+                return res.json({ redirectUrl: "/dashboard" });
+            }
         } else if (req.session.user_type === "Professionnel") {
             user = await Client.findById(id)
                 .populate("contacts.messages.message")
@@ -756,6 +769,9 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
                         model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
                     },
                 });
+            if (!user) {
+                return res.json({ redirectUrl: "/dashboard" });
+            }
         }
 
         if (!user) {
@@ -776,6 +792,9 @@ app.get(
     async (req, res) => {
         const { id } = req.params;
         const job = await Job.findById(id);
+        if (!job) {
+            return res.json({ redirectUrl: "/dashboard" });
+        }
         res.json(job);
     }
 );
@@ -955,6 +974,7 @@ app.post("/addMessage", async (req, res) => {
             ? req.body.message.jobId
             : null;
     let job;
+    console.log("add proposal Message", req.body);
     if (jobId) {
         job = await Job.findById(jobId);
         if (!recipientId && req.body.message.type == "proposal") {
@@ -981,7 +1001,10 @@ app.post("/addMessage", async (req, res) => {
     let existJob = false;
     let exist = false;
     cli.contacts.map((c) => {
-        if (c.contactId == senderId || c.contactId == recipientId) {
+        if (
+            c.contactId.toString() == senderId.toString() ||
+            c.contactId.toString() == recipientId.toString()
+        ) {
             if (jobId) {
                 c.messages.map((m) => {
                     if (m.job == jobId) {
@@ -1015,7 +1038,16 @@ app.post("/addMessage", async (req, res) => {
     existJob = false;
     exist = false;
     pro.contacts.map((c) => {
-        if (c.contactId == senderId || c.contactId == recipientId) {
+        console.log("je suis la");
+        console.log("c.contactId", c.contactId, senderId, recipientId);
+        console.log(
+            c.contactId.toString() == senderId.toString() ||
+                c.contactId.toString() == recipientId.toString()
+        );
+        if (
+            c.contactId.toString() == senderId.toString() ||
+            c.contactId.toString() == recipientId.toString()
+        ) {
             if (jobId) {
                 c.messages.map((m) => {
                     if (m.job == jobId) {
@@ -1029,11 +1061,13 @@ app.post("/addMessage", async (req, res) => {
                         message: [saveMessage._id],
                     });
                 }
-            } else
+            } else {
                 c.messages[c.messages.length - 1].message.push(saveMessage._id);
+            }
             exist = true;
         }
     });
+    console.log("exist", exist);
     if (!exist) {
         const contactId =
             senderType == "Professionnel" ? recipientId : senderId;
@@ -1158,12 +1192,12 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
     });
 });
 
-const socketIo = require("socket.io");
+const { Server } = require("socket.io");
 const http = require("http");
-const job = require("./models/job");
+
 //const { JsonWebTokenError } = require('jsonwebtoken');
 const server = http.createServer(app);
-const io = socketIo(server, {
+const io = new Server(server, {
     cors: {
         origin: "http://localhost:5173", // Allow requests from this origin
         methods: ["GET", "POST"], // Allow only specific HTTP methods
@@ -1193,8 +1227,30 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", onlineUsers);
     });
     //add message
-    socket.on("sendMessage", (message) => {
-        const user = onlineUsers.find((user) => user.user_id == message.id);
+    socket.on("sendMessage", async (message) => {
+        if (
+            !message.id &&
+            message.message.type == "proposal" &&
+            message.message.jobId
+        ) {
+            const job = await Job.findById(message.message.jobId);
+            message.id = job.idClient;
+        }
+        if (
+            message.message.type == "proposal" ||
+            message.message.type == "invitation"
+        ) {
+            const job = await Job.findById(message.message.jobId).lean();
+            message.message.jobId = job._id;
+            delete job._id;
+            delete job.hites;
+            delete job.proposals;
+            if (job.images) job.images = job.images.map((i) => i.url);
+            message.message = { ...message.message, ...job };
+        }
+        const user = onlineUsers.find(
+            (user) => user.user_id.toString() == message.id.toString()
+        );
         if (user) {
             message = {
                 ...message,
@@ -1208,9 +1264,11 @@ io.on("connection", (socket) => {
     });
     socket.on("updateMessage", (message) => {
         console.log("updatedMessage", message);
+
         const user = onlineUsers.find((user) => user.user_id == message.userId);
         console.log("useruseruser", user);
         if (user) {
+            console.log("Emitting getUpdateMessage event");
             io.to(user.socketId).emit("getUpdateMessage", {
                 ...message,
                 userId: user_id,
