@@ -38,7 +38,7 @@ export default function Chat() {
         message.timestamp = `${new Date(Date.now()).getHours()}:${String(new Date(Date.now()).getMinutes()).padStart(2, "0")}`;
         console.log("updateMessage", message);
         setMessages([...messages, message]);
-        setMessage({ ...message, id: id });
+        setMessage({ ...message, id: id,messageId:message.id });
     };
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");
@@ -72,7 +72,7 @@ export default function Chat() {
       setContacts([...contacts.filter((contact) => contact.id !== res.senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time))); */
             if (id !== res.senderId) return;
             res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`;
-            res.id = uuidv4();
+            res.id = res.messageId;
             console.log("res", res);
             setMessages((prev) => [...prev, res]);
         });
@@ -231,9 +231,10 @@ export default function Chat() {
             ].sort((a, b) => new Date(b.time) - new Date(a.time))
         );
         newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+        newMessage.messageId=response.data.id;
         setMessage(newMessage);
         let Nmessage = { ...newMessage };
-        Nmessage.id = uuidv4();
+        Nmessage.id = response.data._id;
         console.log();
         setMessages([...messages, Nmessage]);
         console.log("yawContact", contacts);

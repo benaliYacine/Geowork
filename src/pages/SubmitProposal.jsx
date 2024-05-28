@@ -10,6 +10,7 @@ import CurrencyFormField from "@/components/formFields/CurrencyFormField";
 import TextareaFormField from "@/components/formFields/TextareaFormField";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
+import io from "socket.io-client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
@@ -35,6 +36,8 @@ const proposalSchema = z.object({
 export default function SubmitProposal({}) {
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
+    const [proposal, setProposal] = useState();
+    const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(proposalSchema),
@@ -43,7 +46,7 @@ export default function SubmitProposal({}) {
 
     const onSubmit = form.handleSubmit(async (values) => {
         console.log(values); // Handle the form values,
-        const proposal = {
+        let proposal = {
             id: null,
             message: {
                 jobId: id,
@@ -55,8 +58,10 @@ export default function SubmitProposal({}) {
             },
         };
         const response = await axios.post("addMessage", proposal);
+        proposal.messageId = response.data._id;
+        proposal.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
+        setProposal(proposal);
         console.log("messaaaaage", response.data);
-        navigate("/messages");
     });
 
     const [jobInfo, setJobInfo] = useState(null);
@@ -85,6 +90,20 @@ export default function SubmitProposal({}) {
         };
         fetchData();
     }, []);
+    useEffect(() => {
+        const newSocket = io("ws://localhost:3000");
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
+    useEffect(() => {
+        console.log("message", proposal);
+        if (socket === null) return;
+        socket.emit("sendMessage", { ...proposal });
+        navigate("/messages");
+    }, [proposal]);
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">

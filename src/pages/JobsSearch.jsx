@@ -36,6 +36,7 @@ export default function AllJobPosts() {
             if (response.data.redirectUrl) {
                 navigate(response.data.redirectUrl);
             }
+            console.log("jooooobs",response.data)
             if (response.data) {
                 let jobs = response.data;
                 jobs = jobs.map((j) => {
