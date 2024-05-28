@@ -16,6 +16,7 @@ import Header from "@/components/common/Header";
 import JobPost from "@/components/jobPost/JobPost";
 
 const JobSlides = () => {
+   const [submiting, setSubmiting] = useState(false);
   const [isPhotoAdded, setIsPhotoAdded] = useState(false);
   const [showPhotoError, setShowPhotoError] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -77,6 +78,7 @@ const JobSlides = () => {
     // Additional logic to handle form submission on the last slide
   };
   const handleSubmit = async () => {
+    setSubmiting(true);
     const formData = new FormData();
     console.log(jobInfo.images);
     // Ajouter les champs de texte
@@ -112,6 +114,7 @@ const JobSlides = () => {
       console.log(response.data);
       if (response.data.redirectUrl) {
         navigate(response.data.redirectUrl);
+        setSubmiting(false);
       }
     } catch (error) {
       console.error("Error submitting job info:", error);
@@ -170,67 +173,76 @@ const JobSlides = () => {
       </div>
     );
   return currentSlide === -1 ? (
-    <div>
-      <Header />
-      <PageContainer>
-        <div className="h-full flex items-center justify-between">
-          <h1 className="text-black font-header text-4xl font-semibold my-2">
-            Job Details
-          </h1>
-          <Button onClick={handleSubmit} variant="default" size="lg">
-            post the job
-          </Button>
-        </div>
-        <JobPost
-          jobInfo={jobInfo}
-          updateJobInfo={updateJobInfo}
-          edit={true}
-          title={true}
-        />
-      </PageContainer>
-      <div className="w-full py-4">
-        <div className="px-4 flex justify-between mt-4">
-          <Button onClick={handleBack} variant="outline">
-            Back
-          </Button>
-          <Button onClick={handleSubmit} variant="default">
-            Post the job
-          </Button>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="flex h-screen flex-col">
-      <Header />
-      <div className="flex-1 flex flex-col justify-center">
-        <PageContainer>
-          <div className="   h-full flex flex-col justify-center">
-            {renderSlide()}
+      <div>
+          <Header />
+          <PageContainer>
+              <div className="h-full flex items-center justify-between">
+                  <h1 className="text-black font-header text-4xl font-semibold my-2">
+                      Job Details
+                  </h1>
+                  <Button
+                      onClick={handleSubmit}
+                      variant="default"
+                      size="lg"
+                      loading={submiting}
+                  >
+                      post the job
+                  </Button>
+              </div>
+              <JobPost
+                  jobInfo={jobInfo}
+                  updateJobInfo={updateJobInfo}
+                  edit={true}
+                  title={true}
+              />
+          </PageContainer>
+          <div className="w-full py-4">
+              <div className="px-4 flex justify-between mt-4">
+                  <Button onClick={handleBack} variant="outline">
+                      Back
+                  </Button>
+                  <Button
+                      onClick={handleSubmit}
+                      variant="default"
+                      loading={submiting}
+                  >
+                      Post the job
+                  </Button>
+              </div>
           </div>
-        </PageContainer>
       </div>
-      <div className="w-full py-4">
-        <Progress value={progress} className="mb-4" />
-        <div className="px-4 flex justify-between mt-4">
-          {currentSlide != 0 ? (
-            <Button onClick={handleBack} variant="outline">
-              Back
-            </Button>
-          ) : (
-            <Button
-              onClick={handleBack}
-              variant="outline"
-              className="opacity-0"
-            >
-              Back
-            </Button>
-          )}
-          <Button onClick={handleNext} variant="default">
-            {!(currentSlide === 5) ? "Next" : "Review Job Post"}
-          </Button>
-        </div>
+  ) : (
+      <div className="flex h-screen flex-col">
+          <Header />
+          <div className="flex-1 flex flex-col justify-center">
+              <PageContainer>
+                  <div className="   h-full flex flex-col justify-center">
+                      {renderSlide()}
+                  </div>
+              </PageContainer>
+          </div>
+          <div className="w-full py-4">
+              <Progress value={progress} className="mb-4" />
+              <div className="px-4 flex justify-between mt-4">
+                  {currentSlide != 0 ? (
+                      <Button onClick={handleBack} variant="outline">
+                          Back
+                      </Button>
+                  ) : (
+                      <Button
+                          onClick={handleBack}
+                          variant="outline"
+                          className="opacity-0"
+                      >
+                          Back
+                      </Button>
+                  )}
+                  <Button onClick={handleNext} variant="default">
+                      {!(currentSlide === 5) ? "Next" : "Review Job Post"}
+                  </Button>
+              </div>
+          </div>
       </div>
-    </div>
   );
 };
 
