@@ -44,10 +44,10 @@ export default function SearchBar({ full = false }) {
     const navigate = useNavigate();
     let queryString = "";
     useEffect(() => {
-        if (searchParams.get("wilaya"))
-            form.setValue("wilaya", searchParams.get("wilaya"));
         if (searchParams.get("city"))
             form.setValue("city", searchParams.get("city"));
+        if (searchParams.get("wilaya"))
+            form.setValue("wilaya", searchParams.get("wilaya"));
         if (searchParams.get("category"))
             form.setValue("category", searchParams.get("category"));
         if (searchParams.get("subCategory"))
@@ -60,8 +60,17 @@ export default function SearchBar({ full = false }) {
             (city) => city.wilaya === selectedWilaya
         );
         setFilteredCities(citiesForWilaya);
-        // Reset city field if wilaya changes
-        form.setValue("city", "");
+
+        const currentCity = form.getValues("city");
+        // Check if the current subCategory exists in the new list of subCategories
+        const cityExists = citiesForWilaya.some(
+            (sub) => sub.value === currentCity
+        );
+
+        // If the current city does not exist in the new cities, reset it
+        if (!cityExists) {
+            form.setValue("city", "");
+        }
     }, [form.watch("wilaya")]);
 
     // Update sub-categories when the category changes
