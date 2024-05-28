@@ -449,7 +449,14 @@ app.get("/job/:id/edit", middlewars.isAuthor, async (req, res) => {
 /* app.get('/job/createJob', async (req, res) => {
     res.send("creation job");
 }) */
-
+// app.get('/expert/:id',async(req,res)=>{
+//     const {id}=req.params;
+//     const pro=await Professionnel.findById(id).populate("profile.jobs");4
+//     if(!pro){
+//         return res.json({redirectUrl:'/dashboard'})
+//     }
+//     res.json(pro);
+// })
 app.get("/findWork", middlewars.requireLoginProfessionnel, async (req, res) => {
     const pro = await Professionnel.findById(req.session.user_id);
     const searchCriteria = {
