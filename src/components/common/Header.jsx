@@ -215,7 +215,7 @@ export default function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         )}
-        {/* <SearchBar/> */}
+        <SearchBar/>
         {logedIn && (
           <div className="flex lg:hidden">
             <button
