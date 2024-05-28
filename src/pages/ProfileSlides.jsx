@@ -354,7 +354,7 @@ const ProfileSlides = () => {
         },
       }
     );
-    setSubmiting(true);
+    setSubmiting(false);
     navigate("/dashboard");
   };
 

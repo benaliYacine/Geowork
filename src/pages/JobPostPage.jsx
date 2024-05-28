@@ -24,6 +24,7 @@ export default function JobPostPage() {
     const navigate = useNavigate();
     const [experts, setExperts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,10 +100,12 @@ export default function JobPostPage() {
     };
 
     const DeleteJob = async () => {
+        setDeleting(true)
         const response = await axios.delete(`/api/jobs/deleteJob/${id}`);
         if (response.data) {
             navigate("/dashboard");
         }
+        setDeleting(false)
     };
     async function SaveJobInfo() {
         console.log(jobInfo);
@@ -191,7 +194,10 @@ export default function JobPostPage() {
                                             edit job post
                                         </Button>
                                         {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
-                                        <DeleteJobPost onDelete={DeleteJob} />
+                                        <DeleteJobPost
+                                            onDelete={DeleteJob}
+                                            loading={deleting}
+                                        />
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-end gap-4">

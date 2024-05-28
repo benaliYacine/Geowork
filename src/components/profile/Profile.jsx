@@ -16,7 +16,7 @@ import axios from "axios";
 import SendInvitation from "@/components/expertList/SendInvitation";
 import Help from "@/components/Job/Help";
 export const EditContext = createContext();
-
+import { Skeleton } from "@/components/ui/skeleton";
 export default function Profile({
     preview = false,
     expert,
@@ -31,7 +31,10 @@ export default function Profile({
     //     photoProfile: newImage, // Directly assign the newImage Src
     //   });
     // };
+    const [loadingImage, setLoadingImage] = useState(false);
+    
     const addImage = async (newImage) => {
+        setLoadingImage(true);
         // mawch yemchi ki tbedel el image ma tetbedelch fel preview
         const dataUrl = newImage;
         const blobData = await fetch(dataUrl).then((res) => res.blob());
@@ -50,6 +53,7 @@ export default function Profile({
         updateProfileInfo({
             photoProfile: response.data.profile.photoProfile, // Directly assign the newImage Src
         });
+        setLoadingImage(false);
         // setIsPhotoAdded(true);
         // setShowPhotoError(false);
     };
@@ -60,7 +64,10 @@ export default function Profile({
                 <div className="w-full flex flex-col gap-6 rounded-3xl p-6 bg-white">
                     <div className="flex flex-row p-0 w-full mr-auto items-start">
                         <div className=" relative">
-                            <Avatar className="mr-4" size={24}>
+                            {loadingImage && (
+                                <Skeleton className="h-24 w-24 rounded-full border opacity-10 absolute z-10 top-0" />
+                            )}
+                            <Avatar className="mr-4 " size={24}>
                                 <AvatarImage
                                     src={
                                         profileInfo.photoProfile.url
@@ -73,8 +80,8 @@ export default function Profile({
                                     {getInitials(expert.name)}
                                 </AvatarFallback>
                             </Avatar>
-                            {edit && (
-                                <div className="absolute bottom-[-6px] right-4">
+                            {(edit && !loadingImage) && (
+                                <div className="absolute bottom-[-6px] right-4 z-50">
                                     <EditAvatarCard
                                         addImage={addImage}
                                         existingPhoto={profileInfo.photoProfile}
@@ -113,16 +120,17 @@ export default function Profile({
                                             percentage={
                                                 (profileInfo.jobs.filter(
                                                     (j) => j.closed
-                                                ).length /(
-                                                (profileInfo.jobs.filter(
-                                                    (j) => j.closed
-                                                ).length +
-                                                    profileInfo.numJobCanceled)
-                                                    ? profileInfo.jobs.filter(
-                                                          (j) => j.closed
-                                                      ).length +
-                                                      profileInfo.numJobCanceled
-                                                    : 1)) * 100
+                                                ).length /
+                                                    (profileInfo.jobs.filter(
+                                                        (j) => j.closed
+                                                    ).length +
+                                                    profileInfo.numJobCanceled
+                                                        ? profileInfo.jobs.filter(
+                                                              (j) => j.closed
+                                                          ).length +
+                                                          profileInfo.numJobCanceled
+                                                        : 1)) *
+                                                100
                                             }
                                         />
                                     </Help>
