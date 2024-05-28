@@ -15,16 +15,16 @@ router.get("/:type/:id/verify/:tokenId", async (req, res) => {
         } else if (type == "professionnels") {
             user = await Professionnel.findById(id);
         }
-        if (!user) return res.status(400).send({ message: "Invalid link" });
+        if (!user) return res.status(200).json({ message: "Invalid link" });
         const token = await Token.findOne({ userId: id, token: tokenId });
-        if (!token) return res.status(400).send({ message: "Invalid link" });
+        if (!token) return res.status(200).json({ message: "Invalid link" });
         if (type == "clients") {
             await Client.findByIdAndUpdate(id, { verified: true });
         } else if (type == "professionnels") {
             await Professionnel.findByIdAndUpdate(id, { verified: true });
         }
         await Token.findOneAndDelete({ userId: id, token: tokenId });
-        res.status(200).send({ message: "Email verified successfully" });
+        res.status(200).json({ message: "Email verified successfully" });
     } catch (error) {}
 });
 router.get("/verifyEmail", async (req, res) => {

@@ -281,8 +281,8 @@ export default function Chat() {
             </div>
         );
 
-    // return contacts.length != 0 ? (
-    return true ? (
+     return contacts.length != 0 ? (
+    //return true ? (
         <div className="flex-grow h-full flex w-full gap-1 px-6 py-2 overflow-hidden">
             <div className="h-full w-96 flex flex-col overflow-hidden">
                 <ContactsList contacts={contacts} />

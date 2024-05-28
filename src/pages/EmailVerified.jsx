@@ -5,14 +5,24 @@ import AlertMessage from "@/components/common/AlertMessage";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageContainer from "@/components/common/PageContainer";
 import { Link } from "react-router-dom";
 
 const EmailVerified = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-
+    const [loading, setLoading] = useState(true);
+    const { type, id, tokenId } = useParams();
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get(
+                `/${type}/${id}/verify/${tokenId}`
+            );
+            console.log(response.data);
+            setLoading(false);
+        };
+        fetchData(false);
+    }, []);
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
