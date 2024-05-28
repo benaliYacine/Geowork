@@ -11,9 +11,21 @@ import AlertMessage from "@/components/common/AlertMessage";
 import ClientHistory from "@/components/Job/ClientHistory";
 function Job({ jobInfo, apply = false }) {
     console.log("heart", jobInfo.heart);
+    console.log("jobInfo", jobInfo);
     const navigate = useNavigate();
+    let clientHistory = jobInfo.client.jobs
+        .filter((j) => j.closed) // Filter out non-closed jobs
+        .map((j) => ({
+            title: j.title || "N/A", // Provide default values if necessary
+            ExpertRating: j.professionnelRating || "No Rating",
+            category: j.category || "No Category",
+            subCategory: j.subCategory || "No SubCategory",
+            budget: j.budget || "No Budget", // Corrected typo
+            feedback: j.professionnelFeedback || "No Feedback",
+        }));
+    console.log("avant",clientHistory);
 
-    const clientHistory = [
+    /*      clientHistory = [
         {
             title: "Home Electrical System Upgrade",
             ExpertRating: 3.5,
@@ -34,7 +46,7 @@ function Job({ jobInfo, apply = false }) {
             budget: "DZD 5000",
             feedback: "lorem",
         },
-    ];
+    ]; */
     const [showAlert, setShowAlert] = useState(true);
     const [notAvailable, setNotAvailable] = useState(jobInfo.closed);
 
@@ -53,16 +65,23 @@ function Job({ jobInfo, apply = false }) {
         invitesNumber: jobInfo.hires ? jobInfo.hires.length : 0,
         hiredNumber: "0",
     });
-    useEffect(()=>{
-      const fetchData=async()=>{
-        const response=await axios.post("/clientinfo",{id:jobInfo.id});
-        console.log("client info", response.data);
-        if(response.data){
-          setClient({jobsNumber:response.data.jobs.length,wilaya:response.data.wilaya,city:response.data.city,rating:response.data.rating,})
-        }
-      }
-      fetchData();
-    },[])
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.post("/clientinfo", {
+                id: jobInfo.id,
+            });
+            console.log("client info", response.data);
+            if (response.data) {
+                setClient({
+                    jobsNumber: response.data.jobs.length,
+                    wilaya: response.data.wilaya,
+                    city: response.data.city,
+                    rating: response.data.rating,
+                });
+            }
+        };
+        fetchData();
+    }, []);
     useEffect(() => {
         setIsSaved(jobInfo.heart);
     }, [jobInfo.heart]);

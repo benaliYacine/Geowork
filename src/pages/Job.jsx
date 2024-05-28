@@ -13,10 +13,13 @@ export default function Jobs() {
   useEffect(() => {
     const fetchData = async () => {
       let response = await axios.get(`/jobPostPage/${id}`);
+      console.log("response",response);
+      if(response.data){
       response.data.id=response.data._id;
       response.data.images=response.data.images.map((i)=>(i.url));
       console.log('response.data',response.data);
       setJobInfo(response.data)
+      }
     }
     fetchData();
   },[])

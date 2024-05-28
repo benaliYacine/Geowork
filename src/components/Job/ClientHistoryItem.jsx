@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
 const GeoworkItem = ({ job }) => {
+  console.log("GeoworkItem",job)
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center  w-full mb-2">
@@ -30,7 +31,7 @@ const GeoworkItem = ({ job }) => {
               subCategory={job.subCategory}
               size="sm"
             />
-            <RatingDisplay rating={job.rate} size={120} />
+            <RatingDisplay rating={job.ExpertRating} size={120} />
             <p className="font-light italic">
               Expert Feedback - " {job.feedback}"
             </p>

@@ -18,7 +18,8 @@ import Job from "@/components/Job/Job";
 import { useNavigate } from "react-router-dom";
 export default function JobPostDrawer({ job, children }) {
     const navigate = useNavigate();
-    const [idClient,setIdClient]=useState()
+    const [idClient,setIdClient]=useState(null)
+    console.log("jobPostDrawer",job);
     useEffect(()=>{
       const fetchData=async()=>{
         const response=await axios.get('/idClient');

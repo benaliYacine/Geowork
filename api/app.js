@@ -343,19 +343,30 @@ app.get(
     middlewars.requireLoginProfessionnel,
     async (req, res) => {
         if (req.session.user_type == "Professionnel") {
-            let pro = await Professionnel.findById(req.session.user_id)
-                .populate("profile.savedJobs")
-                .lean();
+        let pro = await Professionnel.findById(req.session.user_id)
+            .populate({
+                path: "profile.savedJobs",
+                populate: {
+                    path: "idClient",
+                    populate: {
+                        path: "jobs", // Correctly populates the jobs array within idClient
+                    },
+                },
+            })
+            .lean();
             console.log("pro", pro);
             let jobs = pro.profile.savedJobs;
             if (jobs)
-                jobs = jobs.map((j) => ({
-                    ...j,
-                    id: j._id,
-                    heart: true,
-                    isExpert: true,
-                    images: j.images.map((i) => i.url),
-                }));
+                jobs = jobs.map((j) => {
+                    return {
+                        ...j,
+                        id: j._id,
+                        heart: true,
+                        isExpert: true,
+                        images: j.images.map((i) => i.url),
+                        client: j.idClient,
+                    };
+                });
             console.log(jobs);
             res.json(jobs);
         }
@@ -377,9 +388,10 @@ app.get("/idClient", (req, res) => {
         return res.json({ idClient: req.session.user_id });
     }
 });
-app.get("/jobPostPage/:id", middlewars.requireLoginClient, async (req, res) => {
+app.get("/jobPostPage/:id", async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
+    const client = await Client.findById(foundJob.idClient).populate("jobs");
     let apply = true;
     if (foundJob) {
         if (req.session.user_type == "Professionnel") {
@@ -410,7 +422,7 @@ app.get("/jobPostPage/:id", middlewars.requireLoginClient, async (req, res) => {
         job._doc.heart = foundJob.heart;
         console.log(job);
 
-        res.json({ ...job._doc, apply });
+        res.json({ ...job._doc, apply, client: client });
     } else {
         res.status(400).json({ message: "Invalid Job Id" });
     }
@@ -445,15 +457,21 @@ app.get("/findWork", middlewars.requireLoginProfessionnel, async (req, res) => {
     if (savedJobIds)
         jobs = await Promise.all(
             jobs.map(async (j) => {
+                const client = await Client.findById(j.idClient).populate(
+                    "jobs"
+                );
                 const heart = savedJobIds.includes(j._id.toString());
-                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                return { ...j.toObject(), heart, client: client }; // Convert toObject() if p is a mongoose document
             })
         );
     else
         jobs = await Promise.all(
             jobs.map(async (j) => {
+                const client = await Client.findById(j.idClient).populate(
+                    "jobs"
+                );
                 const heart = savedJobIds.includes(j._id.toString());
-                return { ...j.toObject(), heart }; // Convert toObject() if p is a mongoose document
+                return { ...j.toObject(), heart, client: client }; // Convert toObject() if p is a mongoose document
             })
         );
     jobs = jobs.map((j) => ({ ...j, images: j.images.map((i) => i.url) }));
@@ -510,15 +528,31 @@ app.get("/jobsSearch", async (req, res) => {
             if (savedJobIds)
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
+                        const client = await Client.findById(
+                            j.idClient
+                        ).populate("jobs");
                         const heart = savedJobIds.includes(j._id.toString());
-                        return { ...j.toObject(), heart, isExpert: true }; // Convert toObject() if p is a mongoose document
+                        return {
+                            ...j.toObject(),
+                            heart,
+                            isExpert: true,
+                            client: client,
+                        }; // Convert toObject() if p is a mongoose document
                     })
                 );
             else
                 jobs = await Promise.all(
                     jobs.map(async (j) => {
+                        const client = await Client.findById(
+                            j.idClient
+                        ).populate("jobs");
                         const heart = savedJobIds.includes(j._id.toString());
-                        return { ...j.toObject(), heart, isExpert: true }; // Convert toObject() if p is a mongoose document
+                        return {
+                            ...j.toObject(),
+                            heart,
+                            isExpert: true,
+                            client: client,
+                        }; // Convert toObject() if p is a mongoose document
                     })
                 );
         }
