@@ -16,16 +16,16 @@ import ComboBoxComponentWithId from "@/components/formFields/ComboBoxComponentWi
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  invitationMessage: z
-    .string()
-    .min(10, {
-      message: "Your invitation message must be at least 10 characters.",
-    })
-    .max(3000, {
-      message:
-        "Your invitation message must not be longer than 3000 characters.",
-    }),
-  job: z.string({ required_error: "Please select a job." }),
+    invitationMessage: z
+        .string()
+        .min(10, {
+            message: "Your invitation message must be at least 10 characters.",
+        })
+        .max(3000, {
+            message:
+                "Your invitation message must not be longer than 3000 characters.",
+        }),
+    job: z.string({ required_error: "Please select a job." }),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -34,130 +34,152 @@ import TextareaFormField from "@/components/formFields/TextareaFormField";
 import { Pencil } from "lucide-react";
 
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Content } from "@radix-ui/react-accordion";
 
 function SendInvitation({ name = "Yacine", expert }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [jobNotSpecified, setJobNotSpecified] = useState(true);
-  const [jobId, setJobId] = useState(undefined);
-  const [clientJobs, setClientJobs] = useState([{label:"fds",value:"dsa"}]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get("/client");
-      if (response.data) {
-        console.log(response.data);
-        let jobs = response.data
-          .map((j) => ({ title: j.title, jobId: j._id }))
-          .map((r) => ({ label: r.title, value: r.title, id: r.jobId }));
-        console.log(jobs);
-        setClientJobs(jobs);
-      }
-    };
-    fetchData();
-  }, []);
-  const form = useForm({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-          invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
-          job: clientJobs ? clientJobs[0].label : 'Choose',
-      },
-  });
-  const onSubmit = async (values) => {
-    console.log(values);
-    console.log(jobId);
-    const Invitation1={id:expert.id,message:{jobId:jobId,type:"invitation",state:"waiting",content:"Invitation Message"}};
-    const response1=await axios.post('/addMessage',Invitation1);
-    if(response1.data){
-      console.log("response1.data",response1.data);
-    }
-    console.log("response1", response1);
-    /* const Invitation2 = {
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [jobNotSpecified, setJobNotSpecified] = useState(true);
+
+    const [clientJobs, setClientJobs] = useState(undefined);
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get("/client");
+            if (response.data) {
+                console.log(response.data);
+                let jobs = response.data
+                    .map((j) => ({ label: j.title, value: j._id }))
+                console.log(jobs);
+                setClientJobs(jobs);
+            }
+        };
+        fetchData();
+    }, []);
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
+            job: clientJobs && clientJobs[0].label,
+        },
+    });
+    const onSubmit = async (values) => {
+        console.log(values);
+        const Invitation1 = {
+            id: expert.id,
+            message: {
+                jobId: values.job,
+                type: "invitation",
+                state: "waiting",
+                content: "Invitation Message",
+            },
+        };
+        const response1 = await axios.post("/addMessage", Invitation1);
+        if (response1.data) {
+            console.log("response1.data", response1.data);
+        }
+        console.log("response1", response1);
+        /* const Invitation2 = {
         id: expert.id,
         message: { type: "text", content: values.invitationMessage },
     };
     const response2=await axios.post('/addMessage',Invitation2);
     console.log("response2.data", response2.data); */
-    // TODO: handle send invitation message
-    setDialogOpen(false);
-  };
+        // TODO: handle send invitation message
+        setDialogOpen(false);
+    };
 
-  return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          Invite to Job
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
-        <div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-              {/* invitationMessage */}
-              <DialogHeader>
-                <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Invite To Job
-                </DialogTitle>
-                <DialogDescription>
-                  {/* Make changes to your profile here. Click save when you're done. */}
-                </DialogDescription>
-              </DialogHeader>
-              {/* the expert info  jebtha men expert item w na7iit l separator l rating l location ..div w styles manehtajhoumch ...*/}
-              <div className="flex flex-row p-2 w-full mr-auto">
-                <Avatar className="mr-2">
-                  <AvatarImage src={expert.avatarUrl} alt={expert.name} />
-                  <AvatarFallback>{expert.initials}</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-semibold mb-1">{expert.name}</h3>
-                  <p className="text-sm text-gray-600 mb-1">{expert.role}</p>
-                </div>
-              </div>
-
-              <TextareaFormField
-                control={form.control}
-                name="invitationMessage"
-                label="Message *"
-                placeholder="Already have a message? Paste it here!"
-                height="180px"
-              />
-
-              {jobNotSpecified && (
-                <ComboBoxComponentWithId
-                  control={form.control}
-                  name="job"
-                  label="Choose one of your job posts"
-                  setId={setJobId}
-                  itemList={clientJobs}
-                  placeholder="Select a job"
-                />
-              )}
-              {/* Submit Button */}
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline" className="mt-3" type="button">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button className="mt-3" type="submit">
-                  Send invitaion
+    return (
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                    Invite to Job
                 </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+                <div>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-2"
+                        >
+                            {/* invitationMessage */}
+                            <DialogHeader>
+                                <DialogTitle className="font-header font-bold p-0 text-2xl">
+                                    Invite To Job
+                                </DialogTitle>
+                                <DialogDescription>
+                                    {/* Make changes to your profile here. Click save when you're done. */}
+                                </DialogDescription>
+                            </DialogHeader>
+                            {/* the expert info  jebtha men expert item w na7iit l separator l rating l location ..div w styles manehtajhoumch ...*/}
+                            <div className="flex flex-row p-2 w-full mr-auto">
+                                <Avatar className="mr-2">
+                                    <AvatarImage
+                                        src={expert.avatarUrl}
+                                        alt={expert.name}
+                                    />
+                                    <AvatarFallback>
+                                        {expert.initials}
+                                    </AvatarFallback>
+                                </Avatar>
+
+                                <div className="flex flex-col">
+                                    <h3 className="text-lg font-semibold mb-1">
+                                        {expert.name}
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-1">
+                                        {expert.role}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <TextareaFormField
+                                control={form.control}
+                                name="invitationMessage"
+                                label="Message *"
+                                placeholder="Already have a message? Paste it here!"
+                                height="180px"
+                            />
+
+                            {jobNotSpecified && (
+                                <ComboBoxComponentWithId
+                                    control={form.control}
+                                    name="job"
+                                    label="Choose one of your job posts"
+                                    
+                                    itemList={clientJobs}
+                                    placeholder="Select a job"
+                                />
+                            )}
+                            {/* Submit Button */}
+                            <DialogFooter>
+                                <DialogClose>
+                                    <Button
+                                        variant="outline"
+                                        className="mt-3"
+                                        type="button"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </DialogClose>
+                                <Button className="mt-3" type="submit">
+                                    Send invitaion
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
 }
 
 export default SendInvitation;
