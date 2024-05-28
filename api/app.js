@@ -280,6 +280,16 @@ app.get("/client", async (req, res) => {
         res.json(cli.jobs);
     } else res.json({});
 });
+app.post("/clientinfo",async (req,res)=>{
+    const {id}=req.body;
+    const job=await Job.findById(id);
+    const cli=await Client.findById(job.idClient);
+    if(cli){
+        return res.json(cli);
+    }else{
+        return res.json({})
+    }
+});
 app.get("/welcomeCli", middlewars.requireLoginClient, async (req, res) => {
     const cli = await Client.findById(req.session.user_id).populate("jobs");
     if (cli.jobs && cli.jobs.length != 0)

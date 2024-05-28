@@ -109,7 +109,22 @@ export default function Profile({
                                         context="The percentage of this expert's successful jobs"
                                         profile
                                     >
-                                        <JobSuccess percentage={65} />
+                                        <JobSuccess
+                                            percentage={
+                                                (profileInfo.jobs.filter(
+                                                    (j) => j.closed
+                                                ).length /(
+                                                (profileInfo.jobs.filter(
+                                                    (j) => j.closed
+                                                ).length +
+                                                    profileInfo.numJobCanceled)
+                                                    ? profileInfo.jobs.filter(
+                                                          (j) => j.closed
+                                                      ).length +
+                                                      profileInfo.numJobCanceled
+                                                    : 1)) * 100
+                                            }
+                                        />
                                     </Help>
                                 </div>
                             )}

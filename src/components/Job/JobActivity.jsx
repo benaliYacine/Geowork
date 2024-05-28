@@ -41,14 +41,14 @@ const JobActivity = ({ activity }) => {
         </Help>
         {categorizeNumber(activity.proposalsNumber)}
       </p>
-      <p className="text-sm font-medium text-black">
+      {/* <p className="text-sm font-medium text-black">
         Last viewed by client:
         <Help context="This is when the client last reviewed or interacted with the applicants for this job.">
           {" "}
           <BadgeHelp className="w-5 h-5 text-primary inline mx-1 cursor-pointer" />
         </Help>
         {formatLastSeen(activity.lastViewed)}
-      </p>
+      </p> */}
       {/* <p className="text-sm font-medium text-black">
         Interviewing: {activity.interviewingNumber}
       </p> */}

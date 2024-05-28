@@ -1,6 +1,7 @@
 import React from "react";
 import Category from "@/components/common/Category";
 import Location from "@/components/common/Location";
+import { useNavigate } from "react-router-dom";
 import DateRange from "@/components/common/DateRange";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import localImage from "@/assets/illustrations/images.jpeg";
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
 const GeoworkItem = ({ job }) => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
       <div className="flex flex-col sm:flex-row items-center p-1 w-full mb-2">
@@ -40,7 +42,7 @@ const GeoworkItem = ({ job }) => {
         </div>
         <div className="  ml-auto sm:ml-0 sm:mb-auto">
           {/* TODO: diir l button ydiik lel page ta3 l job */}
-          <Button variant="link" size="sm">
+          <Button onClick={()=>{navigate(`/job/${job._id}`);}} variant="link" size="sm">
             view entire job poste
           </Button>
         </div>

@@ -46,13 +46,23 @@ function Job({ jobInfo, apply = false }) {
     });
     console.log(jobInfo);
     const [activity, setActivity] = useState({
-        proposalsNumber: "33",
+        proposalsNumber: jobInfo.proposals ? jobInfo.proposals.length : 0,
         lastViewed:
             "Sun Apr 28 2024 07:48:56 GMT+0100 (Central European Standard Time)", // hadi dirha bel date fct ta3 js 3adi
         interviewingNumber: "1",
         invitesNumber: jobInfo.hires ? jobInfo.hires.length : 0,
         hiredNumber: "0",
     });
+    useEffect(()=>{
+      const fetchData=async()=>{
+        const response=await axios.post("/clientinfo",{id:jobInfo.id});
+        console.log("client info", response.data);
+        if(response.data){
+          setClient({jobsNumber:response.data.jobs.length,wilaya:response.data.wilaya,city:response.data.city,rating:response.data.rating,})
+        }
+      }
+      fetchData();
+    },[])
     useEffect(() => {
         setIsSaved(jobInfo.heart);
     }, [jobInfo.heart]);
