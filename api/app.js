@@ -283,7 +283,7 @@ app.get("/client", async (req, res) => {
 app.post("/clientinfo", async (req, res) => {
     const { id } = req.body;
     const job = await Job.findById(id);
-    console.log("job",job);
+    console.log("job", job);
     const cli = await Client.findById(job.idClient);
     if (cli) {
         return res.json(cli);
@@ -372,7 +372,12 @@ app.get("/savedExperts", middlewars.requireLoginClient, async (req, res) => {
         res.json(pro);
     }
 });
-app.get("/jobPostPage/:id", async (req, res) => {
+app.get("/idClient", (req, res) => {
+    if (req.session && req.session.user_id) {
+        return res.json({ idClient: req.session.user_id });
+    }
+});
+app.get("/jobPostPage/:id", middlewars.requireLoginClient, async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
     let apply = true;
@@ -731,19 +736,24 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-app.get("/SubmitProposal/:id", async (req, res) => {
-    const { id } = req.params;
-    const job = await Job.findById(id);
-    res.json(job);
-});
+app.get(
+    "/SubmitProposal/:id",
+    middlewars.requireLoginProfessionnel,
+    async (req, res) => {
+        const { id } = req.params;
+        const job = await Job.findById(id);
+        res.json(job);
+    }
+);
 app.patch(
     "/changeProposalBudget",
     middlewars.requireLoginProfessionnel,
     async (req, res) => {
-        const { id, budget } = req.body;
+        const { id, budget, coverLetter } = req.body;
         const message = await Message.findById(id);
         if (message) {
             message.message.budget = budget;
+            message.message.coverLetter = coverLetter;
         }
         const saveMessage = await message.save();
         res.json(saveMessage);
@@ -873,13 +883,16 @@ app.patch("/cancelJob", async (req, res) => {
 app.patch("/leaveFeedback", async (req, res) => {
     const { jobId, id, description, rating } = req.body;
     const job = await Job.findById(jobId);
+    const message = await Message.findById(id);
     job.professionnelFeedback = description;
     job.professionnelRating = rating;
+    message.message.state = "feedback";
     const client = await Client.findById(job.idClient).populate("jobs");
     const numberJobClose = client.jobs.filter((j) => j.closed).length;
 
     client.rating =
         (client.rating * (numberJobClose - 1) + rating) / numberJobClose;
+    await message.save();
     await job.save();
     await client.save();
     res.json({ job, client });

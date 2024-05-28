@@ -134,6 +134,7 @@ function MessageItem({
             id,
             jobId: Message.jobId,
         });
+        setMessageState("feedback");
         console.log("leaveFeedback", response.data);
     };
 

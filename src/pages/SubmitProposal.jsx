@@ -13,7 +13,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
 import SearchBar from "@/components/searchBar/SearchBar";
 const proposalSchema = z.object({
     budget: z
@@ -34,6 +34,7 @@ const proposalSchema = z.object({
 
 export default function SubmitProposal({}) {
     const { id } = useParams();
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(proposalSchema),
@@ -63,7 +64,11 @@ export default function SubmitProposal({}) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(`/SubmitProposal/${id}`);
+            if (response.data.redirectUrl) {
+                navigate(response.data.redirectUrl);
+            }
             if (response.data) {
+                setLoading(false);
                 console.log("response.data", response.data);
                 console.log(
                     "{...response.data,images:response.data.map((i)=>(i.url))}",
@@ -80,6 +85,12 @@ export default function SubmitProposal({}) {
         };
         fetchData();
     }, []);
+    if (loading)
+        return (
+            <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
+                <PropagateLoader color="#FF5400" />
+            </div>
+        );
     if (jobInfo)
         return (
             <>
@@ -111,7 +122,9 @@ export default function SubmitProposal({}) {
                                         variant="link"
                                         className="w-fit mt-2"
                                         type="button"
-                                        onClick={()=>{navigate(`/job/${id}`)}}
+                                        onClick={() => {
+                                            navigate(`/job/${id}`);
+                                        }}
                                     >
                                         View job Posting
                                     </Button>

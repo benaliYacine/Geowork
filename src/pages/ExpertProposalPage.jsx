@@ -37,11 +37,9 @@ const proposalSchema = z.object({
 });
 
 export default function SubmitProposal() {
-    const [budget, setbudget] = useState("");
+    const [budget, setbudget] = useState();
     const [state, setState] = useState("waiting");
-    const [coverLetter, setCoverLetter] = useState(
-        "Hello! I am writing to express my interest in the Residential Wiring Upgrade project for your three-bedroom apartment in Algiers. With over a decade of experience in the electrical field, I am confident in my ability to deliver high-quality and safe electrical services tailored to your needs. I hold a Bachelor's Degree in Electrical Engineering from USTHB and have completed various certifications in residential electrical systems and electrical safety. My extensive experience includes upgrading wiring, installing circuit breakers, and ensuring all electrical components meet local codes and safety standards. In previous projects, I have successfully improved electrical efficiency and safety for numerous clients. I take pride in my attention to detail and commitment to providing reliable and efficient solutions. I understand the importance of safety and will ensure that your home’s electrical system is upgraded to the highest standards. I am available to start the project at your earliest convenience and will work diligently to complete it within the agreed timeframe. I look forward to the opportunity to discuss your project further and answer any questions you may have. Thank you for considering my proposal. I am excited about the possibility of working with you to enhance the safety and functionality of your home’s electrical system. Best regards"
-    );
+    const [coverLetter, setCoverLetter] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
     const form = useForm({
@@ -54,9 +52,11 @@ export default function SubmitProposal() {
 
     const onSubmit = form.handleSubmit(async (values) => {
         setbudget(values.budget);
-        const response = await axios.patch("changeProposalBudget", {
+        setCoverLetter(values.coverLetter);
+        const response = await axios.patch("/changeProposalBudget", {
             id,
             budget: values.budget,
+            coverLetter: values.coverLetter,
         });
         console.log("response.data", response.data);
         setEdit(false);
