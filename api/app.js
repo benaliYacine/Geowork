@@ -377,7 +377,7 @@ app.get("/idClient", (req, res) => {
         return res.json({ idClient: req.session.user_id });
     }
 });
-app.get("/jobPostPage/:id", middlewars.requireLoginClient, async (req, res) => {
+app.get("/jobPostPage/:id", async (req, res) => {
     const { id } = req.params;
     let foundJob = await Job.findById(id);
     let apply = true;
