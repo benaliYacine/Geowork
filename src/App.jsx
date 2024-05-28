@@ -22,7 +22,6 @@ import ProfilePage from "./pages/ProfilePage";
 import JobPostPage from "./pages/JobPostPage";
 import Dashboard from "./pages/Dashboard";
 import FindWork from "./pages/FindWork";
-import EmailVerified from "./pages/EmailVerified";
 import ProposalPage from "./pages/ProposalPage";
 import SubmitProposal from "./pages/SubmitProposal";
 import Job from "./pages/Job";
@@ -30,7 +29,6 @@ import SavedJobs from "./pages/SavedJobs";
 import SavedExperts from "./pages/SavedExperts";
 import ExpertProposalPage from "./pages/ExpertProposalPage";
 import ClientProfilePage from "./pages/ClientProfilePage";
-
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -95,13 +93,13 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/Cprofile" element={<ClientProfilePage />} />
-                    <Route path="/emailVerified" element={<EmailVerified />} />
                     <Route
                         path="/submitProposal/:id"
                         element={<SubmitProposal />}
                     />
-                    <Route path="/job" element={<Job />} />
+
                     <Route path="/job/:id" element={<Job />} />
+                    <Route path="/expert/:id" element={<ProfilePage />} />
                     <Route path="*" element={<NoPage />} />
                 </Routes>
             </BrowserRouter>

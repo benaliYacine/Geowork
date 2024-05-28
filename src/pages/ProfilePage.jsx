@@ -6,32 +6,55 @@ import Footer from "@/components/common/Footer";
 import PageContainer from "@/components/common/PageContainer";
 import SearchBar from "@/components/searchBar/SearchBar";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 export default function ProfilePage() {
     const [info, setInfo] = useState({});
     const [profileInfo, setProfileInfo] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [edit, setEdit] = useState(true);
+    const { id } = useParams();
+    const [edit, setEdit] = useState(id ? false : true);
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("ok");
-                const response = await axios.get("/profileProfessionnel");
-                console.log(response.data);
-                if (response.data.redirectUrl) {
-                    navigate(response.data.redirectUrl);
-                }
-                if (response.data) {
-                    setLoading(false);
-                    setProfileInfo(response.data.profile);
-                    console.log("profile....", response.data.profile);
-                    const info = {
-                        name: `${response.data.name.first} ${response.data.name.last}`,
-                        wilaya: response.data.wilaya,
-                        city: response.data.city,
-                    };
-                    setInfo(info);
+                if (!id) {
+                    console.log("ok");
+                    const response = await axios.get("/profileProfessionnel");
+                    console.log(response.data);
+                    if (response.data.redirectUrl) {
+                        navigate(response.data.redirectUrl);
+                    }
+                    if (response.data) {
+                        setLoading(false);
+                        setProfileInfo(response.data.profile);
+                        console.log("profile....", response.data.profile);
+                        const info = {
+                            name: `${response.data.name.first} ${response.data.name.last}`,
+                            wilaya: response.data.wilaya,
+                            city: response.data.city,
+                        };
+                        setInfo(info);
+                    }
+                }else{
+                    console.log("ok");
+                    const response = await axios.get(`/expertInfo/${id}`);
+                    console.log(response.data);
+                    if (response.data.redirectUrl) {
+                        navigate(response.data.redirectUrl);
+                    }
+                    if (response.data) {
+                        setLoading(false);
+                        setProfileInfo(response.data.profile);
+                        console.log("profile....", response.data.profile);
+                        const info = {
+                            name: `${response.data.name.first} ${response.data.name.last}`,
+                            wilaya: response.data.wilaya,
+                            city: response.data.city,
+                        };
+                        setInfo(info);
+                    }
+
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
