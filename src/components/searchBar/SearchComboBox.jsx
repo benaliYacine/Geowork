@@ -43,9 +43,11 @@ const SearchComboBox = ({
                           <FormControl>
                               <div
                                   className={cn(
-                                      "flex flex-col gap-1 hover:bg-bg h-fit py-2 px-8 rounded-full cursor-pointer",
+                                      " h-fit py-2 px-8 rounded-full cursor-pointer",
                                       full && "w-max",
-                                      !isExpanded && "py-2 px-2"
+                                      !isExpanded && "py-0 px-2",
+                                      isExpanded &&
+                                          "flex flex-col gap-1 hover:bg-bg"
                                   )}
                               >
                                   <FormLabel className=" text-md font-medium cursor-pointer">

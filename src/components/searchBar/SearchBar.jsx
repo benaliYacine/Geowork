@@ -13,6 +13,7 @@ import SearchComboBox from "@/components/searchBar/SearchComboBox";
 import SearchSelect from "@/components/searchBar/SearchSelect";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+
 import { motion } from "framer-motion";
 const variants = {
     large: {
@@ -144,9 +145,9 @@ export default function SearchBar({ full = false }) {
                 onClick={() => setIsExpanded(true)}
                 layout
                 data-isOpen={isExpanded}
-                className={` ${isExpanded ? "w-fit h-fit absolute top-40 z-10 inset-0 mx-auto" : "w-fit h-fit"}  cursor-pointer`}
+                className={` ${isExpanded ? "w-fit h-fit relative top-40 z-10 inset-0 mx-auto" : "w-fit mx-auto h-fit"} cursor-pointer`}
             >
-                <div className=" cursor-pointer">
+                <div className="cursor-pointer">
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="w-full flex align-middle justify-center"
@@ -154,7 +155,10 @@ export default function SearchBar({ full = false }) {
                         <div
                             className={cn(
                                 "w-fit h-fit p-2 flex gap-1 rounded-full bg-white items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
-                                full && "w-full"
+                                full && "w-full",
+                                isExpanded &&
+                                    "shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]",
+                                !isExpanded && "p-1"
                             )}
                         >
                             <SearchComboBox
@@ -173,7 +177,7 @@ export default function SearchBar({ full = false }) {
                             />
                             <Separator
                                 orientation="vertical"
-                                className="h-12"
+                                className={isExpanded ? "h-12" : "h-6"}
                             />
                             <SearchComboBox
                                 isExpanded={isExpanded}
@@ -191,7 +195,7 @@ export default function SearchBar({ full = false }) {
                             />
                             <Separator
                                 orientation="vertical"
-                                className="h-12"
+                                className={isExpanded ? "h-12" : "h-6"}
                             />
                             <SearchComboBox
                                 isExpanded={isExpanded}
@@ -205,7 +209,7 @@ export default function SearchBar({ full = false }) {
 
                             <Separator
                                 orientation="vertical"
-                                className="h-12"
+                                className={isExpanded ? "h-12" : "h-6"}
                             />
 
                             <SearchComboBox
@@ -219,21 +223,36 @@ export default function SearchBar({ full = false }) {
                             />
 
                             <Separator
-                                isExpanded={isExpanded}
                                 orientation="vertical"
-                                className="h-12"
+                                className={isExpanded ? "h-12" : "h-6"}
                             />
-                            <SearchSelect
-                                isExpanded={isExpanded}
-                                control={form.control}
-                                name="role"
-                                label={isExpanded ? "Role" : ""}
-                                // itemList={filteredCities}
-                                placeholder="Select Role"
-                            />
+                            <div
+                                onClick={() => {
+                                    setIsExpanded(true);
+                                }}
+                            >
+                                {" "}
+                                <SearchSelect
+                                    isExpanded={isExpanded}
+                                    control={form.control}
+                                    name="role"
+                                    label={isExpanded ? "Role" : ""}
+                                    placeholder="Select Role"
+                                />
+                            </div>
                             <button type="submit">
-                                <div className=" text-center flex-none items-center flex justify-center  aspect-square w-12 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
-                                    <Search className="h-10 w-10" />
+                                <div
+                                    className={cn(
+                                        " text-center flex-none items-center flex justify-center  aspect-square  rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]",
+                                        isExpanded && "w-16 h-16",
+                                        !isExpanded && "w-10 h-10"
+                                    )}
+                                >
+                                    <Search
+                                        className={
+                                            isExpanded ? "h-12 w-12" : "h-8 w-8"
+                                        }
+                                    />
                                 </div>
                             </button>
                         </div>
