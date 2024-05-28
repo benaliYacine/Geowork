@@ -26,7 +26,6 @@ if(jobs) */
             <Header />
             <PageContainer>
                 <Hi name={name} />
-                <SearchBar full />
                 <div className="flex items-center justify-between">
                     <h1 className="text-black font-header text-4xl font-semibold">
                         All Job Posts

@@ -11,6 +11,7 @@ export default function ProfilePage() {
     const [info, setInfo] = useState({});
     const [profileInfo, setProfileInfo] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [edit, setEdit] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
@@ -60,7 +61,7 @@ export default function ProfilePage() {
                         expert={info}
                         profileInfo={profileInfo}
                         updateProfileInfo={updateProfileInfo}
-                        edit={true}
+                        edit={edit}
                     />
                 </PageContainer>
                 <Footer />

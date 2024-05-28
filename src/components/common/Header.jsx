@@ -44,6 +44,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import SearchBar from "../searchBar/SearchBar";
 
 const FindWork = [
   {
@@ -214,6 +215,7 @@ export default function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         )}
+        {/* <SearchBar/> */}
         {logedIn && (
           <div className="flex lg:hidden">
             <button
