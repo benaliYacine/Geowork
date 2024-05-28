@@ -557,7 +557,6 @@ app.get("/jobsSearch", async (req, res) => {
                             ...j.toObject(),
                             heart,
                             isExpert: true,
-                            
                         }; // Convert toObject() if p is a mongoose document
                     })
                 );
@@ -1233,6 +1232,19 @@ io.on("connection", (socket) => {
         console.log(onlineUsers);
         io.emit("getOnlineUsers", onlineUsers);
     });
+    socket.on("updateMessage", (message) => {
+        console.log("updatedMessage", message);
+
+        const user = onlineUsers.find((user) => user.user_id == message.userId);
+        console.log("useruseruser", user);
+        if (user) {
+            console.log("Emitting getUpdateMessage event");
+            io.to(user.socketId).emit("getUpdateMessage", {
+                ...message,
+                userId: user_id,
+            });
+        }
+    });
     //add message
     socket.on("sendMessage", async (message) => {
         if (
@@ -1269,19 +1281,7 @@ io.on("connection", (socket) => {
             io.to(user.socketId).emit("getMessage", message);
         }
     });
-    socket.on("updateMessage", (message) => {
-        console.log("updatedMessage", message);
 
-        const user = onlineUsers.find((user) => user.user_id == message.userId);
-        console.log("useruseruser", user);
-        if (user) {
-            console.log("Emitting getUpdateMessage event");
-            io.to(user.socketId).emit("getUpdateMessage", {
-                ...message,
-                userId: user_id,
-            });
-        }
-    });
     socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);

@@ -31,6 +31,7 @@ import ExpertProposalPage from "./pages/ExpertProposalPage";
 import ClientProfilePage from "./pages/ClientProfilePage";
 import io from "socket.io-client";
 import axios from "axios";
+import EmailVerified from "./pages/EmailVerified";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
 //makach nav la 3ndk default page w fiha te9der tro7 l page khdoukhra b link kima hna dert home hiya default (path="/") w fel houme dert link yediik lel about page
@@ -87,6 +88,10 @@ function App() {
 
                     <Route path="/jobsSearch" element={<JobsSearch />} />
                     <Route path="/proposal/:id" element={<ProposalPage />} />
+                    <Route
+                        path="/:type/:id/verify/:tokenId"
+                        element={<EmailVerified />}
+                    />
                     <Route path="/proposal/" element={<ProposalPage />} />
                     <Route path="/expertsSearch" element={<ExpertsSearch />} />
                     <Route path="/settings" element={<Settings />} />
