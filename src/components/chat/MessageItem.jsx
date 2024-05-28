@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Category from "@/components/common/Category";
 import Heart from "react-heart";
-import { File } from "lucide-react";
+import { File, Check } from "lucide-react";
 import AlertDialog from "@/components/common/AlertDialog";
 import CloseJobDialog from "@/components/chat/CloseJobDialog";
 import LeaveFeedback from "@/components/chat/LeaveFeedback";
@@ -30,7 +30,7 @@ function MessageItem({
     //const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
-    const [Message,setMessage]=useState(message);
+    const [Message, setMessage] = useState(message);
     const [messageState, setMessageState] = useState(Message.state);
     //const [rerender, setRerender] = useState(false);
     // useEffect(() => {
@@ -126,10 +126,14 @@ function MessageItem({
     const editLocation = async (location) => {
         const response = await axios.patch("/editLocation", { id, location });
         console.log("editLocation", response.data);
-        setMessage({...response.data.message});
+        setMessage({ ...response.data.message });
     };
     const leaveFeedback = async (values) => {
-        const response = await axios.patch("/leaveFeedback", {...values,id,jobId:Message.jobId});
+        const response = await axios.patch("/leaveFeedback", {
+            ...values,
+            id,
+            jobId: Message.jobId,
+        });
         console.log("leaveFeedback", response.data);
     };
 
@@ -285,6 +289,15 @@ function MessageItem({
                         </p>
                     </div>
                 );
+            case "feedback":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have closed this job. and the expert has leaved
+                            a feedback for you.
+                        </p>
+                    </div>
+                );
             case "canceled":
                 return (
                     <div className="flex flex-col gap-2 w-full">
@@ -366,6 +379,19 @@ function MessageItem({
                         <div className="flex justify-end w-full gap-2">
                             <LeaveFeedback leaveFeedback={leaveFeedback} />
                         </div>
+                    </>
+                );
+            case "feedback":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            the client has closed the job
+                        </p>
+                        <p className=" text-md text-success w-full">
+                            <Check className="inline mr-2" />
+                            your feedback was submitted successfully
+                        </p>
                     </>
                 );
             case "canceled":
@@ -460,6 +486,19 @@ function MessageItem({
                         </div>
                     </>
                 );
+            case "feedback":
+                return (
+                    <>
+                        {" "}
+                        <p className=" text-md text-success w-full">
+                            the client has closed the job
+                        </p>
+                        <p className=" text-md text-success w-full">
+                            <Check className="inline mr-2" />
+                            your feedback was submitted successfully
+                        </p>
+                    </>
+                );
             case "canceled":
                 return (
                     <>
@@ -542,6 +581,15 @@ function MessageItem({
                     <div className="flex flex-col gap-2 w-full">
                         <p className=" text-md text-success w-full">
                             you have closed this job.
+                        </p>
+                    </div>
+                );
+            case "feedback":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have closed this job. and the expert has leaved
+                            a feedback for you.
                         </p>
                     </div>
                 );
