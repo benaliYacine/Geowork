@@ -861,8 +861,13 @@ app.patch("/denyProposal", async (req, res) => {
     const { id } = req.body;
     console.log("id", id);
     const foundMessage = await Message.findById(id);
+    const job = await Job.findById(foundMessage._id);
+    job.proposals=job.proposals.filter(
+        (p) => p.toString() != foundMessage.senderId.toString()
+    );
     console.log("foundMessage", foundMessage);
     if (foundMessage) foundMessage.message.state = "denied";
+    await job.save();
     await foundMessage.save();
     res.json(foundMessage);
 });
@@ -931,6 +936,9 @@ app.patch("/cancelJob", async (req, res) => {
     const user = await Professionnel.findById(job.idProfessionnel);
     user.profile.numJobCanceled++;
     user.profile.jobs = user.profile.jobs.filter((j) => j != req.body.jobId);
+    job.proposals = job.proposals.filter(
+        (p) => p.toString() != job.idProfessionnel.toString()
+    );
     console.log("user.profile.numJobCanceled", user.profile.numJobCanceled);
     console.log("job.idProfessionnel", job.idProfessionnel);
     job.idProfessionnel = null;
