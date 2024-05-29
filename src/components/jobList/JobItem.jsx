@@ -44,6 +44,7 @@ export default function JobItem({ job }) {
                     <div className="flex-grow mb-2">
                         <JobPostDrawer job={job}>
                             <Button
+                                noScale
                                 variant="title"
                                 className="text-lg font-semibold mb-1 "
                                 size="none"

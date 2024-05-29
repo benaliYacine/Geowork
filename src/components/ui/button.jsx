@@ -44,6 +44,7 @@ const Button = React.forwardRef(
             children,
             variant,
             size,
+            noScale = false,
             loading = false,
             asChild = false,
             ...props
@@ -53,7 +54,7 @@ const Button = React.forwardRef(
         if (!asChild) {
             return (
                 <motion.button
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: !noScale ? 1.1 : 1 }}
                     className={cn(buttonVariants({ variant, size, className }))}
                     ref={ref}
                     disabled={loading}
@@ -67,11 +68,7 @@ const Button = React.forwardRef(
             );
         } else {
             return (
-                <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    onHoverStart={(e) => {}}
-                    onHoverEnd={(e) => {}}
-                >
+                <motion.div whileHover={{ scale: noScale ? 1.1 : 1 }}>
                     <Slot
                         className={cn(
                             buttonVariants({ variant, size, className })

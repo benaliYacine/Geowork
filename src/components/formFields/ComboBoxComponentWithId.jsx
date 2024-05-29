@@ -41,6 +41,7 @@ const ComboBoxComponent = ({ control, name, label, itemList, placeholder }) => {
                         <PopoverTrigger asChild>
                             <FormControl>
                                 <Button
+                                    noScale
                                     variant="white"
                                     role="combobox"
                                     className="w-full justify-between hover:scale-100 rounded-md"
