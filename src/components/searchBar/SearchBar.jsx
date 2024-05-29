@@ -13,8 +13,8 @@ import SearchComboBox from "@/components/searchBar/SearchComboBox";
 import SearchSelect from "@/components/searchBar/SearchSelect";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
+import { motion } from "framer-motion";
 const variants = {
     large: {
         width: "100px",
@@ -31,12 +31,12 @@ const variants = {
         x: "0",
     },
 };
-
+// Define your schema for SlideOne
 const SearchBarSchema = z.object({
     category: z.string(),
     subCategory: z.string(),
-    wilaya: z.string(),
-    city: z.string(),
+    wilaya: z.string(), // Ensure this line is correctly added
+    city: z.string(), // Ensure this line is correctly added
     role: z.string(),
 });
 
@@ -53,12 +53,12 @@ export default function SearchBar({ full = false }) {
             role: "Jobs",
         },
     });
-
     const [isExpanded, setIsExpanded] = useState(false);
     const [subCategories, setSubCategories] = useState([]);
     const [filteredCities, setFilteredCities] = useState([]);
     const navigate = useNavigate();
-    const searchBarRef = useRef(null);
+    const ref = useRef(null);
+    const popoverRefs = useRef([]);
 
     useEffect(() => {
         if (searchParams.get("city"))
@@ -123,33 +123,40 @@ export default function SearchBar({ full = false }) {
     }
 
     const onSubmit = form.handleSubmit(async (values) => {
-        if (values.role === "Jobs") {
-            navigateSearch({ ...values, role: "jobsSearch" });
-        } else if (values.role === "Geoworkers") {
-            navigateSearch({ ...values, role: "expertsSearch" });
+        if (values.role == "Jobs") {
+            navigateSearch(values);
+        } else if (values.role == "Geoworkers") {
+            navigateSearch(values);
         }
     });
 
-    const handleClickOutside = (event) => {
-        if (
-            searchBarRef.current &&
-            !searchBarRef.current.contains(event.target)
-        ) {
-            setIsExpanded(false);
-        }
+    const isClickInsidePopover = (target) => {
+        return popoverRefs.current.some((popoverRef) => {
+            return popoverRef && popoverRef.contains(target);
+        });
     };
 
     useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                ref.current &&
+                !ref.current.contains(event.target) &&
+                !isClickInsidePopover(event.target)
+            ) {
+                setIsExpanded(false);
+            }
+        }
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []);
+    }, [ref]);
 
     return (
         <Form {...form}>
             <motion.div
-                ref={searchBarRef}
+                ref={ref}
                 onClick={() => setIsExpanded(true)}
                 layout
                 data-isOpen={isExpanded}
@@ -182,6 +189,7 @@ export default function SearchBar({ full = false }) {
                                     })
                                 )}
                                 placeholder="Select category"
+                                popoverRefs={popoverRefs}
                             />
                             <Separator
                                 orientation="vertical"
@@ -200,6 +208,7 @@ export default function SearchBar({ full = false }) {
                                     })
                                 )}
                                 placeholder="Select sub-category"
+                                popoverRefs={popoverRefs}
                             />
                             <Separator
                                 orientation="vertical"
@@ -213,6 +222,7 @@ export default function SearchBar({ full = false }) {
                                 label={isExpanded ? "Wilaya" : ""}
                                 itemList={wilayas}
                                 placeholder="Select wilaya"
+                                popoverRefs={popoverRefs}
                             />
                             <Separator
                                 orientation="vertical"
@@ -226,6 +236,7 @@ export default function SearchBar({ full = false }) {
                                 label={isExpanded ? "City" : ""}
                                 itemList={filteredCities}
                                 placeholder="Select city"
+                                popoverRefs={popoverRefs}
                             />
                             <Separator
                                 orientation="vertical"
@@ -247,7 +258,7 @@ export default function SearchBar({ full = false }) {
                             <button type="submit">
                                 <div
                                     className={cn(
-                                        "text-center flex-none items-center flex justify-center aspect-square rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]",
+                                        " text-center flex-none items-center flex justify-center  aspect-square  rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]",
                                         isExpanded && "w-16 h-16",
                                         !isExpanded && "w-10 h-10"
                                     )}

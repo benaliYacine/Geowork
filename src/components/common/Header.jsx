@@ -122,8 +122,8 @@ export default function Header() {
     const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
-        const newSocket = io("ws://localhost:3000",{
-          transports: ["websocket"],
+        const newSocket = io("ws://localhost:3000", {
+            transports: ["websocket"],
         });
         setSocket(newSocket);
 
@@ -171,7 +171,7 @@ export default function Header() {
             </div>
         );
     return (
-        <header className="flex justify-center items-center w-full pt-2">
+        <header className="flex justify-center items-center w-full pt-2 h-24">
             <nav
                 className="flex items-center justify-between m-3 sm:mx-4 md:mx-8 lg:mx-12 xl:mx-18 w-full max-w-[1600px]"
                 aria-label="Global"
@@ -234,7 +234,9 @@ export default function Header() {
                         </NavigationMenuList>
                     </NavigationMenu>
                 )}
-                {/* <SearchBar/> */}
+                <div className="flex flex-grow items-center justify-center ">
+                    <SearchBar />
+                </div>
                 {logedIn && (
                     <div className="flex lg:hidden">
                         <button

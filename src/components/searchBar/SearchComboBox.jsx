@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +31,23 @@ const SearchComboBox = ({
     itemList,
     placeholder,
     full = true,
+    popoverRefs,
 }) => {
+    const popoverContentRef = useRef(null);
+
+    useEffect(() => {
+        if (popoverRefs) {
+            popoverRefs.current.push(popoverContentRef.current);
+        }
+        return () => {
+            if (popoverRefs) {
+                popoverRefs.current = popoverRefs.current.filter(
+                    (ref) => ref !== popoverContentRef.current
+                );
+            }
+        };
+    }, [popoverRefs]);
+
     return (
         <FormField
             control={control}
@@ -64,7 +80,10 @@ const SearchComboBox = ({
                                 </div>
                             </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="flex flex-col w-full p-0 shadow-[0_0px_20px_0px_rgba(0,0,0,0.2)]">
+                        <PopoverContent
+                            ref={popoverContentRef}
+                            className="flex flex-col w-full p-0 shadow-[0_0px_20px_0px_rgba(0,0,0,0.2)]"
+                        >
                             <Command>
                                 <CommandEmpty>No item found.</CommandEmpty>
                                 <CommandGroup>
