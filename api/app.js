@@ -881,7 +881,7 @@ app.patch("/denyProposal", async (req, res) => {
     const { id } = req.body;
     console.log("id", id);
     const foundMessage = await Message.findById(id);
-    const job = await Job.findById(saveMessage.message.jobId);
+    const job = await Job.findById(foundMessage.message.jobId);
     job.proposals = job.proposals.filter(
         (p) => p.toString() != foundMessage.senderId.toString()
     );

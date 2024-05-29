@@ -97,9 +97,13 @@ function SendInvitation({ name = "Yacine", expert }) {
             }
         }
         Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
+        console.log("hna pro");
         Invitation1.messageId = response1.data._id;
+         console.log("hna pro");
         setInvitation(Invitation1);
+         console.log("hna pro");
         console.log("response1", response1);
+         console.log("hna pro");
         /* const Invitation2 = {
         id: expert.id,
         message: { type: "text", content: values.invitationMessage },
