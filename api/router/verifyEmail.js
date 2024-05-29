@@ -8,7 +8,6 @@ const crypto = require("crypto");
 const middlewars = require("../utils/middlewars");
 router.get(
     "/:type/:id/verify/:tokenId",
-    middlewars.isLoginIn,
     async (req, res) => {
         try {
             const { type, id, tokenId } = req.params;
