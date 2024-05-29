@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import mail_sent from "@/assets/illustrations/mail_sent.svg"; // Ensure correct path
 import AlertMessage from "@/components/common/AlertMessage";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,20 +14,31 @@ const EmailVerified = () => {
     const [isValid, setIsValid] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
     const { type, id, tokenId } = useParams();
+    const requestSent = useRef(false);
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(
-                `/${type}/${id}/verify/${tokenId}`
-            );
-            if (response.data.redirectUrl) {
-                navigate(response.data.redirectUrl);
+            if (requestSent.current) return;
+            requestSent.current = true;
+
+            try {
+                const response = await axios.get(
+                    `/${type}/${id}/verify/${tokenId}`
+                );
+                if (response.data.redirectUrl) {
+                    navigate(response.data.redirectUrl);
+                }
+                if (response.data.message === "Invalid link") setIsValid(false);
+                console.log(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+                // Handle error here if needed
             }
-            if (response.data.message == "Invalid link") setIsValid(false);
-            console.log(response.data);
-            setLoading(false);
         };
-        fetchData(false);
-    }, []);
+
+        fetchData();
+    }, [navigate, type, id, tokenId]);
 
     const handleSendVerifyEmail = async () => {
         const response = await axios.post("/verifyEmail");
@@ -47,17 +57,18 @@ const EmailVerified = () => {
                 <PropagateLoader color="#FF5400" />
             </div>
         );
+
     return (
         <PageContainer>
             <AlertMessage
                 className="mt-4"
                 showAlert={showAlert}
                 message="New verification email is successfully sent. Please, check your email..."
-                variant="success" // or "success" for success alerts
-                onClose={() => setShowAlert(false)} // Assuming `setShowAlert` is your state setter
+                variant="success"
+                onClose={() => setShowAlert(false)}
             />
 
-            <div className="text-center py-20 sm:py-24">
+            <div className="text-center flex items-center flex-col py-20 sm:py-24">
                 <img
                     src={mail_sent}
                     alt="Email Sent"
@@ -71,7 +82,7 @@ const EmailVerified = () => {
                         <p className="mt-6 text-base leading-7 text-greyDark">
                             {/* Your email was verified successfully <br /> */}
                             {/* Please check your email and select the link provided to
-                    verify your address. */}
+                        verify your address. */}
                         </p>
                     </>
                 ) : (
@@ -83,7 +94,7 @@ const EmailVerified = () => {
                             Invalid email
                             {/* <br /> */}
                             {/* Please check your email and select the link provided to
-                    verify your address. */}
+                        verify your address. */}
                         </p>
                     </>
                 )}

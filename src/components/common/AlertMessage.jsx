@@ -30,7 +30,7 @@ const AlertMessage = ({
                     variants={animationVariants}
                     transition={{ duration: 0.3 }}
                     className={cn(
-                        "absolute top-10 z-20  left-0 right-0 mx-auto mb-4 ",
+                        " fixed top-10 z-20  left-0 right-0 mx-auto mb-4 ",
                         className
                     )}
                 >

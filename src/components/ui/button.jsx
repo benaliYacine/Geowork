@@ -55,6 +55,7 @@ const Button = React.forwardRef(
             return (
                 <motion.button
                     whileHover={{ scale: !noScale ? 1.1 : 1 }}
+                    whileTap={{ scale: 1 }}
                     className={cn(buttonVariants({ variant, size, className }))}
                     ref={ref}
                     disabled={loading}
