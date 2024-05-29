@@ -55,6 +55,7 @@ export default function JobItem({ job }) {
                     </div>
                     <div className="flex-grow mb-2">
                         <Button
+                            noScale
                             variant="title"
                             className="text-lg font-semibold mb-1 "
                             size="none"

@@ -34,7 +34,7 @@ const SearchSelect = ({
     control,
     name,
     label,
-    isExpanded,
+    isExpanded = true,
     itemList,
     placeholder,
 }) => {

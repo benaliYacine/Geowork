@@ -42,6 +42,7 @@ export default function ProfileDrawer({ expert }) {
             <Drawer>
                 <DrawerTrigger>
                     <Button
+                        noScale
                         variant="title"
                         className="text-lg font-semibold mb-1 "
                         size="none"

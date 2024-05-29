@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Form } from "@/components/ui/form";
 import { categories } from "../../data/categories";
@@ -14,23 +14,6 @@ import SearchSelect from "@/components/searchBar/SearchSelect";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-import { motion } from "framer-motion";
-const variants = {
-    large: {
-        width: "100px",
-        position: "absolute",
-        top: "20px",
-        left: "50%",
-        x: "-50%",
-    },
-    small: {
-        width: "100%",
-        position: "absolute",
-        top: "initial",
-        left: "initial",
-        x: "0",
-    },
-};
 // Define your schema for SlideOne
 const SearchBarSchema = z.object({
     category: z.string(),
@@ -43,6 +26,7 @@ const SearchBarSchema = z.object({
 export default function SearchBar({ full = false }) {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
+    console.log(searchParams.get("city"));
     const form = useForm({
         resolver: zodResolver(SearchBarSchema),
         defaultValues: {
@@ -53,13 +37,12 @@ export default function SearchBar({ full = false }) {
             role: "Jobs",
         },
     });
-    const [isExpanded, setIsExpanded] = useState(false);
+
     const [subCategories, setSubCategories] = useState([]);
+
     const [filteredCities, setFilteredCities] = useState([]);
     const navigate = useNavigate();
-    const ref = useRef(null);
-    const popoverRefs = useRef([]);
-
+    let queryString = "";
     useEffect(() => {
         if (searchParams.get("city"))
             form.setValue("city", searchParams.get("city"));
@@ -79,15 +62,18 @@ export default function SearchBar({ full = false }) {
         setFilteredCities(citiesForWilaya);
 
         const currentCity = form.getValues("city");
+        // Check if the current subCategory exists in the new list of subCategories
         const cityExists = citiesForWilaya.some(
             (sub) => sub.value === currentCity
         );
 
+        // If the current city does not exist in the new cities, reset it
         if (!cityExists) {
             form.setValue("city", "");
         }
     }, [form.watch("wilaya")]);
 
+    // Update sub-categories when the category changes
     useEffect(() => {
         const category = form.watch("category");
         const foundCategory = categories.find((c) => c.value === category);
@@ -95,17 +81,18 @@ export default function SearchBar({ full = false }) {
         setSubCategories(newSubCategories);
 
         const currentSubCategory = form.getValues("subCategory");
+        // Check if the current subCategory exists in the new list of subCategories
         const subCategoryExists = newSubCategories.some(
             (sub) => sub.value === currentSubCategory
         );
 
+        // If the current subCategory does not exist in the new category, reset it
         if (!subCategoryExists) {
             form.setValue("subCategory", "");
         }
     }, [form.watch("category")]);
 
     function navigateSearch(values) {
-        let queryString = "";
         if (values.category) {
             queryString += `category=${values.category}&`;
         }
@@ -119,161 +106,93 @@ export default function SearchBar({ full = false }) {
             queryString += `city=${values.city}&`;
         }
         queryString = queryString.slice(0, -1);
+        console.log("queryString", queryString);
         navigate(queryString);
     }
-
     const onSubmit = form.handleSubmit(async (values) => {
+        console.log(values); // Handle the form values, for example, saving it
+        // TODO: hadnle el search
         if (values.role == "Jobs") {
+            queryString = "/jobsSearch?";
             navigateSearch(values);
         } else if (values.role == "Geoworkers") {
+            queryString = "/expertsSearch?";
             navigateSearch(values);
         }
     });
 
-    const isClickInsidePopover = (target) => {
-        return popoverRefs.current.some((popoverRef) => {
-            return popoverRef && popoverRef.contains(target);
-        });
-    };
-
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                ref.current &&
-                !ref.current.contains(event.target) &&
-                !isClickInsidePopover(event.target)
-            ) {
-                setIsExpanded(false);
-            }
-        }
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [ref]);
-
     return (
         <Form {...form}>
-            <motion.div
-                ref={ref}
-                onClick={() => setIsExpanded(true)}
-                layout
-                data-isOpen={isExpanded}
-                className={` ${isExpanded ? "w-fit h-fit absolute top-40 z-10 inset-0 mx-auto" : "w-fit mx-auto h-fit"} cursor-pointer`}
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-full flex align-middle justify-center"
             >
-                <div className="cursor-pointer">
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="w-full flex align-middle justify-center"
-                    >
-                        <div
-                            className={cn(
-                                "w-fit h-fit p-2 flex gap-1 rounded-full bg-white items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
-                                full && "w-full",
-                                isExpanded &&
-                                    "shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)]",
-                                !isExpanded && "p-1"
-                            )}
-                        >
-                            <SearchComboBox
-                                isExpanded={isExpanded}
-                                control={form.control}
-                                full={!full}
-                                name="category"
-                                label={isExpanded ? "Category" : ""}
-                                itemList={categories.map(
-                                    ({ value, label }) => ({
-                                        value,
-                                        label,
-                                    })
-                                )}
-                                placeholder="Select category"
-                                popoverRefs={popoverRefs}
-                            />
-                            <Separator
-                                orientation="vertical"
-                                className={isExpanded ? "h-12" : "h-6"}
-                            />
-                            <SearchComboBox
-                                isExpanded={isExpanded}
-                                full={!full}
-                                control={form.control}
-                                name="subCategory"
-                                label={isExpanded ? "Sub-Category" : ""}
-                                itemList={subCategories.map(
-                                    ({ value, label }) => ({
-                                        value,
-                                        label,
-                                    })
-                                )}
-                                placeholder="Select sub-category"
-                                popoverRefs={popoverRefs}
-                            />
-                            <Separator
-                                orientation="vertical"
-                                className={isExpanded ? "h-12" : "h-6"}
-                            />
-                            <SearchComboBox
-                                isExpanded={isExpanded}
-                                full={!full}
-                                control={form.control}
-                                name="wilaya"
-                                label={isExpanded ? "Wilaya" : ""}
-                                itemList={wilayas}
-                                placeholder="Select wilaya"
-                                popoverRefs={popoverRefs}
-                            />
-                            <Separator
-                                orientation="vertical"
-                                className={isExpanded ? "h-12" : "h-6"}
-                            />
-                            <SearchComboBox
-                                isExpanded={isExpanded}
-                                full={!full}
-                                control={form.control}
-                                name="city"
-                                label={isExpanded ? "City" : ""}
-                                itemList={filteredCities}
-                                placeholder="Select city"
-                                popoverRefs={popoverRefs}
-                            />
-                            <Separator
-                                orientation="vertical"
-                                className={isExpanded ? "h-12" : "h-6"}
-                            />
-                            <div
-                                onClick={() => {
-                                    setIsExpanded(true);
-                                }}
-                            >
-                                <SearchSelect
-                                    isExpanded={isExpanded}
-                                    control={form.control}
-                                    name="role"
-                                    label={isExpanded ? "Role" : ""}
-                                    placeholder="Select Role"
-                                />
-                            </div>
-                            <button type="submit">
-                                <div
-                                    className={cn(
-                                        " text-center flex-none items-center flex justify-center  aspect-square  rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]",
-                                        isExpanded && "w-16 h-16",
-                                        !isExpanded && "w-10 h-10"
-                                    )}
-                                >
-                                    <Search
-                                        className={
-                                            isExpanded ? "h-12 w-12" : "h-8 w-8"
-                                        }
-                                    />
-                                </div>
-                            </button>
+                <div
+                    className={cn(
+                        "w-fit h-fit p-2 flex gap-1 rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
+                        full && "w-full"
+                    )}
+                >
+                    <SearchComboBox
+                        control={form.control}
+                        full={!full}
+                        name="category"
+                        label="Category"
+                        itemList={categories.map(({ value, label }) => ({
+                            value,
+                            label,
+                        }))}
+                        placeholder="Select category"
+                    />
+                    <Separator orientation="vertical" className="h-12" />
+                    <SearchComboBox
+                        full={!full}
+                        control={form.control}
+                        name="subCategory"
+                        label="Sub-Category"
+                        itemList={subCategories.map(({ value, label }) => ({
+                            value,
+                            label,
+                        }))}
+                        placeholder="Select sub-category"
+                    />
+                    <Separator orientation="vertical" className="h-12" />
+                    <SearchComboBox
+                        full={!full}
+                        control={form.control}
+                        name="wilaya"
+                        label="Wilaya"
+                        itemList={wilayas}
+                        placeholder="Select wilaya"
+                    />
+
+                    <Separator orientation="vertical" className="h-12" />
+
+                    <SearchComboBox
+                        full={!full}
+                        control={form.control}
+                        name="city"
+                        label="City"
+                        itemList={filteredCities}
+                        placeholder="Select city"
+                    />
+
+                    <Separator orientation="vertical" className="h-12" />
+
+                    <SearchSelect
+                        control={form.control}
+                        name="role"
+                        label="Role"
+                        // itemList={filteredCities}
+                        placeholder="Select Role"
+                    />
+                    <button type="submit">
+                        <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
+                            <Search className="h-10 w-10" />
                         </div>
-                    </form>
+                    </button>
                 </div>
-            </motion.div>
+            </form>
         </Form>
     );
 }

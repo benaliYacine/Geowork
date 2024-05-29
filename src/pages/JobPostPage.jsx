@@ -15,7 +15,10 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import SearchBar from "@/components/searchBar/SearchBar";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import AlertMessage from "@/components/common/AlertMessage";
+
 export default function JobPostPage() {
+      const [showAlert, setShowAlert] = useState(true);
     const { id } = useParams();
     const [edit, setEdit] = useState(false); // State to control the visibility of edit components
     // TODO: rod jobInfo yjiib l data ta3ha mel server doka ani dayer ghi dummy data
@@ -130,6 +133,8 @@ export default function JobPostPage() {
             saveInfo
         );
     }
+
+    const [alertMessage, setAlertMessage] = useState("test test ");
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
@@ -139,6 +144,12 @@ export default function JobPostPage() {
     if (jobInfo)
         return (
             <>
+                <AlertMessage
+                    showAlert={showAlert}
+                    variant="destructive"
+                    onClose={() => setShowAlert(false)}
+                    message={alertMessage}
+                />
                 <Header />
                 <PageContainer>
                     <SearchBar />
@@ -159,6 +170,7 @@ export default function JobPostPage() {
                             )}
                         </div>
                     </div>
+
                     <Tabs defaultValue="viewJobPost" className="mt-4">
                         <TabsList className="">
                             <TabsTrigger value="viewJobPost">
