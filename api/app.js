@@ -563,10 +563,11 @@ app.get("/jobsSearch", async (req, res) => {
         }
         jobs = await Promise.all(
             jobs.map(async (j) => {
+                const jobObject = j.toObject ? j.toObject() : j;
                 const client = await Client.findById(j.idClient).populate(
                     "jobs"
                 );
-                return { ...j.toObject(), client: client };
+                return { ...jobObject, client: client };
             })
         );
         console.log("job+heart", jobs);
@@ -828,6 +829,11 @@ app.patch(
             message.message.state = "withdrawn";
         }
         const saveMessage = await message.save();
+        const job = await Job.findById(saveMessage.message.jobId);
+        job.proposals = job.proposals.filter(
+            (p) => p.toString() != saveMessage.senderId.toString()
+        );
+        await job.save();
         // const job = await Job.findById(message.message.jobId);
         // job.proposals = job.proposals.filter((p) => p != req.session.user_id);
         // await job.save();
@@ -846,6 +852,13 @@ app.patch("/cancelInvitation", async (req, res) => {
     const foundMessage = await Message.findById(id);
     if (foundMessage) foundMessage.message.state = "withdrawn";
     const saveMessage = await foundMessage.save();
+    const job = await Job.findById(saveMessage.message.jobId);
+    console.log("before", job.hires);
+    job.hires = job.hires.filter(
+        (p) => (p.toString() != saveMessage.recipientId.toString())
+    );
+    console.log("before", job.hires);
+    await job.save();
     res.json(saveMessage);
 });
 app.patch("/denyInvitation", async (req, res) => {
@@ -854,6 +867,13 @@ app.patch("/denyInvitation", async (req, res) => {
     const foundMessage = await Message.findById(id);
     console.log("foundMessage", foundMessage);
     if (foundMessage) foundMessage.message.state = "denied";
+    const job = await Job.findById(foundMessage.message.jobId);
+    console.log("before", job.hires);
+    job.hires = job.hires.filter(
+        (p) => p.toString() != foundMessage.recipientId.toString()
+    );
+    console.log("before", job.hires);
+    await job.save();
     await foundMessage.save();
     res.json(foundMessage);
 });
@@ -861,8 +881,8 @@ app.patch("/denyProposal", async (req, res) => {
     const { id } = req.body;
     console.log("id", id);
     const foundMessage = await Message.findById(id);
-    const job = await Job.findById(foundMessage._id);
-    job.proposals=job.proposals.filter(
+    const job = await Job.findById(saveMessage.message.jobId);
+    job.proposals = job.proposals.filter(
         (p) => p.toString() != foundMessage.senderId.toString()
     );
     console.log("foundMessage", foundMessage);
@@ -939,6 +959,9 @@ app.patch("/cancelJob", async (req, res) => {
     job.proposals = job.proposals.filter(
         (p) => p.toString() != job.idProfessionnel.toString()
     );
+    job.hires = job.hires.filter(
+        (p) => p.toString() != job.idProfessionnel.toString()
+    );
     console.log("user.profile.numJobCanceled", user.profile.numJobCanceled);
     console.log("job.idProfessionnel", job.idProfessionnel);
     job.idProfessionnel = null;
@@ -984,7 +1007,8 @@ app.post("/addMessage", async (req, res) => {
     const senderId = req.session.user_id;
     const senderType = req.session.user_type;
     const jobId =
-        req.body.message && req.body.message.jobId
+        req.body.message.type == "proposal" ||
+        req.body.message.type == "invitation"
             ? req.body.message.jobId
             : null;
     let job;
@@ -993,6 +1017,21 @@ app.post("/addMessage", async (req, res) => {
         job = await Job.findById(jobId);
         if (!recipientId && req.body.message.type == "proposal") {
             recipientId = job.idClient;
+        }
+        if (
+            req.body.message.type == "proposal" ||
+            req.body.message.type == "invitation"
+        ) {
+            const include =
+                req.body.message.type == "proposal"
+                    ? job.proposals.includes(senderId) ||
+                      job.hires.includes(senderId)
+                    : job.proposals.includes(recipientId) ||
+                      job.hires.includes(recipientId);
+            if (include) {
+                console.log("job",job);
+                return res.json({ message: "pppppppp" });
+            }
         }
     }
     const message = new Message({
@@ -1012,31 +1051,41 @@ app.post("/addMessage", async (req, res) => {
         senderType == "Professionnel"
             ? await Professionnel.findById(senderId)
             : await Professionnel.findById(recipientId);
-    let existJob = false;
     let exist = false;
-    cli.contacts.map((c) => {
+    for (const c of cli.contacts) {
         if (
             c.contactId.toString() == senderId.toString() ||
             c.contactId.toString() == recipientId.toString()
         ) {
-            if (jobId) {
-                c.messages.map((m) => {
-                    if (m.job == jobId) {
-                        m.message.push(saveMessage._id);
-                        existJob = true;
-                    }
-                });
-                if (!existJob) {
-                    c.messages.push({
-                        job: jobId,
-                        message: [saveMessage._id],
+            const lastJob = await Job.findById(
+                c.messages[c.messages.length - 1].job
+            );
+            if (!lastJob.closed) {
+                const include =
+                    req.body.message.type == "proposal"
+                        ? lastJob.proposals.includes(senderId) ||
+                          lastJob.hires.includes(senderId)
+                        : lastJob.proposals.includes(recipientId) ||
+                          lastJob.hires.includes(recipientId);
+                if (include) {
+                    exist = true;
+                    return res.json({
+                        message: "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
-            } else
+            }
+            if (jobId) {
+                c.messages.push({
+                    job: jobId,
+                    message: [saveMessage._id],
+                });
+            } else {
                 c.messages[c.messages.length - 1].message.push(saveMessage._id);
+            }
             exist = true;
         }
-    });
+    }
+
     if (!exist) {
         const contactId = senderType == "Client" ? recipientId : senderId;
         cli.contacts.push({
@@ -1049,38 +1098,40 @@ app.post("/addMessage", async (req, res) => {
             ],
         });
     }
-    existJob = false;
     exist = false;
-    pro.contacts.map((c) => {
-        console.log("je suis la");
-        console.log("c.contactId", c.contactId, senderId, recipientId);
-        console.log(
-            c.contactId.toString() == senderId.toString() ||
-                c.contactId.toString() == recipientId.toString()
-        );
+    for (const c of pro.contacts) {
         if (
             c.contactId.toString() == senderId.toString() ||
             c.contactId.toString() == recipientId.toString()
         ) {
-            if (jobId) {
-                c.messages.map((m) => {
-                    if (m.job == jobId) {
-                        m.message.push(saveMessage._id);
-                        existJob = true;
-                    }
-                });
-                if (!existJob) {
-                    c.messages.push({
-                        job: jobId,
-                        message: [saveMessage._id],
+            const lastJob = await Job.findById(
+                c.messages[c.messages.length - 1].job
+            );
+            if (!lastJob.closed) {
+                const include =
+                    req.body.message.type == "proposal"
+                        ? lastJob.proposals.includes(senderId) ||
+                          lastJob.hires.includes(senderId)
+                        : lastJob.proposals.includes(recipientId) ||
+                          lastJob.hires.includes(recipientId);
+                if (include) {
+                    exist = true;
+                    return res.json({
+                        message: "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
+            }
+            if (jobId) {
+                c.messages.push({
+                    job: jobId,
+                    message: [saveMessage._id],
+                });
             } else {
                 c.messages[c.messages.length - 1].message.push(saveMessage._id);
             }
             exist = true;
         }
-    });
+    }
     console.log("exist", exist);
     if (!exist) {
         const contactId =
@@ -1112,7 +1163,7 @@ app.post("/addMessage", async (req, res) => {
     console.log("Professionnel", pro);
     console.log("Client", cli);
     console.log("Job", job);
-    res.json(saveMessage);
+    return res.json(saveMessage);
 });
 
 app.post("/addMessageFile", upload.array("files"), async (req, res) => {

@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ComboBoxComponentWithId from "@/components/formFields/ComboBoxComponentWithId";
-
+import AlertMessage from "@/components/common/AlertMessage";
 // import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
@@ -46,9 +46,11 @@ import {
 import { Content } from "@radix-ui/react-accordion";
 
 function SendInvitation({ name = "Yacine", expert }) {
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [jobNotSpecified, setJobNotSpecified] = useState(true);
-    const [invitation,setInvitation]=useState();
+    const [invitation, setInvitation] = useState();
     const [clientJobs, setClientJobs] = useState(undefined);
     const [socket, setSocket] = useState(null);
     useEffect(() => {
@@ -56,8 +58,10 @@ function SendInvitation({ name = "Yacine", expert }) {
             const response = await axios.get("/client");
             if (response.data) {
                 console.log(response.data);
-                let jobs = response.data
-                    .map((j) => ({ label: j.title, value: j._id }))
+                let jobs = response.data.map((j) => ({
+                    label: j.title,
+                    value: j._id,
+                }));
                 console.log(jobs);
                 setClientJobs(jobs);
             }
@@ -85,9 +89,15 @@ function SendInvitation({ name = "Yacine", expert }) {
         const response1 = await axios.post("/addMessage", Invitation1);
         if (response1.data) {
             console.log("response1.data", response1.data);
+            if (response1.data.message) {
+                setAlertMessage(response1.data.message);
+                setShowAlert(true);
+                setDialogOpen(false);
+                return;
+            }
         }
         Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
-        Invitation1.messageId=response1.data._id
+        Invitation1.messageId = response1.data._id;
         setInvitation(Invitation1);
         console.log("response1", response1);
         /* const Invitation2 = {
@@ -99,22 +109,28 @@ function SendInvitation({ name = "Yacine", expert }) {
         // TODO: handle send invitation message
         setDialogOpen(false);
     };
-        useEffect(() => {
-            const newSocket = io("ws://localhost:3000");
-            setSocket(newSocket);
+    useEffect(() => {
+        const newSocket = io("ws://localhost:3000");
+        setSocket(newSocket);
 
-            return () => {
-                newSocket.disconnect();
-            };
-        }, []);
-        useEffect(() => {
-            console.log("message", invitation);
-            if (socket === null) return;
-            socket.emit("sendMessage", { ...invitation });
-        }, [invitation]);
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
+    useEffect(() => {
+        console.log("message", invitation);
+        if (socket === null) return;
+        socket.emit("sendMessage", { ...invitation });
+    }, [invitation]);
 
     return (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <AlertMessage
+                showAlert={showAlert}
+                variant="destructive"
+                onClose={() => setShowAlert(false)}
+                message={alertMessage}
+            />
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
                     Invite to Job
@@ -171,7 +187,6 @@ function SendInvitation({ name = "Yacine", expert }) {
                                     control={form.control}
                                     name="job"
                                     label="Choose one of your job posts"
-                                    
                                     itemList={clientJobs}
                                     placeholder="Select a job"
                                 />

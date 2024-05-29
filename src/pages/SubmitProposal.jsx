@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import SearchBar from "@/components/searchBar/SearchBar";
+import AlertMessage from "@/components/common/AlertMessage";
 const proposalSchema = z.object({
     budget: z
         .string()
@@ -38,6 +39,8 @@ export default function SubmitProposal({}) {
     const [loading, setLoading] = useState(true);
     const [proposal, setProposal] = useState();
     const [socket, setSocket] = useState(null);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
     const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(proposalSchema),
@@ -58,6 +61,14 @@ export default function SubmitProposal({}) {
             },
         };
         const response = await axios.post("addMessage", proposal);
+        if (response.data) {
+            console.log("response1.data", response.data);
+            if (response.data.message) {
+                setAlertMessage(response.data.message);
+                setShowAlert(true);
+                return;
+            }
+        }
         proposal.messageId = response.data._id;
         proposal.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
         setProposal(proposal);
@@ -113,6 +124,12 @@ export default function SubmitProposal({}) {
     if (jobInfo)
         return (
             <>
+                <AlertMessage
+                    showAlert={showAlert}
+                    variant="destructive"
+                    onClose={() => setShowAlert(false)}
+                    message={alertMessage}
+                />
                 <Header />
                 <PageContainer>
                     <SearchBar />

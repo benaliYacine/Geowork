@@ -37,7 +37,7 @@ router.get(
         } catch (error) {}
     }
 );
-router.get("/verifyEmail", middlewars.isLoginIn, async (req, res) => {
+router.get("/verifyEmail", async (req, res) => {
     let user;
     const id = req.session.user_id;
     if (req.session.user_type == "Client") {

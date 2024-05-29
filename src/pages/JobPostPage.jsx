@@ -18,7 +18,8 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import AlertMessage from "@/components/common/AlertMessage";
 
 export default function JobPostPage() {
-      const [showAlert, setShowAlert] = useState(true);
+    const [alertMessage, setAlertMessage] = useState("test test ");
+    const [showAlert, setShowAlert] = useState(false);
     const { id } = useParams();
     const [edit, setEdit] = useState(false); // State to control the visibility of edit components
     // TODO: rod jobInfo yjiib l data ta3ha mel server doka ani dayer ghi dummy data
@@ -103,12 +104,12 @@ export default function JobPostPage() {
     };
 
     const DeleteJob = async () => {
-        setDeleting(true)
+        setDeleting(true);
         const response = await axios.delete(`/api/jobs/deleteJob/${id}`);
         if (response.data) {
             navigate("/dashboard");
         }
-        setDeleting(false)
+        setDeleting(false);
     };
     async function SaveJobInfo() {
         console.log(jobInfo);
@@ -134,7 +135,6 @@ export default function JobPostPage() {
         );
     }
 
-    const [alertMessage, setAlertMessage] = useState("test test ");
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
