@@ -27,46 +27,44 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    // const [socket, setSocket] = useState(null);
+    const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [Message, setMessage] = useState(message);
     const [messageState, setMessageState] = useState(Message.state);
     const [rerender, setRerender] = useState(false);
-    // useEffect(() => {
-    //     const newSocket = io("ws://localhost:3000");
-    //     setSocket(newSocket);
+    useEffect(() => {
+        const newSocket = io("ws://localhost:3000");
+        setSocket(newSocket);
 
-    //     return () => {
-    //         newSocket.disconnect();
-    //     };
-    // }, []);
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
 
-    // useEffect(() => {
-    //     if (!socket) return;
+    useEffect(() => {
+        if (!socket) return;
 
-    //     socket.emit("updateMessage", { userId: proId, id, messageState });
-    // }, [messageState]);
+        socket.emit("updateMessage", { userId: proId, id, messageState });
+    }, [messageState]);
 
-    // useEffect(() => {
-    //     console.log("Socket:", socket);
-    //     if (!socket) return;
-        
-    //     const handleGetUpdateMessage = (res) => {
-    //         console.log("hnaya");
-    //         console.log("responseMessage", res);
-    //         if (id.toString() != res.id.toString()) return;
-    //         if (proId.toString() != res.userId.toString())
-    //             console.log("responseMessage", res);
-    //         setMessageState(res.messageState);
-    //     };
+useEffect(() => {
+    if (!socket) return;
 
-    //     socket.on("getUpdateMessage", handleGetUpdateMessage);
+    const handleGetUpdateMessage = (res) => {
+        console.log("Received updated message from server:", res);
+        if (id.toString() !== res.id.toString()) return;
+        if (proId.toString() !== res.userId.toString()) return;
+        setMessageState(res.messageState);
+    };
 
-    //     return () => {
-    //         socket.off("getUpdateMessage", handleGetUpdateMessage);
-    //     };
-    // }, [socket, id]);
+    socket.on("getUpdateMessage", handleGetUpdateMessage);
+
+    return () => {
+        socket.off("getUpdateMessage", handleGetUpdateMessage);
+    };
+}, [socket, id, proId]);
+
 
     const withrawProposal = async () => {
         const response = await axios.patch("withrawProposal", { id });

@@ -103,6 +103,7 @@ function AddAvatarCard({
         </DialogTrigger>
         {!preview ? (
           <Button
+            type="button"
             variant="outline"
             size="sm"
             className="h-7 px-4 py-2"

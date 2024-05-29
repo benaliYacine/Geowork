@@ -32,7 +32,10 @@ const SendEmailPage = () => {
 
         fetchData();
     }, []);
+    const [sending, setSending] = useState(false)
     const handleSendVerifyEmail = async () => {
+        setShowAlert(false);
+        setSending(true)
         const response = await axios.post("/verifyEmail");
         console.log(response);
         if (response.data.redirectUrl) {
@@ -41,6 +44,7 @@ const SendEmailPage = () => {
         if (!response.data.error) {
             setShowAlert(true);
         }
+        setSending(false);
     };
     if (loading)
         return (
@@ -76,6 +80,7 @@ const SendEmailPage = () => {
                 </p>
                 <div className="mt-6 w-full flex justify-center">
                     <Button
+                        loading={sending}
                         onClick={handleSendVerifyEmail}
                         variant="default"
                         className="text-sm font-semibold"

@@ -1291,17 +1291,22 @@ io.on("connection", (socket) => {
         console.log(onlineUsers);
         io.emit("getOnlineUsers", onlineUsers);
     });
-    socket.on("updateMessage", (message) => {
-        console.log("updatedMessage", message);
+    
+socket.on("updateMessage", (message) => {
+        console.log("Updated message received:", message);
 
-        const user = onlineUsers.find((user) => user.user_id == message.userId);
-        console.log("useruseruser", user);
+        // Find the user who should receive the update
+        const user = onlineUsers.find((user) => user.userId == message.userId);
+        console.log("User found for message update:", user);
+
         if (user) {
-            console.log("Emitting getUpdateMessage event");
+            console.log("Emitting getUpdateMessage event to user:", user.userId);
             io.to(user.socketId).emit("getUpdateMessage", {
                 ...message,
-                userId: user_id,
+                userId: message.userId,
             });
+        } else {
+            console.log("User not found or not online:", message.userId);
         }
     });
     //add message

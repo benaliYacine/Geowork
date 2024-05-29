@@ -70,9 +70,8 @@ export default function Profile({
                             <Avatar className="mr-4 " size={24}>
                                 <AvatarImage
                                     src={
-                                        profileInfo.photoProfile.url
-                                            ? profileInfo.photoProfile.url
-                                            : profileInfo.photoProfile
+                                        
+                                            profileInfo.photoProfile
                                     }
                                     alt={expert.name}
                                 />
