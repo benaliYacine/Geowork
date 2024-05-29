@@ -50,7 +50,7 @@ router.get("/verifyEmail", middlewars.isLoginIn, async (req, res) => {
     else return res.json({ emailAddress: user.email });
 });
 
-router.post("/verifyEmail", middlewars.isLoginIn, async (req, res) => {
+router.post("/verifyEmail", async (req, res) => {
     const id = req.session.user_id;
     let user;
     let url;

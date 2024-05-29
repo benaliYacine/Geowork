@@ -27,7 +27,7 @@ const EmailVerified = () => {
             console.log(response.data);
             setLoading(false);
         };
-        fetchData();
+        fetchData(false);
     }, []);
 
     const handleSendVerifyEmail = async () => {
