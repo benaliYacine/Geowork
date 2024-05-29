@@ -22,6 +22,7 @@ const SendEmailPage = () => {
                 }
                 if (response.data.emailAddress)
                     setEmailAddress(response.data.emailAddress);
+                console.log(emailAddress);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
