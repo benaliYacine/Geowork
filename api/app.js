@@ -193,8 +193,16 @@ app.post("/verifyOldPassword", async (req, res) => {
 });
 app.post("/login", async (req, res) => {
     const { password, email } = req.body;
-    let foundUser = await Professionnel.findAndValidate(email, password);
+    let foundUser = await Professionnel.findOne({ email });
+    if (foundUser && foundUser.googleId) {
+        return res.status(401).json({ message: "Login with Gmail" });
+    }
+    foundUser = await Professionnel.findAndValidate(email, password);
     if (!foundUser) {
+        foundUser = await Client.findOne({ email });
+        if (foundUser && foundUser.googleId) {
+            return res.status(401).json({ message: "Login with Gmail" });
+        }
         foundUser = await Client.findAndValidate(email, password);
         if (foundUser) {
             //generateToken(foundUser._id);
@@ -747,7 +755,9 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         const { id } = req.params;
 
         if (id == 1) {
-            return res.json("");
+            return res.json({
+                isClient: req.session.user_type == "Client" ? true : false,
+            });
         }
 
         let user;
@@ -784,7 +794,10 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
         if (!user) {
             return res.json({ redirectUrl: "/messages/1" });
         } else {
-            const newUser = { ...user._doc, user_id: req.session.user_id };
+            const newUser = {
+                ...user._doc,
+                user_id: req.session.user_id,
+            };
 
             res.json(newUser);
         }
@@ -919,9 +932,9 @@ app.get("/fetchWilayaData", middlewars.isLoginIn, async (req, res) => {
     }
 });
 app.patch("/closeJob", async (req, res) => {
-    console.log("messageId",req.body.id);
+    console.log("messageId", req.body.id);
     const message = await Message.findById(req.body.id);
-    console.log("message",message);
+    console.log("message", message);
     const job = await Job.findById(req.body.jobId);
     message.message.state = "closed";
     job.clientFeedback = req.body.description;
@@ -990,11 +1003,13 @@ app.patch("/leaveFeedback", async (req, res) => {
     await client.save();
     res.json({ job, client });
 });
-app.get("/proposal/:id", async(req, res)=>{
-    const {id}=req.params;
+app.get("/proposal/:id", async (req, res) => {
+    const { id } = req.params;
     const message = await Message.findById(id).populate("message.jobId").lean();
-    const pro=await Professionnel.findById(message.senderId).populate("profile.jobs").lean();
-    return res.json({...pro,message:message.message});
+    const pro = await Professionnel.findById(message.senderId)
+        .populate("profile.jobs")
+        .lean();
+    return res.json({ ...pro, message: message.message });
 });
 app.get("/expertProposalPage/:id", async (req, res) => {
     const { id } = req.params;
@@ -1079,7 +1094,8 @@ app.post("/addMessage", async (req, res) => {
                 if (include) {
                     exist = true;
                     return res.json({
-                        messageError: "raw kyn job m3a expert mazal makamaltihch",
+                        messageError:
+                            "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
             }
@@ -1126,7 +1142,8 @@ app.post("/addMessage", async (req, res) => {
                 if (include) {
                     exist = true;
                     return res.json({
-                        messageError: "raw kyn job m3a expert mazal makamaltihch",
+                        messageError:
+                            "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
             }

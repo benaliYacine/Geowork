@@ -107,6 +107,11 @@ export default function Chat() {
                 } else setLoading(false);
 
                 if (response.data) {
+                    console.log(
+                        "response.data.isClient",
+                        response.data.isClient
+                    );
+                    setIsclient(response.data.isClient)
                     const newContact = {
                         name:
                             response.data.name.first +
@@ -344,7 +349,7 @@ export default function Chat() {
                     with clients!
                 </p>
                 <div className="mt-6 flex items-center justify-center gap-x-6">
-                    <Link to="/findWork" className="">
+                    <Link to="/dashboard" className="">
                         <Button variant="default" size="">
                             Find Work
                         </Button>
