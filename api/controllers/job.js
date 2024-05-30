@@ -146,7 +146,11 @@ exports.addProfessionnelToJob = async (req, res) => {
 
         const updatedJob = await Job.findByIdAndUpdate(
             jobId,
-            { idProfessionnel: userId, hired: true },
+            {
+                idProfessionnel: userId,
+                hired: true,
+                startDate: new Date(Date.now()),
+            },
             { new: true }
         );
 

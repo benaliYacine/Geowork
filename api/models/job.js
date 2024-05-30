@@ -16,6 +16,13 @@ const jobsSchema = new mongoose.Schema({
         type: String,
         //enum:[]//hadi nzidha ki natfahmo 3la les category
     },
+    startDate:{
+        type:Date
+    }
+    ,
+    endDate:{
+        type:Date
+    },
     closed: {
         type: Boolean,
         default: false,

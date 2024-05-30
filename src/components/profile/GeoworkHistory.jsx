@@ -5,83 +5,83 @@ import { Button } from "@/components/ui/button";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
 
-const jobs = [
-    {
-        title: "Residential Wiring Upgrade",
-        startDate:
-            "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-            "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-            "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",
-        images: [
-            "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
-        ],
-        rate: 2.5,
-        canceled: false,
-        feedback:
-            "The electrician did an excellent job upgrading our home's wiring. He was professional, punctual, and made sure everything was done safely and efficiently. We feel much safer now with the new wiring. Highly recommended!",
-    },
-    {
-        title: "na7ihom memba3d ",
-        startDate:
-            "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-            "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 3.5,
-        feedback:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-    },
-    {
-        title: "na7ihom memba3d ",
-        startDate:
-            "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-            "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 2.5,
-        feedback:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-    },
-    {
-        title: "na7ihom memba3d ",
-        startDate:
-            "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-        endDate:
-            "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-        category: "education_and_tutoring",
-        subCategory: "math_tutor",
-        wilaya: "algiers",
-        city: "sidi_moussa",
-        budget: "DZD  5, 500",
-        description:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-        images: ["https://placebear.com/g/200/200"],
-        rate: 4.5,
-        feedback:
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-    },
-];
+// const jobs = [
+//     {
+//         title: "Residential Wiring Upgrade",
+//         startDate:
+//             "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
+//         endDate:
+//             "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+//         category: "education_and_tutoring",
+//         subCategory: "math_tutor",
+//         wilaya: "algiers",
+//         city: "sidi_moussa",
+//         budget: "DZD  5, 500",
+//         description:
+//             "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",
+//         images: [
+//             "https://blog.constructionmarketingassociation.org/wp-content/uploads/2019/08/electrical-works-construction-project.jpg",
+//         ],
+//         rate: 2.5,
+//         canceled: false,
+//         feedback:
+//             "The electrician did an excellent job upgrading our home's wiring. He was professional, punctual, and made sure everything was done safely and efficiently. We feel much safer now with the new wiring. Highly recommended!",
+//     },
+//     {
+//         title: "na7ihom memba3d ",
+//         startDate:
+//             "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
+//         endDate:
+//             "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+//         category: "education_and_tutoring",
+//         subCategory: "math_tutor",
+//         wilaya: "algiers",
+//         city: "sidi_moussa",
+//         budget: "DZD  5, 500",
+//         description:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//         images: ["https://placebear.com/g/200/200"],
+//         rate: 3.5,
+//         feedback:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//     },
+//     {
+//         title: "na7ihom memba3d ",
+//         startDate:
+//             "Wed Apr 09 2024 07:07:43 GMT+0100 (Central European Standard Time)",
+//         endDate:
+//             "Tue Apr 19 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+//         category: "education_and_tutoring",
+//         subCategory: "math_tutor",
+//         wilaya: "algiers",
+//         city: "sidi_moussa",
+//         budget: "DZD  5, 500",
+//         description:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//         images: ["https://placebear.com/g/200/200"],
+//         rate: 2.5,
+//         feedback:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//     },
+//     {
+//         title: "na7ihom memba3d ",
+//         startDate:
+//             "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
+//         endDate:
+//             "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
+//         category: "education_and_tutoring",
+//         subCategory: "math_tutor",
+//         wilaya: "algiers",
+//         city: "sidi_moussa",
+//         budget: "DZD  5, 500",
+//         description:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//         images: ["https://placebear.com/g/200/200"],
+//         rate: 4.5,
+//         feedback:
+//             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
+//     },
+// ];
 
 export default function GeoworkHistory({ profileInfo }) {
     console.log("profileInfo job", profileInfo);

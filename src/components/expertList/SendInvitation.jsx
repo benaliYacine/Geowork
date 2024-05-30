@@ -3,7 +3,7 @@ import axios from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -46,13 +46,17 @@ import {
 import { Content } from "@radix-ui/react-accordion";
 
 function SendInvitation({ name = "Yacine", expert }) {
+    const location = useLocation();
+    const { id } = useParams();
+    const isJobPostPage = location.pathname.startsWith("/jobPostPage/");
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [jobNotSpecified, setJobNotSpecified] = useState(true);
+    const [jobNotSpecified, setJobNotSpecified] = useState(!isJobPostPage);
     const [invitation, setInvitation] = useState(null);
     const [clientJobs, setClientJobs] = useState(undefined);
     const [socket, setSocket] = useState(null);
+
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get("/client");
@@ -80,7 +84,7 @@ function SendInvitation({ name = "Yacine", expert }) {
         const Invitation1 = {
             id: expert.id,
             message: {
-                jobId: values.job,
+                jobId: jobNotSpecified ? values.job : id,
                 type: "invitation",
                 state: "waiting",
                 content: "Invitation Message",
@@ -99,11 +103,11 @@ function SendInvitation({ name = "Yacine", expert }) {
         Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
         console.log("hna pro");
         Invitation1.messageId = response1.data._id;
-         console.log("hna pro");
+        console.log("hna pro");
         setInvitation(Invitation1);
-         console.log("hna pro");
+        console.log("hna pro");
         console.log("response1", response1);
-         console.log("hna pro");
+        console.log("hna pro");
         /* const Invitation2 = {
         id: expert.id,
         message: { type: "text", content: values.invitationMessage },

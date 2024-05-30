@@ -165,7 +165,7 @@ app.get(
     async (req, res) => {
         const pro = await Professionnel.findById(req.session.user_id);
         if (pro.profile.added) return res.json({ redirectUrl: "/dashboard" });
-        res.json("");
+        res.json(pro);
     }
 );
 app.post("/logout", (req, res) => {
@@ -940,6 +940,7 @@ app.patch("/closeJob", async (req, res) => {
     job.clientFeedback = req.body.description;
     job.clientRating = req.body.rating;
     job.closed = true;
+    job.endDate = new Date(Date.now());
     const user = await Professionnel.findById(job.idProfessionnel).populate(
         "profile.jobs"
     );
