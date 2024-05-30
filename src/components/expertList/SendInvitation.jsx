@@ -45,10 +45,11 @@ import {
 } from "@/components/ui/dialog";
 import { Content } from "@radix-ui/react-accordion";
 
-function SendInvitation({ name = "Yacine", expert }) {
+function SendInvitation({ expert }) {
     const location = useLocation();
     const { id } = useParams();
     const isJobPostPage = location.pathname.startsWith("/jobPostPage/");
+    const [name,setName]=useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -62,10 +63,11 @@ function SendInvitation({ name = "Yacine", expert }) {
             const response = await axios.get("/client");
             if (response.data) {
                 console.log(response.data);
-                let jobs = response.data.map((j) => ({
+                let jobs = response.data.jobs.map((j) => ({
                     label: j.title,
                     value: j._id,
                 }));
+                setName(response.data.name);
                 console.log(jobs);
                 setClientJobs(jobs);
             }
@@ -76,7 +78,10 @@ function SendInvitation({ name = "Yacine", expert }) {
         resolver: zodResolver(formSchema),
         defaultValues: {
             invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
-            job: clientJobs && clientJobs[0].label,
+            job:
+                clientJobs && clientJobs[0].label
+                    ? clientJobs && clientJobs[0].label
+                    : id,
         },
     });
     const onSubmit = async (values) => {

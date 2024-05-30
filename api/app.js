@@ -285,7 +285,7 @@ app.get(
 app.get("/client", async (req, res) => {
     if (req.session.user_type == "Client") {
         const cli = await Client.findById(req.session.user_id).populate("jobs");
-        res.json(cli.jobs);
+        res.json({jobs:cli.jobs,name:`${cli.name.first}`});
     } else res.json({});
 });
 app.post("/clientinfo", async (req, res) => {
