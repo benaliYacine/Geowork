@@ -29,7 +29,6 @@ import {
     APIProvider,
     InfoWindow,
     Map,
-    Marker,
     Pin,
     useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";

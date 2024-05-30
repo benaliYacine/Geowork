@@ -29,7 +29,7 @@ import {
     APIProvider,
     InfoWindow,
     Map,
-    Marker,
+
     Pin,
     useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
@@ -57,7 +57,6 @@ export default function MapCompo({ editLocation, center, location }) {
     const [showMarker, setShowMarker] = useState(location);
     const [userLocationMarker, setUserLocationMarker] = useState(null);
     const [zoom, setZoom] = useState(7);
-
     const [mapCenter, setCenter] = useState({
         lat: 34.7538,
         lng: 3.0588,
