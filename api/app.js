@@ -475,11 +475,11 @@ app.get("/idClient", (req, res) => {
         console.log("Error", e);
     }
 });
-app.get("/jobPostPage/:id", async (req, res) => {
+app.get("/jobPostPage/:id",middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
         let foundJob = await Job.findById(id);
-        if (!foundJob) {
+        if (!foundJob || req.session.user_id.toString()!=foundJob.idClient.toString()) {
             return res.json({ redirectUrl: "/dashboard" });
         }
         const client = await Client.findById(foundJob.idClient).populate(
@@ -1346,7 +1346,7 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(recipientId);
                     if (include && req.body.message.type != "budgetEdit") {
                         exist = true;
-                        saveMessage.remove();
+                        saveMessage.deleteOne();;
                         return res.json({
                             messageError:
                                 "raw kyn job m3a expert mazal makamaltihch",
@@ -1397,7 +1397,7 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(recipientId);
                     if (include && req.body.message.type != "budgetEdit") {
                         exist = true;
-                        saveMessage.remove();
+                        saveMessage.deleteOne();;
                         return res.json({
                             messageError:
                                 "raw kyn job m3a expert mazal makamaltihch",

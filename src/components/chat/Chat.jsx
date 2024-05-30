@@ -218,7 +218,7 @@ export default function Chat() {
 
         // Envoi du message au serveur
         const response = await axios.post("/addMessage", newMessage);
-
+        console.log("response",response.data);
         // Mise à jour de l'état local pour inclure le nouveau message
         const time = Date.now();
         newMessage.timestamp =

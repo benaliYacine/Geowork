@@ -30,10 +30,23 @@ export default function JobPostPage() {
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
     const [proposals, setProposals] = useState([]);
-
     useEffect(() => {
         const fetchData = async () => {
-            
+            const response = await axios.get(`/jobPostPage/${id}`);
+            if (response.data.redirectUrl) {
+                navigate(response.data.redirectUrl);
+            }
+            if (response.data) {
+                setLoading(false);
+                const images = response.data.images.map((c) => c.url);
+                console.log(images);
+                setJobInfo({ ...response.data, images });
+            }
+        };
+        fetchData();
+    }, []);
+    useEffect(() => {
+        const fetchData = async () => {
             const response = await axios.get(`/proposals/${id}`);
             if (response.data.redirectUrl) {
                 navigate(response.data.redirectUrl);
@@ -53,28 +66,13 @@ export default function JobPostPage() {
                     city: m.city,
                     budget: m.message.budget,
                     coverLetter: m.message.coverLetter,
-                    profile:m.profile
+                    profile: m.profile,
                 }))
             );
         };
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(`/jobPostPage/${id}`);
-            if (response.data.redirectUrl) {
-                navigate(response.data.redirectUrl);
-            }
-            if (response.data) {
-                setLoading(false);
-                const images = response.data.images.map((c) => c.url);
-                console.log(images);
-                setJobInfo({ ...response.data, images });
-            }
-        };
-        fetchData();
-    }, []);
     useEffect(() => {
         console.log("hiiii");
         const fetchData = async () => {
