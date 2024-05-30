@@ -92,7 +92,6 @@ function App() {
                         path="/:type/:id/verify/:tokenId"
                         element={<EmailVerified />}
                     />
-                    <Route path="/proposal/" element={<ProposalPage />} />
                     <Route path="/expertsSearch" element={<ExpertsSearch />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/dashboard" element={<Dashboard />} />

@@ -27,43 +27,44 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    const [socket, setSocket] = useState(null);
+    console.log("id",id)
+    // const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [Message, setMessage] = useState(message);
     const [messageState, setMessageState] = useState(Message.state);
     const [rerender, setRerender] = useState(false);
-    useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
-        setSocket(newSocket);
+//     useEffect(() => {
+//         const newSocket = io("ws://localhost:3000");
+//         setSocket(newSocket);
 
-        return () => {
-            newSocket.disconnect();
-        };
-    }, []);
+//         return () => {
+//             newSocket.disconnect();
+//         };
+//     }, []);
 
-    useEffect(() => {
-        if (!socket) return;
+//     useEffect(() => {
+//         if (!socket) return;
 
-        socket.emit("updateMessage", { userId: proId, id, messageState });
-    }, [messageState]);
+//         socket.emit("updateMessage", { userId: proId, id, messageState });
+//     }, [messageState]);
 
-useEffect(() => {
-    if (!socket) return;
+// useEffect(() => {
+//     if (!socket) return;
 
-    const handleGetUpdateMessage = (res) => {
-        console.log("Received updated message from server:", res);
-        if (id.toString() !== res.id.toString()) return;
-        if (proId.toString() !== res.userId.toString()) return;
-        setMessageState(res.messageState);
-    };
+//     const handleGetUpdateMessage = (res) => {
+//         console.log("Received updated message from server:", res);
+//         if (id.toString() !== res.id.toString()) return;
+//         if (proId.toString() !== res.userId.toString()) return;
+//         setMessageState(res.messageState);
+//     };
 
-    socket.on("getUpdateMessage", handleGetUpdateMessage);
+//     socket.on("getUpdateMessage", handleGetUpdateMessage);
 
-    return () => {
-        socket.off("getUpdateMessage", handleGetUpdateMessage);
-    };
-}, [socket, id, proId]);
+//     return () => {
+//         socket.off("getUpdateMessage", handleGetUpdateMessage);
+//     };
+// }, [socket, id, proId]);
 
 
     const withrawProposal = async () => {
@@ -566,7 +567,11 @@ useEffect(() => {
                             the geoworker has accepted your job invitation
                         </p>
                         <div className="flex justify-end w-full gap-2">
-                            <CloseJobDialog />
+                            <CloseJobDialog
+                                setMessageState={setMessageState}
+                                id={id}
+                                jobId={Message.jobId}
+                            />
 
                             <SendLocation />
                         </div>
@@ -691,6 +696,7 @@ useEffect(() => {
                                     size="sm"
                                     onClick={() => {
                                         console.log("key", id);
+                                        if(isOwnMessage)
                                         navigate(`/expertProposalPage/${id}`);
                                     }}
                                 >
@@ -701,7 +707,7 @@ useEffect(() => {
                                     variant="primary2"
                                     size="sm"
                                     onClick={() => {
-                                        navigate(`/expertProposalPage/${id}`);
+                                        navigate(`/proposal/${id}`);
                                     }}
                                 >
                                     View Details
