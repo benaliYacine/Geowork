@@ -33,10 +33,12 @@ export default function JobPostPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response=await axios.get(`/proposals/${id}`);
-            if(response.data.redirectUrl){
+            
+            const response = await axios.get(`/proposals/${id}`);
+            if (response.data.redirectUrl) {
                 navigate(response.data.redirectUrl);
             }
+            console.log("proposals", response.data);
             setProposals(
                 response.data.map((m) => ({
                     id: m.id,
@@ -46,16 +48,17 @@ export default function JobPostPage() {
                     name: `${m.name.first} ${m.name.last}`,
                     role: m.subCategory,
                     rating: m.profile.rating,
-                    avatarUrl: m.profile.photoProfile,
+                    avatarUrl: m.profile.photoProfile.url,
                     wilaya: m.wilaya,
-                    city: m.data.city,
-                    budget: m.data.message.budget,
-                    coverLetter: m.data.message.coverLetter,
+                    city: m.city,
+                    budget: m.message.budget,
+                    coverLetter: m.message.coverLetter,
+                    profile:m.profile
                 }))
             );
-            
         };
-    });
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {

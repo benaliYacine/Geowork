@@ -1197,6 +1197,49 @@ app.patch("/leaveFeedback", async (req, res) => {
         console.log("Error", e);
     }
 });
+app.get("/proposals/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const job = await Job.findById(id)
+            .populate({
+                path: "proposals",
+                populate: {
+                    path: "profile.jobs",
+                    model: "Job", 
+                },
+            })
+            .populate({
+                path: "proposals",
+                populate: {
+                    path: "contacts.messages.message",
+                    model: "Message", 
+                },
+            })
+            .lean();
+       
+        if (!job) {
+            res.json({ redirectUrl: "dashboard" });
+        }
+        let proposals = job.proposals;
+        proposals=proposals.map((p)=>{
+            return p.contacts.map((c)=>{
+                if(c.contactId.toString()==job.idClient.toString()){
+                    console.log("c.messages.length - 1", c.messages.length - 1);
+                    return c.messages[c.messages.length-1].message.map((m)=>{
+                        console.log("Message", m);
+                        if(m.message.type=="proposal"){
+                            console.log("proposal Message",m)
+                            return {...p,message:m.message,id:m._id}
+                        }
+                    })[0];
+                }
+            })[0]
+        })
+        res.json(proposals);
+    } catch (e) {
+        console.log("Error", e);
+    }
+});
 app.get("/proposal/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -1513,6 +1556,7 @@ app.post("/addMessageFile", upload.array("files"), async (req, res) => {
 
 const { Server } = require("socket.io");
 const http = require("http");
+const { FaceRetouchingOffRounded } = require("@mui/icons-material");
 
 //const { JsonWebTokenError } = require('jsonwebtoken');
 const server = http.createServer(app);

@@ -14,6 +14,7 @@ import { EditContext } from "@/components/profile/Profile";
 import AlertDialog from "@/components/common/AlertDialog";
 
 export default function Proposal({
+    updateState,
     proposal,
     profileInfo,
     photoProfileSrc = undefined,
@@ -33,6 +34,7 @@ export default function Proposal({
         });
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
+        updateState("accepted");
     };
     const denyProposal = async () => {
         const response = await axios.patch("/denyProposal", {
@@ -40,6 +42,7 @@ export default function Proposal({
         });
         console.log("denyProposal", response.data);
         setMessageState("denied");
+        updateState("denied");
     };
     return (
         <EditContext.Provider value={{ edit }}>
