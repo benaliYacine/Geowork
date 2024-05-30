@@ -127,7 +127,7 @@ export default function SearchBar({ full = false }) {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={cn(
                     "mx-auto w-fit h-fit p-2 flex flex-col lg:flex-row gap-1 rounded-[40px] lg:rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
-                    full && "w-full"
+                    full ? "w-full" : "w-fit"
                 )}
             >
                 <SearchComboBox
@@ -190,6 +190,7 @@ export default function SearchBar({ full = false }) {
 
                 <SearchSelect
                     control={form.control}
+                    full={!full}
                     name="role"
                     label="Role"
                     // itemList={filteredCities}
@@ -202,7 +203,9 @@ export default function SearchBar({ full = false }) {
                         className="flex justify-center items-center gap-2"
                     >
                         <Search className="h-10 w-10" />{" "}
-                        <span className=" font-semibold text-2xl lg:hidden">Search</span>
+                        <span className=" font-semibold text-2xl lg:hidden">
+                            Search
+                        </span>
                     </button>
                 </div>
             </form>

@@ -39,8 +39,8 @@ const SearchComboBox = ({
             render={({ field }) => (
                 <FormItem
                     className={cn(
-                        "w-full lg:w-0 grow-[2]",
-                        name == "category" && "grow-[3]"
+                        !full ? "w-full lg:w-0 grow-[2]" : "w-full",
+                        !full && (name == "category") && "grow-[3]"
                     )}
                 >
                     <Popover>
