@@ -35,7 +35,7 @@ const GeoworkItem = ({ job }) => {
             <p className="font-light italic">
               Expert Feedback - " {job.feedback}"
             </p>
-            {/* {job.canceled && <Badge variant="destructive">Canceled</Badge>} */}
+            {job.canceled && <Badge variant="destructive">Canceled</Badge>}
           </div>
         </div>
         <div className=" ml-auto sm:ml-0 sm:mb-auto flex flex-col items-end w-full">
