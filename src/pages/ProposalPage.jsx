@@ -19,6 +19,9 @@ export default function ProfilePage() {
             console.log("response.data", response.data);
             if (response.data) {
                 setInfo({
+                    id:id,
+                    jobId:response.data.message.jobId,
+                    proId:response.data._id,
                     name: `${response.data.name.first} ${response.data.name.last}`,
                     role: response.data.subCategory,
                     rating: response.data.rating,
