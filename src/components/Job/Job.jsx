@@ -113,7 +113,12 @@ function Job({ jobInfo, apply = false }) {
             />
             <div className="flex space-x-4">
                 <div className="space-y-4">
-                    <JobPost jobInfo={jobInfo} edit={false} title={true} />
+                    <JobPost
+                        jobInfo={jobInfo}
+                        edit={false}
+                        title={true}
+                        notAvailable={notAvailable}
+                    />
                     <Separator />
                     <JobActivity activity={activity} />
                 </div>
