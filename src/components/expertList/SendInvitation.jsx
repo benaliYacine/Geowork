@@ -49,7 +49,6 @@ function SendInvitation({ expert }) {
     const location = useLocation();
     const { id } = useParams();
     const isJobPostPage = location.pathname.startsWith("/jobPostPage/");
-    const [name,setName]=useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -67,8 +66,15 @@ function SendInvitation({ expert }) {
                     label: j.title,
                     value: j._id,
                 }));
-                setName(response.data.name);
-                console.log(jobs);
+                console.log("response.data.name", response.data.name);
+                form.reset({
+                    invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${response.data.name}.`,
+                    job:
+                        clientJobs && clientJobs[0].label
+                            ? clientJobs && clientJobs[0].label
+                            : id,
+                });
+                console.log("jobs", jobs);
                 setClientJobs(jobs);
             }
         };
@@ -76,13 +82,6 @@ function SendInvitation({ expert }) {
     }, []);
     const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            invitationMessage: `Hello! \n\n I'd like to invite you to take a look at the job I've posted. \n\n ${name}.`,
-            job:
-                clientJobs && clientJobs[0].label
-                    ? clientJobs && clientJobs[0].label
-                    : id,
-        },
     });
     const onSubmit = async (values) => {
         console.log(values);
