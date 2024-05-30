@@ -29,6 +29,33 @@ export default function JobPostPage() {
     const [experts, setExperts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
+    const [proposals, setProposals] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response=await axios.get(`/proposals/${id}`);
+            if(response.data.redirectUrl){
+                navigate(response.data.redirectUrl);
+            }
+            setProposals(
+                response.data.map((m) => ({
+                    id: m.id,
+                    jobId: m.message.jobId,
+                    proId: m._id,
+                    state: m.message.state,
+                    name: `${m.name.first} ${m.name.last}`,
+                    role: m.subCategory,
+                    rating: m.profile.rating,
+                    avatarUrl: m.profile.photoProfile,
+                    wilaya: m.wilaya,
+                    city: m.data.city,
+                    budget: m.data.message.budget,
+                    coverLetter: m.data.message.coverLetter,
+                }))
+            );
+            
+        };
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -247,7 +274,7 @@ export default function JobPostPage() {
                         </TabsContent>
                         <TabsContent value="reviewProposals">
                             <div className=" flex flex-col items-center mt-6">
-                                <ProposalList />
+                                <ProposalList proposals={proposals} />
                             </div>
                         </TabsContent>
                     </Tabs>
