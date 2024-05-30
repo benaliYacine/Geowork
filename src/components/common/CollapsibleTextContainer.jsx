@@ -8,28 +8,29 @@ const CollapsibleTextContainer = ({ children, collapsedHeight = "0px" }) => {
   const [showToggle, setShowToggle] = useState(true);
 
   useEffect(() => {
-    const adjustHeight = () => {
-      if (
-        textContainerRef.current.scrollHeight <= parseInt(collapsedHeight, 10)
-      ) {
-        // If content is less than or equal to collapsed height, don't show toggle
-        setShowToggle(false);
-        textContainerRef.current.style.height = "auto";
-      } else {
-        // Else, set to collapsed height and show toggle
-        textContainerRef.current.style.height = collapsedHeight;
-        setShowToggle(true);
-      }
-    };
+      const adjustHeight = () => {
+          if (
+              textContainerRef.current.scrollHeight <=
+              parseInt(collapsedHeight, 10)
+          ) {
+              // If content is less than or equal to collapsed height, don't show toggle
+              setShowToggle(false);
+              textContainerRef.current.style.height = "auto";
+          } else {
+              // Else, set to collapsed height and show toggle
+              textContainerRef.current.style.height = collapsedHeight;
+              setShowToggle(true);
+          }
+      };
 
-    adjustHeight();
-    // Listen for window resize to adjust toggle visibility based on new height
-    window.addEventListener("resize", adjustHeight);
+      adjustHeight();
+      // Listen for window resize to adjust toggle visibility based on new height
+      window.addEventListener("resize", adjustHeight);
 
-    return () => {
-      window.removeEventListener("resize", adjustHeight);
-    };
-  }, [collapsedHeight]);
+      return () => {
+          window.removeEventListener("resize", adjustHeight);
+      };
+  }, [collapsedHeight, children]);
 
   const toggleExpansion = () => {
     if (isExpanded) {
