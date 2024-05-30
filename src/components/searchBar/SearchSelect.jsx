@@ -43,7 +43,7 @@ const SearchSelect = ({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem className="grow-[1] w-full lg:w-0">
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -52,10 +52,10 @@ const SearchSelect = ({
                             <FormControl>
                                 <div
                                     className={cn(
-                                        "  h-fit py-2 pl-8 pr-16 rounded-full  cursor-pointer ",
+                                        "  h-fit py-2 px-4 rounded-full  cursor-pointer ",
                                         !isExpanded && "py-0 px-2",
                                         isExpanded &&
-                                            "flex flex-col gap-1 hover:bg-bg"
+                                            "flex flex-col lg:items-start items-center gap-1 hover:bg-bg"
                                     )}
                                 >
                                     <FormLabel className=" text-md font-medium cursor-pointer">

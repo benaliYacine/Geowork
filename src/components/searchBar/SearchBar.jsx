@@ -125,71 +125,84 @@ export default function SearchBar({ full = false }) {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-full flex align-middle justify-center"
+                className={cn(
+                    "mx-auto w-fit h-fit p-2 flex flex-col lg:flex-row gap-1 rounded-[40px] lg:rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
+                    full && "w-full"
+                )}
             >
-                <div
-                    className={cn(
-                        "w-fit h-fit p-2 flex gap-1 rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
-                        full && "w-full"
-                    )}
-                >
-                    <SearchComboBox
-                        control={form.control}
-                        full={!full}
-                        name="category"
-                        label="Category"
-                        itemList={categories.map(({ value, label }) => ({
-                            value,
-                            label,
-                        }))}
-                        placeholder="Select category"
-                    />
-                    <Separator orientation="vertical" className="h-12" />
-                    <SearchComboBox
-                        full={!full}
-                        control={form.control}
-                        name="subCategory"
-                        label="Sub-Category"
-                        itemList={subCategories.map(({ value, label }) => ({
-                            value,
-                            label,
-                        }))}
-                        placeholder="Select sub-category"
-                    />
-                    <Separator orientation="vertical" className="h-12" />
-                    <SearchComboBox
-                        full={!full}
-                        control={form.control}
-                        name="wilaya"
-                        label="Wilaya"
-                        itemList={wilayas}
-                        placeholder="Select wilaya"
-                    />
+                <SearchComboBox
+                    control={form.control}
+                    full={!full}
+                    name="category"
+                    label="Category"
+                    itemList={categories.map(({ value, label }) => ({
+                        value,
+                        label,
+                    }))}
+                    placeholder="Select category"
+                />
+                <Separator
+                    orientation="vertical"
+                    className="h-12 hidden lg:inline-block"
+                />
+                <SearchComboBox
+                    full={!full}
+                    control={form.control}
+                    name="subCategory"
+                    label="Sub-Category"
+                    itemList={subCategories.map(({ value, label }) => ({
+                        value,
+                        label,
+                    }))}
+                    placeholder="Select sub-category"
+                />
+                <Separator
+                    orientation="vertical"
+                    className="h-12 hidden lg:inline-block"
+                />
+                <SearchComboBox
+                    full={!full}
+                    control={form.control}
+                    name="wilaya"
+                    label="Wilaya"
+                    itemList={wilayas}
+                    placeholder="Select wilaya"
+                />
 
-                    <Separator orientation="vertical" className="h-12" />
+                <Separator
+                    orientation="vertical"
+                    className="h-12 hidden lg:inline-block"
+                />
 
-                    <SearchComboBox
-                        full={!full}
-                        control={form.control}
-                        name="city"
-                        label="City"
-                        itemList={filteredCities}
-                        placeholder="Select city"
-                    />
+                <SearchComboBox
+                    full={!full}
+                    control={form.control}
+                    name="city"
+                    label="City"
+                    itemList={filteredCities}
+                    placeholder="Select city"
+                />
 
-                    <Separator orientation="vertical" className="h-12" />
+                <Separator
+                    orientation="vertical"
+                    className="h-12 hidden lg:inline-block"
+                />
 
-                    <SearchSelect
-                        control={form.control}
-                        name="role"
-                        label="Role"
-                        // itemList={filteredCities}
-                        placeholder="Select Role"
-                    />
-                    <button type="submit">
-                        <div className=" text-center flex-none items-center flex justify-center  aspect-square w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[107%]">
-                            <Search className="h-10 w-10" />
-                        </div>
+                <SearchSelect
+                    control={form.control}
+                    name="role"
+                    label="Role"
+                    // itemList={filteredCities}
+                    placeholder="Select Role"
+                />
+
+                <div className=" text-center lg:flex-none items-center flex justify-center w-full h-16  lg:aspect-square lg:w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[101%] lg:hover:scale-[107%]">
+                    <button
+                        type="submit"
+                        className="flex justify-center items-center gap-2"
+                    >
+                        <Search className="h-10 w-10" />{" "}
+                        <span className=" font-semibold text-2xl lg:hidden">Search</span>
                     </button>
                 </div>
             </form>
