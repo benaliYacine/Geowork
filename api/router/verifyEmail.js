@@ -38,6 +38,7 @@ router.get(
     }
 );
 router.get("/verifyEmail", async (req, res) => {
+    try{
     let user;
     const id = req.session.user_id;
     if (req.session.user_type == "Client") {
@@ -47,9 +48,13 @@ router.get("/verifyEmail", async (req, res) => {
     } else return res.json({ redirectUrl: "/login" });
     if (user && user.verified) return res.json({ redirectUrl: "/dashboard" });
     else return res.json({ emailAddress: user.email });
+}catch(e){
+    console.log("Error", e);
+}
 });
 
 router.post("/verifyEmail", async (req, res) => {
+    try{
     const id = req.session.user_id;
     let user;
     let url;
@@ -79,5 +84,8 @@ router.post("/verifyEmail", async (req, res) => {
     return res
         .status(201)
         .json({ message: "An Email sent to verify your account" });
+}catch(e){
+    console.log("Error", e);
+}
 });
 module.exports = router;

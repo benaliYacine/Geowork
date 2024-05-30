@@ -38,10 +38,11 @@ router.post('/:type/:id/password/:tokenId', async (req, res) => {
 
     }
 })
-router.get('/recuperatePassword', async (req, res) => {
-    res.render('passwordRecuperation');
-});
+// router.get('/recuperatePassword', async (req, res) => {
+//     res.render('passwordRecuperation');
+// });
 router.post('/recuperatePassword', async (req, res) => {
+    try{
     let email = req.body.email;
     let foundUser = await Client.findOne({ email });
     let type='Client';
@@ -73,5 +74,8 @@ router.post('/recuperatePassword', async (req, res) => {
     console.log(url);
     await sendEmail(foundUser.email, "Recuperation Password", url);
     return res.status(201).json("An Email sent to recuperate your password");
+}catch(e){
+    console.log("Error", e);
+}
 });
 module.exports = router;

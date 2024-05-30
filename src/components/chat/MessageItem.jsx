@@ -90,7 +90,7 @@ function MessageItem({
         setMessageState("accepted");
     };
     const acceptBudgetEdit = async () => {
-        const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
+        const response = await axios.patch("/acceptBudgetEdit", {
             jobId: Message.jobId,
             id,
             proId,
