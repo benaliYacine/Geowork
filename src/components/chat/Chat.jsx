@@ -79,7 +79,7 @@ export default function Chat() {
         return () => {
             socket.off("getMessage");
         };
-    }, [socket, id, messages]);
+    }, [socket, id]);
     // add online users
 
     /*     useEffect(() => {
