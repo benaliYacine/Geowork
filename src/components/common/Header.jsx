@@ -63,12 +63,6 @@ const FindWork = [
 
 const Jobs = [
     {
-        title: "Post a job",
-        href: "/jobSlides",
-        description: "",
-        icon: Megaphone,
-    },
-    {
         title: "All Job Posts",
         href: "/dashboard",
         description: "",
@@ -79,6 +73,14 @@ const Jobs = [
         href: "/savedExperts",
         description: "",
         icon: Save,
+    },
+];
+const postJob = [
+    {
+        title: "Post a job",
+        href: "/jobSlides",
+        description: "",
+        icon: Megaphone,
     },
 ];
 
@@ -191,7 +193,11 @@ export default function Header() {
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger>
-                                    {!isClient ? "Find Work" : "Jobs"}
+                                    {!isClient ? (
+                                        <Link to={"/dashboard"}>Find Work</Link>
+                                    ) : (
+                                        <Link to={"/dashboard"}>Jobs</Link>
+                                    )}
                                 </NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
@@ -219,6 +225,29 @@ export default function Header() {
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
+                            {isClient && (
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger>
+                                        <Link to={"/jobSlides"}>
+                                            Post a job
+                                        </Link>
+                                    </NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul className="grid w-[200px] gap-2 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
+                                            {postJob.map((item) => (
+                                                <ListItem
+                                                    key={item.title}
+                                                    title={item.title}
+                                                    href={item.href}
+                                                    Icon={item.icon}
+                                                >
+                                                    {item.description}
+                                                </ListItem>
+                                            ))}
+                                        </ul>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+                            )}
 
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
