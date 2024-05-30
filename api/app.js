@@ -1206,7 +1206,10 @@ app.get("/proposal/:id", async (req, res) => {
         const pro = await Professionnel.findById(message.senderId)
             .populate("profile.jobs")
             .lean();
-        return res.json({ ...pro, message: message.message });
+        return res.json({
+            ...pro,
+            message: message.message,
+        });
     } catch (e) {
         console.log("Error", e);
     }
