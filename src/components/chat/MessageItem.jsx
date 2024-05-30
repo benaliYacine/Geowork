@@ -292,6 +292,14 @@ function MessageItem({
                         </p>
                     </div>
                 );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have chosen another geoworker to do the job
+                        </p>
+                    </div>
+                );
             case "feedback":
                 return (
                     <div className="flex flex-col gap-2 w-full">
@@ -383,6 +391,15 @@ function MessageItem({
                             <LeaveFeedback leaveFeedback={leaveFeedback} />
                         </div>
                     </>
+                );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-destructive w-full">
+                            The cleint has chosen another geoworker to do the
+                            job
+                        </p>
+                    </div>
                 );
             case "feedback":
                 return (
@@ -489,6 +506,15 @@ function MessageItem({
                         </div>
                     </>
                 );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-destructive w-full">
+                            The cleint has chosen another geoworker to do the
+                            job
+                        </p>
+                    </div>
+                );
             case "feedback":
                 return (
                     <>
@@ -588,6 +614,14 @@ function MessageItem({
                     <div className="flex flex-col gap-2 w-full">
                         <p className=" text-md text-success w-full">
                             you have closed this job.
+                        </p>
+                    </div>
+                );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            you have chosen another geoworker to do the job
                         </p>
                     </div>
                 );
