@@ -89,8 +89,8 @@ function SendInvitation({ name = "Yacine", expert }) {
         const response1 = await axios.post("/addMessage", Invitation1);
         if (response1.data) {
             console.log("response1.data", response1.data);
-            if (response1.data.message) {
-                setAlertMessage(response1.data.message);
+            if (response1.data.messageError) {
+                setAlertMessage(response1.data.messageError);
                 setShowAlert(true);
                 setDialogOpen(false);
                 return;

@@ -855,7 +855,7 @@ app.patch("/cancelInvitation", async (req, res) => {
     const job = await Job.findById(saveMessage.message.jobId);
     console.log("before", job.hires);
     job.hires = job.hires.filter(
-        (p) => (p.toString() != saveMessage.recipientId.toString())
+        (p) => p.toString() != saveMessage.recipientId.toString()
     );
     console.log("before", job.hires);
     await job.save();
@@ -891,6 +891,7 @@ app.patch("/denyProposal", async (req, res) => {
     await foundMessage.save();
     res.json(foundMessage);
 });
+
 app.patch("/denyBudgetEdit", async (req, res) => {
     const { id } = req.body;
     console.log("id", id);
@@ -918,7 +919,9 @@ app.get("/fetchWilayaData", middlewars.isLoginIn, async (req, res) => {
     }
 });
 app.patch("/closeJob", async (req, res) => {
+    console.log("messageId",req.body.id);
     const message = await Message.findById(req.body.id);
+    console.log("message",message);
     const job = await Job.findById(req.body.jobId);
     message.message.state = "closed";
     job.clientFeedback = req.body.description;
@@ -987,6 +990,12 @@ app.patch("/leaveFeedback", async (req, res) => {
     await client.save();
     res.json({ job, client });
 });
+app.get("/proposal/:id", async(req, res)=>{
+    const {id}=req.params;
+    const message = await Message.findById(id).populate("message.jobId").lean();
+    const pro=await Professionnel.findById(message.senderId).populate("profile.jobs").lean();
+    return res.json({...pro,message:message.message});
+});
 app.get("/expertProposalPage/:id", async (req, res) => {
     const { id } = req.params;
 
@@ -1029,8 +1038,8 @@ app.post("/addMessage", async (req, res) => {
                     : job.proposals.includes(recipientId) ||
                       job.hires.includes(recipientId);
             if (include) {
-                console.log("job",job);
-                return res.json({ message: "pppppppp" });
+                console.log("job", job);
+                return res.json({ messageError: "pppppppp" });
             }
         }
     }
@@ -1070,7 +1079,7 @@ app.post("/addMessage", async (req, res) => {
                 if (include) {
                     exist = true;
                     return res.json({
-                        message: "raw kyn job m3a expert mazal makamaltihch",
+                        messageError: "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
             }
@@ -1117,7 +1126,7 @@ app.post("/addMessage", async (req, res) => {
                 if (include) {
                     exist = true;
                     return res.json({
-                        message: "raw kyn job m3a expert mazal makamaltihch",
+                        messageError: "raw kyn job m3a expert mazal makamaltihch",
                     });
                 }
             }
@@ -1291,8 +1300,8 @@ io.on("connection", (socket) => {
         console.log(onlineUsers);
         io.emit("getOnlineUsers", onlineUsers);
     });
-    
-socket.on("updateMessage", (message) => {
+
+    socket.on("updateMessage", (message) => {
         console.log("Updated message received:", message);
 
         // Find the user who should receive the update
@@ -1300,7 +1309,10 @@ socket.on("updateMessage", (message) => {
         console.log("User found for message update:", user);
 
         if (user) {
-            console.log("Emitting getUpdateMessage event to user:", user.userId);
+            console.log(
+                "Emitting getUpdateMessage event to user:",
+                user.userId
+            );
             io.to(user.socketId).emit("getUpdateMessage", {
                 ...message,
                 userId: message.userId,

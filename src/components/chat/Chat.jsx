@@ -259,7 +259,7 @@ export default function Chat() {
         });
 
         let newMessage = {
-            id: id, // Assurez-vous d'avoir une variable id définie quelque part
+            id: id, 
             message: {
                 type: "image",
                 content: "Sent an image",

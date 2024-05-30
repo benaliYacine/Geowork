@@ -63,8 +63,8 @@ export default function SubmitProposal({}) {
         const response = await axios.post("addMessage", proposal);
         if (response.data) {
             console.log("response1.data", response.data);
-            if (response.data.message) {
-                setAlertMessage(response.data.message);
+            if (response.data.messageError) {
+                setAlertMessage(response.data.messageError);
                 setShowAlert(true);
                 return;
             }
