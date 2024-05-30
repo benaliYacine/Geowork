@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 export default function ProposalItem({ proposal }) {
     const [isClick, setClick] = useState(false);
+    const [waiting, setWaiting] = useState(proposal.state == "waiting");
     const navigate = useNavigate();
     const [messageState, setMessageState] = useState(proposal.state);
     const acceptProposal = async () => {
@@ -23,6 +24,7 @@ export default function ProposalItem({ proposal }) {
         });
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
+        setWaiting(false);
     };
     const denyProposal = async () => {
         const response = await axios.patch("/denyProposal", {
@@ -30,6 +32,7 @@ export default function ProposalItem({ proposal }) {
         });
         console.log("denyProposal", response.data);
         setMessageState("denied");
+        setWaiting(false);
     };
     const updateState = (state) => {
         setMessageState(state);
@@ -51,10 +54,7 @@ export default function ProposalItem({ proposal }) {
                             </Avatar>
                         </div>
                         <div className="flex-grow mb-2">
-                            <ProposalDrawer
-                                updateState={updateState}
-                                proposal={proposal}
-                            />
+                            <ProposalDrawer updateState={updateState} proposal={proposal} />
                             <p className="text-sm text-gray-600 mb-1">
                                 {proposal.role}
                             </p>
@@ -73,33 +73,32 @@ export default function ProposalItem({ proposal }) {
                     </div>
 
                     <div className="ml-auto sm:ml-0 sm:mb-auto flex gap-4 justify-center items-center">
-                        <Button
-                            onClick={() => {
-                                navigate(`/messages/${proposal.proId}`);
-                            }}
-                            variant="outline"
-                            size="sm"
-                        >
+                        <Button onClick={()=>{navigate(`/messages/${proposal.proId}`)}} variant="outline" size="sm">
                             Message
                         </Button>
-                        <AlertDialog
-                            title="deny proposal"
-                            description="Are you sure you want to deny this proposal"
-                            action={denyProposal}
-                            actionButtonText="deny"
-                        >
-                            <Button variant="primary2" size="sm">
-                                deny
-                            </Button>
-                        </AlertDialog>
-                        <AlertDialog
-                            title="Hire expert"
-                            description="Are you sure you want to Hire this expert"
-                            action={acceptProposal}
-                            actionButtonText="Hire"
-                        >
-                            <Button size="sm">Hire</Button>
-                        </AlertDialog>
+
+                        {waiting && (
+                            <>
+                                <AlertDialog
+                                    title="deny proposal"
+                                    description="Are you sure you want to deny this proposal"
+                                    action={denyProposal}
+                                    actionButtonText="deny"
+                                >
+                                    <Button variant="primary2" size="sm">
+                                        deny
+                                    </Button>
+                                </AlertDialog>
+                                <AlertDialog
+                                    title="Hire expert"
+                                    description="Are you sure you want to Hire this expert"
+                                    action={acceptProposal}
+                                    actionButtonText="Hire"
+                                >
+                                    <Button size="sm">Hire</Button>
+                                </AlertDialog>
+                            </>
+                        )}
                     </div>
                 </div>
                 <p className="text-md text-primary font-semibold ">

@@ -35,6 +35,7 @@ export default function Proposal({
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
         updateState("accepted");
+        setWaiting(false);
     };
     const denyProposal = async () => {
         const response = await axios.patch("/denyProposal", {
@@ -43,7 +44,9 @@ export default function Proposal({
         console.log("denyProposal", response.data);
         setMessageState("denied");
         updateState("denied");
+        setWaiting(false);
     };
+    const [waiting, setWaiting] = useState(proposal.state == "waiting");
     return (
         <EditContext.Provider value={{ edit }}>
             <div className="flex flex-col gap-4 bg-bg p-2">
@@ -81,24 +84,28 @@ export default function Proposal({
                                         >
                                             Message
                                         </Button>
-                                        <AlertDialog
-                                            title="deny proposal"
-                                            description="Are you sure you want to deny this proposal"
-                                            action={denyProposal}
-                                            actionButtonText="deny"
-                                        >
-                                            <Button variant="primary2">
-                                                deny
-                                            </Button>
-                                        </AlertDialog>
-                                        <AlertDialog
-                                            title="Hire expert"
-                                            description="Are you sure you want to Hire this expert"
-                                            action={acceptProposal}
-                                            actionButtonText="Hire"
-                                        >
-                                            <Button>Hire</Button>
-                                        </AlertDialog>
+                                        {waiting && (
+                                            <>
+                                                <AlertDialog
+                                                    title="deny proposal"
+                                                    description="Are you sure you want to deny this proposal"
+                                                    action={denyProposal}
+                                                    actionButtonText="deny"
+                                                >
+                                                    <Button variant="primary2">
+                                                        deny
+                                                    </Button>
+                                                </AlertDialog>
+                                                <AlertDialog
+                                                    title="Hire expert"
+                                                    description="Are you sure you want to Hire this expert"
+                                                    action={acceptProposal}
+                                                    actionButtonText="Hire"
+                                                >
+                                                    <Button>Hire</Button>
+                                                </AlertDialog>
+                                            </>
+                                        )}
                                     </div>
                                 )}
                             </div>
