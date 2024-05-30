@@ -126,13 +126,13 @@ export default function SearchBar({ full = false }) {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className={cn(
-                    "mx-auto w-fit h-fit p-2 flex flex-col lg:flex-row gap-1 rounded-[40px] lg:rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
-                    full ? "w-full" : "w-fit"
+                    "mx-auto w-fit h-fit p-2 flex flex-col lg:flex-row gap-1 rounded-[26px] lg:rounded-full bg-white my-5 items-center transition ease-in-out duration-300 active:scale-100 hover:shadow-[0_0px_20px_0px_rgba(0,0,0,0.15)] ",
+                    full ? "w-full" : "w-full lg:w-fit"
                 )}
             >
                 <SearchComboBox
                     control={form.control}
-                    full={!full}
+                    full={full}
                     name="category"
                     label="Category"
                     itemList={categories.map(({ value, label }) => ({
@@ -146,7 +146,7 @@ export default function SearchBar({ full = false }) {
                     className="h-12 hidden lg:inline-block"
                 />
                 <SearchComboBox
-                    full={!full}
+                    full={full}
                     control={form.control}
                     name="subCategory"
                     label="Sub-Category"
@@ -161,7 +161,7 @@ export default function SearchBar({ full = false }) {
                     className="h-12 hidden lg:inline-block"
                 />
                 <SearchComboBox
-                    full={!full}
+                    full={full}
                     control={form.control}
                     name="wilaya"
                     label="Wilaya"
@@ -175,7 +175,7 @@ export default function SearchBar({ full = false }) {
                 />
 
                 <SearchComboBox
-                    full={!full}
+                    full={full}
                     control={form.control}
                     name="city"
                     label="City"
@@ -190,20 +190,20 @@ export default function SearchBar({ full = false }) {
 
                 <SearchSelect
                     control={form.control}
-                    full={!full}
+                    full={full}
                     name="role"
                     label="Role"
                     // itemList={filteredCities}
                     placeholder="Select Role"
                 />
 
-                <div className=" text-center lg:flex-none items-center flex justify-center w-full h-16  lg:aspect-square lg:w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[101%] lg:hover:scale-[107%]">
+                <div className=" text-center lg:flex-none items-center flex justify-center w-full h-10 lg:h-16 lg:aspect-square lg:w-16 rounded-full bg-primary text-white hover:opacity-90 cursor-pointer transition ease-in-out duration-300 active:scale-100 hover:scale-[101%] lg:hover:scale-[107%]">
                     <button
                         type="submit"
                         className="flex justify-center items-center gap-2"
                     >
-                        <Search className="h-10 w-10" />{" "}
-                        <span className=" font-semibold text-2xl lg:hidden">
+                        <Search className="lg:h-10 lg:w-10" />{" "}
+                        <span className=" font-semibold lg:text-2xl lg:hidden">
                             Search
                         </span>
                     </button>

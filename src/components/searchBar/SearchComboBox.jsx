@@ -39,8 +39,8 @@ const SearchComboBox = ({
             render={({ field }) => (
                 <FormItem
                     className={cn(
-                        !full ? "w-full lg:w-0 grow-[2]" : "w-full",
-                        !full && (name == "category") && "grow-[3]"
+                        full ? "w-full lg:w-0 lg:grow-[2]" : "w-full",
+                        full && name == "category" && "lg:grow-[3]"
                     )}
                 >
                     <Popover>
@@ -49,16 +49,16 @@ const SearchComboBox = ({
                                 <div
                                     className={cn(
                                         " h-fit  py-2 px-8 rounded-full cursor-pointer",
-                                        full && "w-max",
+                                        !full && "lg:w-max",
                                         !isExpanded && "py-0 px-2",
                                         isExpanded &&
-                                            "flex flex-col lg:items-start items-center gap-1 hover:bg-bg"
+                                            "flex lg:flex-col justify-center lg:items-start items-center gap-4 lg:gap-1 hover:bg-bg"
                                     )}
                                 >
-                                    <FormLabel className=" text-md font-medium cursor-pointer">
+                                    <FormLabel className=" text-md text-end font-medium cursor-pointer line-clamp-1 flex-1">
                                         {label}
                                     </FormLabel>
-                                    <p className=" text-sm font-normal line-clamp-1">
+                                    <p className=" text-sm font-normal line-clamp-1  flex-1">
                                         {field.value
                                             ? itemList.find(
                                                   (item) =>
