@@ -23,6 +23,7 @@ export default function Proposal({
     budget,
     action = false,
 }) {
+    const [messageState, setMessageState] = useState(proposal.state);
     const navigate = useNavigate();
     const acceptProposal = async () => {
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {

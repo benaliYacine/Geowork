@@ -22,6 +22,7 @@ export default function ProfilePage() {
                     id:id,
                     jobId:response.data.message.jobId,
                     proId:response.data._id,
+                    state:response.data.message.state,
                     name: `${response.data.name.first} ${response.data.name.last}`,
                     role: response.data.subCategory,
                     rating: response.data.rating,
