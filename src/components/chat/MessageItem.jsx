@@ -27,45 +27,44 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    console.log("id",id)
+    console.log("id", id);
     // const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
     const [Message, setMessage] = useState(message);
     const [messageState, setMessageState] = useState(Message.state);
     const [rerender, setRerender] = useState(false);
-//     useEffect(() => {
-//         const newSocket = io("ws://localhost:3000");
-//         setSocket(newSocket);
+    //     useEffect(() => {
+    //         const newSocket = io("ws://localhost:3000");
+    //         setSocket(newSocket);
 
-//         return () => {
-//             newSocket.disconnect();
-//         };
-//     }, []);
+    //         return () => {
+    //             newSocket.disconnect();
+    //         };
+    //     }, []);
 
-//     useEffect(() => {
-//         if (!socket) return;
+    //     useEffect(() => {
+    //         if (!socket) return;
 
-//         socket.emit("updateMessage", { userId: proId, id, messageState });
-//     }, [messageState]);
+    //         socket.emit("updateMessage", { userId: proId, id, messageState });
+    //     }, [messageState]);
 
-// useEffect(() => {
-//     if (!socket) return;
+    // useEffect(() => {
+    //     if (!socket) return;
 
-//     const handleGetUpdateMessage = (res) => {
-//         console.log("Received updated message from server:", res);
-//         if (id.toString() !== res.id.toString()) return;
-//         if (proId.toString() !== res.userId.toString()) return;
-//         setMessageState(res.messageState);
-//     };
+    //     const handleGetUpdateMessage = (res) => {
+    //         console.log("Received updated message from server:", res);
+    //         if (id.toString() !== res.id.toString()) return;
+    //         if (proId.toString() !== res.userId.toString()) return;
+    //         setMessageState(res.messageState);
+    //     };
 
-//     socket.on("getUpdateMessage", handleGetUpdateMessage);
+    //     socket.on("getUpdateMessage", handleGetUpdateMessage);
 
-//     return () => {
-//         socket.off("getUpdateMessage", handleGetUpdateMessage);
-//     };
-// }, [socket, id, proId]);
-
+    //     return () => {
+    //         socket.off("getUpdateMessage", handleGetUpdateMessage);
+    //     };
+    // }, [socket, id, proId]);
 
     const withrawProposal = async () => {
         const response = await axios.patch("withrawProposal", { id });
@@ -172,6 +171,24 @@ function MessageItem({
                         you have accepted this budget edit suggestion
                     </p>
                 );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            {isClient ? (
+                                <p className=" text-md text-success w-full">
+                                    you have chosen another geoworker to do the
+                                    job
+                                </p>
+                            ) : (
+                                <p className=" text-md text-destructive w-full">
+                                    The client has chosen another geoworker to
+                                    do the job
+                                </p>
+                            )}
+                        </p>
+                    </div>
+                );
             case "denied":
                 return (
                     <p className=" text-md text-destructive w-full">
@@ -220,6 +237,24 @@ function MessageItem({
                         {isClient ? "The geoworker" : "The Client"} has denied
                         your budget edit suggestion
                     </p>
+                );
+            case "taken":
+                return (
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className=" text-md text-success w-full">
+                            {isClient ? (
+                                <p className=" text-md text-success w-full">
+                                    you have chosen another geoworker to do the
+                                    job
+                                </p>
+                            ) : (
+                                <p className=" text-md text-destructive w-full">
+                                    The client has chosen another geoworker to
+                                    do the job
+                                </p>
+                            )}
+                        </p>
+                    </div>
                 );
             case "withdrawn":
                 return (
@@ -396,7 +431,7 @@ function MessageItem({
                 return (
                     <div className="flex flex-col gap-2 w-full">
                         <p className=" text-md text-destructive w-full">
-                            The cleint has chosen another geoworker to do the
+                            The client has chosen another geoworker to do the
                             job
                         </p>
                     </div>
@@ -510,7 +545,7 @@ function MessageItem({
                 return (
                     <div className="flex flex-col gap-2 w-full">
                         <p className=" text-md text-destructive w-full">
-                            The cleint has chosen another geoworker to do the
+                            The client has chosen another geoworker to do the
                             job
                         </p>
                     </div>
@@ -730,8 +765,10 @@ function MessageItem({
                                     size="sm"
                                     onClick={() => {
                                         console.log("key", id);
-                                        if(isOwnMessage)
-                                        navigate(`/expertProposalPage/${id}`);
+                                        if (isOwnMessage)
+                                            navigate(
+                                                `/expertProposalPage/${id}`
+                                            );
                                     }}
                                 >
                                     Open Proposal
