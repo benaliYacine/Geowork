@@ -45,7 +45,7 @@ const SearchSelect = ({
             name={name}
             render={({ field }) => (
                 <FormItem
-                    className={cn(!full ? "grow-[1] w-full lg:w-0" : "w-full")}
+                    className={cn(full ? "grow-[1] w-full lg:w-0" : "w-full")}
                 >
                     <Select
                         onValueChange={field.onChange}
@@ -57,15 +57,15 @@ const SearchSelect = ({
                                     className={cn(
                                         " h-fit py-2 px-4 rounded-full  cursor-pointer ",
                                         !isExpanded && "py-0 px-2",
-                                        full && "pr-16 pl-8",
+                                        !full && "lg:pr-16 lg:pl-8 px-8",
                                         isExpanded &&
-                                            "flex flex-col lg:items-start items-center gap-1 hover:bg-bg"
+                                            "flex lg:flex-col lg:items-start justify-center items-center gap-4 lg:gap-1 hover:bg-bg"
                                     )}
                                 >
-                                    <FormLabel className=" text-md font-medium cursor-pointer">
+                                    <FormLabel className=" text-md font-medium cursor-pointer text-start flex-1">
                                         {label}
                                     </FormLabel>
-                                    <p className=" text-sm font-normal">
+                                    <p className=" text-sm font-normal flex-1 text-start">
                                         <SelectValue
                                             placeholder={placeholder}
                                         />
