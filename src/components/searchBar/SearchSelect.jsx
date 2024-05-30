@@ -62,7 +62,7 @@ const SearchSelect = ({
                                             "flex lg:flex-col lg:items-start justify-center items-center gap-4 lg:gap-1 hover:bg-bg"
                                     )}
                                 >
-                                    <FormLabel className=" text-md font-medium cursor-pointer text-end flex-1">
+                                    <FormLabel className=" text-md font-medium cursor-pointer text-start flex-1">
                                         {label}
                                     </FormLabel>
                                     <p className=" text-sm font-normal flex-1 text-start">

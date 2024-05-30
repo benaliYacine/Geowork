@@ -55,7 +55,7 @@ const SearchComboBox = ({
                                             "flex lg:flex-col justify-center lg:items-start items-center gap-4 lg:gap-1 hover:bg-bg"
                                     )}
                                 >
-                                    <FormLabel className=" text-md text-end font-medium cursor-pointer line-clamp-1 flex-1">
+                                    <FormLabel className=" text-md  font-medium cursor-pointer line-clamp-1 flex-1">
                                         {label}
                                     </FormLabel>
                                     <p className=" text-sm font-normal line-clamp-1  flex-1">
