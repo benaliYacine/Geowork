@@ -41,13 +41,23 @@ export default function FindWork({ name = "" }) {
             }
             setLoading(false);
             const response1 = await axios.get("/savedJobs");
-            console.log("response",response1)
+            console.log("response", response1);
             if (response1.data) {
                 setJobs(response1.data);
             }
         };
         fetchData();
-    }, []);
+    }, [jobs]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const response1 = await axios.get("/savedJobs");
+            console.log("response", response1);
+            if (response1.data) {
+                setJobs(response1.data);
+            }
+        };
+        fetchData();
+    },[]);
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
