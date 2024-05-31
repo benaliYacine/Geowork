@@ -1221,6 +1221,74 @@ app.patch("/cancelJob", async (req, res) => {
         job.hires = job.hires.filter(
             (p) => p.toString() != job.idProfessionnel.toString()
         );
+
+        if (job.proposals.length != 0)
+            job.proposals
+                .filter((j) => j.toString() != job.idProfessionnel.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (c.contactId.toString() == job.idClient.toString()) {
+                            c.messages.map(async (j) => {
+                                if (j.job.toString() == job._id.toString())
+                                    j.message.map(async (m) => {
+                                        if (
+                                            (m.message.type == "proposal" ||
+                                                m.message.type ==
+                                                    "invitation" ||
+                                                m.message.type ==
+                                                    "budgetEdit") &&
+                                            m.message.state == "taken"
+                                        ) {
+                                            m.message.state = "waiting";
+                                            await m.save();
+                                            console.log(
+                                                "message update state taken",
+                                                m
+                                            );
+                                        }
+                                    });
+                            });
+                        }
+                    });
+                });
+        if (job.hires.length != 0)
+            job.hires
+                .filter((j) => j.toString() != job.idProfessionnel.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (c.contactId.toString() == job.idClient.toString()) {
+                            c.messages.map(async (j) => {
+                                console.log("message j", j);
+                                if (j.job.toString() == job._id.toString())
+                                    j.message.map(async (m) => {
+                                        console.log("message m", m);
+                                        if (
+                                            (m.message.type == "proposal" ||
+                                                m.message.type ==
+                                                    "invitation" ||
+                                                m.message.type ==
+                                                    "budgetEdit") &&
+                                            m.message.state == "taken"
+                                        ) {
+                                            m.message.state = "waiting";
+                                            await m.save();
+                                            console.log(
+                                                "message update state taken",
+                                                m
+                                            );
+                                        }
+                                    });
+                            });
+                        }
+                    });
+                });
+
         console.log("user.profile.numJobCanceled", user.profile.numJobCanceled);
         console.log("job.idProfessionnel", job.idProfessionnel);
         job.idProfessionnel = null;

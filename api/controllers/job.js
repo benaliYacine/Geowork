@@ -3,6 +3,7 @@ const Client = require("../models/client");
 const Professionnel = require("../models/professionnel");
 const Message = require("../models/message");
 const { cloudinary } = require("../cloudinary");
+const job = require("../models/job");
 
 /* exports.addPhoto = async (req, res) => {
     try {
@@ -157,6 +158,68 @@ exports.addProfessionnelToJob = async (req, res) => {
         if (!updatedJob) {
             return res.status(404).json({ message: "Job not found" });
         }
+        if (updatedJob.proposals.length != 0)
+            updatedJob.proposals
+                .filter((j) => j.toString() != userId.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (
+                            c.contactId.toString() ==
+                            updatedJob.idClient.toString()
+                        ) {
+                            c.messages[c.messages.length - 1].message.map(
+                                async (m) => {
+                                    if (
+                                        m.message.type == "proposal" ||
+                                        m.message.type == "invitation" ||
+                                        m.message.type == "budgetEdit"
+                                    ) {
+                                        m.message.state = "taken";
+                                        await m.save();
+                                        console.log(
+                                            "message update state taken",
+                                            m
+                                        );
+                                    }
+                                }
+                            );
+                        }
+                    });
+                });
+        if (updatedJob.hires.length != 0)
+            updatedJob.hires
+                .filter((j) => j.toString() != userId.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (
+                            c.contactId.toString() ==
+                            updatedJob.idClient.toString()
+                        ) {
+                            c.messages[c.messages.length - 1].message.map(
+                                async (m) => {
+                                    if (
+                                        m.message.type == "proposal" ||
+                                        m.message.type == "invitation" ||
+                                        m.message.type == "budgetEdit"
+                                    ) {
+                                        m.message.state = "taken";
+                                        await m.save();
+                                        console.log(
+                                            "message update state taken",
+                                            m
+                                        );
+                                    }
+                                }
+                            );
+                        }
+                    });
+                });
 
         const professionnel = await Professionnel.findById(userId);
 
