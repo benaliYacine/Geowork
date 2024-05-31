@@ -103,6 +103,30 @@ export default function MapCompo({ center, location }) {
         stepZoomOut();
     };
 
+
+    const onMapClick = (event) => {
+        console.log(event);
+        console.log(event.detail);
+        // setShowMarker({
+        //     lat: event.detail.latLng.lat,
+        //     lng: event.detail.latLng.lng,
+        // });
+        // setUserLocationMarker(null);
+        // setInfowindowOpen(true);
+        // setJobLocation({
+        //     lat: event.detail.latLng.lat,
+        //     lng: event.detail.latLng.lng,
+        // });
+      
+      
+      setUserLocationMarker({
+          lat: event.detail.latLng.lat,
+          lng: event.detail.latLng.lng,
+      });
+      setUserLocationInfowindowOpen(true);
+      setShowDirections(true);
+    };
+
     function getUserLocation() {
         if (!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
@@ -142,6 +166,7 @@ export default function MapCompo({ center, location }) {
                     defaultCenter={mapCenter}
                     center={mapCenter}
                     zoom={zoom}
+                    onClick={onMapClick}
                     mapId={"49ae42fed52588c3"}
                     onZoomChanged={(ev) => setZoom(ev.detail.zoom)}
                     onCenterChanged={(ev) => {
