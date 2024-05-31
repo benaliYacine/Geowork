@@ -470,7 +470,7 @@ app.get("/idClient", (req, res) => {
     try {
         if (req.session && req.session.user_id) {
             return res.json({ idClient: req.session.user_id });
-        }
+        } else return res.json({ idClient: "0" });
     } catch (e) {
         console.log("Error", e);
     }
@@ -747,6 +747,7 @@ app.get("/expertInfo/:id", async (req, res) => {
         res.json({
             ...pro,
             isExpert: req.session.user_type == "Professionnel" ? true : false,
+            isLogin: req.session.user_id ? true : false,
         });
     } catch (e) {
         console.log("Error", e);
@@ -772,11 +773,11 @@ app.get("/expertsSearch", async (req, res) => {
         const { category, subCategory, wilaya, city } = req.query;
         console.log("wilaya", wilaya);
         // Vérifier si au moins un paramètre est fourni
-        if (!category && !subCategory && !wilaya && !city) {
-            return res.status(400).json({
-                error: "Au moins un paramètre de recherche est requis.",
-            });
-        }
+        // if (!category && !subCategory && !wilaya && !city) {
+        //     return res.status(400).json({
+        //         error: "Au moins un paramètre de recherche est requis.",
+        //     });
+        // }
 
         // Construire la recherche en fonction des paramètres fournis
         let searchCriteria = {};

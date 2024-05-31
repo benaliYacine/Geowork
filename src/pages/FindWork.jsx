@@ -33,7 +33,7 @@ export default function FindWork({ name = "" }) {
                     isExpert: true,
                 }));
                 console.log(info);
-                setJobsMatch(info);
+                setJobsMatch(info.filter((j) => !j.closed));
                 console.log("JobsMatch", response2.data);
             }
             if (response2.data.redirectUrl) {
@@ -57,7 +57,7 @@ export default function FindWork({ name = "" }) {
             }
         };
         fetchData();
-    },[]);
+    }, []);
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
