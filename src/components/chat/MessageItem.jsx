@@ -397,7 +397,7 @@ function MessageItem({
                                 action={withrawProposal}
                                 actionButtonText="Withraw"
                             >
-                                <Button variant="outline" size="sm">
+                                <Button onClick={withrawProposal} variant="outline" size="sm">
                                     {/* Cancel  */}
                                     Withraw Proposal
                                 </Button>
@@ -454,7 +454,11 @@ function MessageItem({
                                 // action={withrawProposal}
                                 actionButtonText="Withraw"
                             >
-                                <Button variant="outline" size="sm">
+                                <Button
+                                    onClick={withrawProposal}
+                                    variant="outline"
+                                    size="sm"
+                                >
                                     {/* Cancel  */}
                                     Withraw Proposal
                                 </Button>
@@ -703,8 +707,12 @@ function MessageItem({
                                 // action={cancelInvitation}
                                 actionButtonText="Withraw"
                             >
-                                <Button variant="outline" size="sm">
-                                    Withraw Invitation
+                                <Button
+                                    onClick={cancelInvitation}
+                                    variant="outline"
+                                    size="sm"
+                                >
+                                    Cancel Invitation
                                 </Button>
                             </AlertDialog>
                         </div>
