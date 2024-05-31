@@ -1,4 +1,5 @@
 import React from "react";
+import geowork from "@/assets/geowork.svg";
 import { Button } from "@/components/ui/button";
 import mail_sent from "@/assets/illustrations/mail_sent.svg"; // Ensure correct path
 import AlertMessage from "@/components/common/AlertMessage";
@@ -53,43 +54,62 @@ const SendEmailPage = () => {
             </div>
         );
     return (
-        <PageContainer>
-            <AlertMessage
-                className="mt-4"
-                showAlert={showAlert}
-                message="New verification email is successfully sent. Please, check your email..."
-                variant="success" // or "success" for success alerts
-                onClose={() => setShowAlert(false)} // Assuming `setShowAlert` is your state setter
-            />
-
-            <div className="text-center py-20 sm:py-24">
-                <img
-                    src={mail_sent}
-                    alt="Email Sent"
-                    className="mx-auto w-1/4 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
+        <>
+            <header className="flex justify-center items-center w-full pt-2 ">
+                <nav
+                    className="flex items-center justify-between m-3 sm:mx-4 md:mx-8 lg:mx-12 xl:mx-18 w-full max-w-[1600px]"
+                    aria-label="Global"
+                >
+                    <div className="flex">
+                        <a href="/" className="-m-1.5 p-1.5">
+                            <span className="sr-only">Geowork</span>
+                            <img
+                                className="h-8 w-auto"
+                                src={geowork}
+                                alt="geowork"
+                            />
+                        </a>
+                    </div>
+                </nav>
+            </header>
+            <PageContainer>
+                <AlertMessage
+                    className="mt-4"
+                    showAlert={showAlert}
+                    message="New verification email is successfully sent. Please, check your email..."
+                    variant="success" // or "success" for success alerts
+                    onClose={() => setShowAlert(false)} // Assuming `setShowAlert` is your state setter
                 />
-                <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-                    Verify your email to continue
-                </h1>
-                <p className="mt-6 text-base leading-7 text-greyDark">
-                    We just sent an email to the address:{" "}
-                    <span className="font-semibold">{emailAddress}</span>
-                    <br />
-                    Please check your email and select the link provided to
-                    verify your address.
-                </p>
-                <div className="mt-6 w-full flex justify-center">
-                    <Button
-                        loading={sending}
-                        onClick={handleSendVerifyEmail}
-                        variant="default"
-                        className="text-sm font-semibold"
-                    >
-                        Send Again
-                    </Button>
+
+                <div className="text-center py-20 sm:py-24">
+                    <img
+                        src={mail_sent}
+                        alt="Email Sent"
+                        className="mx-auto w-1/4 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
+                    />
+                    <h1 className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+                        Verify your email to continue
+                    </h1>
+                    <p className="mt-6 text-base leading-7 text-greyDark">
+                        We just sent an email to the address:{" "}
+                        <span className="font-semibold">{emailAddress}</span>
+                        <br />
+                        Please check your email and select the link provided to
+                        verify your address.
+                    </p>
+                    <div className="mt-6 w-full flex justify-center">
+                        <Button
+                            loading={sending}
+                            onClick={handleSendVerifyEmail}
+                            variant="default"
+                            className="text-sm font-semibold"
+                        >
+                            Send Again
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </PageContainer>
+            </PageContainer>
+        </>
     );
 };
 
