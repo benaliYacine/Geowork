@@ -712,7 +712,7 @@ function MessageItem({
                                     variant="outline"
                                     size="sm"
                                 >
-                                    Cancel Invitation
+                                    Withraw Invitation
                                 </Button>
                             </AlertDialog>
                         </div>
