@@ -22,9 +22,7 @@ import { Separator } from "@/components/ui/separator";
 // Define your form schema
 const formSchema = z
     .object({
-        oldPassword: z
-            .string()
-            .min(8, { message: "Password must be at least 8 characters long" }),
+       
         newPassword: z
             .string()
             .min(8, { message: "Password must be at least 8 characters long" }),
@@ -50,7 +48,7 @@ const ChangePassword = () => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            oldPassword: "",
+            
             newPassword: "",
             confirmPassword: "",
         },
@@ -136,15 +134,7 @@ const ChangePassword = () => {
                                 onSubmit={form.handleSubmit(onSubmit)}
                                 className="space-y-4"
                             >
-                                <PasswordFormField
-                                    control={form.control}
-                                    name="oldPassword"
-                                    label="Old Password"
-                                    className="mb-4"
-                                    placeholder=""
-                                    canTogleVisibility={false}
-                                />
-
+                               
                                 <PasswordFormField
                                     control={form.control}
                                     name="newPassword"
