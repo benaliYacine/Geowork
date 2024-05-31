@@ -159,7 +159,7 @@ exports.addProfessionnelToJob = async (req, res) => {
             return res.status(404).json({ message: "Job not found" });
         }
         if (updatedJob.proposals.length != 0)
-            updatedJob.proposals
+            updatedJob.proposals = updatedJob.proposals
                 .filter((j) => j.toString() != userId.toString())
                 .map(async (j) => {
                     const pro = await Professionnel.findById(j).populate(
@@ -190,7 +190,7 @@ exports.addProfessionnelToJob = async (req, res) => {
                     });
                 });
         if (updatedJob.hires.length != 0)
-            updatedJob.hires
+            updatedJob.hires = updatedJob.hires
                 .filter((j) => j.toString() != userId.toString())
                 .map(async (j) => {
                     const pro = await Professionnel.findById(j).populate(
@@ -232,7 +232,7 @@ exports.addProfessionnelToJob = async (req, res) => {
         const foundMessage = await Message.findById(id);
         foundMessage.message.state = "accepted";
         const saveMessage = await foundMessage.save();
-
+        await updatedJob.save();
         return res.status(201).json(updatedJob);
     } catch (error) {
         console.error(error); // Log the error for debugging purposes
