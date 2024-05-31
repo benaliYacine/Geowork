@@ -36,13 +36,13 @@ const AlertMessage = ({
                 >
                     <Alert
                         variant={variant}
-                        className=" w-96 mx-auto"
+                        className=" max-w-3xl min-w-96 w-fit mx-auto"
                     >
                         <Icon className="h-5 w-5 " />
                         {variant === "destructive" && (
                             <AlertTitle>Error</AlertTitle>
                         )}
-                        <AlertDescription>{message}</AlertDescription>
+                        <AlertDescription className="mr-5">{message}</AlertDescription>
                         <button
                             onClick={onClose}
                             className="absolute top-3 right-3"

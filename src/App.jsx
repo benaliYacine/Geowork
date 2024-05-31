@@ -32,6 +32,8 @@ import ClientProfilePage from "./pages/ClientProfilePage";
 import io from "socket.io-client";
 import axios from "axios";
 import EmailVerified from "./pages/EmailVerified";
+import SendPasswordEmail from "./pages/SendPasswordEmail";
+import ChangePassword from "./pages/ChangePassword";
 
 //--3 tari9a li ra7 nekhedmou biha fel pfe
 //makach nav la 3ndk default page w fiha te9der tro7 l page khdoukhra b link kima hna dert home hiya default (path="/") w fel houme dert link yediik lel about page
@@ -93,6 +95,14 @@ function App() {
                         element={<EmailVerified />}
                     />
                     <Route path="/expertsSearch" element={<ExpertsSearch />} />
+                    <Route
+                        path="/sendPasswordEmail"
+                        element={<SendPasswordEmail />}
+                    />
+                    <Route
+                        path="/changePassword"
+                        element={<ChangePassword />}
+                    />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/profile" element={<ProfilePage />} />
