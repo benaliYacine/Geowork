@@ -109,7 +109,7 @@ export default function LoginForm() {
                             control={form.control}
                             name="password"
                         />
-                        <div className="text-end mt-1 px-2">
+                        {/* <div className="text-end mt-1 px-2">
                             <Link
                                 to="/sendPasswordEmail"
                                 className="text-primary underline-offset-4 hover:underline ml-1"
@@ -117,7 +117,7 @@ export default function LoginForm() {
                                 {" "}
                                 Forgot password?{" "}
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
 
                     <Button type="submit" className="w-full">
