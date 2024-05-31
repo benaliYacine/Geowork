@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import Category from "@/components/common/Category";
 import JobPostDrawer from "@/components/jobList/JobPostDrawer";
 import Heart from "react-heart";
-export default function JobItem({ job }) {
+export default function JobItem({ job, setJobs }) {
     console.log("job.heart", job);
     const [isClick, setClick] = useState(false);
     const [isExpert, setIsExpert] = useState(job.isExpert ? true : false);
@@ -29,6 +29,14 @@ export default function JobItem({ job }) {
             });
             console.log(response.data);
         }
+        const fetchData = async () => {
+            const response1 = await axios.get("/savedJobs");
+            console.log("response", response1);
+            if (response1.data) {
+                setJobs(response1.data);
+            }
+        };
+        fetchData();
     };
 
     return (

@@ -48,16 +48,7 @@ export default function FindWork({ name = "" }) {
         };
         fetchData();
     }, []);
-    useEffect(() => {
-        const fetchData = async () => {
-            const response1 = await axios.get("/savedJobs");
-            console.log("response", response1);
-            if (response1.data) {
-                setJobs(response1.data);
-            }
-        };
-        fetchData();
-    }, []);
+
     if (loading)
         return (
             <div className="flex items-center justify-center w-full h-full min-h-screen min-w-screen">
@@ -90,7 +81,7 @@ export default function FindWork({ name = "" }) {
                         </TabsList>
                         <TabsContent value="BestMatches">
                             <div className="flex flex-col items-center mt-4">
-                                <JobList jobs={jobsMatch} />
+                                <JobList jobs={jobsMatch} setJobs={setJobs } />
                             </div>
                         </TabsContent>
                         <TabsContent value="savedJobs">
