@@ -24,7 +24,7 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({ jobs = [], setJobs }) {
+export default function JobList({ jobs = [], setJobs, doNotReload=false }) {
     console.log("jobs", jobs);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -96,7 +96,12 @@ export default function JobList({ jobs = [], setJobs }) {
                 ) : (
                     <div className="min-h-[500px] w-full">
                         {currentData.map((job, index) => (
-                            <JobItem key={index} job={job} setJobs={setJobs} />
+                            <JobItem
+                                key={index}
+                                job={job}
+                                setJobs={setJobs}
+                                doNotReload={doNotReload}
+                            />
                         ))}
                     </div>
                 )}

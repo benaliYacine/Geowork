@@ -81,12 +81,12 @@ export default function FindWork({ name = "" }) {
                         </TabsList>
                         <TabsContent value="BestMatches">
                             <div className="flex flex-col items-center mt-4">
-                                <JobList jobs={jobsMatch} setJobs={setJobs } />
+                                <JobList jobs={jobsMatch} setJobs={setJobs} />
                             </div>
                         </TabsContent>
                         <TabsContent value="savedJobs">
                             <div className="flex flex-col items-center mt-4">
-                                <JobList jobs={jobs} />
+                                <JobList jobs={jobs} setJobs={setJobs} doNotReload/>
                             </div>
                         </TabsContent>
                     </Tabs>

@@ -1384,7 +1384,7 @@ app.get("/proposal/:id", async (req, res) => {
         console.log("Error", e);
     }
 });
-app.get("/expertProposalPage/:id", async (req, res) => {
+app.get("/expertProposalPage/:id", middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -1397,6 +1397,7 @@ app.get("/expertProposalPage/:id", async (req, res) => {
         console.log("okkkkk");
         console.log("Message---------", message);
         return res.json({
+            ...message.message,
             ...message.message.jobId,
             budgetProposal: message.message.budget,
             coverLetter: message.message.coverLetter,

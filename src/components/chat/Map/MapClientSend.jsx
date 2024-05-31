@@ -51,7 +51,7 @@ const MyComponent = () => {
 };
 
 export default function MapCompo({ updateMessage, center }) {
-    const GOOGLE_MAPS_API_KEY = "AIzaSyCPWOgGlKyOIg905D1j2vGYnDgY3iJfAPM";
+    const GOOGLE_MAPS_API_KEY = "AIzaSyAOCLqzTy2eOzu-BAKdLo1jedug0qk4-Kc";
     const { id } = useParams();
     const [showMarker, setShowMarker] = useState(null);
     const [userLocationMarker, setUserLocationMarker] = useState(null);

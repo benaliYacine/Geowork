@@ -56,15 +56,15 @@ function App() {
             socket.off("getOnlineUsers");
         };
     }, [socket]);
-    useEffect(() => {
-        if (socket === null) return;
-        socket.on("manualDisconnect",()=>{
-            socket.disconnect();
-        });
-        return () => {
-            socket.off("getOnlineUsers");
-        };
-    }, [socket]);
+    // useEffect(() => {
+    //     if (socket === null) return;
+    //     socket.on("manualDisconnect",()=>{
+    //         socket.disconnect();
+    //     });
+    //     return () => {
+    //         socket.off("getOnlineUsers");
+    //     };
+    // }, [socket]);
     axios.defaults.baseURL = "http://localhost:3000";
     axios.defaults.withCredentials = true;
     return (

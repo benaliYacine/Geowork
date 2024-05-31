@@ -87,7 +87,7 @@ export default function SubmitProposal() {
             if (response.data.redirectUrl) {
                 navigate(response.data.redirectUrl);
             }
-            console.log(response.data);
+            console.log("hna nchofo state",response.data);
             if (response.data) {
                 setJobInfo({
                     ...response.data,
