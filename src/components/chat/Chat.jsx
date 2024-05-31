@@ -104,14 +104,14 @@ export default function Chat() {
         socket.emit("addNewUser");
         socket.on("getOnlineUsers", (res) => {
             showPeople(res);
-            const response = res.filter((u) => u.user_id == id);
-            console.log(response);
-            setIsActive(response.length != 0 ? "Active Now" : "Offline");
-            console.log("resres", res);
-            console.log(
-                "res.some((u) => u.userId == id) ? Active Now : Offline",
-                res.some((u) => u.userId == id) ? "Active Now" : "Offline"
-            );
+            // const response = res.filter((u) => u.user_id == id);
+            // console.log(response);
+            // setIsActive(response.length != 0 ? "Active Now" : "Offline");
+            // console.log("resres", res);
+            // console.log(
+            //     "res.some((u) => u.userId == id) ? Active Now : Offline",
+            //     res.some((u) => u.userId == id) ? "Active Now" : "Offline"
+            // );
         });
         return () => {
             socket.off("getOnlineUsers");
@@ -311,6 +311,7 @@ export default function Chat() {
                         contactName={contact.name}
                         avatarUrl={contact.avatarUrl}
                         lastSeen={isActive}
+                        contacts={contacts}
                     />
                 </div>
 
