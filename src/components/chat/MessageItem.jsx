@@ -333,6 +333,19 @@ function MessageItem({
                         <p className=" text-md text-success w-full">
                             you have chosen another geoworker to do the job
                         </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="Close Proposal"
+                                description="Are you sure you want to Close this Proposal"
+                                // action={withrawProposal}
+                                actionButtonText="close"
+                            >
+                                <Button variant="outline" size="sm">
+                                    {/* Cancel  */}
+                                    Close Proposal
+                                </Button>
+                            </AlertDialog>
+                        </div>
                     </div>
                 );
             case "feedback":
@@ -561,6 +574,18 @@ function MessageItem({
                             The client has chosen another geoworker to do the
                             job
                         </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="close invitation"
+                                description="Are you sure you want to close this job invitation"
+                                // action={cancelInvitation}
+                                actionButtonText="Yes"
+                            >
+                                <Button variant="outline" size="sm">
+                                    close Invitation
+                                </Button>
+                            </AlertDialog>
+                        </div>
                     </div>
                 );
             case "feedback":
@@ -673,13 +698,13 @@ function MessageItem({
                         </p>
                         <div className="flex justify-end w-full gap-2">
                             <AlertDialog
-                                title="cancel invitation"
-                                description="Are you sure you want to cancel your job invitation"
+                                title="Withraw invitation"
+                                description="Are you sure you want to Withraw your job invitation"
                                 // action={cancelInvitation}
-                                actionButtonText="Yes"
+                                actionButtonText="Withraw"
                             >
                                 <Button variant="outline" size="sm">
-                                    Cancel Invitation
+                                    Withraw Invitation
                                 </Button>
                             </AlertDialog>
                         </div>
