@@ -86,7 +86,7 @@ export default function ProfileDrawer({ expert }) {
                             expert={expert}
                             profileInfo={profileInfo}
                             updateProfileInfo={updateProfileInfo}
-                            action={!info.isExpert}
+                            action={info.isLogin}
                         />
                     </ScrollArea>
                     {/* <DrawerFooter data-vaul-no-drag>

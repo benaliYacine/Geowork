@@ -470,7 +470,7 @@ app.get("/idClient", (req, res) => {
     try {
         if (req.session && req.session.user_id) {
             return res.json({ idClient: req.session.user_id });
-        }
+        } else return res.json({ idClient: "0" });
     } catch (e) {
         console.log("Error", e);
     }
@@ -747,6 +747,7 @@ app.get("/expertInfo/:id", async (req, res) => {
         res.json({
             ...pro,
             isExpert: req.session.user_type == "Professionnel" ? true : false,
+            isLogin: req.session.user_id ? true : false,
         });
     } catch (e) {
         console.log("Error", e);
@@ -772,11 +773,11 @@ app.get("/expertsSearch", async (req, res) => {
         const { category, subCategory, wilaya, city } = req.query;
         console.log("wilaya", wilaya);
         // Vérifier si au moins un paramètre est fourni
-        if (!category && !subCategory && !wilaya && !city) {
-            return res.status(400).json({
-                error: "Au moins un paramètre de recherche est requis.",
-            });
-        }
+        // if (!category && !subCategory && !wilaya && !city) {
+        //     return res.status(400).json({
+        //         error: "Au moins un paramètre de recherche est requis.",
+        //     });
+        // }
 
         // Construire la recherche en fonction des paramètres fournis
         let searchCriteria = {};
@@ -1220,6 +1221,74 @@ app.patch("/cancelJob", async (req, res) => {
         job.hires = job.hires.filter(
             (p) => p.toString() != job.idProfessionnel.toString()
         );
+
+        if (job.proposals.length != 0)
+            job.proposals
+                .filter((j) => j.toString() != job.idProfessionnel.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (c.contactId.toString() == job.idClient.toString()) {
+                            c.messages.map(async (j) => {
+                                if (j.job.toString() == job._id.toString())
+                                    j.message.map(async (m) => {
+                                        if (
+                                            (m.message.type == "proposal" ||
+                                                m.message.type ==
+                                                    "invitation" ||
+                                                m.message.type ==
+                                                    "budgetEdit") &&
+                                            m.message.state == "taken"
+                                        ) {
+                                            m.message.state = "waiting";
+                                            await m.save();
+                                            console.log(
+                                                "message update state taken",
+                                                m
+                                            );
+                                        }
+                                    });
+                            });
+                        }
+                    });
+                });
+        if (job.hires.length != 0)
+            job.hires
+                .filter((j) => j.toString() != job.idProfessionnel.toString())
+                .map(async (j) => {
+                    const pro = await Professionnel.findById(j).populate(
+                        "contacts.messages.message"
+                    );
+                    pro.contacts.map(async (c) => {
+                        if (c.contactId.toString() == job.idClient.toString()) {
+                            c.messages.map(async (j) => {
+                                console.log("message j", j);
+                                if (j.job.toString() == job._id.toString())
+                                    j.message.map(async (m) => {
+                                        console.log("message m", m);
+                                        if (
+                                            (m.message.type == "proposal" ||
+                                                m.message.type ==
+                                                    "invitation" ||
+                                                m.message.type ==
+                                                    "budgetEdit") &&
+                                            m.message.state == "taken"
+                                        ) {
+                                            m.message.state = "waiting";
+                                            await m.save();
+                                            console.log(
+                                                "message update state taken",
+                                                m
+                                            );
+                                        }
+                                    });
+                            });
+                        }
+                    });
+                });
+
         console.log("user.profile.numJobCanceled", user.profile.numJobCanceled);
         console.log("job.idProfessionnel", job.idProfessionnel);
         job.idProfessionnel = null;
@@ -1721,7 +1790,10 @@ io.on("connection", (socket) => {
             io.to(user.socketId).emit("getMessage", message);
         }
     });
-
+    socket.on("manualDisconnect", () => {
+        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+        io.emit("manualDisconnect");
+    });
     socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);

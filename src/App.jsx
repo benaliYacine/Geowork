@@ -51,6 +51,16 @@ function App() {
     useEffect(() => {
         if (socket === null) return;
         socket.emit("addNewUser");
+        socket.on("getOnlineUsers");
+        return () => {
+            socket.off("getOnlineUsers");
+        };
+    }, [socket]);
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on("manualDisconnect",()=>{
+            socket.disconnect();
+        });
         return () => {
             socket.off("getOnlineUsers");
         };

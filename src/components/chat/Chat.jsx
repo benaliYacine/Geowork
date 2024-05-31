@@ -42,6 +42,91 @@ export default function Chat() {
         setMessage({ ...message, id: id, messageId: message.id });
     };
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`/messages/${id}`);
+                if (response.data.redirectUrl) {
+                    navigate(response.data.redirectUrl);
+                } else setLoading(false);
+
+                if (response.data) {
+                    console.log(
+                        "response.data.isClient",
+                        response.data.isClient
+                    );
+                    setIsclient(response.data.isClient);
+                    const isclient = response.data.isClient;
+                    const newContact = {
+                        name:
+                            response.data.name.first +
+                            " " +
+                            response.data.name.last,
+                        avatarUrl: isclient
+                            ? response.data.profile.photoProfile.url
+                            : null,
+                        isActive: isActive,
+                    };
+                    console.log("les messages", response.data);
+                    let contact = response.data.contacts.filter(
+                        (contact) => contact.contactId == response.data.user_id
+                    )[0];
+
+                    let messages = [];
+                    contact.messages.forEach((m) => {
+                        console.log("mmm", m);
+                        m.message.forEach((ms) => {
+                            console.log();
+                            let InPrBd =
+                                ms.message.type == "invitation" ||
+                                ms.message.type == "proposal" ||
+                                ms.message.type == "budgetEdit"
+                                    ? {
+                                          ...ms.message.jobId,
+                                      }
+                                    : null;
+                            if (InPrBd) {
+                                InPrBd.jobId = InPrBd._id;
+                                delete InPrBd._id;
+                                delete InPrBd.hires;
+                                delete InPrBd.proposals;
+                                if (InPrBd.images)
+                                    InPrBd.images = InPrBd.images.map(
+                                        (i) => i.url
+                                    );
+                            }
+
+                            delete ms.message.jobId;
+                            messages.push({
+                                id: ms._id,
+                                senderName:
+                                    ms.senderId == id ? "Alice" : "User",
+                                message: { ...InPrBd, ...ms.message },
+                                isOwnMessage: ms.senderId == id ? false : true,
+                                timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
+                            });
+                        });
+                    });
+                    console.log("yaww messages", messages);
+
+                    setMessages(messages);
+                    setContact(newContact);
+                    /* if (response.data.contacts) {
+            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
+            console.log("Contactoooo", contact);
+          } else
+            console.log("adsfjmadfsk"); */
+
+                    //setName(response.data.name.first);
+                }
+            } catch (error) {
+                console.error(error);
+                // Handle error here, if needed
+            }
+        };
+
+        fetchData();
+    }, [id, navigate]);
+    useEffect(() => {
         const newSocket = io("ws://localhost:3000");
         setSocket(newSocket);
 
@@ -49,6 +134,16 @@ export default function Chat() {
             newSocket.disconnect();
         };
     }, []);
+    useEffect(() => {
+        if (socket === null) return;
+        socket.emit("addNewUser");
+        socket.on("getOnlineUsers", (res) => {
+            showPeople(res);
+        });
+        return () => {
+            socket.off("getOnlineUsers");
+        };
+    }, [socket]);
     //send Message
     useEffect(() => {
         console.log("message", message);
@@ -60,17 +155,7 @@ export default function Chat() {
     useEffect(() => {
         if (socket === null) return;
         socket.on("getMessage", (res) => {
-            //setRefrechContacts(!refrechContacts);
-            //setContacts([...contacts]);
             console.log("contacts", contacts);
-            /*
-      let newContact = contacts.filter((contact) => contact.id == res.id)[0];
-      console.log(newContact);
-      console.log(res.message.content);
-      newContact.message = res.message.content;
-      newContact.time = res.timestamp;
-      console.log([...contacts.filter((contact) => contact.id !== res.senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
-      setContacts([...contacts.filter((contact) => contact.id !== res.senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time))); */
             if (id !== res.senderId) return;
             res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`;
             res.id = res.messageId;
@@ -81,42 +166,6 @@ export default function Chat() {
             socket.off("getMessage");
         };
     }, [socket, id]);
-    // add online users
-
-    /*     useEffect(() => {
-        console.log("refrechContacts", contacts);
-        console.log(messages[messages.length - 1]);
-        let newContact = contacts.filter((contact) => contact.id == messages[messages.length - 1].senderId)[0];
-        if(newContact){
-        newContact.message = messages[messages.length - 1].message.content;
-        //newContact.time = date.now();
-        console.log("newContact",newContact)
-        console.log("contactssss",[...contacts.filter((contact) => contact.id != messages[messages.length - 1].senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)))
-        setContacts([...contacts.filter((contact) => contact.id !== messages[messages.length - 1].senderId), newContact].sort((a, b) => new Date(b.time) - new Date(a.time)));
-        }
-      }, [refrechContacts])
-   */
-
-    // Placeholder for data fetching and state management
-
-    useEffect(() => {
-        if (socket === null) return;
-        socket.emit("addNewUser");
-        socket.on("getOnlineUsers", (res) => {
-            showPeople(res);
-            // const response = res.filter((u) => u.user_id == id);
-            // console.log(response);
-            // setIsActive(response.length != 0 ? "Active Now" : "Offline");
-            // console.log("resres", res);
-            // console.log(
-            //     "res.some((u) => u.userId == id) ? Active Now : Offline",
-            //     res.some((u) => u.userId == id) ? "Active Now" : "Offline"
-            // );
-        });
-        return () => {
-            socket.off("getOnlineUsers");
-        };
-    }, [socket]);
 
     const showPeople = async (people) => {
         const response = await axios.post("/contact", { people });
@@ -205,91 +254,6 @@ export default function Chat() {
 
         // TODO: Implement file attachment handling
     };
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/messages/${id}`);
-                if (response.data.redirectUrl) {
-                    navigate(response.data.redirectUrl);
-                } else setLoading(false);
-
-                if (response.data) {
-                    console.log(
-                        "response.data.isClient",
-                        response.data.isClient
-                    );
-                    setIsclient(response.data.isClient);
-                    const isclient = response.data.isClient;
-                    const newContact = {
-                        name:
-                            response.data.name.first +
-                            " " +
-                            response.data.name.last,
-                        avatarUrl: isclient
-                            ? response.data.profile.photoProfile.url
-                            : null,
-                        isActive: isActive,
-                    };
-                    console.log("les messages", response.data);
-                    let contact = response.data.contacts.filter(
-                        (contact) => contact.contactId == response.data.user_id
-                    )[0];
-
-                    let messages = [];
-                    contact.messages.forEach((m) => {
-                        console.log("mmm", m);
-                        m.message.forEach((ms) => {
-                            console.log();
-                            let InPrBd =
-                                ms.message.type == "invitation" ||
-                                ms.message.type == "proposal" ||
-                                ms.message.type == "budgetEdit"
-                                    ? {
-                                          ...ms.message.jobId,
-                                      }
-                                    : null;
-                            if (InPrBd) {
-                                InPrBd.jobId = InPrBd._id;
-                                delete InPrBd._id;
-                                delete InPrBd.hires;
-                                delete InPrBd.proposals;
-                                if (InPrBd.images)
-                                    InPrBd.images = InPrBd.images.map(
-                                        (i) => i.url
-                                    );
-                            }
-
-                            delete ms.message.jobId;
-                            messages.push({
-                                id: ms._id,
-                                senderName:
-                                    ms.senderId == id ? "Alice" : "User",
-                                message: { ...InPrBd, ...ms.message },
-                                isOwnMessage: ms.senderId == id ? false : true,
-                                timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
-                            });
-                        });
-                    });
-                    console.log("yaww messages", messages);
-
-                    setMessages(messages);
-                    setContact(newContact);
-                    /* if (response.data.contacts) {
-            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
-            console.log("Contactoooo", contact);
-          } else
-            console.log("adsfjmadfsk"); */
-
-                    //setName(response.data.name.first);
-                }
-            } catch (error) {
-                console.error(error);
-                // Handle error here, if needed
-            }
-        };
-
-        fetchData();
-    }, [id, navigate]);
 
     if (loading)
         return (
@@ -310,7 +274,11 @@ export default function Chat() {
                     <ChatHeader
                         contactName={contact.name}
                         avatarUrl={contact.avatarUrl}
-                        lastSeen={isActive}
+                        lastSeen={
+                            contacts.filter((c) => c.id == id)[0].isActive
+                                ? "Active Now"
+                                : "Offline"
+                        }
                         contacts={contacts}
                     />
                 </div>
