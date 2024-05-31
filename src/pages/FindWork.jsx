@@ -47,7 +47,7 @@ export default function FindWork({ name = "" }) {
             }
         };
         fetchData();
-    }, [jobs]);
+    }, []);
     useEffect(() => {
         const fetchData = async () => {
             const response1 = await axios.get("/savedJobs");

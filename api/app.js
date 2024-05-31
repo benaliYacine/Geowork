@@ -1722,7 +1722,10 @@ io.on("connection", (socket) => {
             io.to(user.socketId).emit("getMessage", message);
         }
     });
-
+    socket.on("manualDisconnect", () => {
+        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+        io.emit("manualDisconnect");
+    });
     socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);

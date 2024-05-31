@@ -135,10 +135,12 @@ export default function Header() {
     }, []);
 
     const handleLogOut = async () => {
+        socket.emit("manualDisconnect");
         const response = await axios.post("/logout");
-        if (response.data.redirectUrl) {
+        if (response.data.redirectUrl) {   
             navigate(response.data.redirectUrl);
         }
+        
     };
     const [profileIcon, setProfileIcon] = useState({});
     useEffect(() => {
