@@ -683,7 +683,7 @@ function MessageItem({
                                 actionButtonText="Yes"
                             >
                                 <Button
-                                    onClick={withrawInvitation}
+                                    onClick={cancelInvitation}
                                     variant="outline"
                                     size="sm"
                                 >
