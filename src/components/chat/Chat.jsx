@@ -100,91 +100,6 @@ export default function Chat() {
     // Placeholder for data fetching and state management
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/messages/${id}`);
-                if (response.data.redirectUrl) {
-                    navigate(response.data.redirectUrl);
-                } else setLoading(false);
-
-                if (response.data) {
-                    console.log(
-                        "response.data.isClient",
-                        response.data.isClient
-                    );
-                    setIsclient(response.data.isClient);
-                    const isclient = response.data.isClient;
-                    const newContact = {
-                        name:
-                            response.data.name.first +
-                            " " +
-                            response.data.name.last,
-                        avatarUrl: isclient
-                            ? response.data.profile.photoProfile.url
-                            : null,
-                    };
-                    console.log("les messages", response.data);
-                    let contact = response.data.contacts.filter(
-                        (contact) => contact.contactId == response.data.user_id
-                    )[0];
-
-                    let messages = [];
-                    contact.messages.forEach((m) => {
-                        console.log("mmm", m);
-                        m.message.forEach((ms) => {
-                            console.log();
-                            let InPrBd =
-                                ms.message.type == "invitation" ||
-                                ms.message.type == "proposal" ||
-                                ms.message.type == "budgetEdit"
-                                    ? {
-                                          ...ms.message.jobId,
-                                      }
-                                    : null;
-                            if (InPrBd) {
-                                InPrBd.jobId = InPrBd._id;
-                                delete InPrBd._id;
-                                delete InPrBd.hires;
-                                delete InPrBd.proposals;
-                                if (InPrBd.images)
-                                    InPrBd.images = InPrBd.images.map(
-                                        (i) => i.url
-                                    );
-                            }
-
-                            delete ms.message.jobId;
-                            messages.push({
-                                id: ms._id,
-                                senderName:
-                                    ms.senderId == id ? "Alice" : "User",
-                                message: { ...InPrBd, ...ms.message },
-                                isOwnMessage: ms.senderId == id ? false : true,
-                                timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
-                            });
-                        });
-                    });
-                    console.log("yaww messages", messages);
-
-                    setMessages(messages);
-                    setContact(newContact);
-                    /* if (response.data.contacts) {
-            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
-            console.log("Contactoooo", contact);
-          } else
-            console.log("adsfjmadfsk"); */
-
-                    //setName(response.data.name.first);
-                }
-            } catch (error) {
-                console.error(error);
-                // Handle error here, if needed
-            }
-        };
-
-        fetchData();
-    }, [id, navigate]);
-
-    useEffect(() => {
         if (socket === null) return;
         socket.emit("addNewUser");
         socket.on("getOnlineUsers", (res) => {
@@ -290,6 +205,91 @@ export default function Chat() {
 
         // TODO: Implement file attachment handling
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`/messages/${id}`);
+                if (response.data.redirectUrl) {
+                    navigate(response.data.redirectUrl);
+                } else setLoading(false);
+
+                if (response.data) {
+                    console.log(
+                        "response.data.isClient",
+                        response.data.isClient
+                    );
+                    setIsclient(response.data.isClient);
+                    const isclient = response.data.isClient;
+                    const newContact = {
+                        name:
+                            response.data.name.first +
+                            " " +
+                            response.data.name.last,
+                        avatarUrl: isclient
+                            ? response.data.profile.photoProfile.url
+                            : null,
+                        isActive: isActive,
+                    };
+                    console.log("les messages", response.data);
+                    let contact = response.data.contacts.filter(
+                        (contact) => contact.contactId == response.data.user_id
+                    )[0];
+
+                    let messages = [];
+                    contact.messages.forEach((m) => {
+                        console.log("mmm", m);
+                        m.message.forEach((ms) => {
+                            console.log();
+                            let InPrBd =
+                                ms.message.type == "invitation" ||
+                                ms.message.type == "proposal" ||
+                                ms.message.type == "budgetEdit"
+                                    ? {
+                                          ...ms.message.jobId,
+                                      }
+                                    : null;
+                            if (InPrBd) {
+                                InPrBd.jobId = InPrBd._id;
+                                delete InPrBd._id;
+                                delete InPrBd.hires;
+                                delete InPrBd.proposals;
+                                if (InPrBd.images)
+                                    InPrBd.images = InPrBd.images.map(
+                                        (i) => i.url
+                                    );
+                            }
+
+                            delete ms.message.jobId;
+                            messages.push({
+                                id: ms._id,
+                                senderName:
+                                    ms.senderId == id ? "Alice" : "User",
+                                message: { ...InPrBd, ...ms.message },
+                                isOwnMessage: ms.senderId == id ? false : true,
+                                timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
+                            });
+                        });
+                    });
+                    console.log("yaww messages", messages);
+
+                    setMessages(messages);
+                    setContact(newContact);
+                    /* if (response.data.contacts) {
+            const contact = response.data.contacts.contactId.filter((contact) => contact.contactId == response.data.user_id);
+            console.log("Contactoooo", contact);
+          } else
+            console.log("adsfjmadfsk"); */
+
+                    //setName(response.data.name.first);
+                }
+            } catch (error) {
+                console.error(error);
+                // Handle error here, if needed
+            }
+        };
+
+        fetchData();
+    }, [id, navigate]);
 
     if (loading)
         return (
