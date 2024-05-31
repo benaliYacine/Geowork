@@ -17,6 +17,7 @@ export default function ProposalItem({ proposal }) {
     const navigate = useNavigate();
     const [messageState, setMessageState] = useState(proposal.state);
     const acceptProposal = async () => {
+        setWaiting(false);
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
             jobId: proposal.jobId,
             id: proposal.id,
@@ -24,15 +25,14 @@ export default function ProposalItem({ proposal }) {
         });
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
-        setWaiting(false);
     };
     const denyProposal = async () => {
+        setWaiting(false);
         const response = await axios.patch("/denyProposal", {
             id: proposal.id,
         });
         console.log("denyProposal", response.data);
         setMessageState("denied");
-        setWaiting(false);
     };
     const updateState = (state) => {
         setMessageState(state);
@@ -54,7 +54,10 @@ export default function ProposalItem({ proposal }) {
                             </Avatar>
                         </div>
                         <div className="flex-grow mb-2">
-                            <ProposalDrawer updateState={updateState} proposal={proposal} />
+                            <ProposalDrawer
+                                updateState={updateState}
+                                proposal={proposal}
+                            />
                             <p className="text-sm text-gray-600 mb-1">
                                 {proposal.role}
                             </p>
@@ -73,7 +76,13 @@ export default function ProposalItem({ proposal }) {
                     </div>
 
                     <div className="ml-auto sm:ml-0 sm:mb-auto flex gap-4 justify-center items-center">
-                        <Button onClick={()=>{navigate(`/messages/${proposal.proId}`)}} variant="outline" size="sm">
+                        <Button
+                            onClick={() => {
+                                navigate(`/messages/${proposal.proId}`);
+                            }}
+                            variant="outline"
+                            size="sm"
+                        >
                             Message
                         </Button>
 

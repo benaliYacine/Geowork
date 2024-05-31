@@ -93,6 +93,10 @@ export default function SubmitProposal() {
                     ...response.data,
                     images: response.data.images.map((i) => i.url),
                 });
+                form.reset({
+                    budget: response.data.budgetProposal,
+                    coverLetter: response.data.coverLetter,
+                });
                 setbudget(response.data.budgetProposal);
                 setCoverLetter(response.data.coverLetter);
                 setState(response.data.state);
@@ -142,7 +146,9 @@ export default function SubmitProposal() {
                                 variant="link"
                                 className="w-fit mt-2"
                                 type="button"
-                                onClick={()=>{navigate(`/job/${jobInfo._id}`)}}
+                                onClick={() => {
+                                    navigate(`/job/${jobInfo._id}`);
+                                }}
                             >
                                 View job Posting
                             </Button>
@@ -204,31 +210,37 @@ export default function SubmitProposal() {
                                 {!edit ? (
                                     <div className="flex items-center justify-end gap-4">
                                         {" "}
-                                        <Button
-                                            type="button"
-                                            size="sm"
-                                            onClick={() => {
-                                                setEdit(true);
-                                            }}
-                                        >
-                                            <Pencil className="h-4 w-4 mr-2" />{" "}
-                                            edit budjet
-                                        </Button>
-                                        {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
-                                        <AlertDialog
-                                            title="Withdraw proposal"
-                                            description="Are you sure you want to withdraw this proposal"
-                                            action={withrawProposal}
-                                            actionButtonText="Withdraw"
-                                        >
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                type="button"
-                                            >
-                                                Withdraw proposal
-                                            </Button>
-                                        </AlertDialog>
+                                        {state == "waiting" && (
+                                            <>
+                                                <Button
+                                                    type="button"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        setEdit(true);
+                                                    }}
+                                                >
+                                                    <Pencil className="h-4 w-4 mr-2" />{" "}
+                                                    edit proposal
+                                                </Button>
+
+                                                {/* TODO: on delete hot fiha fct li t supp l job post w tdiik lel home (all job posts) */}
+
+                                                <AlertDialog
+                                                    title="Withdraw proposal"
+                                                    description="Are you sure you want to withdraw this proposal"
+                                                    action={withrawProposal}
+                                                    actionButtonText="Withdraw"
+                                                >
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        type="button"
+                                                    >
+                                                        Withdraw proposal
+                                                    </Button>
+                                                </AlertDialog>
+                                            </>
+                                        )}
                                         {/* <DeleteJobPost onDelete={() => {}} /> */}
                                     </div>
                                 ) : (

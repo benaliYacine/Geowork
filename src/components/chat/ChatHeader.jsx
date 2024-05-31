@@ -44,7 +44,7 @@ function ChatHeader({
             <AvatarFallback>{getInitials(contactName)}</AvatarFallback>
           </Avatar>
           {contactIsActive && (
-            <span className="absolute bottom-1 right-1 block h-3 w-3 transform translate-x-1/2 translate-y-1/2 bg-green-500 border-2 border-white rounded-full"></span>
+            <span className="absolute bottom-[6px] right-[6px] block h-[14px] w-[14px] transform translate-x-1/2 translate-y-1/2 bg-green-500 border-2 border-white rounded-full"></span>
           )}
         </div>
 

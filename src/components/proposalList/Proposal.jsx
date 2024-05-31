@@ -27,6 +27,7 @@ export default function Proposal({
     const [messageState, setMessageState] = useState(proposal.state);
     const navigate = useNavigate();
     const acceptProposal = async () => {
+        setWaiting(false);
         const response = await axios.patch("/api/jobs/addProfessionnelToJob", {
             jobId: proposal.jobId,
             id: proposal.id,
@@ -35,16 +36,15 @@ export default function Proposal({
         console.log("acceptProposal", response.data);
         setMessageState("accepted");
         updateState("accepted");
-        setWaiting(false);
     };
     const denyProposal = async () => {
+        setWaiting(false);
         const response = await axios.patch("/denyProposal", {
             id: proposal.id,
         });
         console.log("denyProposal", response.data);
         setMessageState("denied");
         updateState("denied");
-        setWaiting(false);
     };
     const [waiting, setWaiting] = useState(proposal.state == "waiting");
     return (
