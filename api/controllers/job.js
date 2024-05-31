@@ -177,7 +177,7 @@ exports.addProfessionnelToJob = async (req, res) => {
                                         m.message.type == "invitation" ||
                                         m.message.type == "budgetEdit"
                                     ) {
-                                        m.message.state = "taken";
+                                        m.message.state = "denied";
                                         await m.save();
                                         console.log(
                                             "message update state taken",
@@ -208,7 +208,7 @@ exports.addProfessionnelToJob = async (req, res) => {
                                         m.message.type == "invitation" ||
                                         m.message.type == "budgetEdit"
                                     ) {
-                                        m.message.state = "taken";
+                                        m.message.state = "denied";
                                         await m.save();
                                         console.log(
                                             "message update state taken",

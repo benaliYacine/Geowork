@@ -722,7 +722,7 @@ app.get("/jobsSearch", async (req, res) => {
                 return { ...jobObject, client: client };
             })
         );
-        jobs = jobs.filter((j) => j && !j.closed);
+        jobs = jobs.filter((j) => j && !j.closed && !j.hired);
         console.log("job+heart", jobs);
         // Retourner les résultats de la recherche
         res.json(jobs);
