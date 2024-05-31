@@ -48,7 +48,7 @@ function Job({ jobInfo, apply = false }) {
         },
     ]; */
     const [showAlert, setShowAlert] = useState(true);
-    const [notAvailable, setNotAvailable] = useState(jobInfo.closed);
+    const [notAvailable, setNotAvailable] = useState(jobInfo.closed||jobInfo.hired);
 
     const [isSaved, setIsSaved] = useState(false);
     const [client, setClient] = useState({

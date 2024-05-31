@@ -33,7 +33,7 @@ export default function FindWork({ name = "" }) {
                     isExpert: true,
                 }));
                 console.log(info);
-                setJobsMatch(info.filter((j) => !j.closed));
+                setJobsMatch(info.filter((j) => !j.closed && !j.hired));
                 console.log("JobsMatch", response2.data);
             }
             if (response2.data.redirectUrl) {

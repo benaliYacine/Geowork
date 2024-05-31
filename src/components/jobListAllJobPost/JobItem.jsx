@@ -60,7 +60,11 @@ export default function JobItem({ job }) {
                             className="text-lg font-semibold mb-1 "
                             size="none"
                             onClick={() => {
-                                if (job.closed || job.idClient != idClient)
+                                if (
+                                    job.closed ||
+                                    job.closed ||
+                                    job.idClient != idClient
+                                )
                                     navigate(
                                         `/job/${job.id ? job.id : job._id}`
                                     );
@@ -102,6 +106,7 @@ export default function JobItem({ job }) {
                             if (
                                 job.isExpert ||
                                 job.closed ||
+                                job.hired ||
                                 job.idClient != idClient
                             )
                                 navigate(`/job/${job.id ? job.id : job._id}`);

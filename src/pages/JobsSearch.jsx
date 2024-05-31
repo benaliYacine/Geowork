@@ -58,6 +58,7 @@ export default function AllJobPosts() {
                     hires:j.hires,
                     proposals:j.proposals,
                     closed:j.closed,
+                    hired:j.hired,
                     client:j.client
                 }));
                 setJobs(jobs);

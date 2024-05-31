@@ -1209,6 +1209,7 @@ app.patch("/cancelJob", async (req, res) => {
     try {
         const message = await Message.findById(req.body.id);
         const job = await Job.findById(req.body.jobId);
+        job.hired = false;
         message.message.state = "canceled";
         const user = await Professionnel.findById(job.idProfessionnel);
         user.profile.numJobCanceled++;

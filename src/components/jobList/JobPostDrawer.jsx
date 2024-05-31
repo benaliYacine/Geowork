@@ -8,27 +8,27 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer-right";
-import axios from 'axios';
+import axios from "axios";
 import { ChevronLeft, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import JobPost from "@/components/jobPost/JobPost";
-import { React, useState,useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import Job from "@/components/Job/Job";
 import { useNavigate } from "react-router-dom";
 export default function JobPostDrawer({ job, children }) {
     const navigate = useNavigate();
-    const [idClient,setIdClient]=useState(null)
-    console.log("jobPostDrawer",job);
-    useEffect(()=>{
-      const fetchData=async()=>{
-        const response=await axios.get('/idClient');
-        if(response.data.idClient){
-          setIdClient(response.data.idClient)
-        }
-      }
-      fetchData()
-    },[])
+    const [idClient, setIdClient] = useState(null);
+    console.log("jobPostDrawer", job);
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get("/idClient");
+            if (response.data.idClient) {
+                setIdClient(response.data.idClient);
+            }
+        };
+        fetchData();
+    }, []);
     return (
         <Drawer>
             <DrawerTrigger>{children}</DrawerTrigger>
@@ -57,6 +57,7 @@ export default function JobPostDrawer({ job, children }) {
                                 if (
                                     job.isExpert ||
                                     job.closed ||
+                                    job.hired ||
                                     job.idClient != idClient
                                 )
                                     navigate(
