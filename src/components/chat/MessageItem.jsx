@@ -28,7 +28,6 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-   
     // const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;
@@ -435,6 +434,19 @@ function MessageItem({
                             The client has chosen another geoworker to do the
                             job
                         </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="Withraw Proposal"
+                                description="Are you sure you want to Withraw your Proposal"
+                                // action={withrawProposal}
+                                actionButtonText="Withraw"
+                            >
+                                <Button variant="outline" size="sm">
+                                    {/* Cancel  */}
+                                    Withraw Proposal
+                                </Button>
+                            </AlertDialog>
+                        </div>
                     </div>
                 );
             case "feedback":
@@ -659,6 +671,18 @@ function MessageItem({
                         <p className=" text-md text-success w-full">
                             you have chosen another geoworker to do the job
                         </p>
+                        <div className="flex justify-end w-full gap-2">
+                            <AlertDialog
+                                title="cancel invitation"
+                                description="Are you sure you want to cancel your job invitation"
+                                // action={cancelInvitation}
+                                actionButtonText="Yes"
+                            >
+                                <Button variant="outline" size="sm">
+                                    Cancel Invitation
+                                </Button>
+                            </AlertDialog>
+                        </div>
                     </div>
                 );
             case "feedback":
@@ -882,10 +906,7 @@ function MessageItem({
                     </div>
                 );
             case "image":
-                return (
-                    <ImageDrawer url={message.url} />
-                    
-                );
+                return <ImageDrawer url={message.url} />;
             case "file":
                 return (
                     <div className="flex flex-row items-center justify-center">

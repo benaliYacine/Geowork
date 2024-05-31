@@ -20,7 +20,7 @@ function MessageInput({ onSendMessage, onFileAttach }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-4 px-3 py-1 m-4 bg-white rounded-lg"
+      className="flex items-center gap-4 px-4 py-1 m-4 bg-white rounded-lg"
     >
       <input
         type="text"
@@ -29,7 +29,7 @@ function MessageInput({ onSendMessage, onFileAttach }) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <label
+      {/* <label
         htmlFor="file-input"
         className="m-2 h-4 w-4 shrink-0 opacity-50 cursor-pointer"
       >
@@ -41,7 +41,7 @@ function MessageInput({ onSendMessage, onFileAttach }) {
           hidden
           onChange={handleFileChange}
         />
-      </label>
+      </label> */}
       <label
         htmlFor="image-input"
         className="m-2 h-4 w-4 shrink-0 opacity-50 cursor-pointer"
@@ -51,7 +51,7 @@ function MessageInput({ onSendMessage, onFileAttach }) {
           id="image-input"
           type="file"
           accept="image/*"
-          multiple
+          
           hidden
           onChange={handleFileChange}
         />
