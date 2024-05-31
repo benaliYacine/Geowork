@@ -1318,7 +1318,7 @@ app.post("/addMessage", async (req, res) => {
                     console.log("job", job);
                     return res.json({
                         messageError:
-                            "You have already send an invitation or proposal message",
+                            "You have already send an invitation to this expert or recieved a proposal from him",
                     });
                 }
             }

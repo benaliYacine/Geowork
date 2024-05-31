@@ -10,26 +10,17 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 
-// const jobs = Array.from({ length: 100 }, (_, i) => ({
-//   images: ["https://placebear.com/g/200/200"],
-//   category: "education_and_tutoring",
-//   subCategory: "math_tutor",
-//   title: `test test ${i + 1}`,
-//   budget: "DZD  5, 500",
-//   description:
-//     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-//   wilaya: "algiers",
-//   city: "Central",
-// }));
-
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({ jobs = [] }) {
+export default function JobList({ jobs = [], closed }) {
     console.log("jobs", jobs);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const lastPageIndex = Math.ceil(jobs.length / ITEMS_PER_PAGE);
-    const currentData = jobs.slice(
+    // Filter jobs based on the closed prop
+    const filteredJobs = jobs.filter((job) => job.closed === closed);
+
+    const lastPageIndex = Math.ceil(filteredJobs.length / ITEMS_PER_PAGE);
+    const currentData = filteredJobs.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
     );
@@ -86,26 +77,29 @@ export default function JobList({ jobs = [] }) {
         return pages;
     };
 
+    useEffect(() => {
+        setCurrentPage(1); // Reset to first page if closed prop changes
+    }, [closed]);
+
     return (
         <div className="w-full">
             <div className="flex flex-col items-center w-full">
-                {jobs.length == 0 ? (
+                {filteredJobs.length === 0 ? (
                     <div className="p-4 h-[500px] w-full flex items-center justify-center text-xl text-slate-300 font-semibold">
-                        there is no items here !
+                        there are no items here!
                     </div>
                 ) : (
                     <div className="min-h-[500px] w-full">
-                        {currentData.map(
-                            (job, index) =>
-                                !job.closed && <JobItem key={index} job={job} />
-                        )}
+                        {currentData.map((job, index) => (
+                            <JobItem key={index} job={job} />
+                        ))}
                     </div>
                 )}
             </div>
             <Pagination className="flex justify-end">
                 <PaginationContent>
                     <PaginationItem>
-                        {jobs.length != 0 && (
+                        {filteredJobs.length !== 0 && (
                             <PaginationPrevious
                                 onClick={handlePrevious}
                                 disabled={currentPage === 1}
@@ -130,7 +124,7 @@ export default function JobList({ jobs = [] }) {
                             )
                     )}
                     <PaginationItem>
-                        {jobs.length != 0 && (
+                        {filteredJobs.length !== 0 && (
                             <PaginationNext
                                 onClick={handleNext}
                                 disabled={currentPage === lastPageIndex}
