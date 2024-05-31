@@ -1,6 +1,3 @@
-import { React, useRef, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import MessageItem from "./MessageItem"; // Import the updated MessageItem component
 
 // Updated sample data with message types
 const messages = [
@@ -599,20 +596,45 @@ const messages = [
     // Add more messages as needed
 ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-function MessageList({ messages=[] ,updateMessage }) {
-//   function MessageList({messages=[], updateMessage}) {
-  console.log("messageList", messages);
-  const messagesEndRef = useRef(null);
-  // Scroll to the bottom of the messages list every time the messages change
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({});
-    }
-  }, [messages]);
+
+import { React, useRef, useEffect } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import MessageItem from "./MessageItem"; // Import the updated MessageItem component
+
+function MessageList({ messages = [], updateMessage }) {
+    const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);
+
+    // Scroll to the bottom of the messages list every time the messages change
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    useEffect(() => {
+        const observer = new ResizeObserver(() => {
+            scrollToBottom();
+        });
+
+        if (messagesContainerRef.current) {
+            observer.observe(messagesContainerRef.current);
+        }
+
+        return () => {
+            if (messagesContainerRef.current) {
+                observer.unobserve(messagesContainerRef.current);
+            }
+        };
+    }, []);
 
     return (
-        <ScrollArea className=" h-full w-full rounded-lg bg-bg overflow-y-auto">
-            <div className=" flex flex-col">
+        <ScrollArea className="h-full w-full rounded-lg bg-bg overflow-y-auto">
+            <div className="flex flex-col" ref={messagesContainerRef}>
                 {messages.map((msg) => (
                     <MessageItem
                         key={msg.id}
