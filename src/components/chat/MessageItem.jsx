@@ -27,7 +27,7 @@ function MessageItem({
     id,
     updateMessage,
 }) {
-    console.log("id", id);
+   
     // const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     let proId = useParams().id;

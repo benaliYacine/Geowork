@@ -192,6 +192,9 @@ const professionnelSchema = new mongoose.Schema({
             ],
         },
     ],
+    lastSeen: {
+        type: Date,
+    },
 });
 professionnelSchema.statics.findAndValidate = async function (email, password) {
     const foundUser = await this.findOne({ email });

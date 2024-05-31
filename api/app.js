@@ -475,11 +475,14 @@ app.get("/idClient", (req, res) => {
         console.log("Error", e);
     }
 });
-app.get("/jobPostPage/:id",middlewars.isLoginIn, async (req, res) => {
+app.get("/jobPostPage/:id", middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
         let foundJob = await Job.findById(id);
-        if (!foundJob || req.session.user_id.toString()!=foundJob.idClient.toString()) {
+        if (
+            !foundJob ||
+            req.session.user_id.toString() != foundJob.idClient.toString()
+        ) {
             return res.json({ redirectUrl: "/dashboard" });
         }
         const client = await Client.findById(foundJob.idClient).populate(
@@ -671,6 +674,7 @@ app.get("/jobsSearch", async (req, res) => {
                 return { ...jobObject, client: client };
             })
         );
+        jobs = jobs.filter((j) => j && !j.closed);
         console.log("job+heart", jobs);
         // Retourner les résultats de la recherche
         res.json(jobs);
@@ -873,7 +877,8 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
                         path: "message.jobId", // Popule le champ "jobId" dans les messages peuplés précédemment
                         model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
                     },
-                });
+                })
+                .lean();
             if (!user) {
                 return res.json({ redirectUrl: "/dashboard" });
             }
@@ -886,7 +891,8 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
                         path: "message.jobId", // Popule le champ "jobId" dans les messages peuplés précédemment
                         model: "Job", // Assurez-vous que "Job" est le bon modèle pour "jobId"
                     },
-                });
+                })
+                .lean();
             if (!user) {
                 return res.json({ redirectUrl: "/dashboard" });
             }
@@ -896,8 +902,9 @@ app.get("/messages/:id", middlewars.isLoginIn, async (req, res) => {
             return res.json({ redirectUrl: "/messages/1" });
         } else {
             const newUser = {
-                ...user._doc,
+                ...user,
                 user_id: req.session.user_id,
+                isClient: req.session.user_type == "Client",
             };
 
             res.json(newUser);
@@ -1205,36 +1212,38 @@ app.get("/proposals/:id", async (req, res) => {
                 path: "proposals",
                 populate: {
                     path: "profile.jobs",
-                    model: "Job", 
+                    model: "Job",
                 },
             })
             .populate({
                 path: "proposals",
                 populate: {
                     path: "contacts.messages.message",
-                    model: "Message", 
+                    model: "Message",
                 },
             })
             .lean();
-       
+
         if (!job) {
             res.json({ redirectUrl: "dashboard" });
         }
         let proposals = job.proposals;
-        proposals=proposals.map((p)=>{
-            return p.contacts.map((c)=>{
-                if(c.contactId.toString()==job.idClient.toString()){
+        proposals = proposals.map((p) => {
+            return p.contacts.map((c) => {
+                if (c.contactId.toString() == job.idClient.toString()) {
                     console.log("c.messages.length - 1", c.messages.length - 1);
-                    return c.messages[c.messages.length-1].message.map((m)=>{
-                        console.log("Message", m);
-                        if(m.message.type=="proposal"){
-                            console.log("proposal Message",m)
-                            return {...p,message:m.message,id:m._id}
+                    return c.messages[c.messages.length - 1].message.map(
+                        (m) => {
+                            console.log("Message", m);
+                            if (m.message.type == "proposal") {
+                                console.log("proposal Message", m);
+                                return { ...p, message: m.message, id: m._id };
+                            }
                         }
-                    })[0];
+                    )[0];
                 }
-            })[0]
-        })
+            })[0];
+        });
         res.json(proposals);
     } catch (e) {
         console.log("Error", e);
@@ -1307,7 +1316,10 @@ app.post("/addMessage", async (req, res) => {
                           job.hires.includes(recipientId);
                 if (include) {
                     console.log("job", job);
-                    return res.json({ messageError: "pppppppp" });
+                    return res.json({
+                        messageError:
+                            "You have already send an invitation or proposal message",
+                    });
                 }
             }
         }
@@ -1346,10 +1358,10 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(recipientId);
                     if (include && req.body.message.type != "budgetEdit") {
                         exist = true;
-                        saveMessage.deleteOne();;
+                        saveMessage.deleteOne();
                         return res.json({
                             messageError:
-                                "raw kyn job m3a expert mazal makamaltihch",
+                                "You have already a job not completed",
                         });
                     }
                 }
@@ -1397,10 +1409,10 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(recipientId);
                     if (include && req.body.message.type != "budgetEdit") {
                         exist = true;
-                        saveMessage.deleteOne();;
+                        saveMessage.deleteOne();
                         return res.json({
                             messageError:
-                                "raw kyn job m3a expert mazal makamaltihch",
+                                "You have already a job not completed",
                         });
                     }
                 }

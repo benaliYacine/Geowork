@@ -55,16 +55,17 @@ const clientSchema = new mongoose.Schema({
             },
             messages: [
                 {
-                    job:{
-                        type:mongoose.Schema.Types.ObjectId,
-                        ref:"Job"
-                    },
-                    message:[{
+                    job: {
                         type: mongoose.Schema.Types.ObjectId,
-                    //required: true,
-                    ref: "Message",
-                    }
-                ]
+                        ref: "Job",
+                    },
+                    message: [
+                        {
+                            type: mongoose.Schema.Types.ObjectId,
+                            //required: true,
+                            ref: "Message",
+                        },
+                    ],
                 },
             ],
         },
@@ -73,8 +74,11 @@ const clientSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         min: 0,
-        max: 5
-    }
+        max: 5,
+    },
+    lastSeen: {
+        type: Date,
+    },
 });
 
 clientSchema.statics.findAndValidate = async function (email, password) {

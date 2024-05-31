@@ -23,6 +23,7 @@ export default function Chat() {
     const [loading, setLoading] = useState(true);
     const [contact, setContact] = useState([]);
     const [contacts, setContacts] = useState([]);
+    const [isActive, setIsActive] = useState("Offline");
     const [refrechContacts, setRefrechContacts] = useState(false);
     const [message, setMessage] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -38,7 +39,7 @@ export default function Chat() {
         message.timestamp = `${new Date(Date.now()).getHours()}:${String(new Date(Date.now()).getMinutes()).padStart(2, "0")}`;
         console.log("updateMessage", message);
         setMessages([...messages, message]);
-        setMessage({ ...message, id: id,messageId:message.id });
+        setMessage({ ...message, id: id, messageId: message.id });
     };
     useEffect(() => {
         const newSocket = io("ws://localhost:3000");
@@ -111,13 +112,16 @@ export default function Chat() {
                         "response.data.isClient",
                         response.data.isClient
                     );
-                    setIsclient(response.data.isClient)
+                    setIsclient(response.data.isClient);
+                    const isclient = response.data.isClient;
                     const newContact = {
                         name:
                             response.data.name.first +
                             " " +
                             response.data.name.last,
-                        //avatarUrl:response.data.photoProfile.url,
+                        avatarUrl: isclient
+                            ? response.data.profile.photoProfile.url
+                            : null,
                     };
                     console.log("les messages", response.data);
                     let contact = response.data.contacts.filter(
@@ -185,6 +189,14 @@ export default function Chat() {
         socket.emit("addNewUser");
         socket.on("getOnlineUsers", (res) => {
             showPeople(res);
+            const response = res.filter((u) => u.user_id == id);
+            console.log(response);
+            setIsActive(response.length != 0 ? "Active Now" : "Offline");
+            console.log("resres", res);
+            console.log(
+                "res.some((u) => u.userId == id) ? Active Now : Offline",
+                res.some((u) => u.userId == id) ? "Active Now" : "Offline"
+            );
         });
         return () => {
             socket.off("getOnlineUsers");
@@ -218,7 +230,7 @@ export default function Chat() {
 
         // Envoi du message au serveur
         const response = await axios.post("/addMessage", newMessage);
-        console.log("response",response.data);
+
         // Mise à jour de l'état local pour inclure le nouveau message
         const time = Date.now();
         newMessage.timestamp =
@@ -236,7 +248,7 @@ export default function Chat() {
             ].sort((a, b) => new Date(b.time) - new Date(a.time))
         );
         newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
-        newMessage.messageId=response.data.id;
+        newMessage.messageId = response.data.id;
         setMessage(newMessage);
         let Nmessage = { ...newMessage };
         Nmessage.id = response.data._id;
@@ -264,7 +276,7 @@ export default function Chat() {
         });
 
         let newMessage = {
-            id: id, 
+            id: id,
             message: {
                 type: "image",
                 content: "Sent an image",
@@ -286,8 +298,8 @@ export default function Chat() {
             </div>
         );
 
-     return contacts.length != 0 ? (
-    //return true ? (
+    return contacts.length != 0 ? (
+        //return true ? (
         <div className="flex-grow h-full flex w-full gap-1 px-6 py-2 overflow-hidden">
             <div className="h-full w-96 flex flex-col overflow-hidden">
                 <ContactsList contacts={contacts} />
@@ -298,7 +310,7 @@ export default function Chat() {
                     <ChatHeader
                         contactName={contact.name}
                         avatarUrl={contact.avatarUrl}
-                        lastSeen={contact.lastSeen}
+                        lastSeen={isActive}
                     />
                 </div>
 

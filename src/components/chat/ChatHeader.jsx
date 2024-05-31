@@ -33,7 +33,7 @@ function ChatHeader({
   avatarUrl = "test",
   lastSeen = "test",
 }) {
-  const contactIsActive = isActive(lastSeen);
+  const contactIsActive = lastSeen=='Active Now';
   if (contactName == "") return <div></div>;
   return (
     <div className="border-b-1 w-full flex justify-between items-center">
@@ -50,7 +50,7 @@ function ChatHeader({
 
         <div>
           <h2 className="text-lg font-semibold">{contactName}</h2>
-          <p className="text-sm text-gray-600">{formatLastSeen(lastSeen)}</p>
+          <p className="text-sm text-gray-600">{lastSeen}</p>
         </div>
       </div>
       {/* <EditBudgetButton

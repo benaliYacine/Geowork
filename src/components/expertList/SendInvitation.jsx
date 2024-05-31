@@ -12,6 +12,7 @@ import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ComboBoxComponentWithId from "@/components/formFields/ComboBoxComponentWithId";
 import AlertMessage from "@/components/common/AlertMessage";
+import { useNavigate } from "react-router-dom";
 // import ExperienceForm from "@/components/profile_slides/slideFour/ExperienceForm"
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
@@ -46,6 +47,7 @@ import {
 import { Content } from "@radix-ui/react-accordion";
 
 function SendInvitation({ expert }) {
+    const navigate = useNavigate();
     const location = useLocation();
     const { id } = useParams();
     const isJobPostPage = location.pathname.startsWith("/jobPostPage/");
@@ -60,6 +62,9 @@ function SendInvitation({ expert }) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get("/client");
+            if (response.data.redirectUrl) {
+                navigate(response.data.redirectUrl);
+            }
             if (response.data) {
                 console.log(response.data);
                 let jobs = response.data.jobs.map((j) => ({

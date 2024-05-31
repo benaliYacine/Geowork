@@ -104,13 +104,13 @@ export default function JobPostPage() {
                     heart: e.heart,
                     isClient: e.isClient,
                     JobSuccess:
-                        (e.profile.jobs.filter((j) => j.closed).length /
+                        Math.floor((e.profile.jobs.filter((j) => j.closed).length /
                             (e.profile.jobs.filter((j) => j.closed).length +
                             e.profile.numJobCanceled
                                 ? e.profile.jobs.filter((j) => j.closed)
                                       .length + e.profile.numJobCanceled
                                 : 1)) *
-                        100,
+                        100),
                 }));
                 console.log(expert);
                 setExperts(expert);

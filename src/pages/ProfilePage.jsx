@@ -36,7 +36,7 @@ export default function ProfilePage() {
                         };
                         setInfo(info);
                     }
-                }else{
+                } else {
                     console.log("ok");
                     const response = await axios.get(`/expertInfo/${id}`);
                     console.log(response.data);
@@ -54,7 +54,6 @@ export default function ProfilePage() {
                         };
                         setInfo(info);
                     }
-
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);

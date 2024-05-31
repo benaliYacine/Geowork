@@ -23,7 +23,7 @@ function Job({ jobInfo, apply = false }) {
             budget: j.budget || "No Budget", // Corrected typo
             feedback: j.professionnelFeedback || "No Feedback",
         }));
-    console.log("avant",clientHistory);
+    console.log("avant", clientHistory);
 
     /*      clientHistory = [
         {
