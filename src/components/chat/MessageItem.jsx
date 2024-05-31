@@ -635,7 +635,7 @@ function MessageItem({
                                 jobId={Message.jobId}
                             />
 
-                            <SendLocation />
+                            <SendLocation updateMessage={updateMessage} />
                         </div>
                     </div>
                 );

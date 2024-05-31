@@ -475,6 +475,54 @@ app.get("/idClient", (req, res) => {
         console.log("Error", e);
     }
 });
+app.get("/jobPage/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        let foundJob = await Job.findById(id);
+        if (!foundJob) {
+            return res.json({ redirectUrl: "/dashboard" });
+        }
+        const client = await Client.findById(foundJob.idClient).populate(
+            "jobs"
+        );
+        let apply = true;
+        if (foundJob) {
+            if (req.session.user_type == "Professionnel") {
+                const pro = await Professionnel.findById(req.session.user_id);
+                if (pro) {
+                    const savedJobIds = pro.profile.savedJobs.map((j) =>
+                        j.toString()
+                    ); // Assuming _id is an ObjectId
+                    if (savedJobIds.length > 0) {
+                        console.log(savedJobIds);
+                        foundJob.heart = savedJobIds.includes(
+                            foundJob.id.toString()
+                        );
+                        console.log(foundJob.heart);
+                    } else {
+                        foundJob.heart = false;
+                    }
+                } else {
+                    foundJob.heart = false; // User not found
+                }
+            } else {
+                apply = false;
+                foundJob.heart = false; // User is not a professional
+            }
+            console.log("foundJob.heart", foundJob.heart);
+            console.log(foundJob);
+            const job = { ...foundJob };
+            job._doc.heart = foundJob.heart;
+            console.log(job);
+
+            res.json({ ...job._doc, apply, client: client });
+        } else {
+            res.status(400).json({ message: "Invalid Job Id" });
+        }
+    } catch (e) {
+        console.log("Error", e);
+    }
+});
 app.get("/jobPostPage/:id", middlewars.isLoginIn, async (req, res) => {
     try {
         const { id } = req.params;
@@ -1316,10 +1364,16 @@ app.post("/addMessage", async (req, res) => {
                           job.hires.includes(recipientId);
                 if (include) {
                     console.log("job", job);
-                    return res.json({
-                        messageError:
-                            "You have already send an invitation to this expert or recieved a proposal from him",
-                    });
+                    if (req.session.user_type == "Client")
+                        return res.json({
+                            messageError:
+                                "You have already send an invitation to this expert or recieved a proposal from him",
+                        });
+                    else if (req.session.user_type == "Professionnel")
+                        return res.json({
+                            messageError:
+                                "You have already send an proposal to this client or recieved a invitation from him",
+                        });
                 }
             }
         }
@@ -1356,7 +1410,12 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(senderId)
                             : lastJob.proposals.includes(recipientId) ||
                               lastJob.hires.includes(recipientId);
-                    if (include && req.body.message.type != "budgetEdit") {
+                    if (
+                        include &&
+                        (req.body.message.type == "proposal" ||
+                            req.body.message.type == "invitation")
+                    ) {
+                        console.log("req.body.message", req.body);
                         exist = true;
                         saveMessage.deleteOne();
                         return res.json({
@@ -1407,7 +1466,11 @@ app.post("/addMessage", async (req, res) => {
                               lastJob.hires.includes(senderId)
                             : lastJob.proposals.includes(recipientId) ||
                               lastJob.hires.includes(recipientId);
-                    if (include && req.body.message.type != "budgetEdit") {
+                    if (
+                        include &&
+                        (req.body.message.type == "proposal" ||
+                            req.body.message.type == "invitation")
+                    ) {
                         exist = true;
                         saveMessage.deleteOne();
                         return res.json({

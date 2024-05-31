@@ -118,7 +118,7 @@ export default function Profile({
                                     >
                                         <JobSuccess
                                             percentage={
-                                                (profileInfo.jobs.filter(
+                                                Math.floor((profileInfo.jobs.filter(
                                                     (j) => j.closed
                                                 ).length /
                                                     (profileInfo.jobs.filter(
@@ -130,7 +130,7 @@ export default function Profile({
                                                           ).length +
                                                           profileInfo.numJobCanceled
                                                         : 1)) *
-                                                100
+                                                100)
                                             }
                                         />
                                     </Help>
