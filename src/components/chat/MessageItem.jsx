@@ -13,6 +13,7 @@ import EditBudgetButton from "@/components/chat/EditBudgetButton";
 import SendLocation from "@/components/chat/Map/SendLocation";
 import GetLocation from "@/components/chat/Map/GetLocation";
 import EditLocation from "@/components/chat/Map/EditLocation";
+import ImageDrawer from "@/components/chat/ImageDrawer";
 import { useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import axios from "axios";
@@ -882,11 +883,8 @@ function MessageItem({
                 );
             case "image":
                 return (
-                    <img
-                        src={message.url}
-                        alt="Sent image"
-                        className="max-w-xs md:max-w-md rounded-lg"
-                    />
+                    <ImageDrawer url={message.url} />
+                    
                 );
             case "file":
                 return (
