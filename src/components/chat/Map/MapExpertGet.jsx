@@ -35,10 +35,18 @@ import { MapPin } from "lucide-react";
 const MyComponent = () => {
     const map = useMap();
 
-    useEffect(() => {
-        if (!map) return;
-        map.setOptions({});
-    }, [map]);
+    // useEffect(() => {
+    //     if (!map) return;
+    //     map.setOptions({});
+    // }, [map]);
+     useEffect(() => {
+         if (!map) return;
+         map.setOptions({
+             draggableCursor: "default",
+             draggingCursor: "move",
+         });
+         // here you can interact with the imperative maps API
+     }, [map]);
 
     return <></>;
 };
@@ -65,6 +73,7 @@ export default function MapCompo({ center, location }) {
             moveTo(zoom, 13, setZoom, lastMapEventCenter, location, setCenter),
             0
         );
+        
     }, []);
 
     const handleZoomIn = () => {
