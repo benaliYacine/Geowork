@@ -123,19 +123,19 @@ export default function Header() {
     const [loading, setloading] = useState(true);
     const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
-    useEffect(() => {
-        const newSocket = io("ws://localhost:3000", {
-            transports: ["websocket"],
-        });
-        setSocket(newSocket);
+    // useEffect(() => {
+    //     const newSocket = io("ws://localhost:3000", {
+    //         transports: ["websocket"],
+    //     });
+    //     setSocket(newSocket);
 
-        return () => {
-            newSocket.disconnect();
-        };
-    }, []);
+    //     return () => {
+    //         newSocket.disconnect();
+    //     };
+    // }, []);
 
     const handleLogOut = async () => {
-        socket.emit("manualDisconnect");
+        //socket.emit("manualDisconnect");
         const response = await axios.post("/logout");
         if (response.data.redirectUrl) {   
             navigate(response.data.redirectUrl);

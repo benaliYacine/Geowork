@@ -291,9 +291,9 @@ app.get(
     middlewars.requireLoginProfessionnel,
     async (req, res) => {
         try {
-            const pro = await Professionnel.findById(
-                req.session.user_id
-            ).populate("profile.jobs");
+            const pro = await Professionnel.findById(req.session.user_id)
+                .populate("profile.jobs")
+                .populate("profile.cancelJobs.job");
             console.log(pro);
             res.json(pro);
         } catch (e) {
@@ -319,9 +319,9 @@ app.get(
                 console.log(cli);
                 res.json(cli);
             } else {
-                const pro = await Professionnel.findById(
-                    req.session.user_id
-                ).populate("profile.jobs");
+                const pro = await Professionnel.findById(req.session.user_id)
+                    .populate("profile.jobs")
+                    .populate("profile.cancelJobs.job");
                 console.log(pro);
                 res.json(pro);
             }
@@ -739,6 +739,7 @@ app.get("/expertInfo/:id", async (req, res) => {
         console.log("iddddddd", id);
         const pro = await Professionnel.findById(id)
             .populate("profile.jobs")
+            .populate("profile.cancelJobs.job")
             .lean();
         if (!pro) {
             return res.json({ redirectUrl: "/dashboard" });
@@ -787,8 +788,9 @@ app.get("/expertsSearch", async (req, res) => {
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria);
         // Effectuer la recherche dans la base de données
-        let professionnels =
-            await Professionnel.find(searchCriteria).populate("profile.jobs");
+        let professionnels = await Professionnel.find(searchCriteria)
+            .populate("profile.jobs")
+            .populate("profile.cancelJobs.job");
         console.log(professionnels);
         // Retourner les résultats de la recherche
         if (req.session.user_type == "Client") {
@@ -1177,9 +1179,9 @@ app.patch("/closeJob", async (req, res) => {
         job.clientRating = req.body.rating;
         job.closed = true;
         job.endDate = new Date(Date.now());
-        const user = await Professionnel.findById(job.idProfessionnel).populate(
-            "profile.jobs"
-        );
+        const user = await Professionnel.findById(job.idProfessionnel)
+            .populate("profile.jobs")
+            .populate("profile.cancelJobs.job");
 
         const jobclosed = user.profile.jobs.filter((j) => j.closed);
 
@@ -1216,6 +1218,11 @@ app.patch("/cancelJob", async (req, res) => {
         user.profile.jobs = user.profile.jobs.filter(
             (j) => j != req.body.jobId
         );
+        user.profile.cancelJobs.push({
+            feedback: req.body.description,
+            rating: req.body.rating,
+            job: req.body.jobId,
+        });
         job.proposals = job.proposals.filter(
             (p) => p.toString() != job.idProfessionnel.toString()
         );
@@ -1336,6 +1343,13 @@ app.get("/proposals/:id", async (req, res) => {
             .populate({
                 path: "proposals",
                 populate: {
+                    path: "profile.cancelJobs.job",
+                    model: "Job",
+                },
+            })
+            .populate({
+                path: "proposals",
+                populate: {
                     path: "contacts.messages.message",
                     model: "Message",
                 },
@@ -1375,6 +1389,7 @@ app.get("/proposal/:id", async (req, res) => {
             .lean();
         const pro = await Professionnel.findById(message.senderId)
             .populate("profile.jobs")
+            .populate("profile.cancelJobs.job")
             .lean();
         return res.json({
             ...pro,
@@ -1736,26 +1751,26 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", onlineUsers);
     });
 
-    socket.on("updateMessage", (message) => {
-        console.log("Updated message received:", message);
+    // socket.on("updateMessage", (message) => {
+    //     console.log("Updated message received:", message);
 
-        // Find the user who should receive the update
-        const user = onlineUsers.find((user) => user.userId == message.userId);
-        console.log("User found for message update:", user);
+    //     // Find the user who should receive the update
+    //     const user = onlineUsers.find((user) => user.userId == message.userId);
+    //     console.log("User found for message update:", user);
 
-        if (user) {
-            console.log(
-                "Emitting getUpdateMessage event to user:",
-                user.userId
-            );
-            io.to(user.socketId).emit("getUpdateMessage", {
-                ...message,
-                userId: message.userId,
-            });
-        } else {
-            console.log("User not found or not online:", message.userId);
-        }
-    });
+    //     if (user) {
+    //         console.log(
+    //             "Emitting getUpdateMessage event to user:",
+    //             user.userId
+    //         );
+    //         io.to(user.socketId).emit("getUpdateMessage", {
+    //             ...message,
+    //             userId: message.userId,
+    //         });
+    //     } else {
+    //         console.log("User not found or not online:", message.userId);
+    //     }
+    // });
     //add message
     socket.on("sendMessage", async (message) => {
         if (
@@ -1792,10 +1807,10 @@ io.on("connection", (socket) => {
             io.to(user.socketId).emit("getMessage", message);
         }
     });
-    socket.on("manualDisconnect", () => {
-        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
-        io.emit("manualDisconnect");
-    });
+    // socket.on("manualDisconnect", () => {
+    //     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+    //     io.emit("manualDisconnect");
+    // });
     socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);

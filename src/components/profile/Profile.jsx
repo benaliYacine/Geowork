@@ -17,6 +17,7 @@ import SendInvitation from "@/components/expertList/SendInvitation";
 import Help from "@/components/Job/Help";
 export const EditContext = createContext();
 import { Skeleton } from "@/components/ui/skeleton";
+import RatingDisplay from "@/components/common/RatingDisplay";
 export default function Profile({
     preview = false,
     expert,
@@ -80,7 +81,8 @@ export default function Profile({
                                     {getInitials(expert.name)}
                                 </AvatarFallback>
                             </Avatar>
-                            {(edit && !loadingImage) && (
+
+                            {edit && !loadingImage && (
                                 <div className="absolute bottom-[-6px] right-4 z-50">
                                     <EditAvatarCard
                                         addImage={addImage}
@@ -97,6 +99,7 @@ export default function Profile({
                                 <h2 className="text-6xl font-header font-semibold">
                                     {expert.name}
                                 </h2>
+
                                 {action && (
                                     <div className="flex gap-4 items-center">
                                         <SendInvitation expert={expert} />
@@ -104,7 +107,7 @@ export default function Profile({
                                     </div>
                                 )}
                             </div>
-
+                            <RatingDisplay rating={expert.rating} size={200}/>
                             <Location
                                 wilaya={expert.wilaya}
                                 city={expert.city}
@@ -117,8 +120,8 @@ export default function Profile({
                                         profile
                                     >
                                         <JobSuccess
-                                            percentage={
-                                                Math.floor((profileInfo.jobs.filter(
+                                            percentage={Math.floor(
+                                                (profileInfo.jobs.filter(
                                                     (j) => j.closed
                                                 ).length /
                                                     (profileInfo.jobs.filter(
@@ -130,8 +133,8 @@ export default function Profile({
                                                           ).length +
                                                           profileInfo.numJobCanceled
                                                         : 1)) *
-                                                100)
-                                            }
+                                                    100
+                                            )}
                                         />
                                     </Help>
                                 </div>

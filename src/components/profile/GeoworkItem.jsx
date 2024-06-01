@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 // import DeleteEducationButton from "@/components/profile_slides/slideFive/DeleteEducationButton";
 // import EditEducationButton from "@/components/profile_slides/slideFive/EditEducationButton";
 const GeoworkItem = ({ job }) => {
+  console.log("jobbbbb",job)
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center w-full  mb-2 rounded-lg">
@@ -61,7 +62,7 @@ const GeoworkItem = ({ job }) => {
             <h4 className="text-xl text-foreground flex-grow mb-1">
               Client Feedback
             </h4>
-            <RatingDisplay rating={job.rate} size={120} />
+            <RatingDisplay rating={job.rating} size={120} />
           </div>
           <CollapsibleTextContainer collapsedHeight="25px">
             <p className="font-light italic">" {job.feedback}"</p>
