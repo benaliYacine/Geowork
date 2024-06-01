@@ -189,23 +189,19 @@ export default function Settings() {
                                 ) : (
                                     <>
                                         <div className="absolute top-1 right-1 ">
-                                            {edit && (
-                                                <EditClientAccountButton
-                                                    name={userInfo.name}
-                                                    email={userInfo.email}
-                                                    onEdit={(
-                                                        newName,
-                                                        newEmail
-                                                    ) => {
-                                                        updateUserInfo({
-                                                            email: newEmail,
-                                                        });
-                                                        updateUserInfo({
-                                                            name: newName,
-                                                        });
-                                                    }}
-                                                />
-                                            )}
+                                            <EditClientAccountButton
+                                                name={userInfo.name}
+                                                email={userInfo.email}
+                                                edit={edit}
+                                                onEdit={(newName, newEmail) => {
+                                                    updateUserInfo({
+                                                        email: newEmail,
+                                                    });
+                                                    updateUserInfo({
+                                                        name: newName,
+                                                    });
+                                                }}
+                                            />
                                         </div>
                                     </>
                                 )}
