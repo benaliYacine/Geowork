@@ -291,9 +291,9 @@ app.get(
     middlewars.requireLoginProfessionnel,
     async (req, res) => {
         try {
-            const pro = await Professionnel.findById(
-                req.session.user_id
-            ).populate("profile.jobs");
+            const pro = await Professionnel.findById(req.session.user_id)
+                .populate("profile.jobs")
+                .populate("profile.cancelJobs.job");
             console.log(pro);
             res.json(pro);
         } catch (e) {
@@ -739,6 +739,7 @@ app.get("/expertInfo/:id", async (req, res) => {
         console.log("iddddddd", id);
         const pro = await Professionnel.findById(id)
             .populate("profile.jobs")
+            .populate("profile.cancelJobs.job")
             .lean();
         if (!pro) {
             return res.json({ redirectUrl: "/dashboard" });
@@ -1216,6 +1217,11 @@ app.patch("/cancelJob", async (req, res) => {
         user.profile.jobs = user.profile.jobs.filter(
             (j) => j != req.body.jobId
         );
+        user.profile.cancelJobs.push({
+            feedback: req.body.description,
+            rating: req.body.rating,
+            job: req.body.jobId,
+        });
         job.proposals = job.proposals.filter(
             (p) => p.toString() != job.idProfessionnel.toString()
         );

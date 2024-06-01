@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CollapsibleContainer from "@/components/common/CollapsibleContainer";
 import { v4 as uuid } from "uuid";
+import JobPostDrawer from "../jobList/JobPostDrawer";
 
 // const jobs = [
 //     {
@@ -89,8 +90,22 @@ export default function GeoworkHistory({ profileInfo }) {
         .filter((j) => j.closed)
         .map((j) => ({
             ...j,
-            images: j.images.map((i)=>(i.url)),feedback:j.clientFeedback,rate:j.clientRating
+            images: j.images.map((i) => i.url),
+            feedback: j.clientFeedback,
+            rating: j.clientRating,
         }));
+    let canceledJobs = profileInfo.cancelJobs.map((cj) => {
+        return {
+            ...cj.job,
+            canceled: true,
+            images:
+                cj.job && cj.job.images ? cj.job.images.map((i) => i.url) : [],
+            feedback: cj.feedback,
+            rating: cj.rating,
+        };
+    });
+    jobs = jobs.concat(canceledJobs);
+    console.log("job close + cancel",jobs)
     // jobs = jobs.map((j) => {
     //     return { ...j, images: j.images.url };
     // });

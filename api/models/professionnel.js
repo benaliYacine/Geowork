@@ -159,6 +159,22 @@ const professionnelSchema = new mongoose.Schema({
             default: 0,
         },
         savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+        cancelJobs: [
+            {
+                rating: {
+                    type: Number,
+                    default: 0,
+                },
+                feedback: {
+                    type: String,
+                    default:""
+                },
+                job:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Job", 
+                    }
+                }
+        ],
         rating: {
             type: Number,
             default: 0,
