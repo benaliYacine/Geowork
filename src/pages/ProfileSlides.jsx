@@ -136,81 +136,7 @@ const ProfileSlides = () => {
                     "Studied the design and installation of solar power systems. Emphasized sustainable energy solutions and practical applications.",
             },
         ],
-        jobs: [
-            // {
-            //   title: "na7ihom memba3d ",
-            //   startDate:
-            //     "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-            //   endDate:
-            //     "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-            //   category: "education_and_tutoring",
-            //   subCategory: "math_tutor",
-            //   wilaya: "algiers",
-            //   city: "sidi_moussa",
-            //   budget: "DZD  5, 500",
-            //   description:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            //   images: ["https://placebear.com/g/200/200"],
-            //   rate: 2.5,
-            //   canceled: true,
-            //   feedback:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            // },
-            // {
-            //   title: "na7ihom memba3d ",
-            //   startDate:
-            //     "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-            //   endDate:
-            //     "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-            //   category: "education_and_tutoring",
-            //   subCategory: "math_tutor",
-            //   wilaya: "algiers",
-            //   city: "sidi_moussa",
-            //   budget: "DZD  5, 500",
-            //   description:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            //   images: ["https://placebear.com/g/200/200"],
-            //   rate: 2.5,
-            //   feedback:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            // },
-            // {
-            //   title: "na7ihom memba3d ",
-            //   startDate:
-            //     "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-            //   endDate:
-            //     "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-            //   category: "education_and_tutoring",
-            //   subCategory: "math_tutor",
-            //   wilaya: "algiers",
-            //   city: "sidi_moussa",
-            //   budget: "DZD  5, 500",
-            //   description:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            //   images: ["https://placebear.com/g/200/200"],
-            //   rate: 2.5,
-            //   feedback:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            // },
-            // {
-            //   title: "na7ihom memba3d ",
-            //   startDate:
-            //     "Wed Oct 19 2022 07:07:43 GMT+0100 (Central European Standard Time)",
-            //   endDate:
-            //     "Tue Apr 09 2024 00:00:00 GMT+0100 (Central European Standard Time)",
-            //   category: "education_and_tutoring",
-            //   subCategory: "math_tutor",
-            //   wilaya: "algiers",
-            //   city: "sidi_moussa",
-            //   budget: "DZD  5, 500",
-            //   description:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            //   images: ["https://placebear.com/g/200/200"],
-            //   rate: 4.5,
-            //   feedback:
-            //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque odio inventore, aliquid voluptatem natus consectetur perferendis, quo distinctio, consequatur unde numquam earum ipsum iste sit. In porro deleniti ut ea.",
-            // },
-        ],
+        jobs: [],
         Bio: "I am an experienced electrician with over a decade of expertise in residential, commercial, and industrial electrical systems. With a Bachelor's Degree in Electrical Engineering from USTHB and certifications in various specialized fields, I have a strong foundation in both theoretical knowledge and practical skills. I have worked on a wide range of projects, from installing solar panels in rural communities to upgrading commercial lighting systems. My passion for sustainable energy solutions and commitment to electrical safety have driven my career. Whether it's troubleshooting complex issues or providing emergency services, I am dedicated to delivering reliable and efficient electrical solutions to my clients in Algeria.",
         // dateBirthday:"Thu Mar 07 2024 00:00:00 GMT+0100 (Central European Standard Time)",
         dateBirthday: undefined,
@@ -218,6 +144,12 @@ const ProfileSlides = () => {
         phone: "05 62 17 02 86",
         photoProfile: undefined,
     });
+    // const [profileInfo, setProfileInfo] = useState({
+    //     employments: [],
+    //     experiences: [],
+    //     educations: [],
+    //     jobs: [],
+    // });
     const [expert, setExpert] = useState(null);
     const [photoProfileSrc, setPhotoProfileSrc] = useState(undefined);
     const [isPhotoAdded, setIsPhotoAdded] = useState(false);
@@ -232,14 +164,14 @@ const ProfileSlides = () => {
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
                 }
-                if(response.data){
-                setExpert({
-                    name: `${response.data.name.first} ${response.data.name.last}`,
-                    wilaya: response.data.wilaya,
-                    city: response.data.city,
-                });
-                setLoading(false);
-              }
+                if (response.data) {
+                    setExpert({
+                        name: `${response.data.name.first} ${response.data.name.last}`,
+                        wilaya: response.data.wilaya,
+                        city: response.data.city,
+                    });
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error(error);
                 // Handle error here, if needed

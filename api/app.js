@@ -444,7 +444,7 @@ app.get(
                         };
                     });
                 console.log(jobs);
-                res.json(jobs);
+                res.json(jobs ? jobs:[]);
             }
         } catch (e) {
             console.log("Error", e);

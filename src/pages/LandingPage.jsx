@@ -58,7 +58,7 @@ function Home() {
       <div className="opacity-100 absolute bg-bg top-[130px] right-[-100px] rounded-full border-2 border-primary w-40 h-40"></div> */}
 
             <Footer />
-            <br />
+            {/* <br />
             <Link to="/expertProposalPage">
                 Go to Expert Proposal Page Page
             </Link>
@@ -160,7 +160,7 @@ function Home() {
             <br />
             <br />
             <hr />
-            <br />
+            <br /> */}
         </div>
     );
 }

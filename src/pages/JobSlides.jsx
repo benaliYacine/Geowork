@@ -27,7 +27,7 @@ const JobSlides = () => {
         category: "home_improvement_and_maintenance",
         subCategory: "electrician",
         wilaya: "algiers",
-        city: "sidi_moussa",
+        city: "bab_ezzouar",
         budget: "DZD  5, 500",
         description:
             "Upgraded the electrical wiring in a three-bedroom apartment in Algiers. Replaced old wiring with new, safe, and efficient wiring, installed new circuit breakers, and ensured all outlets and switches were up to code.",

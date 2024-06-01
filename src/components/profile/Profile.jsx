@@ -33,7 +33,7 @@ export default function Profile({
     //   });
     // };
     const [loadingImage, setLoadingImage] = useState(false);
-    
+
     const addImage = async (newImage) => {
         setLoadingImage(true);
         // mawch yemchi ki tbedel el image ma tetbedelch fel preview
@@ -107,7 +107,13 @@ export default function Profile({
                                     </div>
                                 )}
                             </div>
-                            <RatingDisplay rating={expert.rating} size={200}/>
+                            {!preview && (
+                                <RatingDisplay
+                                    rating={expert.rating}
+                                    size={200}
+                                />
+                            )}
+
                             <Location
                                 wilaya={expert.wilaya}
                                 city={expert.city}
