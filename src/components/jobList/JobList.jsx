@@ -24,7 +24,9 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export default function JobList({ jobs = [], setJobs, doNotReload=false }) {
+export default function JobList({
+    jobs = [],
+}) {
     console.log("jobs", jobs);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -99,8 +101,7 @@ export default function JobList({ jobs = [], setJobs, doNotReload=false }) {
                             <JobItem
                                 key={index}
                                 job={job}
-                                setJobs={setJobs}
-                                doNotReload={doNotReload}
+                                
                             />
                         ))}
                     </div>

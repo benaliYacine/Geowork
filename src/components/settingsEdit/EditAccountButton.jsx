@@ -11,18 +11,18 @@ import { Form } from "@/components/ui/form";
 import GenericFormField from "@/components/formFields/GenericFormField";
 // Define your form schema
 const formSchema = z.object({
-  name: z.object({
-    first: z.string().min(1, { message: "First name is required" }),
-    last: z.string().min(1, { message: "Last name is required" }),
-  }),
-  email: z.string().email({ message: "Invalid email address" }),
-  phone: z
-    .string()
-    .min(1, "Phone number is required")
-    .regex(
-      /^0[567] \d{2} \d{2} \d{2} \d{2}$/,
-      "Phone number must follow this format 0x xx xx xx xx"
-    ),
+    name: z.object({
+        first: z.string().min(1, { message: "First name is required" }),
+        last: z.string().min(1, { message: "Last name is required" }),
+    }),
+    email: z.string().email({ message: "Invalid email address" }),
+    phone: z
+        .string()
+        .min(1, "Phone number is required")
+        .regex(
+            /^0[567] \d{2} \d{2} \d{2} \d{2}$/,
+            "Phone number must follow this format 0x xx xx xx xx"
+        ),
 });
 
 import IconButton from "@/components/common/IconButton";
@@ -30,101 +30,108 @@ import IconButton from "@/components/common/IconButton";
 import { Pencil } from "lucide-react";
 
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import PhoneFormField from "@/components/formFields/PhoneFormField";
 
 function EditAccountButton({ name, email, phone, onEdit, edit }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: { first: name.first, last: name.last },
-      email: email,
-      phone: phone,
-    },
-  });
-  const onSubmit = async (values) => {
-    console.log(values);
-    onEdit(values.name, values.email, values.phone);
-    setDialogOpen(false);
-  };
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: { first: name.first, last: name.last },
+            email: email,
+            phone: phone,
+        },
+    });
+    const onSubmit = async (values) => {
+        console.log(values);
+        onEdit(values.name, values.email, values.phone);
+        setDialogOpen(false);
+    };
 
-  return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>
-        <IconButton variant="outlined" className="h-6 w-6 p-1">
-          <Pencil className="h-4 w-4" />
-        </IconButton>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
-        <div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-              {/* Title */}
-              <DialogHeader>
-                <DialogTitle className="font-header font-bold p-0 text-2xl">
-                  Edit Account
-                </DialogTitle>
-                <DialogDescription>
-                  {/* Make changes to your profile here. Click save when you're done. */}
-                </DialogDescription>
-              </DialogHeader>
-              {edit && (
-                <>
-                  <GenericFormField
-                    className="w-full"
-                    control={form.control}
-                    name="name.first"
-                    label="First Name"
-                    placeholder="First name"
-                  />
-                  <GenericFormField
-                    className="w-full"
-                    control={form.control}
-                    name="name.last"
-                    label="Last Name"
-                    placeholder="Last name"
-                  />
+    return (
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+                <IconButton variant="outlined" className="h-6 w-6 p-1">
+                    <Pencil className="h-4 w-4" />
+                </IconButton>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+                <div>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-0"
+                        >
+                            {/* Title */}
+                            <DialogHeader>
+                                <DialogTitle className="font-header font-bold p-0 text-2xl">
+                                    Edit Account
+                                </DialogTitle>
+                                <DialogDescription>
+                                    {/* Make changes to your profile here. Click save when you're done. */}
+                                </DialogDescription>
+                            </DialogHeader>
 
-                  <GenericFormField
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="Your email"
-                  />
-                </>
-              )}
-              <PhoneFormField
-                control={form.control}
-                name="phone"
-                label="phone *"
-                placeholder="Your phone number"
-              />
-              {/* Submit Button */}
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline" className="mt-3" type="button">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button className="mt-3" type="submit">
-                  Save
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+                            <GenericFormField
+                                className="w-full"
+                                control={form.control}
+                                name="name.first"
+                                label="First Name"
+                                placeholder="First name"
+                            />
+                            <GenericFormField
+                                className="w-full"
+                                control={form.control}
+                                name="name.last"
+                                label="Last Name"
+                                placeholder="Last name"
+                            />
+                            {edit && (
+                                <>
+                                    <GenericFormField
+                                        control={form.control}
+                                        name="email"
+                                        label="Email"
+                                        placeholder="Your email"
+                                    />
+                                </>
+                            )}
+                            <PhoneFormField
+                                control={form.control}
+                                name="phone"
+                                label="phone *"
+                                placeholder="Your phone number"
+                            />
+                            {/* Submit Button */}
+                            <DialogFooter>
+                                <DialogClose>
+                                    <Button
+                                        variant="outline"
+                                        className="mt-3"
+                                        type="button"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </DialogClose>
+                                <Button className="mt-3" type="submit">
+                                    Save
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
 }
 
 export default EditAccountButton;
