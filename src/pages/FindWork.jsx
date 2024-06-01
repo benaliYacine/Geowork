@@ -20,10 +20,13 @@ import {
 export default function FindWork({ name = "" }) {
     const [jobs, setJobs] = useState([]);
     const [jobsMatch, setJobsMatch] = useState([]);
+    const [activeTab, setActiveTab] = useState("BestMatches");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const fetchData = async () => {
+
+    const fetchJobs = async () => {
+        // setLoading(true);
+        if (activeTab === "BestMatches") {
             const response2 = await axios.get("/findWork");
             console.log("response2...", response2);
             if (response2.data) {
@@ -39,15 +42,19 @@ export default function FindWork({ name = "" }) {
             if (response2.data.redirectUrl) {
                 navigate(response2.data.redirectUrl);
             }
-            setLoading(false);
+        } else if (activeTab === "savedJobs") {
             const response1 = await axios.get("/savedJobs");
             console.log("response", response1);
             if (response1.data) {
                 setJobs(response1.data);
             }
-        };
-        fetchData();
-    }, []);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchJobs();
+    }, [activeTab]);
 
     if (loading)
         return (
@@ -55,6 +62,7 @@ export default function FindWork({ name = "" }) {
                 <PropagateLoader color="#FF5400" />
             </div>
         );
+
     return (
         <>
             <Header />
@@ -66,8 +74,13 @@ export default function FindWork({ name = "" }) {
                         Jobs you might like
                     </h1>
                 </div>
-                <div className=" flex flex-col items-center">
-                    <Tabs defaultValue="BestMatches" className="mt-4 w-full">
+                <div className="flex flex-col items-center">
+                    <Tabs
+                        defaultValue="BestMatches"
+                        value={activeTab}
+                        onValueChange={setActiveTab}
+                        className="mt-4 w-full"
+                    >
                         <TabsList className="">
                             <TabsTrigger value="BestMatches">
                                 Best Matches
@@ -81,12 +94,12 @@ export default function FindWork({ name = "" }) {
                         </TabsList>
                         <TabsContent value="BestMatches">
                             <div className="flex flex-col items-center mt-4">
-                                <JobList jobs={jobsMatch} setJobs={setJobs} />
+                                <JobList jobs={jobsMatch} />
                             </div>
                         </TabsContent>
                         <TabsContent value="savedJobs">
                             <div className="flex flex-col items-center mt-4">
-                                <JobList jobs={jobs} setJobs={setJobs} doNotReload/>
+                                <JobList jobs={jobs} />
                             </div>
                         </TabsContent>
                     </Tabs>
@@ -96,4 +109,3 @@ export default function FindWork({ name = "" }) {
         </>
     );
 }
-//}
