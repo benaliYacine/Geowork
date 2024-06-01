@@ -319,9 +319,9 @@ app.get(
                 console.log(cli);
                 res.json(cli);
             } else {
-                const pro = await Professionnel.findById(
-                    req.session.user_id
-                ).populate("profile.jobs");
+                const pro = await Professionnel.findById(req.session.user_id)
+                    .populate("profile.jobs")
+                    .populate("profile.cancelJobs.job");
                 console.log(pro);
                 res.json(pro);
             }
@@ -788,8 +788,9 @@ app.get("/expertsSearch", async (req, res) => {
         if (city) searchCriteria.city = city;
         console.log("searchCriteria", searchCriteria);
         // Effectuer la recherche dans la base de données
-        let professionnels =
-            await Professionnel.find(searchCriteria).populate("profile.jobs");
+        let professionnels = await Professionnel.find(searchCriteria)
+            .populate("profile.jobs")
+            .populate("profile.cancelJobs.job");
         console.log(professionnels);
         // Retourner les résultats de la recherche
         if (req.session.user_type == "Client") {
@@ -1178,9 +1179,9 @@ app.patch("/closeJob", async (req, res) => {
         job.clientRating = req.body.rating;
         job.closed = true;
         job.endDate = new Date(Date.now());
-        const user = await Professionnel.findById(job.idProfessionnel).populate(
-            "profile.jobs"
-        );
+        const user = await Professionnel.findById(job.idProfessionnel)
+            .populate("profile.jobs")
+            .populate("profile.cancelJobs.job");
 
         const jobclosed = user.profile.jobs.filter((j) => j.closed);
 
@@ -1342,6 +1343,13 @@ app.get("/proposals/:id", async (req, res) => {
             .populate({
                 path: "proposals",
                 populate: {
+                    path: "profile.cancelJobs.job",
+                    model: "Job",
+                },
+            })
+            .populate({
+                path: "proposals",
+                populate: {
                     path: "contacts.messages.message",
                     model: "Message",
                 },
@@ -1381,6 +1389,7 @@ app.get("/proposal/:id", async (req, res) => {
             .lean();
         const pro = await Professionnel.findById(message.senderId)
             .populate("profile.jobs")
+            .populate("profile.cancelJobs.job")
             .lean();
         return res.json({
             ...pro,
