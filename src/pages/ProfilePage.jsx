@@ -33,6 +33,7 @@ export default function ProfilePage() {
                             name: `${response.data.name.first} ${response.data.name.last}`,
                             wilaya: response.data.wilaya,
                             city: response.data.city,
+                            rating:response.data.profile.rating
                         };
                         setInfo(info);
                     }
@@ -40,6 +41,10 @@ export default function ProfilePage() {
                     console.log("ok");
                     const response = await axios.get(`/expertInfo/${id}`);
                     console.log(response.data);
+                    console.log(
+                        "response.data.profile.rating",
+                        response.data.profile.rating
+                    );
                     if (response.data.redirectUrl) {
                         navigate(response.data.redirectUrl);
                     }
@@ -51,7 +56,9 @@ export default function ProfilePage() {
                             name: `${response.data.name.first} ${response.data.name.last}`,
                             wilaya: response.data.wilaya,
                             city: response.data.city,
+                            rating: response.data.profile.rating,
                         };
+                        
                         setInfo(info);
                     }
                 }

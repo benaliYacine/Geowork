@@ -575,7 +575,7 @@ function MessageItem({
                             {/* ask him to share the exact job location with you so you can... */}
                         </p>
                         <div className="flex justify-end w-full gap-2">
-                            <LeaveFeedback />
+                            <LeaveFeedback leaveFeedback={leaveFeedback} />
                         </div>
                     </>
                 );

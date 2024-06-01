@@ -1736,26 +1736,26 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", onlineUsers);
     });
 
-    socket.on("updateMessage", (message) => {
-        console.log("Updated message received:", message);
+    // socket.on("updateMessage", (message) => {
+    //     console.log("Updated message received:", message);
 
-        // Find the user who should receive the update
-        const user = onlineUsers.find((user) => user.userId == message.userId);
-        console.log("User found for message update:", user);
+    //     // Find the user who should receive the update
+    //     const user = onlineUsers.find((user) => user.userId == message.userId);
+    //     console.log("User found for message update:", user);
 
-        if (user) {
-            console.log(
-                "Emitting getUpdateMessage event to user:",
-                user.userId
-            );
-            io.to(user.socketId).emit("getUpdateMessage", {
-                ...message,
-                userId: message.userId,
-            });
-        } else {
-            console.log("User not found or not online:", message.userId);
-        }
-    });
+    //     if (user) {
+    //         console.log(
+    //             "Emitting getUpdateMessage event to user:",
+    //             user.userId
+    //         );
+    //         io.to(user.socketId).emit("getUpdateMessage", {
+    //             ...message,
+    //             userId: message.userId,
+    //         });
+    //     } else {
+    //         console.log("User not found or not online:", message.userId);
+    //     }
+    // });
     //add message
     socket.on("sendMessage", async (message) => {
         if (
@@ -1792,10 +1792,10 @@ io.on("connection", (socket) => {
             io.to(user.socketId).emit("getMessage", message);
         }
     });
-    socket.on("manualDisconnect", () => {
-        onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
-        io.emit("manualDisconnect");
-    });
+    // socket.on("manualDisconnect", () => {
+    //     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
+    //     io.emit("manualDisconnect");
+    // });
     socket.on("disconnect", () => {
         onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
         io.emit("getOnlineUsers", onlineUsers);
