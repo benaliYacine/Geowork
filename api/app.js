@@ -1340,13 +1340,7 @@ app.get("/proposals/:id", async (req, res) => {
                     model: "Job",
                 },
             })
-            .populate({
-                path: "proposals",
-                populate: {
-                    path: "profile.cancelJobs.job",
-                    model: "Job",
-                },
-            })
+            
             .populate({
                 path: "proposals",
                 populate: {
@@ -1389,7 +1383,7 @@ app.get("/proposal/:id", async (req, res) => {
             .lean();
         const pro = await Professionnel.findById(message.senderId)
             .populate("profile.jobs")
-            .populate("profile.cancelJobs.job")
+            
             .lean();
         return res.json({
             ...pro,
