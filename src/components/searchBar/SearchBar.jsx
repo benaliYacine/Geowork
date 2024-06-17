@@ -192,7 +192,7 @@ export default function SearchBar({ full = false }) {
                     control={form.control}
                     full={full}
                     name="role"
-                    label="Role"
+                    label="Type"
                     // itemList={filteredCities}
                     placeholder="Select Role"
                 />

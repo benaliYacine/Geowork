@@ -63,7 +63,7 @@ export default function SlideTree({
                 5/7 Profile
             </div>
             <h2 className="text-4xl font-bold mb-4">
-                Detail Your Educational Background
+                Detail Your Educational Background and training.
             </h2>
             <p className="text-md text-greyDark mb-4">
                 Add your academic achievements and any relevant training or
