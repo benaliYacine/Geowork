@@ -10,7 +10,7 @@ const { cloudinary, storage } = require("../cloudinary/index");
 const upload = multer({ storage });
 const methodOverride = require("method-override");
 const middlewars = require("../utils/middlewars");
-
+const MongoStore = require("connect-mongo");
 router.use(methodOverride("_method"));
 
 router.use(

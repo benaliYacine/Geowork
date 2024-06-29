@@ -8,7 +8,7 @@ const upload = multer({ storage });
 const methodOverride = require("method-override");
 const middlewars = require("../utils/middlewars");
 router.use(methodOverride("_method"));
-
+const MongoStore = require("connect-mongo");
 router.use(
     session({
         secret: "goodsecret",

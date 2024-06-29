@@ -8,7 +8,7 @@ const { cloudinary, storage } = require("../cloudinary/index");
 const upload = multer({ storage });
 const methodOverride = require("method-override");
 router.use(methodOverride("_method"));
-
+const MongoStore = require("connect-mongo");
 router.use(
     session({
         secret: "goodsecret",
