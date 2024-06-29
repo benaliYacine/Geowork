@@ -109,7 +109,7 @@ app.set("views", path.join(__dirname, "/views"));
 app.use((req, res, next) => {
     res.setHeader(
         "Access-Control-Allow-Origin",
-        "http://pfe-geowork.vercel.app"
+        "https://pfe-geowork.vercel.app"
     ); // Remplacez 'votre-domaine.com' par le domaine de votre application React
     res.setHeader(
         "Access-Control-Allow-Methods",
@@ -128,7 +128,7 @@ app.use(express.urlencoded({ limit: "10 mb", extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(
     cors({
-        origin: "http://pfe-geowork.vercel.app", // Allow requests from this origin
+        origin: "https://pfe-geowork.vercel.app", // Allow requests from this origin
         credentials: true, // Allow credentials to be sent with requests
     })
 );
@@ -1755,7 +1755,7 @@ const { FaceRetouchingOffRounded } = require("@mui/icons-material");
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://pfe-geowork.vercel.app", // Allow requests from this origin
+        origin: "https://pfe-geowork.vercel.app", // Allow requests from this origin
         methods: ["GET", "POST"], // Allow only specific HTTP methods
         credentials: true, // Allow credentials to be sent with requests
     },
@@ -1851,7 +1851,7 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT , () => {
+server.listen(PORT, () => {
     console.log("Server is running at https://pfe-geowork.onrender.com");
 });
 

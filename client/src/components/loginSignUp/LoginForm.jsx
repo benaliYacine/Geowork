@@ -73,7 +73,7 @@ export default function LoginForm() {
     };
     const Auth = async () => {
         window.location.href =
-            "http://pfe-geowork.onrender.com/auth/google/callback";
+            "https://pfe-geowork.onrender.com/auth/google/callback";
     };
     if (loading)
         return (

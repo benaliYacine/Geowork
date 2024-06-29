@@ -65,7 +65,7 @@ function App() {
     //         socket.off("getOnlineUsers");
     //     };
     // }, [socket]);
-    axios.defaults.baseURL = "http://pfe-geowork.onrender.com";
+    axios.defaults.baseURL = "https://pfe-geowork.onrender.com";
     axios.defaults.withCredentials = true;
     return (
         <div className="bg-bg">

@@ -80,7 +80,7 @@ router.get(
 router.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-        failureRedirect: "http://pfe-geowork.vercel.app/InputWilayaCity",
+        failureRedirect: "https://pfe-geowork.vercel.app/InputWilayaCity",
     }),
     function (req, res) {
         try {
@@ -91,10 +91,10 @@ router.get(
             //console.log(req.session);
             if (Session.signup.value == true)
                 return res.redirect(
-                    "http://pfe-geowork.vercel.app/InputWilayaCity"
+                    "https://pfe-geowork.vercel.app/InputWilayaCity"
                 ); //hna t5ayar type ida client wla professionnel
             console.log(Session);
-            return res.redirect("http://pfe-geowork.vercel.app/dashboard");
+            return res.redirect("https://pfe-geowork.vercel.app/dashboard");
         } catch (e) {
             console.log("Error", e);
         }
@@ -157,7 +157,8 @@ router.post("/signup/google/type", (req, res) => {
         const { role } = req.body;
         Session.signup.type = role === "client" ? "Client" : "Professionnel";
         res.json({
-            redirectUrl: "http://pfe-geowork.onrender.com/auth/google/callback",
+            redirectUrl:
+                "https://pfe-geowork.onrender.com/auth/google/callback",
         });
     } catch (e) {
         console.log("Error", e);
