@@ -56,10 +56,10 @@ app.use(
         store: MongoStore.create({
             mongoUrl:
                 "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0",
-            ttl: 24 * 60 * 60, // = 1 day. TTL in seconds
+            ttl: 24 * 60 * 60 * 30, // = 30 day. TTL in seconds
         }),
         cookie: {
-            secure: false, // Set to true if using https
+            secure: true, // Set to true if using https
             httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
             sameSite: "lax", // Lax to prevent CSRF attacks
             maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
