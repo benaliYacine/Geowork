@@ -62,7 +62,7 @@ app.use(
             secure: true, // Set to true if using https
             httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
             sameSite: "lax", // Lax to prevent CSRF attacks
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+            maxAge: 24 * 60 * 60 * 1000 * 30, // 24 hours * 30 in milliseconds
         },
     })
 );
