@@ -52,7 +52,7 @@ app.use(
     session({
         secret: "goodsecret",
         resave: false, // Should be false in most cases to avoid race conditions
-        saveUninitialized: false, // False to comply with laws that require permission before setting cookies
+        saveUninitialized: true, // False to comply with laws that require permission before setting cookies
         store: MongoStore.create({
             mongoUrl:
                 "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0",
@@ -273,46 +273,51 @@ app.post("/verifyOldPassword", async (req, res) => {
 app.post("/login", async (req, res) => {
     try {
         const { password, email } = req.body;
+
         let foundUser = await Professionnel.findOne({ email });
         if (foundUser && foundUser.googleId) {
             return res.status(401).json({ message: "Login with Gmail" });
         }
         foundUser = await Professionnel.findAndValidate(email, password);
+
         if (!foundUser) {
             foundUser = await Client.findOne({ email });
             if (foundUser && foundUser.googleId) {
                 return res.status(401).json({ message: "Login with Gmail" });
             }
             foundUser = await Client.findAndValidate(email, password);
-            if (foundUser) {
-                //generateToken(foundUser._id);
-                if (req.session) {
-                    req.session.user_id = foundUser._id;
-                    req.session.user_type = "Client";
-                    req.session.save();
-                    //console.log(req.session.user_id);
-                    //res.json('hello');
-                    if (foundUser.verified)
-                        res.json({ redirectUrl: "/dashboard" });
-                    //res.redirect('/dashboard' );
-                    else res.json({ redirectUrl: "/verifyEmail" });
-                } else res.send("err");
-            } else {
-                res.status(401).json({
-                    message: "email or password incorrect",
-                });
-            }
+        }
+
+        if (!foundUser) {
+            return res
+                .status(401)
+                .json({ message: "email or password incorrect" });
+        }
+
+        // Set session data
+        if (req.session) {
+            req.session.user_id = foundUser._id;
+            req.session.user_type =
+                foundUser instanceof Client ? "Client" : "Professionnel";
+            req.session.save((err) => {
+                if (err) {
+                    return res
+                        .status(500)
+                        .json({ message: "Failed to save session" });
+                }
+
+                if (foundUser.verified) {
+                    res.json({ redirectUrl: "/dashboard" });
+                } else {
+                    res.json({ redirectUrl: "/verifyEmail" });
+                }
+            });
         } else {
-            //generateToken(foundUser._id);
-            if (req.session) {
-                req.session.user_id = foundUser._id;
-                req.session.user_type = "Professionnel";
-                req.session.save();
-                res.json({ redirectUrl: "/dashboard" });
-            } else res.send("err");
+            res.status(500).json({ message: "Session not available" });
         }
     } catch (e) {
         console.log("Error", e);
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 
