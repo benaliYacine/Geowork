@@ -41,7 +41,7 @@ import ChangePassword from "./pages/ChangePassword";
 function App() {
     const [socket, setSocket] = useState(null);
     useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
+        const newSocket = io("https://pfe-geowork.onrender.com");
         setSocket(newSocket);
 
         return () => {
@@ -65,7 +65,7 @@ function App() {
     //         socket.off("getOnlineUsers");
     //     };
     // }, [socket]);
-    axios.defaults.baseURL = "http://localhost:3000";
+    axios.defaults.baseURL = "http://pfe-geowork.onrender.com";
     axios.defaults.withCredentials = true;
     return (
         <div className="bg-bg">

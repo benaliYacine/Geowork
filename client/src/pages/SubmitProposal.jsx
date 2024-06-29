@@ -70,7 +70,9 @@ export default function SubmitProposal({}) {
             }
         }
         proposal.messageId = response.data._id;
-        proposal.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
+        proposal.timestamp = `${new Date(Date.now()).getHours()}:${new Date(
+            Date.now()
+        ).getMinutes()}`;
         setProposal(proposal);
         console.log("messaaaaage", response.data);
     });
@@ -102,7 +104,7 @@ export default function SubmitProposal({}) {
         fetchData();
     }, []);
     useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
+        const newSocket = io("https://pfe-geowork.onrender.com");
         setSocket(newSocket);
 
         return () => {

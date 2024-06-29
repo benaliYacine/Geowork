@@ -109,7 +109,9 @@ function SendInvitation({ expert }) {
                 return;
             }
         }
-        Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`;
+        Invitation1.timestamp = `${new Date(Date.now()).getHours()}:${new Date(
+            Date.now()
+        ).getMinutes()}`;
         console.log("hna pro");
         Invitation1.messageId = response1.data._id;
         console.log("hna pro");
@@ -118,16 +120,16 @@ function SendInvitation({ expert }) {
         console.log("response1", response1);
         console.log("hna pro");
         const Invitation2 = {
-        id: expert.id,
-        message: { type: "text", content: values.invitationMessage },
-    };
-    const response2=await axios.post('/addMessage',Invitation2);
-    console.log("response2.data", response2.data); 
+            id: expert.id,
+            message: { type: "text", content: values.invitationMessage },
+        };
+        const response2 = await axios.post("/addMessage", Invitation2);
+        console.log("response2.data", response2.data);
         // TODO: handle send invitation message
         setDialogOpen(false);
     };
     useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
+        const newSocket = io("https://pfe-geowork.onrender.com");
         setSocket(newSocket);
 
         return () => {

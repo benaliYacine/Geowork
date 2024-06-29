@@ -80,7 +80,7 @@ router.get(
 router.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-        failureRedirect: "http://localhost:5173/InputWilayaCity",
+        failureRedirect: "http://pfe-geowork.vercel.app/InputWilayaCity",
     }),
     function (req, res) {
         try {
@@ -90,9 +90,11 @@ router.get(
             }
             //console.log(req.session);
             if (Session.signup.value == true)
-                return res.redirect("http://localhost:5173/InputWilayaCity"); //hna t5ayar type ida client wla professionnel
+                return res.redirect(
+                    "http://pfe-geowork.vercel.app/InputWilayaCity"
+                ); //hna t5ayar type ida client wla professionnel
             console.log(Session);
-            return res.redirect("http://localhost:5173/dashboard");
+            return res.redirect("http://pfe-geowork.vercel.app/dashboard");
         } catch (e) {
             console.log("Error", e);
         }
@@ -104,58 +106,60 @@ router.get(
 // });
 
 router.post("/continueSignup", async (req, res) => {
-    try{
-    let user;
-    console.log(req.body);
-    if (req.body.role == "client") {
-        user = new Client({
-            _id: new mongoose.Types.ObjectId(),
-            ...dataUser,
-            wilaya: req.body.wilaya,
-            city: req.body.city,
-        });
-        console.log(user);
-        Session.signup.value = false;
-        Session.loggedInUserId = "";
-        Session.loggedInUserType = "";
-        Session.signup.type = "";
-        const foundUser = await user.save();
-        req.session.user_id = user._id;
-        req.session.user_type = "Client";
-        return res.json({ redirectUrl: "/dashboard" });
-    } else if (req.body.role == "expert") {
-        user = new Professionnel({
-            _id: new mongoose.Types.ObjectId(),
-            ...dataUser,
-            wilaya: req.body.wilaya,
-            city: req.body.city,
-        });
-        Session.loggedInUserId = "";
-        Session.loggedInUserType = "";
-        Session.signup.value = false;
-        Session.signup.type = "";
-        const foundUser = await user.save();
-        req.session.user_id = user._id;
-        req.session.user_type = "Professionnel";
-        res.json({ redirectUrl: "/welcomePro" });
-    } else {
-        // Handle other user types or unhandled condition here
-        res.json({ redirectUrl: "/" });
+    try {
+        let user;
+        console.log(req.body);
+        if (req.body.role == "client") {
+            user = new Client({
+                _id: new mongoose.Types.ObjectId(),
+                ...dataUser,
+                wilaya: req.body.wilaya,
+                city: req.body.city,
+            });
+            console.log(user);
+            Session.signup.value = false;
+            Session.loggedInUserId = "";
+            Session.loggedInUserType = "";
+            Session.signup.type = "";
+            const foundUser = await user.save();
+            req.session.user_id = user._id;
+            req.session.user_type = "Client";
+            return res.json({ redirectUrl: "/dashboard" });
+        } else if (req.body.role == "expert") {
+            user = new Professionnel({
+                _id: new mongoose.Types.ObjectId(),
+                ...dataUser,
+                wilaya: req.body.wilaya,
+                city: req.body.city,
+            });
+            Session.loggedInUserId = "";
+            Session.loggedInUserType = "";
+            Session.signup.value = false;
+            Session.signup.type = "";
+            const foundUser = await user.save();
+            req.session.user_id = user._id;
+            req.session.user_type = "Professionnel";
+            res.json({ redirectUrl: "/welcomePro" });
+        } else {
+            // Handle other user types or unhandled condition here
+            res.json({ redirectUrl: "/" });
+        }
+    } catch (e) {
+        console.log("Error", e);
     }
-}catch(e){
-    console.log("Error", e);
-}
 });
 
 /* router.get('/signup/google/type', (req, res) => {
     res.render('type');
 }); */
 router.post("/signup/google/type", (req, res) => {
-    try{
-    const { role } = req.body;
-    Session.signup.type = role === "client" ? "Client" : "Professionnel";
-    res.json({ redirectUrl: "http://localhost:3000/auth/google/callback" });
-    }catch(e){
+    try {
+        const { role } = req.body;
+        Session.signup.type = role === "client" ? "Client" : "Professionnel";
+        res.json({
+            redirectUrl: "http://pfe-geowork.onrender.com/auth/google/callback",
+        });
+    } catch (e) {
         console.log("Error", e);
     }
 });

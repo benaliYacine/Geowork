@@ -124,7 +124,7 @@ export default function Header() {
     const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
     // useEffect(() => {
-    //     const newSocket = io("ws://localhost:3000", {
+    //     const newSocket = io("https://pfe-geowork.onrender.com", {
     //         transports: ["websocket"],
     //     });
     //     setSocket(newSocket);
@@ -137,10 +137,9 @@ export default function Header() {
     const handleLogOut = async () => {
         //socket.emit("manualDisconnect");
         const response = await axios.post("/logout");
-        if (response.data.redirectUrl) {   
+        if (response.data.redirectUrl) {
             navigate(response.data.redirectUrl);
         }
-        
     };
     const [profileIcon, setProfileIcon] = useState({});
     useEffect(() => {

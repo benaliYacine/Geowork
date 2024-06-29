@@ -37,15 +37,15 @@ app.use(methodOverride("_method"));
 
 //const uploadjobs = multer({ storageJobs });
 
-mongoose
-    .connect("mongodb://127.0.0.1:27017/Geolans") //criation de la base de donne ismha shopApp
-    //virification de connection de mongodb to mongo server
-    .then(() => {
-        console.log("CONNECTION OPEN");
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+// mongoose
+//     .connect("mongodb://127.0.0.1:27017/Geolans") //criation de la base de donne ismha shopApp
+//     //virification de connection de mongodb to mongo server
+//     .then(() => {
+//         console.log("CONNECTION OPEN");
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
 
 app.use(
     session({
@@ -68,11 +68,49 @@ app.use((req, res, next) => {
     next();
 });
 
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const uri =
+    "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0";
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    },
+});
+
+async function connectToDatabase() {
+    try {
+        await client.connect();
+        await client.db("admin").command({ ping: 1 });
+        console.log(
+            "Pinged your deployment. You successfully connected to MongoDB!"
+        );
+    } catch (e) {
+        console.error("Failed to connect to MongoDB", e);
+    }
+}
+
+connectToDatabase().catch(console.dir);
+
+// Replace mongoose.connect call with the MongoDB Atlas connection logic
+mongoose
+    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("CONNECTION OPEN");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
 app.set("view engine", "ejs");
 //app.set('views', 'views');
 app.set("views", path.join(__dirname, "/views"));
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Remplacez 'votre-domaine.com' par le domaine de votre application React
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "http://pfe-geowork.vercel.app"
+    ); // Remplacez 'votre-domaine.com' par le domaine de votre application React
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
@@ -90,7 +128,7 @@ app.use(express.urlencoded({ limit: "10 mb", extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(
     cors({
-        origin: "http://localhost:5173", // Allow requests from this origin
+        origin: "http://pfe-geowork.vercel.app", // Allow requests from this origin
         credentials: true, // Allow credentials to be sent with requests
     })
 );
@@ -444,7 +482,7 @@ app.get(
                         };
                     });
                 console.log(jobs);
-                res.json(jobs ? jobs:[]);
+                res.json(jobs ? jobs : []);
             }
         } catch (e) {
             console.log("Error", e);
@@ -1340,7 +1378,7 @@ app.get("/proposals/:id", async (req, res) => {
                     model: "Job",
                 },
             })
-            
+
             .populate({
                 path: "proposals",
                 populate: {
@@ -1383,7 +1421,7 @@ app.get("/proposal/:id", async (req, res) => {
             .lean();
         const pro = await Professionnel.findById(message.senderId)
             .populate("profile.jobs")
-            
+
             .lean();
         return res.json({
             ...pro,
@@ -1717,7 +1755,7 @@ const { FaceRetouchingOffRounded } = require("@mui/icons-material");
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173", // Allow requests from this origin
+        origin: "http://pfe-geowork.vercel.app", // Allow requests from this origin
         methods: ["GET", "POST"], // Allow only specific HTTP methods
         credentials: true, // Allow credentials to be sent with requests
     },
@@ -1811,8 +1849,10 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log("Server is running at localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT , () => {
+    console.log("Server is running at https://pfe-geowork.onrender.com");
 });
 
 module.exports = app;

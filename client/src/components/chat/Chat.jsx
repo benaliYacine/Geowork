@@ -36,7 +36,9 @@ export default function Chat() {
     if (!id) id = 1;
     const updateMessage = (message) => {
         message.isOwnMessage = true;
-        message.timestamp = `${new Date(Date.now()).getHours()}:${String(new Date(Date.now()).getMinutes()).padStart(2, "0")}`;
+        message.timestamp = `${new Date(Date.now()).getHours()}:${String(
+            new Date(Date.now()).getMinutes()
+        ).padStart(2, "0")}`;
         console.log("updateMessage", message);
         setMessages([...messages, message]);
         setMessage({ ...message, id: id, messageId: message.id });
@@ -102,7 +104,11 @@ export default function Chat() {
                                     ms.senderId == id ? "Alice" : "User",
                                 message: { ...InPrBd, ...ms.message },
                                 isOwnMessage: ms.senderId == id ? false : true,
-                                timestamp: `${new Date(ms.time).getHours()}:${new Date(ms.time).getMinutes()}`,
+                                timestamp: `${new Date(
+                                    ms.time
+                                ).getHours()}:${new Date(
+                                    ms.time
+                                ).getMinutes()}`,
                             });
                         });
                     });
@@ -127,7 +133,7 @@ export default function Chat() {
         fetchData();
     }, [id, navigate]);
     useEffect(() => {
-        const newSocket = io("ws://localhost:3000");
+        const newSocket = io("https://pfe-geowork.onrender.com");
         setSocket(newSocket);
 
         return () => {
@@ -157,7 +163,9 @@ export default function Chat() {
         socket.on("getMessage", (res) => {
             console.log("contacts", contacts);
             if (id !== res.senderId) return;
-            res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(res.timestamp).getMinutes()}`;
+            res.timestamp = `${new Date(res.timestamp).getHours()}:${new Date(
+                res.timestamp
+            ).getMinutes()}`;
             res.id = res.messageId;
             console.log("res", res);
             setMessages((prev) => [...prev, res]);
@@ -211,7 +219,9 @@ export default function Chat() {
                 newContact,
             ].sort((a, b) => new Date(b.time) - new Date(a.time))
         );
-        newMessage.timestamp = `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+        newMessage.timestamp = `${new Date(time).getHours()}:${new Date(
+            time
+        ).getMinutes()}`;
         newMessage.messageId = response.data.id;
         setMessage(newMessage);
         let Nmessage = { ...newMessage };

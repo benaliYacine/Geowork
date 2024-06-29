@@ -35,7 +35,7 @@ function MessageItem({
     const [messageState, setMessageState] = useState(Message.state);
     const [rerender, setRerender] = useState(false);
     //     useEffect(() => {
-    //         const newSocket = io("ws://localhost:3000");
+    //         const newSocket = io("https://pfe-geowork.onrender.com");
     //         setSocket(newSocket);
 
     //         return () => {
@@ -918,7 +918,9 @@ function MessageItem({
                         <div
                             className="bg-cover bg-center rounded-lg h-[250px] w-full"
                             style={{
-                                backgroundImage: `url(${message.images ? message.images[0] : ""})`,
+                                backgroundImage: `url(${
+                                    message.images ? message.images[0] : ""
+                                })`,
                             }}
                         />
                         <div className="flex-grow mb-2">
@@ -977,7 +979,13 @@ function MessageItem({
                     isOwnMessage
                         ? "bg-secondaryo rounded-s-2xl rounded-t-3xl"
                         : "bg-white rounded-e-3xl rounded-t-3xl"
-                }  ${(Message.type == "invitation" || Message.type == "proposal" || Message.type == "budgetEdit" || Message.type == "jobLocation") && "bg-white"} `}
+                }  ${
+                    (Message.type == "invitation" ||
+                        Message.type == "proposal" ||
+                        Message.type == "budgetEdit" ||
+                        Message.type == "jobLocation") &&
+                    "bg-white"
+                } `}
             >
                 {renderMessageContent(Message)}
             </div>
