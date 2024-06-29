@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const MongoStore = require("connect-mongo"); // Add this line
 const passport = require("passport");
 //const GoogleStrategy = require('passport-google-oauth20').Strategy;
 //const cookieParser = require('cookie-parser');
@@ -35,39 +36,7 @@ let user_type;
 const bcrypt = require("bcrypt");
 app.use(methodOverride("_method"));
 
-//const uploadjobs = multer({ storageJobs });
-
-// mongoose
-//     .connect("mongodb://127.0.0.1:27017/Geolans") //criation de la base de donne ismha shopApp
-//     //virification de connection de mongodb to mongo server
-//     .then(() => {
-//         console.log("CONNECTION OPEN");
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-
-app.use(
-    session({
-        secret: "goodsecret",
-        resave: true,
-        saveUninitialized: true,
-        cookie: {
-            secure: false, // Cookie envoyé uniquement sur HTTPS ki tkon true
-            httpOnly: false, // Cookie accessible uniquement via HTTP(S) ki tkon true
-            sameSite: "lax", // Restreint l'envoi du cookie aux requêtes du même site badalna strict l lax bh ki y5rj bg ydir auth google matatna7ach la session
-            maxAge: 24 * 60 * 60 * 1000, // Durée de vie du cookie en millisecondes (ici, 24 heures)
-        },
-    })
-);
-
-app.use((req, res, next) => {
-    user_id = req.session.user_id;
-    user_type = req.session.user_type;
-    console.log(req.session.user_id);
-    next();
-});
-
+// MongoDB connection
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
     "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0";
@@ -104,13 +73,12 @@ mongoose
     });
 
 app.set("view engine", "ejs");
-//app.set('views', 'views');
 app.set("views", path.join(__dirname, "/views"));
 app.use((req, res, next) => {
     res.setHeader(
         "Access-Control-Allow-Origin",
         "https://pfe-geowork.vercel.app"
-    ); // Remplacez 'votre-domaine.com' par le domaine de votre application React
+    );
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
@@ -123,25 +91,47 @@ app.use((req, res, next) => {
     next();
 });
 
-//app.use(session({ secret: 'goodsecret', resave: false, saveUninitialized: true }));
 app.use(express.urlencoded({ limit: "10 mb", extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(
     cors({
-        origin: "https://pfe-geowork.vercel.app", // Allow requests from this origin
-        credentials: true, // Allow credentials to be sent with requests
+        origin: "https://pfe-geowork.vercel.app",
+        credentials: true,
     })
 );
-app.use("/api/clients/", RouterClient); //tasta3mal request li waslatak men client
+
+// Use connect-mongo as session store
+app.use(
+    session({
+        secret: "goodsecret",
+        resave: false,
+        saveUninitialized: false,
+        store: MongoStore.create({ mongoUrl: uri }), // Add this line
+        cookie: {
+            secure: false,
+            httpOnly: false,
+            sameSite: "lax",
+            maxAge: 24 * 60 * 60 * 1000,
+        },
+    })
+);
+
+app.use((req, res, next) => {
+    user_id = req.session.user_id;
+    user_type = req.session.user_type;
+    console.log(req.session.user_id);
+    next();
+});
+
+app.use("/api/clients/", RouterClient);
 app.use("/api/professionnels/", RouterProfessionnel);
 app.use("/api/jobs/", RouterJob);
 app.use("/", RouterAuth);
 app.use("/", RouterVerifyEmail);
-app.use("/", RouterpasswordRecuperation); //tasta3mal request li waslatak men client
+app.use("/", RouterpasswordRecuperation);
+
 app.use((req, res, next) => {
-    //bah fi kol request fi body yab3at id t3 client wla professionnel
-    //req.body.id = id;
-    next(); // Passer au middleware suivant dans la chaîne
+    next();
 });
 
 /* const middlewars.requireLogin = (req, res, next) => {
