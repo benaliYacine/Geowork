@@ -80,7 +80,7 @@ router.get(
 router.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-        failureRedirect: "https://pfe-geowork.vercel.app/InputWilayaCity",
+        failureRedirect: "https://geowork.vercel.app/InputWilayaCity",
     }),
     function (req, res) {
         try {
@@ -91,10 +91,10 @@ router.get(
             //console.log(req.session);
             if (Session.signup.value == true)
                 return res.redirect(
-                    "https://pfe-geowork.vercel.app/InputWilayaCity"
+                    "https://geowork.vercel.app/InputWilayaCity"
                 ); //hna t5ayar type ida client wla professionnel
             console.log(Session);
-            return res.redirect("https://pfe-geowork.vercel.app/dashboard");
+            return res.redirect("https://geowork.vercel.app/dashboard");
         } catch (e) {
             console.log("Error", e);
         }
