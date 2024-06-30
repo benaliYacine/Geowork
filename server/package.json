@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "install": "npm i --force",
     "start": "node app.js",
     "build": "echo 'No build steps necessary for this project'"
   },
