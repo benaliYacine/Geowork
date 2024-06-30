@@ -74,7 +74,6 @@ app.use((req, res, next) => {
     next();
 });
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const mongoose = require("mongoose");
 
 const uri =
     "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0";
