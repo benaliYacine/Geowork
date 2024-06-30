@@ -17,13 +17,13 @@ router.use(
         store: MongoStore.create({
             mongoUrl:
                 "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0",
-            ttl: 24 * 60 * 60 * 30, // = 30 day. TTL in seconds
+            ttl: 24 * 60 * 60, // = 1 day. TTL in seconds
         }),
         cookie: {
             secure: true, // Set to true if using https
             httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
             sameSite: "strict", // Lax to prevent CSRF attacks
-            maxAge: 24 * 60 * 60 * 1000 * 30, // 24 hours * 30 in milliseconds
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
         },
     })
 );

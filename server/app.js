@@ -56,13 +56,13 @@ app.use(
         store: MongoStore.create({
             mongoUrl:
                 "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0",
-            ttl: 24 * 60 * 60 * 30, // = 30 day. TTL in seconds
+            ttl: 24 * 60 * 60, // = 30 day. TTL in seconds
         }),
         cookie: {
             secure: true, // Set to true if using https
             httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
             sameSite: "lax", // Lax to prevent CSRF attacks
-            maxAge: 24 * 60 * 60 * 1000 * 30, // 24 hours * 30 in milliseconds
+            ttl: 24 * 60 * 60, // 24 hours * 30 in milliseconds
         },
     })
 );
@@ -73,10 +73,12 @@ app.use((req, res, next) => {
     console.log(req.session.user_id);
     next();
 });
-
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const mongoose = require("mongoose");
+
 const uri =
     "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0";
+
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -99,9 +101,9 @@ async function connectToDatabase() {
 
 connectToDatabase().catch(console.dir);
 
-// Replace mongoose.connect call with the MongoDB Atlas connection logic
+// Updated mongoose.connect call
 mongoose
-    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(uri)
     .then(() => {
         console.log("CONNECTION OPEN");
     })
@@ -273,51 +275,46 @@ app.post("/verifyOldPassword", async (req, res) => {
 app.post("/login", async (req, res) => {
     try {
         const { password, email } = req.body;
-
         let foundUser = await Professionnel.findOne({ email });
         if (foundUser && foundUser.googleId) {
             return res.status(401).json({ message: "Login with Gmail" });
         }
         foundUser = await Professionnel.findAndValidate(email, password);
-
         if (!foundUser) {
             foundUser = await Client.findOne({ email });
             if (foundUser && foundUser.googleId) {
                 return res.status(401).json({ message: "Login with Gmail" });
             }
             foundUser = await Client.findAndValidate(email, password);
-        }
-
-        if (!foundUser) {
-            return res
-                .status(401)
-                .json({ message: "email or password incorrect" });
-        }
-
-        // Set session data
-        if (req.session) {
-            req.session.user_id = foundUser._id;
-            req.session.user_type =
-                foundUser instanceof Client ? "Client" : "Professionnel";
-            req.session.save((err) => {
-                if (err) {
-                    return res
-                        .status(500)
-                        .json({ message: "Failed to save session" });
-                }
-
-                if (foundUser.verified) {
-                    res.json({ redirectUrl: "/dashboard" });
-                } else {
-                    res.json({ redirectUrl: "/verifyEmail" });
-                }
-            });
+            if (foundUser) {
+                //generateToken(foundUser._id);
+                if (req.session) {
+                    req.session.user_id = foundUser._id;
+                    req.session.user_type = "Client";
+                    req.session.save();
+                    //console.log(req.session.user_id);
+                    //res.json('hello');
+                    if (foundUser.verified)
+                        res.json({ redirectUrl: "/dashboard" });
+                    //res.redirect('/dashboard' );
+                    else res.json({ redirectUrl: "/verifyEmail" });
+                } else res.send("err");
+            } else {
+                res.status(401).json({
+                    message: "email or password incorrect",
+                });
+            }
         } else {
-            res.status(500).json({ message: "Session not available" });
+            //generateToken(foundUser._id);
+            if (req.session) {
+                req.session.user_id = foundUser._id;
+                req.session.user_type = "Professionnel";
+                req.session.save();
+                res.json({ redirectUrl: "/dashboard" });
+            } else res.send("err");
         }
     } catch (e) {
         console.log("Error", e);
-        res.status(500).json({ message: "Internal server error" });
     }
 });
 
