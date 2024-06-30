@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "echo 'No build steps necessary for this project'"
   },
   "dependencies": {
     "@emotion/styled": "^11.11.5",
