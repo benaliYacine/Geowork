@@ -8,26 +8,6 @@ const upload = multer({ storage });
 const methodOverride = require("method-override");
 const middlewars = require("../utils/middlewars");
 router.use(methodOverride("_method"));
-const MongoStore = require("connect-mongo");
-router.use(
-    session({
-        secret: "goodsecret",
-        resave: true, // Should be false in most cases to avoid race conditions
-        saveUninitialized: true, // False to comply with laws that require permission before setting cookies
-        store: MongoStore.create({
-            mongoUrl:
-                "mongodb+srv://benali:Kqt4laZUdpkxe3PR@cluster0.1ijroxg.mongodb.net/?appName=Cluster0",
-            ttl: 24 * 60 * 60, // = 1 day. TTL in seconds
-        }),
-        cookie: {
-            secure: true, // Set to true if using https
-            httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-            sameSite: "strict", // Lax to prevent CSRF attacks
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-        },
-    })
-);
-
 const ProfessionnelCtrl = require("../controllers/professionnel");
 
 router.patch(
